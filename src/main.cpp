@@ -1825,15 +1825,15 @@ int64_t GetBlockValue(int nHeight)
         // Mint the ledger total (minus treasury deposit) for disbursal
 	//nSubsidy = (ledgerTotal - treasuryDeposit); // (8891432 * COIN) - (432870.87949961 * COIN)
     } else if (nHeight < 999) {
-        return static_cast<int64_t>(10 * COIN);
+        return static_cast<int64_t>(25 * COIN);
     } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 999) {
-        return static_cast<int64_t>(10 * COIN);
+        return static_cast<int64_t>(25 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK()) {
-        return static_cast<int64_t>(10 * COIN);
+        return static_cast<int64_t>(25 * COIN);
     } else {
-        return static_cast<int64_t>(10 * COIN);
+        return static_cast<int64_t>(25 * COIN);
     }
-    return static_cast<int64_t>(10 * COIN);
+    return static_cast<int64_t>(25 * COIN);
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount, bool isZPIVStake)

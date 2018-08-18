@@ -186,7 +186,7 @@ public:
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
         nTargetSpacing = 60;  // Lytix: 1 minute
-        nMaturity = 100;
+        nMaturity = 50;
         //nMaturity = 20; // Reduced maturation period to assist staking trial
         nMasternodeCountDrift = 20;
         nMaxMoneyOut = 100000000 * COIN;
