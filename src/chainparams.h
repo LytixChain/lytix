@@ -17,7 +17,7 @@
 #include "libzerocoin/Params.h"
 #include <vector>
 
-#define MASTERNODE_COLLATERAL_AMOUNT 1000
+#define MASTERNODE_COLLATERAL_AMOUNT 500
 
 typedef unsigned char MessageStartChars[MESSAGE_START_SIZE];
 

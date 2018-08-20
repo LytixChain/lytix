@@ -1,5 +1,5 @@
 ---
-name: "lytix-osx-1.2.1"
+name: "lytix-osx-1.3.0"
 enable_cache: true
 suites:
 - "trusty"

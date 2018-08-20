@@ -1810,12 +1810,12 @@ int64_t GetBlockValue(int nHeight)
 {
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         // set testnet PoW period reward
-        if (nHeight < 499) {
-            return static_cast<int64_t>(250 * COIN);
-        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 499) {
-            return static_cast<int64_t>(200 * COIN);
+        if (nHeight < 999) {
+            return static_cast<int64_t>(25 * COIN);
+        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 999) {
+            return static_cast<int64_t>(25 * COIN);
         } else {
-            return static_cast<int64_t>(200 * COIN);
+            return static_cast<int64_t>(25 * COIN);
         }
 
     }
@@ -1841,12 +1841,12 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     int64_t ret = 0;
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 9999) {
+        if (nHeight < 999) {
             return 0;
-	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 9999) {
-	    ret = blockValue / 5;
+	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 999) {
+	    ret = blockValue / 10;
 	} else {
-	    ret = blockValue / 5;
+	    ret = blockValue / 10;
 	}
     }
 
@@ -5393,11 +5393,11 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
         }
 
-	// Banned versions moving forward - Chain switch at 0.14.7
-	if (pfrom->cleanSubVer == "/Lytix Core:0.14.3/" ||
-            pfrom->cleanSubVer == "/Lytix Core:0.14.4/" ||
-            pfrom->cleanSubVer == "/Lytix Core:0.14.5/" ||
-            pfrom->cleanSubVer == "/Lytix Core:0.14.6/") {
+	// Banned versions moving forward - Chain switch at 1.3
+	if (pfrom->cleanSubVer == "/Lytix Core:1.2.2/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.2.1/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.2.0/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.0.1/") {
             LOCK(cs_main);
             Misbehaving(pfrom->GetId(), 100); // instantly ban them because they have bad block data
             return false;
