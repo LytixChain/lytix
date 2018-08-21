@@ -1841,9 +1841,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     int64_t ret = 0;
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 999) {
+        if (nHeight < 299) {
             return 0;
-	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 999) {
+	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 299) {
 	    ret = blockValue / 10;
 	} else {
 	    ret = blockValue / 10;
@@ -1851,9 +1851,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     }
 
     /* NOTE: GJH Particularise masternode payment schedule */
-    if (nHeight <= 43200) {
+    if (nHeight <= 800) {
         ret = 0;
-    } else if (nHeight > 43200) {
+    } else if (nHeight > 800) {
         ret = blockValue / (100 / 30);
     } else {
         //When zPIV is staked, masternode only gets 2 LYTX
