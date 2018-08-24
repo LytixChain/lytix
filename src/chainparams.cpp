@@ -120,8 +120,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.nVersion = nVersion;
     genesis.vtx.push_back(txNew);
     {
-        txNew.vout[0].nValue = 350000;
-        txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8f3AYsk7qxQnyGdtQrX32onaSRbDUabbD1"))) << OP_EQUALVERIFY << OP_CHECKSIG;
+        txNew.vout[0].nValue = 501111111111330;
+        txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8p2Kso1HYUUzbKzPjk6cqsuLt65y94ydgF"))) << OP_EQUALVERIFY << OP_CHECKSIG;
         genesis.vtx.push_back(txNew);
         txNew.vout[0].nValue = 32;
         txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8eqCEt9zBB8VvLansnFWSeo1bD4dUeeJQm"))) << OP_EQUALVERIFY << OP_CHECKSIG;
