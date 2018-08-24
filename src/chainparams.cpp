@@ -58,7 +58,7 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of
-    (0, uint256("0x00000111455cc8a845a40b95025aec132ba340ec2e29ee5f46aa458f6bf4cdfc"));
+    (0, uint256("0x000009f666804ca2ee7765b7a91424ddab5055a09654268cab90a5d8f067404f"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
     1530895194, // * UNIX timestamp of last checkpoint block
@@ -69,7 +69,7 @@ static const Checkpoints::CCheckpointData data = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
     boost::assign::map_list_of
-    (0, uint256("0x000002d8febb2cc57ffe7343e990a1de8a19751f595d1769d42f7f0ea64e1378"));
+    (0, uint256("0x0000085f20d111f0b47d3228d60a0c3bd8496f020aba85f0162632b5c2a23fbc"));
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
     1520851782,
@@ -78,7 +78,7 @@ static const Checkpoints::CCheckpointData dataTestnet = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsRegtest =
     boost::assign::map_list_of
-    (0, uint256("0x2e25f9a0b38cbbad30394e1d05c3d3ac614214233a56b5a347d2a852676b6085"));
+    (0, uint256("0x103017c3afd828e7031152aef780d0329c6a8fe6d23ea2b3c0598f085898032e"));
 static const Checkpoints::CCheckpointData dataRegtest = {
     &mapCheckpointsRegtest,
     1520851782,
@@ -209,7 +209,7 @@ public:
 
         genesis = CreateGenesisBlock(
                     1530895194,                          // nTime
-                    88835,                               // nNonce
+                    2465985,                               // nNonce
                     0x1e0ffff0,                          // nBits
                     3,                                   // nVersion
                    treasuryDeposit,                      // genesisReward (treasury deposit)
@@ -247,8 +247,8 @@ public:
             LogPrintf(" time: %u\n", genesis.nTime);
             LogPrintf(" hash: 0x%s\n", genesis.GetHash().ToString().c_str());
             LogPrintf(" merklehash: 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-            assert(hashGenesisBlock == uint256("0x00000111455cc8a845a40b95025aec132ba340ec2e29ee5f46aa458f6bf4cdfc"));
-            assert(genesis.hashMerkleRoot == uint256("0x109d0a2e398a708aaac8ac891bdabddd0d773006e4402cd7dfaff257d601d36c"));
+            assert(hashGenesisBlock == uint256("0x000009f666804ca2ee7765b7a91424ddab5055a09654268cab90a5d8f067404f"));
+            assert(genesis.hashMerkleRoot == uint256("0x0816efbcc719774efdc6f05e594d86648a76e8a7eae55c869568dc5e8afbaac8"));
         }
 
 
@@ -359,7 +359,7 @@ public:
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis = CreateGenesisBlock(
                     1530895194,                          // nTime
-                    2322420,                               // nNonce
+                    722752,                               // nNonce
                     0x1e0ffff0,                          // nBits
                     3,                                   // nVersion
                     treasuryDeposit,                     // genesisReward (treasury deposit)
@@ -395,8 +395,8 @@ public:
             LogPrintf(" time: %u\n", genesis.nTime);
             LogPrintf(" hash: 0x%s\n", genesis.GetHash().ToString().c_str());
             LogPrintf(" merklehash: 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-            assert(hashGenesisBlock == uint256("0x000002d8febb2cc57ffe7343e990a1de8a19751f595d1769d42f7f0ea64e1378"));
-            assert(genesis.hashMerkleRoot == uint256("0x5e66e97c569160903c249b3ca2ed4fe3e035229d338cf4dca386bab1383526dd"));
+            assert(hashGenesisBlock == uint256("0x0000085f20d111f0b47d3228d60a0c3bd8496f020aba85f0162632b5c2a23fbc"));
+            assert(genesis.hashMerkleRoot == uint256("0xfbdff1e6decbe10fb51b2832e4120908d4cd931bb36f8a4ca24ff0d6ceb248f6"));
         }
 
         vFixedSeeds.clear();
@@ -473,7 +473,7 @@ public:
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis = CreateGenesisBlock(
                     1530895194,                          // nTime
-                    8,                                   // nNonce
+                    9,                                   // nNonce
                     0x207fffff,                          // nBits
                     3,                                   // nVersion
                     treasuryDeposit,                     // genesisReward (treasury deposit)
@@ -509,8 +509,8 @@ public:
             LogPrintf(" time: %u\n", genesis.nTime);
             LogPrintf(" hash: 0x%s\n", genesis.GetHash().ToString().c_str());
             LogPrintf(" merklehash: 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-            assert(hashGenesisBlock == uint256("0x2e25f9a0b38cbbad30394e1d05c3d3ac614214233a56b5a347d2a852676b6085"));
-            assert(genesis.hashMerkleRoot == uint256("0x109d0a2e398a708aaac8ac891bdabddd0d773006e4402cd7dfaff257d601d36c"));
+            assert(hashGenesisBlock == uint256("0x103017c3afd828e7031152aef780d0329c6a8fe6d23ea2b3c0598f085898032e"));
+            assert(genesis.hashMerkleRoot == uint256("0x0816efbcc719774efdc6f05e594d86648a76e8a7eae55c869568dc5e8afbaac8"));
         }
 
 
