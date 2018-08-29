@@ -1328,37 +1328,14 @@ qt/qt_libbitcoinqt_a-walletview.o: qt/walletview.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasictimer.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QStackedWidget \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstackedwidget.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h ui_interface.h \
- /usr/include/boost/signals2/last_value.hpp qt/addressbookpage.h \
- qt/bip38tooldialog.h qt/bitcoingui.h config/bitcoin-config.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabwidget.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QMap \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QPoint \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qpushbutton.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSystemTrayIcon \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsystemtrayicon.h \
- qt/blockexplorer.h base58.h qt/clientmodel.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h qt/guiutil.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h qt/proposallist.h \
+ qt/guiutil.h /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHeaderView \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qheaderview.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractitemview.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractscrollarea.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qitemselectionmodel.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h \
@@ -1372,10 +1349,13 @@ qt/qt_libbitcoinqt_a-walletview.o: qt/walletview.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractslider.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstyle.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabbar.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabwidget.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qrubberband.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMessageBox \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmessagebox.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QProgressBar \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qprogressbar.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTableView \
@@ -1388,19 +1368,115 @@ qt/qt_libbitcoinqt_a-walletview.o: qt/walletview.cpp \
  /usr/include/boost/detail/scoped_enum_emulation.hpp \
  /usr/include/boost/detail/bitmask.hpp /usr/include/c++/5/stack \
  /usr/include/c++/5/bits/stl_stack.h \
- /usr/include/boost/filesystem/convenience.hpp masternodeconfig.h \
- /usr/include/boost/filesystem/fstream.hpp /usr/include/c++/5/fstream \
+ /usr/include/boost/filesystem/convenience.hpp qt/proposaltablemodel.h \
+ qt/bitcoinunits.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractListModel \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractTableModel \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QStringList \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkReply \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkreply.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QIODevice \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QVariant \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkRequest \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkrequest.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QSharedDataPointer \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QUrl \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkAccessManager \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkaccessmanager.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QSslConfiguration \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslconfiguration.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslsocket.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qabstractsocket.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslerror.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslcertificate.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcryptographichash.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qssl.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QFlags \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QSslPreSharedKeyAuthenticator \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslpresharedkeyauthenticator.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QtGlobal \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QMetaType \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkRequest \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkAccessManager \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QUrl \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonDocument \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qjsondocument.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonvalue.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonObject \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonobject.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonValue \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonvalue.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonArray \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonarray.h \
+ masternode-budget.h init.h masternode.h masternode-payments.h \
+ masternodeconfig.h /usr/include/boost/filesystem/fstream.hpp \
+ /usr/include/c++/5/fstream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++io.h \
- /usr/include/c++/5/bits/fstream.tcc qt/multisenddialog.h \
- qt/multisigdialog.h /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFrame \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout \
+ /usr/include/c++/5/bits/fstream.tcc masternodeman.h rpcserver.h \
+ rpcprotocol.h univalue/include/univalue.h obfuscation.h \
+ masternode-payments.h masternode-sync.h masternodeman.h \
+ obfuscation-relay.h activemasternode.h obfuscation.h wallet.h crypter.h \
+ keystore.h kernel.h stakeinput.h ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp validationinterface.h \
+ wallet_ismine.h walletdb.h db.h clientversion.h /usr/include/db_cxx.h \
+ /usr/include/db.h /usr/include/inttypes.h libzerocoin/Accumulator.h \
+ zpivtracker.h zpivwallet.h libzerocoin/Coin.h mintpool.h \
+ libzerocoin/bignum.h qt/columnalignedlayout.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHBoxLayout \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlayout.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlayoutitem.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qgridlayout.h coins.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qgridlayout.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QKeyEvent \
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qfiledevice.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QStackedWidget \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstackedwidget.h \
+ ui_interface.h qt/addressbookpage.h qt/bip38tooldialog.h qt/bitcoingui.h \
+ config/bitcoin-config.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QMap \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QPoint \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qpushbutton.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSystemTrayIcon \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsystemtrayicon.h \
+ qt/blockexplorer.h base58.h qt/clientmodel.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h \
+ qt/multisenddialog.h qt/multisigdialog.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFrame \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout coins.h \
  coincontrol.h qt/walletmodel.h qt/paymentrequestplus.h \
  qt/paymentrequest.pb.h /usr/include/google/protobuf/stubs/common.h \
  /usr/include/google/protobuf/generated_message_util.h \
@@ -1420,14 +1496,8 @@ qt/qt_libbitcoinqt_a-walletview.o: qt/walletview.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QList \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h \
- qt/walletmodeltransaction.h allocators.h swifttx.h spork.h obfuscation.h \
- masternode-payments.h masternode.h masternode-sync.h masternodeman.h \
- obfuscation-relay.h activemasternode.h init.h wallet.h crypter.h \
- keystore.h kernel.h stakeinput.h ui_interface.h validationinterface.h \
- wallet_ismine.h walletdb.h db.h clientversion.h /usr/include/db_cxx.h \
- /usr/include/db.h /usr/include/inttypes.h libzerocoin/Accumulator.h \
- zpivtracker.h zpivwallet.h libzerocoin/Coin.h mintpool.h \
- libzerocoin/bignum.h wallet.h qt/coincontroldialog.h \
+ qt/walletmodeltransaction.h allocators.h swifttx.h spork.h wallet.h \
+ qt/coincontroldialog.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QAbstractButton \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QAction \
@@ -1436,35 +1506,18 @@ qt/qt_libbitcoinqt_a-walletview.o: qt/walletview.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtreewidget.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtreeview.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtreewidgetitemiterator.h \
- qt/optionsmodel.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractListModel \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h \
- qt/overviewpage.h qt/receivecoinsdialog.h \
+ qt/optionsmodel.h qt/overviewpage.h qt/receivecoinsdialog.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QItemSelection \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qitemselectionmodel.h \
- /usr/include/x86_64-linux-gnu/qt5/QtGui/QKeyEvent \
- /usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qfiledevice.h \
- /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h \
- /usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QVariant \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h qt/privacydialog.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QVariant qt/privacydialog.h \
  qt/sendcoinsdialog.h qt/signverifymessagedialog.h \
- qt/transactiontablemodel.h qt/bitcoinunits.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractTableModel \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QStringList \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h \
- qt/transactionview.h \
+ qt/transactiontablemodel.h qt/transactionview.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QActionGroup \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qactiongroup.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFileDialog \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qfiledialog.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qfileinfo.h \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHBoxLayout \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QProgressDialog \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qprogressdialog.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QSettings \
@@ -4546,65 +4599,7 @@ sync.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h:
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QStackedWidget:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstackedwidget.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h:
-
-ui_interface.h:
-
-/usr/include/boost/signals2/last_value.hpp:
-
-qt/addressbookpage.h:
-
-qt/bip38tooldialog.h:
-
-qt/bitcoingui.h:
-
-config/bitcoin-config.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabwidget.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QMap:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QPoint:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qpushbutton.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSystemTrayIcon:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsystemtrayicon.h:
-
-qt/blockexplorer.h:
-
-base58.h:
-
-qt/clientmodel.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QObject:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h:
+qt/proposallist.h:
 
 qt/guiutil.h:
 
@@ -4619,6 +4614,8 @@ qt/guiutil.h:
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractitemview.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractscrollarea.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h:
 
@@ -4646,6 +4643,8 @@ qt/guiutil.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabbar.h:
 
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabwidget.h:
+
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qrubberband.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMessageBox:
@@ -4653,6 +4652,10 @@ qt/guiutil.h:
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmessagebox.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QObject:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QProgressBar:
 
@@ -4682,6 +4685,126 @@ qt/guiutil.h:
 
 /usr/include/boost/filesystem/convenience.hpp:
 
+qt/proposaltablemodel.h:
+
+qt/bitcoinunits.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractListModel:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractTableModel:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QStringList:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkReply:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkreply.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QIODevice:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QString:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QVariant:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkRequest:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkrequest.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QSharedDataPointer:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QUrl:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkAccessManager:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkaccessmanager.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QObject:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QSslConfiguration:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslconfiguration.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslsocket.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qabstractsocket.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslerror.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslcertificate.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcryptographichash.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qssl.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QFlags:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QSslPreSharedKeyAuthenticator:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslpresharedkeyauthenticator.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QtGlobal:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QMetaType:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkRequest:
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkAccessManager:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QUrl:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonDocument:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qjsondocument.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonvalue.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonObject:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonobject.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonValue:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonvalue.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonArray:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qjsonarray.h:
+
+masternode-budget.h:
+
+init.h:
+
+masternode.h:
+
+masternode-payments.h:
+
 masternodeconfig.h:
 
 /usr/include/boost/filesystem/fstream.hpp:
@@ -4694,15 +4817,73 @@ masternodeconfig.h:
 
 /usr/include/c++/5/bits/fstream.tcc:
 
-qt/multisenddialog.h:
+masternodeman.h:
 
-qt/multisigdialog.h:
+rpcserver.h:
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFrame:
+rpcprotocol.h:
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h:
+univalue/include/univalue.h:
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout:
+obfuscation.h:
+
+masternode-payments.h:
+
+masternode-sync.h:
+
+masternodeman.h:
+
+obfuscation-relay.h:
+
+activemasternode.h:
+
+obfuscation.h:
+
+wallet.h:
+
+crypter.h:
+
+keystore.h:
+
+kernel.h:
+
+stakeinput.h:
+
+ui_interface.h:
+
+/usr/include/boost/signals2/last_value.hpp:
+
+validationinterface.h:
+
+wallet_ismine.h:
+
+walletdb.h:
+
+db.h:
+
+clientversion.h:
+
+/usr/include/db_cxx.h:
+
+/usr/include/db.h:
+
+/usr/include/inttypes.h:
+
+libzerocoin/Accumulator.h:
+
+zpivtracker.h:
+
+zpivwallet.h:
+
+libzerocoin/Coin.h:
+
+mintpool.h:
+
+libzerocoin/bignum.h:
+
+qt/columnalignedlayout.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHBoxLayout:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h:
 
@@ -4713,6 +4894,82 @@ qt/multisigdialog.h:
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qgridlayout.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/QKeyEvent:
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qfiledevice.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QStackedWidget:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstackedwidget.h:
+
+ui_interface.h:
+
+qt/addressbookpage.h:
+
+qt/bip38tooldialog.h:
+
+qt/bitcoingui.h:
+
+config/bitcoin-config.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QMap:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QPoint:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qpushbutton.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSystemTrayIcon:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsystemtrayicon.h:
+
+qt/blockexplorer.h:
+
+base58.h:
+
+qt/clientmodel.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime:
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h:
+
+qt/multisenddialog.h:
+
+qt/multisigdialog.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFrame:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h:
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout:
 
 coins.h:
 
@@ -4768,62 +5025,6 @@ swifttx.h:
 
 spork.h:
 
-obfuscation.h:
-
-masternode-payments.h:
-
-masternode.h:
-
-masternode-sync.h:
-
-masternodeman.h:
-
-obfuscation-relay.h:
-
-activemasternode.h:
-
-init.h:
-
-wallet.h:
-
-crypter.h:
-
-keystore.h:
-
-kernel.h:
-
-stakeinput.h:
-
-ui_interface.h:
-
-validationinterface.h:
-
-wallet_ismine.h:
-
-walletdb.h:
-
-db.h:
-
-clientversion.h:
-
-/usr/include/db_cxx.h:
-
-/usr/include/db.h:
-
-/usr/include/inttypes.h:
-
-libzerocoin/Accumulator.h:
-
-zpivtracker.h:
-
-zpivwallet.h:
-
-libzerocoin/Coin.h:
-
-mintpool.h:
-
-libzerocoin/bignum.h:
-
 wallet.h:
 
 qt/coincontroldialog.h:
@@ -4846,10 +5047,6 @@ qt/coincontroldialog.h:
 
 qt/optionsmodel.h:
 
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractListModel:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h:
-
 qt/overviewpage.h:
 
 qt/receivecoinsdialog.h:
@@ -4858,25 +5055,7 @@ qt/receivecoinsdialog.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qitemselectionmodel.h:
 
-/usr/include/x86_64-linux-gnu/qt5/QtGui/QKeyEvent:
-
-/usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qfiledevice.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h:
-
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QVariant:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h:
 
 qt/privacydialog.h:
 
@@ -4885,14 +5064,6 @@ qt/sendcoinsdialog.h:
 qt/signverifymessagedialog.h:
 
 qt/transactiontablemodel.h:
-
-qt/bitcoinunits.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractTableModel:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QStringList:
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h:
 
 qt/transactionview.h:
 
@@ -4907,8 +5078,6 @@ qt/transactionview.h:
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qfileinfo.h:
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHBoxLayout:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QProgressDialog:
 

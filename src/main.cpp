@@ -1820,7 +1820,7 @@ int64_t GetBlockValue(int nHeight)
 
     }
 
-    int64_t nSubsidy = 0;
+    //int64_t nSubsidy = 0;
     if (nHeight == 0) {
         // Mint the ledger total (minus treasury deposit) for disbursal
 	//nSubsidy = (ledgerTotal - treasuryDeposit); // (8891432 * COIN) - (432870.87949961 * COIN)

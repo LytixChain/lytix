@@ -161,6 +161,11 @@ TESTS = $(am__EXEEXT_6) $(am__EXEEXT_5)
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/overviewpage.cpp \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/paymentrequestplus.cpp \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/paymentserver.cpp \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/columnalignedlayout.cpp \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/proposalfilterproxy.cpp \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/proposallist.cpp \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/proposalrecord.cpp \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/proposaltablemodel.cpp \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/receivecoinsdialog.cpp \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/privacydialog.cpp \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@  qt/receiverequestdialog.cpp \
@@ -462,13 +467,16 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/editaddressdialog.cpp qt/multisenddialog.cpp \
 	qt/multisigdialog.cpp qt/openuridialog.cpp qt/overviewpage.cpp \
 	qt/paymentrequestplus.cpp qt/paymentserver.cpp \
-	qt/receivecoinsdialog.cpp qt/privacydialog.cpp \
-	qt/receiverequestdialog.cpp qt/recentrequeststablemodel.cpp \
-	qt/sendcoinsdialog.cpp qt/sendcoinsentry.cpp \
-	qt/signverifymessagedialog.cpp qt/transactiondesc.cpp \
-	qt/transactiondescdialog.cpp qt/transactionfilterproxy.cpp \
-	qt/transactionrecord.cpp qt/transactiontablemodel.cpp \
-	qt/transactionview.cpp qt/walletframe.cpp qt/walletmodel.cpp \
+	qt/columnalignedlayout.cpp qt/proposalfilterproxy.cpp \
+	qt/proposallist.cpp qt/proposalrecord.cpp \
+	qt/proposaltablemodel.cpp qt/receivecoinsdialog.cpp \
+	qt/privacydialog.cpp qt/receiverequestdialog.cpp \
+	qt/recentrequeststablemodel.cpp qt/sendcoinsdialog.cpp \
+	qt/sendcoinsentry.cpp qt/signverifymessagedialog.cpp \
+	qt/transactiondesc.cpp qt/transactiondescdialog.cpp \
+	qt/transactionfilterproxy.cpp qt/transactionrecord.cpp \
+	qt/transactiontablemodel.cpp qt/transactionview.cpp \
+	qt/walletframe.cpp qt/walletmodel.cpp \
 	qt/walletmodeltransaction.cpp qt/walletview.cpp \
 	qt/zpivcontroldialog.cpp qt/addressbookpage.h \
 	qt/addresstablemodel.h qt/askpassphrasedialog.h \
@@ -483,9 +491,11 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/masternodelist.h qt/multisenddialog.h qt/multisigdialog.h \
 	qt/networkstyle.h qt/notificator.h qt/openuridialog.h \
 	qt/optionsdialog.h qt/optionsmodel.h qt/overviewpage.h \
-	qt/paymentrequestplus.h qt/paymentserver.h qt/peertablemodel.h \
-	qt/platformstyle.h qt/qvalidatedlineedit.h qt/qvaluecombobox.h \
-	qt/receivecoinsdialog.h qt/privacydialog.h \
+	qt/paymentrequestplus.h qt/paymentserver.h \
+	qt/columnalignedlayout.h qt/proposalfilterproxy.h \
+	qt/proposallist.h qt/proposalrecord.h qt/proposaltablemodel.h \
+	qt/peertablemodel.h qt/platformstyle.h qt/qvalidatedlineedit.h \
+	qt/qvaluecombobox.h qt/receivecoinsdialog.h qt/privacydialog.h \
 	qt/receiverequestdialog.h qt/recentrequeststablemodel.h \
 	qt/rpcconsole.h qt/sendcoinsdialog.h qt/sendcoinsentry.h \
 	qt/signverifymessagedialog.h qt/splashscreen.h \
@@ -532,18 +542,19 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/res/icons/connect0_16.png qt/res/icons/connect1_16.png \
 	qt/res/icons/connect2_16.png qt/res/icons/connect3_16.png \
 	qt/res/icons/connect4_16.png qt/res/icons/debugwindow.png \
-	qt/res/icons/edit.png qt/res/icons/editcopy.png \
-	qt/res/icons/editpaste.png qt/res/icons/explorer.png \
-	qt/res/icons/export.png qt/res/icons/eye.png \
-	qt/res/icons/eye_minus.png qt/res/icons/eye_plus.png \
-	qt/res/icons/filesave.png qt/res/icons/history.png \
-	qt/res/icons/key.png qt/res/icons/lock_closed.png \
-	qt/res/icons/lock_open.png qt/res/icons/masternodes.png \
-	qt/res/icons/overview.png qt/res/icons/qrcode.png \
-	qt/res/icons/quit.png qt/res/icons/receive.png \
-	qt/res/icons/receive_dark.png qt/res/icons/privacy.png \
-	qt/res/icons/remove.png qt/res/icons/send.png \
-	qt/res/icons/send_dark.png qt/res/icons/staking_active.png \
+	qt/res/icons/proposal.png qt/res/icons/edit.png \
+	qt/res/icons/editcopy.png qt/res/icons/editpaste.png \
+	qt/res/icons/explorer.png qt/res/icons/export.png \
+	qt/res/icons/eye.png qt/res/icons/eye_minus.png \
+	qt/res/icons/eye_plus.png qt/res/icons/filesave.png \
+	qt/res/icons/history.png qt/res/icons/key.png \
+	qt/res/icons/lock_closed.png qt/res/icons/lock_open.png \
+	qt/res/icons/masternodes.png qt/res/icons/overview.png \
+	qt/res/icons/qrcode.png qt/res/icons/quit.png \
+	qt/res/icons/receive.png qt/res/icons/receive_dark.png \
+	qt/res/icons/privacy.png qt/res/icons/remove.png \
+	qt/res/icons/send.png qt/res/icons/send_dark.png \
+	qt/res/icons/staking_active.png \
 	qt/res/icons/staking_inactive.png qt/res/icons/synced.png \
 	qt/res/icons/trade.png qt/res/icons/transaction0.png \
 	qt/res/icons/transaction2.png \
@@ -584,6 +595,11 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-overviewpage.$(OBJEXT) \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-paymentrequestplus.$(OBJEXT) \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-paymentserver.$(OBJEXT) \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-columnalignedlayout.$(OBJEXT) \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-proposalfilterproxy.$(OBJEXT) \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-proposallist.$(OBJEXT) \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-proposalrecord.$(OBJEXT) \
+@ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-proposaltablemodel.$(OBJEXT) \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-receivecoinsdialog.$(OBJEXT) \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-privacydialog.$(OBJEXT) \
 @ENABLE_QT_TRUE@@ENABLE_WALLET_TRUE@	qt/qt_libbitcoinqt_a-receiverequestdialog.$(OBJEXT) \
@@ -663,6 +679,10 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 @ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_overviewpage.$(OBJEXT) \
 @ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_peertablemodel.$(OBJEXT) \
 @ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_paymentserver.$(OBJEXT) \
+@ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_columnalignedlayout.$(OBJEXT) \
+@ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.$(OBJEXT) \
+@ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_proposaltablemodel.$(OBJEXT) \
+@ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_proposallist.$(OBJEXT) \
 @ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_qvalidatedlineedit.$(OBJEXT) \
 @ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_qvaluecombobox.$(OBJEXT) \
 @ENABLE_QT_TRUE@	qt/qt_libbitcoinqt_a-moc_receivecoinsdialog.$(OBJEXT) \
@@ -2162,6 +2182,10 @@ EXTRA_DIST = leveldb $(am__append_14)
 @ENABLE_QT_TRUE@  qt/moc_overviewpage.cpp \
 @ENABLE_QT_TRUE@  qt/moc_peertablemodel.cpp \
 @ENABLE_QT_TRUE@  qt/moc_paymentserver.cpp \
+@ENABLE_QT_TRUE@  qt/moc_columnalignedlayout.cpp \
+@ENABLE_QT_TRUE@  qt/moc_proposalfilterproxy.cpp \
+@ENABLE_QT_TRUE@  qt/moc_proposaltablemodel.cpp \
+@ENABLE_QT_TRUE@  qt/moc_proposallist.cpp \
 @ENABLE_QT_TRUE@  qt/moc_qvalidatedlineedit.cpp \
 @ENABLE_QT_TRUE@  qt/moc_qvaluecombobox.cpp \
 @ENABLE_QT_TRUE@  qt/moc_receivecoinsdialog.cpp \
@@ -2236,6 +2260,11 @@ EXTRA_DIST = leveldb $(am__append_14)
 @ENABLE_QT_TRUE@  qt/overviewpage.h \
 @ENABLE_QT_TRUE@  qt/paymentrequestplus.h \
 @ENABLE_QT_TRUE@  qt/paymentserver.h \
+@ENABLE_QT_TRUE@  qt/columnalignedlayout.h \
+@ENABLE_QT_TRUE@  qt/proposalfilterproxy.h \
+@ENABLE_QT_TRUE@  qt/proposallist.h \
+@ENABLE_QT_TRUE@  qt/proposalrecord.h \
+@ENABLE_QT_TRUE@  qt/proposaltablemodel.h \
 @ENABLE_QT_TRUE@  qt/peertablemodel.h \
 @ENABLE_QT_TRUE@  qt/platformstyle.h \
 @ENABLE_QT_TRUE@  qt/qvalidatedlineedit.h \
@@ -2286,6 +2315,7 @@ EXTRA_DIST = leveldb $(am__append_14)
 @ENABLE_QT_TRUE@  qt/res/icons/connect3_16.png \
 @ENABLE_QT_TRUE@  qt/res/icons/connect4_16.png \
 @ENABLE_QT_TRUE@  qt/res/icons/debugwindow.png \
+@ENABLE_QT_TRUE@  qt/res/icons/proposal.png \
 @ENABLE_QT_TRUE@  qt/res/icons/edit.png \
 @ENABLE_QT_TRUE@  qt/res/icons/editcopy.png \
 @ENABLE_QT_TRUE@  qt/res/icons/editpaste.png \
@@ -2721,6 +2751,16 @@ qt/qt_libbitcoinqt_a-paymentrequestplus.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-paymentserver.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-columnalignedlayout.$(OBJEXT):  \
+	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-proposalfilterproxy.$(OBJEXT):  \
+	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-proposallist.$(OBJEXT): qt/$(am__dirstamp) \
+	qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-proposalrecord.$(OBJEXT): qt/$(am__dirstamp) \
+	qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-proposaltablemodel.$(OBJEXT): qt/$(am__dirstamp) \
+	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-receivecoinsdialog.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-privacydialog.$(OBJEXT): qt/$(am__dirstamp) \
@@ -2816,6 +2856,14 @@ qt/qt_libbitcoinqt_a-moc_overviewpage.$(OBJEXT): qt/$(am__dirstamp) \
 qt/qt_libbitcoinqt_a-moc_peertablemodel.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_paymentserver.$(OBJEXT): qt/$(am__dirstamp) \
+	qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-moc_columnalignedlayout.$(OBJEXT):  \
+	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.$(OBJEXT):  \
+	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-moc_proposaltablemodel.$(OBJEXT):  \
+	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
+qt/qt_libbitcoinqt_a-moc_proposallist.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_qvalidatedlineedit.$(OBJEXT):  \
 	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
@@ -3323,6 +3371,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-clientmodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-coincontroldialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-coincontroltreewidget.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-columnalignedlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-csvmodelwriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-editaddressdialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-guiutil.Po@am__quote@
@@ -3341,6 +3390,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_clientmodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_coincontroldialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_coincontroltreewidget.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_columnalignedlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_csvmodelwriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_editaddressdialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_guiutil.Po@am__quote@
@@ -3359,6 +3409,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_paymentserver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_peertablemodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_qvalidatedlineedit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_qvaluecombobox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_receivecoinsdialog.Po@am__quote@
@@ -3395,6 +3448,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-peertablemodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-platformstyle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-proposaltablemodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-qrc_bitcoin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-qrc_bitcoin_locale.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt/$(DEPDIR)/qt_libbitcoinqt_a-qvalidatedlineedit.Po@am__quote@
@@ -5833,6 +5890,76 @@ qt/qt_libbitcoinqt_a-paymentserver.obj: qt/paymentserver.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-paymentserver.obj `if test -f 'qt/paymentserver.cpp'; then $(CYGPATH_W) 'qt/paymentserver.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/paymentserver.cpp'; fi`
 
+qt/qt_libbitcoinqt_a-columnalignedlayout.o: qt/columnalignedlayout.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-columnalignedlayout.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-columnalignedlayout.Tpo -c -o qt/qt_libbitcoinqt_a-columnalignedlayout.o `test -f 'qt/columnalignedlayout.cpp' || echo '$(srcdir)/'`qt/columnalignedlayout.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-columnalignedlayout.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-columnalignedlayout.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/columnalignedlayout.cpp' object='qt/qt_libbitcoinqt_a-columnalignedlayout.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-columnalignedlayout.o `test -f 'qt/columnalignedlayout.cpp' || echo '$(srcdir)/'`qt/columnalignedlayout.cpp
+
+qt/qt_libbitcoinqt_a-columnalignedlayout.obj: qt/columnalignedlayout.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-columnalignedlayout.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-columnalignedlayout.Tpo -c -o qt/qt_libbitcoinqt_a-columnalignedlayout.obj `if test -f 'qt/columnalignedlayout.cpp'; then $(CYGPATH_W) 'qt/columnalignedlayout.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/columnalignedlayout.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-columnalignedlayout.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-columnalignedlayout.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/columnalignedlayout.cpp' object='qt/qt_libbitcoinqt_a-columnalignedlayout.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-columnalignedlayout.obj `if test -f 'qt/columnalignedlayout.cpp'; then $(CYGPATH_W) 'qt/columnalignedlayout.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/columnalignedlayout.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-proposalfilterproxy.o: qt/proposalfilterproxy.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposalfilterproxy.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Tpo -c -o qt/qt_libbitcoinqt_a-proposalfilterproxy.o `test -f 'qt/proposalfilterproxy.cpp' || echo '$(srcdir)/'`qt/proposalfilterproxy.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposalfilterproxy.cpp' object='qt/qt_libbitcoinqt_a-proposalfilterproxy.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposalfilterproxy.o `test -f 'qt/proposalfilterproxy.cpp' || echo '$(srcdir)/'`qt/proposalfilterproxy.cpp
+
+qt/qt_libbitcoinqt_a-proposalfilterproxy.obj: qt/proposalfilterproxy.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposalfilterproxy.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Tpo -c -o qt/qt_libbitcoinqt_a-proposalfilterproxy.obj `if test -f 'qt/proposalfilterproxy.cpp'; then $(CYGPATH_W) 'qt/proposalfilterproxy.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposalfilterproxy.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposalfilterproxy.cpp' object='qt/qt_libbitcoinqt_a-proposalfilterproxy.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposalfilterproxy.obj `if test -f 'qt/proposalfilterproxy.cpp'; then $(CYGPATH_W) 'qt/proposalfilterproxy.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposalfilterproxy.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-proposallist.o: qt/proposallist.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposallist.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Tpo -c -o qt/qt_libbitcoinqt_a-proposallist.o `test -f 'qt/proposallist.cpp' || echo '$(srcdir)/'`qt/proposallist.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposallist.cpp' object='qt/qt_libbitcoinqt_a-proposallist.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposallist.o `test -f 'qt/proposallist.cpp' || echo '$(srcdir)/'`qt/proposallist.cpp
+
+qt/qt_libbitcoinqt_a-proposallist.obj: qt/proposallist.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposallist.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Tpo -c -o qt/qt_libbitcoinqt_a-proposallist.obj `if test -f 'qt/proposallist.cpp'; then $(CYGPATH_W) 'qt/proposallist.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposallist.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposallist.cpp' object='qt/qt_libbitcoinqt_a-proposallist.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposallist.obj `if test -f 'qt/proposallist.cpp'; then $(CYGPATH_W) 'qt/proposallist.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposallist.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-proposalrecord.o: qt/proposalrecord.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposalrecord.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Tpo -c -o qt/qt_libbitcoinqt_a-proposalrecord.o `test -f 'qt/proposalrecord.cpp' || echo '$(srcdir)/'`qt/proposalrecord.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposalrecord.cpp' object='qt/qt_libbitcoinqt_a-proposalrecord.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposalrecord.o `test -f 'qt/proposalrecord.cpp' || echo '$(srcdir)/'`qt/proposalrecord.cpp
+
+qt/qt_libbitcoinqt_a-proposalrecord.obj: qt/proposalrecord.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposalrecord.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Tpo -c -o qt/qt_libbitcoinqt_a-proposalrecord.obj `if test -f 'qt/proposalrecord.cpp'; then $(CYGPATH_W) 'qt/proposalrecord.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposalrecord.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposalrecord.cpp' object='qt/qt_libbitcoinqt_a-proposalrecord.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposalrecord.obj `if test -f 'qt/proposalrecord.cpp'; then $(CYGPATH_W) 'qt/proposalrecord.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposalrecord.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-proposaltablemodel.o: qt/proposaltablemodel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposaltablemodel.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposaltablemodel.Tpo -c -o qt/qt_libbitcoinqt_a-proposaltablemodel.o `test -f 'qt/proposaltablemodel.cpp' || echo '$(srcdir)/'`qt/proposaltablemodel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposaltablemodel.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposaltablemodel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposaltablemodel.cpp' object='qt/qt_libbitcoinqt_a-proposaltablemodel.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposaltablemodel.o `test -f 'qt/proposaltablemodel.cpp' || echo '$(srcdir)/'`qt/proposaltablemodel.cpp
+
+qt/qt_libbitcoinqt_a-proposaltablemodel.obj: qt/proposaltablemodel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-proposaltablemodel.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-proposaltablemodel.Tpo -c -o qt/qt_libbitcoinqt_a-proposaltablemodel.obj `if test -f 'qt/proposaltablemodel.cpp'; then $(CYGPATH_W) 'qt/proposaltablemodel.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposaltablemodel.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-proposaltablemodel.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-proposaltablemodel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/proposaltablemodel.cpp' object='qt/qt_libbitcoinqt_a-proposaltablemodel.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-proposaltablemodel.obj `if test -f 'qt/proposaltablemodel.cpp'; then $(CYGPATH_W) 'qt/proposaltablemodel.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/proposaltablemodel.cpp'; fi`
+
 qt/qt_libbitcoinqt_a-receivecoinsdialog.o: qt/receivecoinsdialog.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-receivecoinsdialog.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-receivecoinsdialog.Tpo -c -o qt/qt_libbitcoinqt_a-receivecoinsdialog.o `test -f 'qt/receivecoinsdialog.cpp' || echo '$(srcdir)/'`qt/receivecoinsdialog.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-receivecoinsdialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-receivecoinsdialog.Po
@@ -6504,6 +6631,62 @@ qt/qt_libbitcoinqt_a-moc_paymentserver.obj: qt/moc_paymentserver.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_paymentserver.cpp' object='qt/qt_libbitcoinqt_a-moc_paymentserver.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_paymentserver.obj `if test -f 'qt/moc_paymentserver.cpp'; then $(CYGPATH_W) 'qt/moc_paymentserver.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_paymentserver.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-moc_columnalignedlayout.o: qt/moc_columnalignedlayout.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_columnalignedlayout.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_columnalignedlayout.Tpo -c -o qt/qt_libbitcoinqt_a-moc_columnalignedlayout.o `test -f 'qt/moc_columnalignedlayout.cpp' || echo '$(srcdir)/'`qt/moc_columnalignedlayout.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_columnalignedlayout.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_columnalignedlayout.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_columnalignedlayout.cpp' object='qt/qt_libbitcoinqt_a-moc_columnalignedlayout.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_columnalignedlayout.o `test -f 'qt/moc_columnalignedlayout.cpp' || echo '$(srcdir)/'`qt/moc_columnalignedlayout.cpp
+
+qt/qt_libbitcoinqt_a-moc_columnalignedlayout.obj: qt/moc_columnalignedlayout.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_columnalignedlayout.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_columnalignedlayout.Tpo -c -o qt/qt_libbitcoinqt_a-moc_columnalignedlayout.obj `if test -f 'qt/moc_columnalignedlayout.cpp'; then $(CYGPATH_W) 'qt/moc_columnalignedlayout.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_columnalignedlayout.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_columnalignedlayout.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_columnalignedlayout.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_columnalignedlayout.cpp' object='qt/qt_libbitcoinqt_a-moc_columnalignedlayout.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_columnalignedlayout.obj `if test -f 'qt/moc_columnalignedlayout.cpp'; then $(CYGPATH_W) 'qt/moc_columnalignedlayout.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_columnalignedlayout.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.o: qt/moc_proposalfilterproxy.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Tpo -c -o qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.o `test -f 'qt/moc_proposalfilterproxy.cpp' || echo '$(srcdir)/'`qt/moc_proposalfilterproxy.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_proposalfilterproxy.cpp' object='qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.o `test -f 'qt/moc_proposalfilterproxy.cpp' || echo '$(srcdir)/'`qt/moc_proposalfilterproxy.cpp
+
+qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.obj: qt/moc_proposalfilterproxy.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Tpo -c -o qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.obj `if test -f 'qt/moc_proposalfilterproxy.cpp'; then $(CYGPATH_W) 'qt/moc_proposalfilterproxy.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_proposalfilterproxy.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_proposalfilterproxy.cpp' object='qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_proposalfilterproxy.obj `if test -f 'qt/moc_proposalfilterproxy.cpp'; then $(CYGPATH_W) 'qt/moc_proposalfilterproxy.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_proposalfilterproxy.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-moc_proposaltablemodel.o: qt/moc_proposaltablemodel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_proposaltablemodel.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Tpo -c -o qt/qt_libbitcoinqt_a-moc_proposaltablemodel.o `test -f 'qt/moc_proposaltablemodel.cpp' || echo '$(srcdir)/'`qt/moc_proposaltablemodel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_proposaltablemodel.cpp' object='qt/qt_libbitcoinqt_a-moc_proposaltablemodel.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_proposaltablemodel.o `test -f 'qt/moc_proposaltablemodel.cpp' || echo '$(srcdir)/'`qt/moc_proposaltablemodel.cpp
+
+qt/qt_libbitcoinqt_a-moc_proposaltablemodel.obj: qt/moc_proposaltablemodel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_proposaltablemodel.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Tpo -c -o qt/qt_libbitcoinqt_a-moc_proposaltablemodel.obj `if test -f 'qt/moc_proposaltablemodel.cpp'; then $(CYGPATH_W) 'qt/moc_proposaltablemodel.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_proposaltablemodel.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_proposaltablemodel.cpp' object='qt/qt_libbitcoinqt_a-moc_proposaltablemodel.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_proposaltablemodel.obj `if test -f 'qt/moc_proposaltablemodel.cpp'; then $(CYGPATH_W) 'qt/moc_proposaltablemodel.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_proposaltablemodel.cpp'; fi`
+
+qt/qt_libbitcoinqt_a-moc_proposallist.o: qt/moc_proposallist.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_proposallist.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Tpo -c -o qt/qt_libbitcoinqt_a-moc_proposallist.o `test -f 'qt/moc_proposallist.cpp' || echo '$(srcdir)/'`qt/moc_proposallist.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_proposallist.cpp' object='qt/qt_libbitcoinqt_a-moc_proposallist.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_proposallist.o `test -f 'qt/moc_proposallist.cpp' || echo '$(srcdir)/'`qt/moc_proposallist.cpp
+
+qt/qt_libbitcoinqt_a-moc_proposallist.obj: qt/moc_proposallist.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_proposallist.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Tpo -c -o qt/qt_libbitcoinqt_a-moc_proposallist.obj `if test -f 'qt/moc_proposallist.cpp'; then $(CYGPATH_W) 'qt/moc_proposallist.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_proposallist.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt/moc_proposallist.cpp' object='qt/qt_libbitcoinqt_a-moc_proposallist.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_proposallist.obj `if test -f 'qt/moc_proposallist.cpp'; then $(CYGPATH_W) 'qt/moc_proposallist.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_proposallist.cpp'; fi`
 
 qt/qt_libbitcoinqt_a-moc_qvalidatedlineedit.o: qt/moc_qvalidatedlineedit.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_qvalidatedlineedit.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_qvalidatedlineedit.Tpo -c -o qt/qt_libbitcoinqt_a-moc_qvalidatedlineedit.o `test -f 'qt/moc_qvalidatedlineedit.cpp' || echo '$(srcdir)/'`qt/moc_qvalidatedlineedit.cpp
