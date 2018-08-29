@@ -1810,9 +1810,9 @@ int64_t GetBlockValue(int nHeight)
 {
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         // set testnet PoW period reward
-        if (nHeight < 999) {
+        if (nHeight < 9999) {
             return static_cast<int64_t>(25 * COIN);
-        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 999) {
+        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 9999) {
             return static_cast<int64_t>(25 * COIN);
         } else {
             return static_cast<int64_t>(25 * COIN);
@@ -1824,9 +1824,9 @@ int64_t GetBlockValue(int nHeight)
     if (nHeight == 0) {
         // Mint the ledger total (minus treasury deposit) for disbursal
 	//nSubsidy = (ledgerTotal - treasuryDeposit); // (8891432 * COIN) - (432870.87949961 * COIN)
-    } else if (nHeight < 999) {
+    } else if (nHeight < 9999) {
         return static_cast<int64_t>(25 * COIN);
-    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 999) {
+    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 9999) {
         return static_cast<int64_t>(25 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK()) {
         return static_cast<int64_t>(25 * COIN);
@@ -1841,19 +1841,18 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     int64_t ret = 0;
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 299) {
+        if (nHeight < 499) {
             return 0;
-	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 299) {
+	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 499) {
 	    ret = blockValue / 10;
 	} else {
 	    ret = blockValue / 10;
 	}
     }
 
-    /* NOTE: GJH Particularise masternode payment schedule */
-    if (nHeight <= 800) {
+    if (nHeight <= 499) {
         ret = 0;
-    } else if (nHeight > 800) {
+    } else if (nHeight > 499) {
         ret = blockValue / (100 / 30);
     } else {
         //When zPIV is staked, masternode only gets 2 LYTX
@@ -1873,7 +1872,6 @@ bool IsInitialBlockDownload()
     static bool lockIBDState = false;
     if (lockIBDState)
         return false;
-    /* FIXME: GJH PIVX-specific block heights/times */
     bool state = (chainActive.Height() < pindexBestHeader->nHeight - 24 * 6 ||
                   pindexBestHeader->GetBlockTime() < GetTime() - 6 * 60 * 60); // ~144 blocks behind -> 2 x fork detection time
     if (!state)

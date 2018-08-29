@@ -17,13 +17,13 @@
   <string>APPL</string>
 
   <key>CFBundleGetInfoString</key>
-  <string>1.1.4, Copyright © 2009-2018 The Bitcoin Core developers, 2014-2018 The Dash Core developers, 2015-2018 The Lytix Core developers, 2018 The Lytix Core developers</string>
+  <string>1.5.0, Copyright © 2009-2018 The Bitcoin Core developers, 2014-2018 The Dash Core developers, 2015-2018 The Lytix Core developers, 2018 The Lytix Core developers</string>
 
   <key>CFBundleShortVersionString</key>
-  <string>1.1.4</string>
+  <string>1.5.0</string>
 
   <key>CFBundleVersion</key>
-  <string>1.1.4</string>
+  <string>1.5.0</string>
 
   <key>CFBundleSignature</key>
   <string>????</string>
