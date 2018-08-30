@@ -8,3 +8,7 @@ Lytix is an open source crypto-currency focused on fast private transactions wit
 It will be Proof of Stake with masternodes and servicenodes supporting the network. Servicenodes will be used to host applications and smart contracts utilizing tokens to record transactions supporting the customer applications written for those servicenodes.
 
 More information at [lytixchain.org](http://www.lytixchain.org) - when ready
+
+Not live yet Aug 28, 2018
+
+For more information contact faetos on bitcointalk.org
