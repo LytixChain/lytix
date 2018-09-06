@@ -120,8 +120,21 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.nVersion = nVersion;
     genesis.vtx.push_back(txNew);
     {
-        txNew.vout[0].nValue = 313371711173343;
+        txNew.vout[0].nValue = 33371711173343;
         txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8p2Kso1HYUUzbKzPjk6cqsuLt65y94ydgF"))) << OP_EQUALVERIFY << OP_CHECKSIG;
+	genesis.vtx.push_back(txNew);
+	txNew.vout[0].nValue = 33371711343;
+        txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8pjhs4DBNYLtsJ5ApGnkePnaFWWAX6MyaA"))) << OP_EQUALVERIFY << OP_CHECKSIG;
+genesis.vtx.push_back(txNew);
+        txNew.vout[0].nValue = 33371173343;
+        txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8tjcjzkrtdaxmn43Z7WnBu47iqbmZJ87Nh"))) << OP_EQUALVERIFY << OP_CHECKSIG;
+genesis.vtx.push_back(txNew);
+        txNew.vout[0].nValue = 33311173343;
+        txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8wJ51eDEtq1VgHBmg384upGJxzE2Rjco8i"))) << OP_EQUALVERIFY << OP_CHECKSIG;
+genesis.vtx.push_back(txNew);
+        txNew.vout[0].nValue = 3337713343;
+        txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8xag7xZ3LPeTrTSiCvH3oCeiV6v7iy8aUa"))) << OP_EQUALVERIFY << OP_CHECKSIG;
+
     }
     genesis.hashPrevBlock = 0;
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
