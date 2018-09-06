@@ -1811,11 +1811,11 @@ int64_t GetBlockValue(int nHeight)
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         // set testnet PoW period reward
         if (nHeight < 9999) {
-            return static_cast<int64_t>(25 * COIN);
+            return static_cast<int64_t>(30 * COIN);
         } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 9999) {
-            return static_cast<int64_t>(25 * COIN);
+            return static_cast<int64_t>(30 * COIN);
         } else {
-            return static_cast<int64_t>(25 * COIN);
+            return static_cast<int64_t>(30 * COIN);
         }
 
     }
@@ -1825,15 +1825,15 @@ int64_t GetBlockValue(int nHeight)
         // Mint the ledger total (minus treasury deposit) for disbursal
 	//nSubsidy = (ledgerTotal - treasuryDeposit); // (8891432 * COIN) - (432870.87949961 * COIN)
     } else if (nHeight < 9999) {
-        return static_cast<int64_t>(25 * COIN);
+        return static_cast<int64_t>(30 * COIN);
     } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 9999) {
-        return static_cast<int64_t>(25 * COIN);
+        return static_cast<int64_t>(30 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK()) {
-        return static_cast<int64_t>(25 * COIN);
+        return static_cast<int64_t>(30 * COIN);
     } else {
-        return static_cast<int64_t>(25 * COIN);
+        return static_cast<int64_t>(30 * COIN);
     }
-    return static_cast<int64_t>(25 * COIN);
+    return static_cast<int64_t>(30 * COIN);
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount, bool isZPIVStake)
@@ -1855,10 +1855,10 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     } else if (nHeight > 499) {
         ret = blockValue / (100 / 30);
     } else {
-        //When zPIV is staked, masternode only gets 2 LYTX
+        //When zPIV is staked, masternode only gets 5 LYTX
         ret = 3 * COIN;
         if (isZPIVStake)
-            ret = 2 * COIN;
+            ret = 5 * COIN;
     }
 
     return ret;
