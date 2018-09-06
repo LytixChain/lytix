@@ -69,7 +69,7 @@ static const Checkpoints::CCheckpointData data = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
     boost::assign::map_list_of
-    (0, uint256("0x000002d74c7cbbbb6e7b56c352411dd919044931c7e0f55dceb58fc694f679cd"));
+    (0, uint256("0x0000079cadcde8db5dd2dc40575e9a9e868dceb9f860ea2de73d843c5b97f1a1"));
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
     1520851782,
@@ -384,7 +384,7 @@ public:
             LogPrintf(" time: %u\n", genesis.nTime);
             LogPrintf(" hash: 0x%s\n", genesis.GetHash().ToString().c_str());
             LogPrintf(" merklehash: 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-            assert(hashGenesisBlock == uint256("0x000002d74c7cbbbb6e7b56c352411dd919044931c7e0f55dceb58fc694f679cd"));
+            assert(hashGenesisBlock == uint256("0x0000079cadcde8db5dd2dc40575e9a9e868dceb9f860ea2de73d843c5b97f1a1"));
             assert(genesis.hashMerkleRoot == uint256("0x000002d74c7cbbbb6e7b56c352411dd919044931c7e0f55dceb58fc694f679cd"));
         }
 
