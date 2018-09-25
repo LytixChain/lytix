@@ -592,13 +592,11 @@ bool fGenerateBitcoins = false;
 bool fMintableCoins = false;
 int nMintableLastCheck = 0;
 
-// ***TODO*** that part changed in bitcoin, we are using a mix with old one here for now
-
 void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
 {
     LogPrint("debug", "LytixMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("helium-miner");
+    RenameThread("lytix-miner");
 
     // Each thread has its own key and counter
     CReserveKey reservekey(pwallet);
