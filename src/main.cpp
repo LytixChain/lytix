@@ -1855,10 +1855,10 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     } else if (nHeight > 499) {
         ret = blockValue / (100 / 30);
     } else {
-        //When zPIV is staked, masternode only gets 5 LYTX
-        ret = 3 * COIN;
+        //When zPIV is staked, masternode only gets 20 LYTX
+        ret = 15 * COIN;
         if (isZPIVStake)
-            ret = 5 * COIN;
+            ret = 20 * COIN;
     }
 
     return ret;
