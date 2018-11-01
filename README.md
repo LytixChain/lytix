@@ -9,6 +9,6 @@ It will be Proof of Stake with masternodes and servicenodes supporting the netwo
 
 More information at [lytixchain.org](http://www.lytixchain.org) - when ready
 
-Not live yet Aug 28, 2018
+Live beta Oct 31, 2018 - blocks burned 1500
 
 For more information contact faetos on bitcointalk.org
