@@ -241,12 +241,14 @@ public:
         }
 
 
-        //vSeeds.push_back(CDNSSeedData("lytixeu01", "lytixeu01.lytixchain.org"));
-        //vSeeds.push_back(CDNSSeedData("lytixap01", "lytixap01.lytixchain.org"));
-        //vSeeds.push_back(CDNSSeedData("lytixna01", "lytixna01.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("lytixeu01", "lytixeu01.quravo.com"));
-        vSeeds.push_back(CDNSSeedData("lytixap01", "lytixap01.quravo.com"));
-        vSeeds.push_back(CDNSSeedData("lytixna01", "lytixna01.quravo.com"));
+        //vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.lytixchain.org"));
+        //vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.lytixchain.org"));
+        //vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.lytixchain.org"));
+        //vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.quravo.com"));
+        vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.quravo.com"));
+        vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.quravo.com"));
+        vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.quravo.com"));
 
 
         // Lytix addresses start with 'L'
