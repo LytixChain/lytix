@@ -849,7 +849,7 @@ color:#0c0c0c;
 
 QDialog#RPCConsole QTableView#peerWidget::item { /* Peers Table Items */
 /*color:#333;*/
-color:#fcfcfc;
+color:#706f6f;
 }
 
 QDialog#RPCConsole QPushButton#openDebugLogfileButton {
