@@ -1853,10 +1853,10 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     } else if (nHeight > 200) {
         ret = blockValue / (100 / 50);
     } else {
-        //When zPIV is staked, masternode only gets 20 LYTX
+        //When zPIV is staked, masternode gets 15 LYTX
         ret = 15 * COIN;
         if (isZPIVStake)
-            ret = 20 * COIN;
+            ret = 15 * COIN;
     }
 
     return ret;
@@ -5389,8 +5389,15 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
         }
 
-	// Banned versions moving forward - Chain switch at 1.3
-	if (pfrom->cleanSubVer == "/Lytix Core:1.2.2/" ||
+	// Banned versions moving forward - Chain switch at 1.5.5
+	if (pfrom->cleanSubVer == "/Lytix Core:1.5.4/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.3/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.2/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.1/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.0/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.4.0/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.3.1/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.3.0/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.2.1/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.2.0/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.0.1/") {
