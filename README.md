@@ -9,7 +9,9 @@ It will be Proof of Stake after a 100,000 block Proof of Work period with master
 
 More information at [lytixchain.org](http://www.lytixchain.org) - when ready
 
-Live beta Oct 31, 2018 - blocks burned 1500 - Release date 2 weeks from now - thank you for helping test the chain
+Live Oct 31, 2018 - announcement this week
+
+------------------------
 
 500 LYTX for Masternodes
 
@@ -19,6 +21,9 @@ Live beta Oct 31, 2018 - blocks burned 1500 - Release date 2 weeks from now - th
 
 30 LYTX reward forever
 
-15 confirmations for a spend
+15 confirmations maturity for mined or staked rewards
 
-For more information contact faetos on bitcointalk.org
+-------------------------
+
+
+DISCORD auto-invite - https://discord.gg/zDFrBSF
