@@ -241,14 +241,10 @@ public:
         }
 
 
-        //vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.lytixchain.org"));
-        //vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.lytixchain.org"));
-        //vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.lytixchain.org"));
-        //vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.quravo.com"));
-        vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.quravo.com"));
-        vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.quravo.com"));
-        vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.quravo.com"));
+        vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.lytixchain.org"));
 
 
         // Lytix addresses start with 'L'
