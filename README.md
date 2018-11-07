@@ -15,7 +15,7 @@ Live Oct 31, 2018 - announcement this week
 
 500 LYTX for Masternodes
 
-100,000 Proof of Work burn in until PoS
+500,000 Proof of Work burn in until PoS
 
 50% reward to PoW/PoS 50% reward to Masternodes
 
