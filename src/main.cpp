@@ -1810,9 +1810,9 @@ int64_t GetBlockValue(int nHeight)
 {
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         // set testnet PoW period reward
-        if (nHeight < 99999) {
+        if (nHeight < 499999) {
             return static_cast<int64_t>(30 * COIN);
-        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 99999) {
+        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 499999) {
             return static_cast<int64_t>(30 * COIN);
         } else {
             return static_cast<int64_t>(30 * COIN);
@@ -1822,9 +1822,9 @@ int64_t GetBlockValue(int nHeight)
 
     //int64_t nSubsidy = 0;
     if (nHeight == 0) {
-    } else if (nHeight < 99999) {
+    } else if (nHeight < 499999) {
         return static_cast<int64_t>(30 * COIN);
-    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 99999) {
+    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 499999) {
         return static_cast<int64_t>(30 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK()) {
         return static_cast<int64_t>(30 * COIN);
@@ -5389,8 +5389,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
         }
 
-	// Banned versions moving forward - Chain switch at 1.5.5
-	if (pfrom->cleanSubVer == "/Lytix Core:1.5.4/" ||
+	// Banned versions moving forward - Chain switch at 1.5.5 - PoW extended at 1.5.6
+	if (pfrom->cleanSubVer == "/Lytix Core:1.5.5/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.4/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.3/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.2/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.1/" ||
