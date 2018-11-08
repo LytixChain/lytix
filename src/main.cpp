@@ -5389,8 +5389,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
         }
 
-	// Banned versions moving forward - Chain switch at 1.5.5 - PoW extended at 1.5.6
-	if (pfrom->cleanSubVer == "/Lytix Core:1.5.5/" ||
+	// Banned versions moving forward - Increased Masternode reqs to 5000 in 1.5.7
+	if (pfrom->cleanSubVer == "/Lytix Core:1.5.6/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.5/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.4/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.3/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.2/" ||
