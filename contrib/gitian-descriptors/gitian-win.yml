@@ -1,5 +1,5 @@
 ---
-name: "lytix-win-1.5.6"
+name: "lytix-win-1.5.7"
 enable_cache: true
 suites:
 - "trusty"
