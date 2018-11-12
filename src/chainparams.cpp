@@ -245,9 +245,11 @@ public:
         vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns05", "dnsseed05.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns06", "dnsseed06.lytixchain.org"));
 
 
-        // Lytix addresses start with 'L'
+        // Lytix addresses start with '8 or 9'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,19);
         // Lytix script addresses start with '3'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,11);
@@ -331,7 +333,7 @@ public:
         nMasternodeCountDrift = 2;
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 100000000 * COIN;
-        nZerocoinStartHeight = 999999999;
+        nZerocoinStartHeight = 1000;
         nZerocoinStartTime = 1530801782;
         // nBlockEnforceSerialRange = 0; //Enforce serial range starting this block
         nBlockRecalculateAccumulators = 999999999; //Trigger a recalculation of accumulators
@@ -339,7 +341,7 @@ public:
         nBlockLastGoodCheckpoint = 999999999; //Last valid accumulator checkpoint
         // nBlockEnforceInvalidUTXO = 0; //Start enforcing the invalid UTXO's
         // nInvalidAmountFiltered = 0; //Amount of invalid coins filtered through exchanges, that should be considered valid
-        nBlockZerocoinV2 = 999999999; //!> The block that zerocoin v2 becomes active
+        nBlockZerocoinV2 = 1000; //!> The block that zerocoin v2 becomes active
         nEnforceNewSporkKey = 1521604800; //!> Sporks signed after Wednesday, March 21, 2018 4:00:00 AM GMT must use the new spork key
         nRejectOldSporkKey = 1522454400; //!> Reject old spork key after Saturday, March 31, 2018 12:00:00 AM GMT
 
@@ -388,12 +390,13 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-	//vSeeds.push_back(CDNSSeedData("lytixeu01", "lytixeu01.lytixchain.org"));
-        //vSeeds.push_back(CDNSSeedData("lytixap01", "lytixap01.lytixchain.org"));
-        //vSeeds.push_back(CDNSSeedData("lytixna01", "lytixna01.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("lytixeu01", "lytixeu01.quravo.com"));
-        vSeeds.push_back(CDNSSeedData("lytixap01", "lytixap01.quravo.com"));
-        vSeeds.push_back(CDNSSeedData("lytixna01", "lytixna01.quravo.com"));
+        vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns05", "dnsseed05.lytixchain.org"));
+        vSeeds.push_back(CDNSSeedData("dns06", "dnsseed06.lytixchain.org"));
+
 
         // Testnet Lytix addresses start with 'X'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,30);
