@@ -1,5 +1,5 @@
 ---
-name: "lytix-linux-1.5.7"
+name: "lytix-linux-1.5.8"
 enable_cache: true
 suites:
 - "trusty"
