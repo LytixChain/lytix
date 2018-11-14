@@ -5390,7 +5390,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         }
 
 	// Banned versions moving forward - Increased Masternode reqs to 5000 in 1.5.7
-	if (pfrom->cleanSubVer == "/Lytix Core:1.5.6/" ||
+	if (pfrom->cleanSubVer == "/Lytix Core:1.5.7/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.6/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.5/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.4/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.5.3/" ||
