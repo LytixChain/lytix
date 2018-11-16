@@ -7,9 +7,6 @@ Lytix is an open source crypto-currency focused on fast private transactions wit
 
 It will be Proof of Stake after a 500,000 block Proof of Work period with masternodes. After 500,000 staked wallets will help support the network. 
 
-More information at [lytixchain.org](http://www.lytixchain.org) - when ready
-
-Live Oct 31, 2018 - announcement this week
 
 ------------------------
 
@@ -24,6 +21,3 @@ Live Oct 31, 2018 - announcement this week
 15 confirmations maturity for mined or staked rewards
 
 -------------------------
-
-
-DISCORD auto-invite - https://discord.gg/zDFrBSF
