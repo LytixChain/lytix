@@ -58,10 +58,10 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of
-    (0, uint256("0x00000b566aa7ea1df8e640ec34daf43826e2d661679984eb6763c79cc2a157ed"));
+    (0, uint256("0x0000061e28c3a7d0e482c73db7d24753867b49e4002adbac55b9b2b843900dbe"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1541189603, // * UNIX timestamp of last checkpoint block
+    1542418334, // * UNIX timestamp of last checkpoint block
     0,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
@@ -69,19 +69,19 @@ static const Checkpoints::CCheckpointData data = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
     boost::assign::map_list_of
-    (0, uint256("0x00000eb231753f9d0e4416f0ffdc3a4203463d161e3ede2af57a37f971149fe6"));
+    (0, uint256("0x00000ea7774f00756d68764b888ad77c8de0c6c04ba7e7216b6c1bfb59880e3d"));
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
-    1541189603,
+    1542418334,
     0,
     250};
 
 static Checkpoints::MapCheckpoints mapCheckpointsRegtest =
     boost::assign::map_list_of
-    (0, uint256("0x1bfa33757173b14190298f47b7e079fa8c9eeba14b01646b6bb3e5f983c49de5"));
+    (0, uint256("0x3c9f0c8f010e0e3bd58b6168c586f4aff3e2b7a46d95469d75884c028f477266"));
 static const Checkpoints::CCheckpointData dataRegtest = {
     &mapCheckpointsRegtest,
-    1541189603,
+    1542418334,
     0,
     100};
 
@@ -121,7 +121,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.vtx.push_back(txNew);
     {
 	//Dev - Governance start
-        txNew.vout[0].nValue = 53337171117334;
+        txNew.vout[0].nValue = 150030071117334;
         txNew.vout[0].scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ParseHex(DecodeBase58ToHex(std::string("8p2Kso1HYUUzbKzPjk6cqsuLt65y94ydgF"))) << OP_EQUALVERIFY << OP_CHECKSIG;
 	genesis.vtx.push_back(txNew);
 	txNew.vout[0].nValue = 33371711343;
@@ -144,7 +144,7 @@ genesis.vtx.push_back(txNew);
 
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, const string addr1, const string addr2, const string addr3)
 {
-    const char* pszTimestamp = "Bitcoin Block 548453 - 0000000000000000001b91550dcea3ca9ebb5ddba3d2a502e9343b040adccf7a at 1541189603";
+    const char* pszTimestamp = "Bitcoin Block 550375 - 0000000000000000002758a9c7da3876018f46e65e664047b53ed85a14264c22 at 2018-11-17 01:11:22";
     const CScript genesisOutputScript = CScript() << OP_2 << ParseHex(DecodeBase58ToHex(addr1)) << ParseHex(DecodeBase58ToHex(addr2)) << ParseHex(DecodeBase58ToHex(addr3)) << OP_3 << OP_CHECKMULTISIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 };
@@ -181,24 +181,24 @@ public:
         nMaxMoneyOut = 100000000 * COIN;
 
         /** Height or Time Based Activations **/
-        nLastPOWBlock = 500000; //  1 per minute  - 14 days @ 1440 per day
+        nLastPOWBlock = 100000; //  1 per minute  - 14 days @ 1440 per day
         //if the lowest block height (vSortedByTimestamp[0]) is >= switch height, use new modifier calc
         // nModifierUpdateBlock = 0; // (PIVX: 615800)
         nZerocoinStartHeight = 71000; // (PIVX: 863787, Phore 90000)
-        nZerocoinStartTime = 1542207671; //  Wednesday, November 14, 2018 3:01:11 PM GMT
+        nZerocoinStartTime = 1546565245; //  Wednesday, November 14, 2018 3:01:11 PM GMT
         // nBlockEnforceSerialRange = 90003; //Enforce serial range starting this block (Phore 90003)
         nBlockRecalculateAccumulators = 71000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
         // nBlockFirstFraudulent = 90002; // (PIVX: 908000, Phore 90002) //First block that bad serials emerged
-        nBlockLastGoodCheckpoint = 71000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
+        nBlockLastGoodCheckpoint = 71005; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
         // nBlockEnforceInvalidUTXO = 0; // (PIVX: 902850) //Start enforcing the invalid UTXO's
         // nInvalidAmountFiltered = 268200*COIN; // (PIVX: 268200) //Amount of invalid coins filtered through exchanges, that should be considered valid
-        nBlockZerocoinV2 = 7100000; // (PIVX: 1153160) //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
+        nBlockZerocoinV2 = 1001001; // (PIVX: 1153160) //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
         nEnforceNewSporkKey = 1525158000; // (PIVX: 1525158000) //!> Sporks signed after (GMT): Tuesday, May 1, 2018 7:00:00 AM GMT must use the new spork key
         nRejectOldSporkKey = 1527811200; // (PIVX: 1527811200) //!> Fully reject old spork key after (GMT): Friday, June 1, 2018 12:00:00 AM
 
         genesis = CreateGenesisBlock(
-                    1541189603,                          // nTime
-                    413568,                               // nNonce
+                    1542418334,                          // nTime
+                    346270,                               // nNonce
                     0x1e0ffff0,                          // nBits
                     3,                                   // nVersion
                    treasuryDeposit,                      // genesisReward (treasury deposit)
@@ -236,8 +236,8 @@ public:
             LogPrintf(" time: %u\n", genesis.nTime);
             LogPrintf(" hash: 0x%s\n", genesis.GetHash().ToString().c_str());
             LogPrintf(" merklehash: 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-            assert(hashGenesisBlock == uint256("0x00000b566aa7ea1df8e640ec34daf43826e2d661679984eb6763c79cc2a157ed"));
-            assert(genesis.hashMerkleRoot == uint256("0x7b02fc9f323240060af198e3f7a1bf1fe0b2bf98aff74f4db637a8cc132c4fd0"));
+            assert(hashGenesisBlock == uint256("0x0000061e28c3a7d0e482c73db7d24753867b49e4002adbac55b9b2b843900dbe"));
+            assert(genesis.hashMerkleRoot == uint256("0x4b9cea0c05c7f99a220b44314f558acd0d180a04fc0a82fd9b65302ba0b2ace5"));
         }
 
 
@@ -347,8 +347,8 @@ public:
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis = CreateGenesisBlock(
-                    1541189603,                          // nTime
-                    190964,                              // nNonce
+                    1542418334,                          // nTime
+                    574292,                              // nNonce
                     0x1e0ffff0,                          // nBits
                     3,                                   // nVersion
                     treasuryDeposit,                     // genesisReward (treasury deposit)
@@ -384,8 +384,8 @@ public:
             LogPrintf(" time: %u\n", genesis.nTime);
             LogPrintf(" hash: 0x%s\n", genesis.GetHash().ToString().c_str());
             LogPrintf(" merklehash: 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-            assert(hashGenesisBlock == uint256("0x00000eb231753f9d0e4416f0ffdc3a4203463d161e3ede2af57a37f971149fe6"));
-            assert(genesis.hashMerkleRoot == uint256("0x912be2ce156bce6699066a82d63dd70742fa7516e294b89ed65fc1014399af3e"));
+            assert(hashGenesisBlock == uint256("0x00000ea7774f00756d68764b888ad77c8de0c6c04ba7e7216b6c1bfb59880e3d"));
+            assert(genesis.hashMerkleRoot == uint256("0x0ebf31fd5771ab82756ab17668e47127b24b29c8417669f018b42fe57a318c3a"));
         }
 
         vFixedSeeds.clear();
@@ -462,7 +462,7 @@ public:
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis = CreateGenesisBlock(
-                    1541189603,                          // nTime
+                    1542418334,                          // nTime
                     19,                                   // nNonce
                     0x207fffff,                          // nBits
                     3,                                   // nVersion
@@ -499,8 +499,8 @@ public:
             LogPrintf(" time: %u\n", genesis.nTime);
             LogPrintf(" hash: 0x%s\n", genesis.GetHash().ToString().c_str());
             LogPrintf(" merklehash: 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-            assert(hashGenesisBlock == uint256("0x1bfa33757173b14190298f47b7e079fa8c9eeba14b01646b6bb3e5f983c49de5"));
-            assert(genesis.hashMerkleRoot == uint256("0x7b02fc9f323240060af198e3f7a1bf1fe0b2bf98aff74f4db637a8cc132c4fd0"));
+            assert(hashGenesisBlock == uint256("0x3c9f0c8f010e0e3bd58b6168c586f4aff3e2b7a46d95469d75884c028f477266"));
+            assert(genesis.hashMerkleRoot == uint256("0x4b9cea0c05c7f99a220b44314f558acd0d180a04fc0a82fd9b65302ba0b2ace5"));
         }
 
 
