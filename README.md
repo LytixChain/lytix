@@ -10,7 +10,7 @@ It will be Proof of Stake after a 500,000 block Proof of Work period with master
 
 ------------------------
 
-2500 LYTX for Masternodes
+10,000 LYTX for Masternodes
 
 50,000 Proof of Work burn in until PoS
 
