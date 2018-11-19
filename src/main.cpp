@@ -1810,9 +1810,9 @@ int64_t GetBlockValue(int nHeight)
 {
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         // set testnet PoW period reward
-        if (nHeight < 499999) {
+        if (nHeight < 49999) {
             return static_cast<int64_t>(30 * COIN);
-        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 499999) {
+        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 49999) {
             return static_cast<int64_t>(30 * COIN);
         } else {
             return static_cast<int64_t>(30 * COIN);
@@ -1820,18 +1820,29 @@ int64_t GetBlockValue(int nHeight)
 
     }
 
-    //int64_t nSubsidy = 0;
+    // Block value is reduced every 540,000 blocks
+    // Premine 1,500,000 + Prev AirDrop 11/2018 800,000
+    CoinAmount = static_cast<int64_t>(2300000 * COIN);
+    DropTime = 540000;
     if (nHeight == 0) {
-    } else if (nHeight < 499999) {
-        return static_cast<int64_t>(30 * COIN);
-    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 499999) {
-        return static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK()) {
-        return static_cast<int64_t>(30 * COIN);
+    } else if (nHeight < 49999) {
+        CoinAmount = static_cast<int64_t>(30 * COIN);
+    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= (1 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(30 * COIN);
+    } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(24 * COIN);
+    } else if (nHeight > (2 * DropTime) && nHeight <= (3 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(18 * COIN);
+    } else if (nHeight > (3 * DropTime) && nHeight <= (4 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(12 * COIN);
+    } else if (nHeight > (4 * DropTime) && nHeight <= (5 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(8 * COIN);
+    } else if (nHeight > (5 * DropTime) && nHeight <= (6 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(6 * COIN);
     } else {
-        return static_cast<int64_t>(30 * COIN);
+        CoinAmount = static_cast<int64_t>(4 * COIN);
     }
-    return static_cast<int64_t>(30 * COIN);
+    return CoinAmount;
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount, bool isZPIVStake)
@@ -1839,24 +1850,24 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     int64_t ret = 0;
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 200) {
+        if (nHeight < 5000) {
             return 0;
-	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 200) {
-	    ret = blockValue / 10;
+	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 5000) {
+	    ret = blockValue / 2;
 	} else {
-	    ret = blockValue / 10;
+	    ret = blockValue / 2;
 	}
     }
 
-    if (nHeight <= 200) {
+    if (nHeight <= 5000) {
         ret = 0;
-    } else if (nHeight > 200) {
-        ret = blockValue / (100 / 50);
+    } else if (nHeight > 5000) {
+        ret = blockValue / 2;
     } else {
-        //When zPIV is staked, masternode gets 15 LYTX
-        ret = 15 * COIN;
+        //When zPIV is staked, masternode gets 2 LYTX
+        ret = 2 * COIN;
         if (isZPIVStake)
-            ret = 15 * COIN;
+            ret = 2 * COIN;
     }
 
     return ret;
