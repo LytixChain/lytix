@@ -10,13 +10,13 @@ It will be Proof of Stake after a 500,000 block Proof of Work period with master
 
 ------------------------
 
-5000 LYTX for Masternodes
+2500 LYTX for Masternodes
 
-500,000 Proof of Work burn in until PoS
+50,000 Proof of Work burn in until PoS
 
 50% reward to PoW/PoS 50% reward to Masternodes
 
-30 LYTX reward forever
+15 LYTX reward forever - 15 PoS / 15 Masternodes
 
 15 confirmations maturity for mined or staked rewards
 
