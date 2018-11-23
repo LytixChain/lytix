@@ -1814,9 +1814,9 @@ int64_t GetBlockValue(int nHeight)
 {
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         // set testnet PoW period reward
-        if (nHeight < 49999) {
+        if (nHeight < 19999) {
             return static_cast<int64_t>(30 * COIN);
-        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 49999) {
+        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 19999) {
             return static_cast<int64_t>(30 * COIN);
         } else {
             return static_cast<int64_t>(30 * COIN);
