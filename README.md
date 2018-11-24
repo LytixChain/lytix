@@ -27,3 +27,5 @@ It will be Proof of Stake after a 50,000 block Proof of Work period with mastern
 15 confirmations maturity for mined or staked rewards
 
 -------------------------
+
+Discord relaunch - https://discord.gg/CZfZ7Ex
