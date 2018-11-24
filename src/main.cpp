@@ -1830,8 +1830,10 @@ int64_t GetBlockValue(int nHeight)
     int64_t DropTime = 540000;
     int64_t LAST_POW_BLOCK = 20000;
     if (nHeight == 1) {
-	CoinAmount = static_cast<int64_t>(2300000 * COIN);   
-    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= (1 * DropTime)) {
+	CoinAmount = static_cast<int64_t>(800000 * COIN);   
+    } else if ( nHeight > 1 && nHeight <= Params().LAST_POW_BLOCK()) {
+        CoinAmount = static_cast<int64_t>(30 * COIN);
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight >= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
     } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
         CoinAmount = static_cast<int64_t>(24 * COIN);
