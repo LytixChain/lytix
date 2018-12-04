@@ -184,7 +184,7 @@ public:
         nLastPOWBlock = 500000; //  1 per minute  - 14 days @ 1440 per day
         //if the lowest block height (vSortedByTimestamp[0]) is >= switch height, use new modifier calc
         // nModifierUpdateBlock = 0; // (PIVX: 615800)
-        nZerocoinStartHeight = 50000; // (PIVX: 863787, Phore 90000)
+        nZerocoinStartHeight = 1; // (PIVX: 863787, Phore 90000)
         nZerocoinStartTime = 1543334010; //  Tuesday, November 27, 2018 3:53:30 PM
         // nBlockEnforceSerialRange = 90003; //Enforce serial range starting this block (Phore 90003)
         nBlockRecalculateAccumulators = 71000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
@@ -192,7 +192,7 @@ public:
         nBlockLastGoodCheckpoint = 71005; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
         // nBlockEnforceInvalidUTXO = 0; // (PIVX: 902850) //Start enforcing the invalid UTXO's
         // nInvalidAmountFiltered = 268200*COIN; // (PIVX: 268200) //Amount of invalid coins filtered through exchanges, that should be considered valid
-        nBlockZerocoinV2 = 1001001; // (PIVX: 1153160) //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
+        nBlockZerocoinV2 = 1000; // (PIVX: 1153160) //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
         nEnforceNewSporkKey = 1525158000; // (PIVX: 1525158000) //!> Sporks signed after (GMT): Tuesday, May 1, 2018 7:00:00 AM GMT must use the new spork key
         nRejectOldSporkKey = 1527811200; // (PIVX: 1527811200) //!> Fully reject old spork key after (GMT): Friday, June 1, 2018 12:00:00 AM
 
@@ -333,7 +333,7 @@ public:
         nMasternodeCountDrift = 2;
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 100000000 * COIN;
-        nZerocoinStartHeight = 500;
+        nZerocoinStartHeight = 1;
         nZerocoinStartTime = 1530801782;
         // nBlockEnforceSerialRange = 0; //Enforce serial range starting this block
         nBlockRecalculateAccumulators = 999999999; //Trigger a recalculation of accumulators
