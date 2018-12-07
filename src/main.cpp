@@ -1825,13 +1825,16 @@ int64_t GetBlockValue(int nHeight)
     }
 
     // Block value is reduced every 540,000 blocks
-    // Premine 1,500,000 + Prev AirDrop 11/2018 800,000
+    // Prev AirDrop 11/2018 + 2500 bonus 643,000
+    // Reduced reward to start chain
     int64_t CoinAmount = 0;
     int64_t DropTime = 540000;
     int64_t LAST_POW_BLOCK = 500000;
     if (nHeight == 1) {
-	CoinAmount = static_cast<int64_t>(800000 * COIN);   
-    } else if ( nHeight > 1 && nHeight <= Params().LAST_POW_BLOCK()) {
+	CoinAmount = static_cast<int64_t>(643000 * COIN);   
+    } else if ( nHeight > 1 && nHeight <= 50) {
+        CoinAmount = static_cast<int64_t>(1 * COIN);
+    } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight >= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
