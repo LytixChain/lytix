@@ -7,7 +7,7 @@ Lytix is an open source crypto-currency focused on fast private transactions wit
 
 If the date changes I will notify everyone. Please note that everyone that had a balance during the first release will get an airdrop on re-release plus some extra to cover the trouble and lost time during the first try.
 
-It will be Proof of Stake after a 50,000 block Proof of Work period with masternodes. After 50,000 staked wallets will help support the network. 
+It will be Proof of Stake after a 500,000 block Proof of Work period with masternodes. After 500,000 staked wallets will help support the network. 
 
 
 ------------------------
@@ -19,19 +19,19 @@ It will be Proof of Stake after a 50,000 block Proof of Work period with mastern
 50% reward to PoW/PoS 50% reward to Masternodes
 
 30 LYTX reward until 540,000 - 15 PoS / 15 Masternodes
-	24 until 1080000
-	18 until 1620000
-	12 until 2160000
-	 8 until 2700000
-	 6 until 3240000
-	 4 from then on 
+- 24 until 1080000
+- 18 until 1620000
+- 12 until 2160000
+- 8 until 2700000
+- 6 until 3240000
+- 4 from then on 
 
 15 confirmations maturity for mined or staked rewards
 
 -------------------------
 
-Discord relaunch - https://discord.gg/CZfZ7Ex
-Website - http://www.lytixchain.org
-Block Explorer - http://lytixchain.org:8001
-Twitter - https://twitter.com/ChainLytix
+- Discord relaunch - https://discord.gg/CZfZ7Ex
+- Website - http://www.lytixchain.org
+- Block Explorer - http://lytixchain.org:8001
+- Twitter - https://twitter.com/ChainLytix
 
