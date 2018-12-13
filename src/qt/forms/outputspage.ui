@@ -49,7 +49,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../phore.qrc"/>
+  <include location="../lytix.qrc"/>
  </resources>
  <connections/>
 </ui>
