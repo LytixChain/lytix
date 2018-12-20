@@ -244,10 +244,6 @@ public:
 
         vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns05", "dnsseed05.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns06", "dnsseed06.lytixchain.org"));
 
 
         // Lytix addresses start with '8 or 9'
@@ -393,10 +389,6 @@ public:
         vSeeds.clear();
         vSeeds.push_back(CDNSSeedData("dns01", "dnsseed01.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns02", "dnsseed02.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns03", "dnsseed03.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns04", "dnsseed04.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns05", "dnsseed05.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns06", "dnsseed06.lytixchain.org"));
 
 
         // Testnet Lytix addresses start with 'X'
