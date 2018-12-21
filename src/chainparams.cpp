@@ -200,7 +200,7 @@ public:
         genesis = CreateGenesisBlock(
                     1544199012,                          // nTime
                     92065,                               // nNonce
-                    0x1e0ffff0,                          // nBits
+                    0x207fffff,                          // nBits
                     3,                                   // nVersion
                    treasuryDeposit,                      // genesisReward (treasury deposit)
                    "8eqCEt9zBB8VvLansnFWSeo1bD4dUeeJQm",  // first NEW treasury address
@@ -346,7 +346,7 @@ public:
         genesis = CreateGenesisBlock(
                     1544199012,                          // nTime
                     822163,                              // nNonce
-                    0x1e0ffff0,                          // nBits
+                    0x207fffff,                          // nBits
                     3,                                   // nVersion
                     treasuryDeposit,                     // genesisReward (treasury deposit)
                    "msYBKKuARmcmMHmzMGxc8j8XYi8bqEeBJr", // first treasury address
