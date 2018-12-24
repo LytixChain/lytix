@@ -1425,6 +1425,8 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
                 hash.ToString(),
                 nFees, ::minRelayTxFee.GetFee(nSize) * 10000);
 
+	bool fCLTVHasMajority = CBlockIndex::IsSuperMajority(5, chainActive.Tip(), Params().EnforceBlockUpgradeMajority());
+
         // Check against previous transactions
         // This is done last to help prevent CPU exhaustion denial-of-service attacks.
         if (!CheckInputs(tx, state, view, true, STANDARD_SCRIPT_VERIFY_FLAGS, true)) {
@@ -1628,6 +1630,8 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransact
                 hash.ToString(),
                 nFees, ::minRelayTxFee.GetFee(nSize) * 10000);
 
+	bool fCLTVHasMajority = CBlockIndex::IsSuperMajority(5, chainActive.Tip(), Params().EnforceBlockUpgradeMajority());
+
         // Check against previous transactions
         // This is done last to help prevent CPU exhaustion denial-of-service attacks.
         if (!CheckInputs(tx, state, view, false, STANDARD_SCRIPT_VERIFY_FLAGS, true)) {
@@ -1820,21 +1824,36 @@ int64_t GetBlockValue(int nHeight)
 
     }
 
-    //int64_t nSubsidy = 0;
-    if (nHeight == 0) {
-        // Mint the ledger total (minus treasury deposit) for disbursal
-	//nSubsidy = (ledgerTotal - treasuryDeposit); // (8891432 * COIN) - (432870.87949961 * COIN)
-    } else if (nHeight < 9999) {
-        return static_cast<int64_t>(30 * COIN);
-    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 9999) {
-        return static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK()) {
-        return static_cast<int64_t>(30 * COIN);
+    // Block value is reduced every 540,000 blocks
+    // Prev AirDrop 11/2018 + 2500 bonus 643,000
+    // Reduced reward to start chain
+    int64_t CoinAmount = 0;
+    int64_t DropTime = 540000;
+    int64_t LAST_POW_BLOCK = 500000;
+    if (nHeight == 1) {
+        CoinAmount = static_cast<int64_t>(643000 * COIN);
+    } else if ( nHeight > 1 && nHeight <= 50) {
+        CoinAmount = static_cast<int64_t>(1 * COIN);
+    } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
+        CoinAmount = static_cast<int64_t>(30 * COIN);
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight >= (1 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(30 * COIN);
+    } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(24 * COIN);
+    } else if (nHeight > (2 * DropTime) && nHeight <= (3 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(18 * COIN);
+    } else if (nHeight > (3 * DropTime) && nHeight <= (4 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(12 * COIN);
+    } else if (nHeight > (4 * DropTime) && nHeight <= (5 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(8 * COIN);
+    } else if (nHeight > (5 * DropTime) && nHeight <= (6 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(6 * COIN);
     } else {
-        return static_cast<int64_t>(30 * COIN);
+        CoinAmount = static_cast<int64_t>(4 * COIN);
     }
-    return static_cast<int64_t>(30 * COIN);
+    return CoinAmount;
 }
+
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount, bool isZPIVStake)
 {
