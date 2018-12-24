@@ -161,10 +161,6 @@ TransactionView::TransactionView(QWidget* parent) : QWidget(parent), model(0), t
     QAction* copyTxIDAction = new QAction(tr("Copy transaction ID"), this);
     QAction* editLabelAction = new QAction(tr("Edit label"), this);
     QAction* showDetailsAction = new QAction(tr("Show transaction details"), this);
-    hideOrphansAction = new QAction(tr("Hide orphan stakes"), this);
-
-    hideOrphansAction->setCheckable(true);
-    hideOrphansAction->setChecked(settings.value("fHideOrphans", false).toBool());
 
     contextMenu = new QMenu();
     contextMenu->addAction(copyAddressAction);
@@ -173,7 +169,6 @@ TransactionView::TransactionView(QWidget* parent) : QWidget(parent), model(0), t
     contextMenu->addAction(copyTxIDAction);
     contextMenu->addAction(editLabelAction);
     contextMenu->addAction(showDetailsAction);
-    contextMenu->addAction(hideOrphansAction);
 
     mapperThirdPartyTxUrls = new QSignalMapper(this);
 
@@ -196,7 +191,6 @@ TransactionView::TransactionView(QWidget* parent) : QWidget(parent), model(0), t
     connect(copyTxIDAction, SIGNAL(triggered()), this, SLOT(copyTxID()));
     connect(editLabelAction, SIGNAL(triggered()), this, SLOT(editLabel()));
     connect(showDetailsAction, SIGNAL(triggered()), this, SLOT(showDetails()));
-    connect(hideOrphansAction, SIGNAL(toggled(bool)), this, SLOT(updateHideOrphans(bool)));
 }
 
 void TransactionView::setModel(WalletModel* model)
@@ -246,8 +240,6 @@ void TransactionView::setModel(WalletModel* model)
                     mapperThirdPartyTxUrls->setMapping(thirdPartyTxUrlAction, listUrls[i].trimmed());
                 }
             }
-
-            connect(model->getOptionsModel(), SIGNAL(hideOrphansChanged(bool)), this, SLOT(updateHideOrphans(bool)));
         }
 
         // show/hide column Watch-only
@@ -323,28 +315,6 @@ void TransactionView::chooseType(int idx)
     // Persist settings
     QSettings settings;
     settings.setValue("transactionType", idx);
-}
-
-void TransactionView::hideOrphans(bool fHide)
-{
-    if (!transactionProxyModel)
-        return;
-    transactionProxyModel->setHideOrphans(fHide);
-}
-
-void TransactionView::updateHideOrphans(bool fHide)
-{
-    QSettings settings;
-    if (settings.value("fHideOrphans", false).toBool() != fHide) {
-        settings.setValue("fHideOrphans", fHide);
-        if (model && model->getOptionsModel())
-            emit model->getOptionsModel()->hideOrphansChanged(fHide);
-    }
-    hideOrphans(fHide);
-    // retain consistency with other checkboxes
-    if (hideOrphansAction->isChecked() != fHide)
-        hideOrphansAction->setChecked(fHide);
-
 }
 
 void TransactionView::chooseWatchonly(int idx)
