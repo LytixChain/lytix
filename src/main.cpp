@@ -1813,15 +1813,35 @@ double ConvertBitsToDouble(unsigned int nBits)
 int64_t GetBlockValue(int nHeight)
 {
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        // set testnet PoW period reward
-        if (nHeight < 9999) {
-            return static_cast<int64_t>(30 * COIN);
-        } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 9999) {
-            return static_cast<int64_t>(30 * COIN);
-        } else {
-            return static_cast<int64_t>(30 * COIN);
-        }
 
+    // Block value is reduced every 540,000 blocks
+    // Prev AirDrop 11/2018 + 2500 bonus 643,000
+    // Reduced reward to start chain
+    int64_t CoinAmount = 0;
+    int64_t DropTime = 540000;
+    int64_t LAST_POW_BLOCK = 500000;
+    if (nHeight == 1) {
+        CoinAmount = static_cast<int64_t>(643000 * COIN);
+    } else if ( nHeight > 1 && nHeight <= 50) {
+        CoinAmount = static_cast<int64_t>(1 * COIN);
+    } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
+        CoinAmount = static_cast<int64_t>(30 * COIN);
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight >= (1 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(30 * COIN);
+    } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(24 * COIN);
+    } else if (nHeight > (2 * DropTime) && nHeight <= (3 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(18 * COIN);
+    } else if (nHeight > (3 * DropTime) && nHeight <= (4 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(12 * COIN);
+    } else if (nHeight > (4 * DropTime) && nHeight <= (5 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(8 * COIN);
+    } else if (nHeight > (5 * DropTime) && nHeight <= (6 * DropTime)) {
+        CoinAmount = static_cast<int64_t>(6 * COIN);
+    } else {
+        CoinAmount = static_cast<int64_t>(4 * COIN);
+    }
+    return CoinAmount;
     }
 
     // Block value is reduced every 540,000 blocks
