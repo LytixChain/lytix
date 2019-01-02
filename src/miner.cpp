@@ -116,28 +116,16 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
     if (Params().MineBlocksOnDemand())
         pblock->nVersion = static_cast<int32_t>(GetArg("-blockversion", pblock->nVersion));
 
-    // Make sure to create the correct block version after zerocoin is enabled
-    // disdis - 12292018 - testing rollback of version hard fork on testnet first
-    // split testnet andmainnet to test some things
+    // Changing from zerocoin to PoW switchover to move to version 4 - hard fork
+    // This is to fix the starting zerocoin at block 1 and moving to ver 4 right off
+    
     bool fZerocoinActive = GetAdjustedTime() >= Params().Zerocoin_StartTime();
     CBlockIndex* pindexPrev = chainActive.Tip();
-    const int nHeight = pindexPrev->nHeight + 1;
-    const int fblock = GetBlockValue(nHeight);
-    const int testnetPOW = 1000;
-    if (Params().NetworkID() == CBaseChainParams::TESTNET) {
 
-    	if (fblock > testnetPOW)
-        	pblock->nVersion = 4;
-    else
-        pblock->nVersion = 3;
-    }
-
-    else { if (fZerocoinActive)
-
+    if (chainActive.Height() > Params().LAST_POW_BLOCK())
         pblock->nVersion = 4;
     else
         pblock->nVersion = 3;
-	}
 
     // Create coinbase tx
     CMutableTransaction txNew;
