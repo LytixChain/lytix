@@ -7,14 +7,14 @@ Lytix is an open source crypto-currency focused on fast private transactions wit
 
 If the date changes I will notify everyone. Please note that everyone that had a balance during the first release will get an airdrop on re-release plus some extra to cover the trouble and lost time during the first try.
 
-It will be Proof of Stake after a 500,000 block Proof of Work period with masternodes. After 500,000 staked wallets will help support the network. 
+It will be Proof of Stake after a 100,000 block Proof of Work period with masternodes. After 100,000 staked wallets will help support the network. 
 
 
 ------------------------
 
 5,000 LYTX for Masternodes
 
-500,000 Proof of Work burn in until PoS
+100,000 Proof of Work burn in until PoS
 
 50% reward to PoW/PoS 50% reward to Masternodes
 
@@ -27,7 +27,7 @@ It will be Proof of Stake after a 500,000 block Proof of Work period with master
 - 4 from then on 
 
 15 confirmations maturity for mined or staked rewards
-ZeroCoin begins at block 500,001
+ZeroCoin begins at block 150,000
 
 -------------------------
 
