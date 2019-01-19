@@ -116,13 +116,9 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
     if (Params().MineBlocksOnDemand())
         pblock->nVersion = static_cast<int32_t>(GetArg("-blockversion", pblock->nVersion));
 
-    // Changing from zerocoin to PoW switchover to move to version 4 - hard fork
-    // This is to fix the starting zerocoin at block 1 and moving to ver 4 right off
-    
+    // Make sure to create the correct block version after zerocoin is enabled
     bool fZerocoinActive = GetAdjustedTime() >= Params().Zerocoin_StartTime();
-    CBlockIndex* pindexPrev = chainActive.Tip();
-
-    if (chainActive.Height() > Params().LAST_POW_BLOCK())
+    if (fZerocoinActive)
         pblock->nVersion = 4;
     else
         pblock->nVersion = 3;
