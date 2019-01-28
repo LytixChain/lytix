@@ -1,7 +1,8 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018 The Lytix developers
+// Copyright (c) 2018 The Phore developers
+// Copyright (c) 2019 The Lytix developers
 
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -400,7 +401,11 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     proposalAction->setStatusTip(tr("Browse proposals"));
     proposalAction->setToolTip(proposalAction->statusTip());
     proposalAction->setCheckable(true);
+#ifdef Q_OS_MAC
     proposalAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
+#else    
+    proposalAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+#endif
     tabGroup->addAction(proposalAction);
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
