@@ -1,25 +1,27 @@
-#!/sbin/runscript
+#!/sbin/openrc-run
 
 # backward compatibility for existing gentoo layout
 #
-if [ -d "/var/lib/pivx/.pivx" ]; then
-	BITCOIND_DEFAULT_DATADIR="/var/lib/pivx/.pivx"
+if [ -d "/var/lib/lytix/.lytix" ]; then
+	BITCOIND_DEFAULT_DATADIR="/var/lib/lytix/.lytix"
 else
-	BITCOIND_DEFAULT_DATADIR="/var/lib/pivxd"
+	BITCOIND_DEFAULT_DATADIR="/var/lib/lytix"
 fi
 
-BITCOIND_CONFIGFILE=${BITCOIND_CONFIGFILE:-/etc/pivx/pivx.conf}
-BITCOIND_PIDDIR=${BITCOIND_PIDDIR:-/var/run/pivxd}
-BITCOIND_PIDFILE=${BITCOIND_PIDFILE:-${BITCOIND_PIDDIR}/pivxd.pid}
+BITCOIND_CONFIGFILE=${BITCOIND_CONFIGFILE:-/etc/lytix/lytix.conf}
+BITCOIND_PIDDIR=${BITCOIND_PIDDIR:-/var/run/lytixd}
+BITCOIND_PIDFILE=${BITCOIND_PIDFILE:-${BITCOIND_PIDDIR}/lytixd.pid}
 BITCOIND_DATADIR=${BITCOIND_DATADIR:-${BITCOIND_DEFAULT_DATADIR}}
-BITCOIND_USER=${BITCOIND_USER:-pivx}
-BITCOIND_GROUP=${BITCOIND_GROUP:-pivx}
-BITCOIND_BIN=${BITCOIND_BIN:-/usr/bin/pivxd}
+BITCOIND_USER=${BITCOIND_USER:-${BITCOIN_USER:-lytix}}
+BITCOIND_GROUP=${BITCOIND_GROUP:-lytix}
+BITCOIND_BIN=${BITCOIND_BIN:-/usr/bin/lytixd}
+BITCOIND_NICE=${BITCOIND_NICE:-${NICELEVEL:-0}}
+BITCOIND_OPTS="${BITCOIND_OPTS:-${BITCOIN_OPTS}}"
 
 name="PIVX Core Daemon"
 description="PIVX crypto-currency p2p network daemon"
 
-command="/usr/bin/pivxd"
+command="/usr/bin/lytixd"
 command_args="-pid=\"${BITCOIND_PIDFILE}\" \
 		-conf=\"${BITCOIND_CONFIGFILE}\" \
 		-datadir=\"${BITCOIND_DATADIR}\" \
@@ -28,9 +30,14 @@ command_args="-pid=\"${BITCOIND_PIDFILE}\" \
 
 required_files="${BITCOIND_CONFIGFILE}"
 start_stop_daemon_args="-u ${BITCOIND_USER} \
-			-N ${BITCOIND_NICE:-0} -w 2000"
+			-N ${BITCOIND_NICE} -w 2000"
 pidfile="${BITCOIND_PIDFILE}"
-retry=60
+
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${BITCOIND_SIGTERM_TIMEOUT}"
 
 depend() {
 	need localmount net
@@ -65,7 +72,7 @@ checkconfig()
 {
 	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
 		eerror ""
-		eerror "ERROR: You must set a secure rpcpassword to run pivxd."
+		eerror "ERROR: You must set a secure rpcpassword to run lytixd."
 		eerror "The setting must appear in ${BITCOIND_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "
@@ -75,7 +82,7 @@ checkconfig()
 		eerror ""
 		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
 		eerror ""
-		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "It is recommended that you also set alertnotify so you are "
 		eerror "notified of problems:"
 		eerror ""
 		eerror "ie: alertnotify=echo %%s | mail -s \"PIVX Alert\"" \

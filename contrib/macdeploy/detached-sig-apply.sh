@@ -1,7 +1,8 @@
 #!/bin/sh
-# Copyright (c) 2014-2015 The Bitcoin Core developers
+# Copyright (c) 2014-2017 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
+export LC_ALL=C
 
 set -e
 
@@ -9,7 +10,6 @@ UNSIGNED="$1"
 SIGNATURE="$2"
 ARCH=x86_64
 ROOTDIR=dist
-BUNDLE=${ROOTDIR}/Lytix-Qt.app
 TEMPDIR=signed.temp
 OUTDIR=signed-app
 
