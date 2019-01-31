@@ -190,7 +190,7 @@ public:
         nZerocoinStartHeight = 150000; // (PIVX: 863787, Phore 90000)
         nZerocoinStartTime = 1543334010; //  Tuesday, November 27, 2018 3:53:30 PM
         // nBlockEnforceSerialRange = 90003; //Enforce serial range starting this block (Phore 90003)
-        nBlockRecalculateAccumulators = 71000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
+        nBlockRecalculateAccumulators = 710000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
         // nBlockFirstFraudulent = 90002; // (PIVX: 908000, Phore 90002) //First block that bad serials emerged
         nBlockLastGoodCheckpoint = 30000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
         // nBlockEnforceInvalidUTXO = 0; // (PIVX: 902850) //Start enforcing the invalid UTXO's
