@@ -2942,12 +2942,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     }
 
     //A one-time event where money supply counts were off and recalculated on a certain block.
- /*   if (pindex->nHeight == Params().Zerocoin_Block_RecalculateAccumulators() + 1) {
+    if (pindex->nHeight == Params().Zerocoin_Block_RecalculateAccumulators() + 1) {
         RecalculateZPIVMinted();
         RecalculateZPIVSpent();
         RecalculatePIVSupply(Params().Zerocoin_StartHeight());
     }
-*/
+
     //Track zPIV money supply in the block index
     if (!UpdateZPIVSupply(block, pindex))
         return state.DoS(100, error("%s: Failed to calculate new zLYTX supply for block=%s height=%d", __func__,
