@@ -124,6 +124,7 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
+    addWidget(privacyPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
     addWidget(explorerWindow);
