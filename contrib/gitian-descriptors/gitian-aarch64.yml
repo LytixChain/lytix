@@ -1,5 +1,5 @@
 ---
-name: "lytix-aarch64-1.7.2"
+name: "lytix-aarch64-1.7.3"
 enable_cache: true
 suites:
 - "xenial"
