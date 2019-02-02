@@ -172,7 +172,7 @@ public:
         nDefaultPort = 27071;
         bnProofOfWorkLimit = ~uint256(0) >> 20; // Lytix starting difficulty is 1 / 2^12
         nSubsidyHalvingInterval = 210240;
-        nMaxReorganizationDepth = 100;
+        nMaxReorganizationDepth = 1000;
         nEnforceBlockUpgradeMajority = 750;
         nRejectBlockOutdatedMajority = 950;
         nToCheckBlockUpgradeMajority = 1000;
