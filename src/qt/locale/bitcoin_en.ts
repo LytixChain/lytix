@@ -6438,9 +6438,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Lytix Alert&quot; admin@foo.co
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Copyright (C) 2015-%i The Lytix Core Developers</source>
-        <translation type="unfinished"></translation>
+        <source>Copyright (C) 2015-%i The PIVX Core Developers</source>
+        <translation>Copyright (C) 2015-%i The PIVX Core Developers</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2018-%i The Lytix Core Developers</source>
+        <translation>Copyright (C) 2018-%i The Lytix Core Developers</translation>
     </message>
     <message>
         <location line="+1"/>

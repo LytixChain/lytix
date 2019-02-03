@@ -3103,8 +3103,12 @@ https://www.transifex.com/lytix-project/lytix-project-translations</translation>
         <translation>Copyright (C) 2014-%i Разработчики Dash Core</translation>
     </message>
     <message>
-        <source>Copyright (C) 2015-%i The Lytix Core Developers</source>
-        <translation>Copyright (C) 2015-%i Разработчики Lytix Core</translation>
+        <source>Copyright (C) 2015-%i The PIVX Core Developers</source>
+        <translation>Copyright (C) 2015-%i The PIVX Core Developers</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2018-%i The Lytix Core Developers</source>
+        <translation>Copyright (C) 2018-%i The Lytix Core Developers</translation>
     </message>
     <message>
         <source>Corrupted block database detected</source>
