@@ -39,6 +39,7 @@ padding:0;
 
 QStatusBar {
 background-color:#ffffff;
+    padding-left:4px;
 }
 
 .QFrame {
@@ -73,7 +74,7 @@ color:#333;
 }
 
 QToolBar {
-background-color: qlineargradient(y1:0, y2: 1, stop: 0 #0c0c0c, stop: 0.75 #0c0c0c, stop: 0.99 #ffffff, stop: 1 #ffffff);
+background-color: #000000;
 border:0px solid #333;
 padding:1;
 margin:0;
@@ -81,19 +82,19 @@ width: 70px;
 }
 
 QToolBar > QToolButton {
-Alignment: left;
-background-color: #0c0c0c;
-selection-background-color:transparent;
-border:0.5px solid #888;
-border-left: 0px;
-border-right: 0px;
-border-top: 0px;
-min-height:2.5em;
-padding: 0em 0em;
-font-size: 11px;
-color:#aaa;
-width: 80px;
-height: 60px;
+        background-color: transparent;
+        border: 0px solid #333;
+        min-height: 2.75em;
+        /* padding: 0em 1em; */
+        font-weight: 100;
+        color: #747c83;
+        width: 100%;
+        opacity: 0.75;
+        padding: 6px 0 6px;
+        box-sizing: border-box;
+        border-right: 3px solid transparent;
+        margin-bottom: 18px;
+        /* border-image: url(':/images/downArrow') 0 0 0 0 stretch stretch; */
 }
 
 QToolBar > QToolButton:checked {
@@ -178,7 +179,7 @@ color:#333;
 /****************************************************************************************/
 
 QLabel { /* Base Text Size & Color */
-font-size:12px;
+font-size:14px;
 color:#333333;
 }
 
@@ -194,7 +195,7 @@ color:#333333;
 }
 
 .QValidatedLineEdit, .QLineEdit, .QTextEdit { /* Text Entry Fields */
-font-size:12px;
+font-size:14px;
 min-height:25px;
 outline:0;
 padding:3px;
@@ -418,7 +419,7 @@ background-color: #1b1b1c;
 color:#fff;
 min-height:25px;
 font-weight:bold;
-font-size:11px;
+font-size:14px;
 border:0;
 border-right:1px solid #fff;
 padding-left:5px;
@@ -917,7 +918,7 @@ border:1px solid #0c0c0c;
 /* Headers */
 QLabel#labelOverviewHeaderLeft {
 font-weight:bold;
-font-size:20px;
+font-size:30px;
 background-color:#ffffff;
 }
 
@@ -946,7 +947,8 @@ background-color:#f8f6f6;
 
 QWidget .QFrame#frame_Content { /* Actual Content */
 min-width:400px;
-background-color:#f8f6f6;
+/* background-color:#f8f6f6; */
+background-color:#ffffff;
 }
 
 QWidget .QFrame#frame_Balances { /* Upper left side */
