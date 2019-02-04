@@ -248,6 +248,7 @@ public:
         vSeeds.push_back(CDNSSeedData("dns7", "45.76.235.177"));
         vSeeds.push_back(CDNSSeedData("dns8", "66.42.81.206"));
         vSeeds.push_back(CDNSSeedData("dns9", "144.202.12.36"));
+        vSeeds.push_back(CDNSSeedData("dnsv6", "2001:19f0:6401:dbd:5400:01ff:fe9a:0628"));
 
 
         // Lytix addresses start with '8 or 9'
@@ -394,6 +395,7 @@ public:
 
         vSeeds.push_back(CDNSSeedData("dns2", "dns2.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns3", "dns3.lytixchain.org"));
+	vSeeds.push_back(CDNSSeedData("dnsv6", "2001:19f0:6401:dbd:5400:01ff:fe9a:0628"));
 
         // Testnet Lytix addresses start with 'X'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,30);
