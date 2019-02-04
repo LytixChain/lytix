@@ -927,6 +927,7 @@ CAmount CBudgetManager::GetTotalBudget(int nHeight)
         return 0 * COIN;
     } else {
        // Total budget is based on 10% of block reward for a 30 day period (using 1 minutes per) = (60*24*30)
+       // should be 1440 * 30 *0.3 (LYTX reward for a while) = 129,600 LYTX
        return ((nSubsidy / 100) * 7.2) * 60 * 24 * 30;
     }
 }
