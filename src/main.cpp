@@ -5607,7 +5607,13 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         }
 
 	// Banned versions moving forward - Chain switch at 1.3
-	if (pfrom->cleanSubVer == "/Lytix Core:1.2.2/" ||
+	if (pfrom->cleanSubVer == "/Lytix Core:1.7.1/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.7.0/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.6.3/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.6.2/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.6.1/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.6.0/" ||
+            pfrom->cleanSubVer == "/Lytix Core:1.5.7/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.2.1/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.2.0/" ||
             pfrom->cleanSubVer == "/Lytix Core:1.0.1/") {
