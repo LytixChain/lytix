@@ -18,6 +18,7 @@
 #include <vector>
 
 #define MASTERNODE_COLLATERAL_AMOUNT 5000
+#define MAXNODE_COLLATERAL_AMOUNT 50000
 
 typedef unsigned char MessageStartChars[MESSAGE_START_SIZE];
 
