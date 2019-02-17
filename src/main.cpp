@@ -1906,7 +1906,7 @@ int64_t GetBlockValue(int nHeight)
     int64_t CoinAmount = 0;
     int64_t DropTime = 540000;
     //Pulls from chainparams.cpp LAST_POW_BLOCK here for reference
-    //int64_t LAST_POW_BLOCK = 100000;
+    //int64_t LAST_POW_BLOCK = 1000;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(643000 * COIN);
     } else if ( nHeight > 1 && nHeight <= 50) {
