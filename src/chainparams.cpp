@@ -328,12 +328,12 @@ public:
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
         nTargetSpacing = 60;  // Lytix: 1 minute
-        nLastPOWBlock = 1000;
+        nLastPOWBlock = 500;
         nMaturity = 15;
         nMasternodeCountDrift = 2;
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 100000000 * COIN;
-        nZerocoinStartHeight = 1;
+        nZerocoinStartHeight = 10000;
         nZerocoinStartTime = 1530801782;
         // nBlockEnforceSerialRange = 0; //Enforce serial range starting this block
         nBlockRecalculateAccumulators = 999999999; //Trigger a recalculation of accumulators
@@ -341,7 +341,7 @@ public:
         nBlockLastGoodCheckpoint = 999999999; //Last valid accumulator checkpoint
         // nBlockEnforceInvalidUTXO = 0; //Start enforcing the invalid UTXO's
         // nInvalidAmountFiltered = 0; //Amount of invalid coins filtered through exchanges, that should be considered valid
-        nBlockZerocoinV2 = 10000; //!> The block that zerocoin v2 becomes active
+        nBlockZerocoinV2 = 50000; //!> The block that zerocoin v2 becomes active
         nEnforceNewSporkKey = 1544199012; //!> Sporks signed after Wednesday, March 21, 2018 4:00:00 AM GMT must use the new spork key
         nRejectOldSporkKey = 1544199012; //!> Reject old spork key after Saturday, March 31, 2018 12:00:00 AM GMT
 
@@ -393,7 +393,6 @@ public:
 
         vSeeds.push_back(CDNSSeedData("dns2", "dns2.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns3", "dns3.lytixchain.org"));
-	vSeeds.push_back(CDNSSeedData("dnsv6", "2001:19f0:6401:dbd:5400:01ff:fe9a:0628"));
 
         // Testnet Lytix addresses start with 'X'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,30);

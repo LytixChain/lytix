@@ -1967,9 +1967,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     int64_t ret = 0;
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 499) {
+        if (nHeight < 49) {
             return 0;
-	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 499) {
+	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 49) {
 	    ret = blockValue / 10;
 	} else {
 	    ret = blockValue / 10;
