@@ -1903,6 +1903,7 @@ int64_t GetBlockValue(int nHeight)
     // Block value is reduced every 540,000 blocks
     // Prev AirDrop 11/2018 + 2500 bonus 643,000
     // Reduced reward to start chain
+    // Added 100 LYTX reward after mishap with PoS transition logic
     int64_t CoinAmount = 0;
     int64_t DropTime = 540000;
     //Pulls from chainparams.cpp LAST_POW_BLOCK here for reference
@@ -1913,7 +1914,7 @@ int64_t GetBlockValue(int nHeight)
         CoinAmount = static_cast<int64_t>(1 * COIN);
     } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= (550)) {
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 550) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
     } else if (nHeight > 550 && nHeight <= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
@@ -1936,6 +1937,7 @@ int64_t GetBlockValue(int nHeight)
     // Block value is reduced every 540,000 blocks
     // Prev AirDrop 11/2018 + 2500 bonus 643,000
     // Reduced reward to start chain
+    // Added 100 LYTX reward after mishap with PoS transition logic
     int64_t CoinAmount = 0;
     int64_t DropTime = 540000;
     //int64_t LAST_POW_BLOCK = 100000;
@@ -5585,7 +5587,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         bool fMissingSporks = !pSporkDB->SporkExists(SPORK_14_NEW_PROTOCOL_ENFORCEMENT) &&
                 !pSporkDB->SporkExists(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2) &&
                 !pSporkDB->SporkExists(SPORK_16_ZEROCOIN_MAINTENANCE_MODE) &&
-		!pSporkDB->SporkExists(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3);
+		!pSporkDB->SporkExists(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3) &&
+		!pSporkDB->SporkExists(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4);
 
         if (fMissingSporks || !fRequestedSporksIDB){
             LogPrintf("asking peer for sporks\n");
@@ -6440,6 +6443,11 @@ int ActiveProtocol()
     // SPORK_17 was used for 71031 (v1.7.0+)
     if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
             return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
+
+    // SPORK_17 was used for 71032 (v1.7.4)
+    if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
+            return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
+
 
     return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
 }
