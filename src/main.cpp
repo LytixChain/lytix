@@ -1973,13 +1973,17 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     int64_t ret = 0;
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 49) {
-            return 0;
-	} else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 49) {
-	    ret = blockValue / 10;
-	} else {
-	    ret = blockValue / 10;
-	}
+        if (nHeight <= 49) {
+            ret = 0;
+        } else if (nHeight > 49) {
+            ret = blockValue / (100 / 50);
+        } else {
+        //When zPIV is staked, masternode only gets 20 LYTX
+            ret = 15 * COIN;
+        if (isZPIVStake)
+            ret = 20 * COIN;
+        }
+
     }
 
     if (nHeight <= 499) {
