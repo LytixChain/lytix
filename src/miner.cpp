@@ -231,7 +231,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                     //Priority = (age^6+100000)*amount - gives higher priority to zpivs that have been in mempool long
                     //and higher priority to zpivs that are large in value
                     int64_t nTimeSeen = GetAdjustedTime();
-                    double nConfs = 100000;
+                    double nConfs = 150000;
 
                     auto it = mapZerocoinspends.find(txid);
                     if (it != mapZerocoinspends.end()) {
