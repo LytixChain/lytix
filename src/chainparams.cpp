@@ -185,9 +185,9 @@ public:
         nMaxMoneyOut = 100000000 * COIN;
 
         /** Height or Time Based Activations **/
-        nLastPOWBlock = 100000; //  1 per minute  - 14 days @ 1440 per day
+        nLastPOWBlock = 99995; //  1 per minute  - 14 days @ 1440 per day
         //if the lowest block height (vSortedByTimestamp[0]) is >= switch height, use new modifier calc
-        nZerocoinStartHeight = 150000; // (PIVX: 863787, Phore 90000)
+        nZerocoinStartHeight = 1; // (PIVX: 863787, Phore 90000)
         nZerocoinStartTime = 1543334010; //  Tuesday, November 27, 2018 3:53:30 PM
         nBlockRecalculateAccumulators = 710000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
         nBlockLastGoodCheckpoint = 60000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
