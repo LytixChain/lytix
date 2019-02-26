@@ -62,11 +62,12 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     (0, uint256("0x0000028b94db22c97211ba15866bc2c9bc0daa7e9ac410a6c9660d8be19915c7"))
     (6942, uint256("0x00000010c715f94b9bfe7666f1f81b4bf20c4cb1fcd67a8c75305d6bf9372a20"))
     (30000, uint256("0x00000000c568c33cf4b881a256e779e7c73b7e326db2f603a0ce16277506baa5"))
-    (60000, uint256("0x000000000222d4eb292e05aa35b4959f0705c77520d5e3c4980172988483db36"));
+    (60000, uint256("0x000000000222d4eb292e05aa35b4959f0705c77520d5e3c4980172988483db36"))
+    (101000, uint256("0xdf8bbe946d173b8bb266ddec0195dc415baadd332dfbedd79b4668ba69893aac"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1548222450, // * UNIX timestamp of last checkpoint block
-    63275,    // * total number of transactions between genesis and last checkpoint
+    1550824088, // * UNIX timestamp of last checkpoint block
+    113590,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     1440        // * estimated number of transactions per day after checkpoint
 };
@@ -190,7 +191,7 @@ public:
         nZerocoinStartHeight = 150000; // (PIVX: 863787, Phore 90000)
         nZerocoinStartTime = 1543334010; //  Tuesday, November 27, 2018 3:53:30 PM
         nBlockRecalculateAccumulators = 710000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
-        nBlockLastGoodCheckpoint = 60000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
+        nBlockLastGoodCheckpoint = 101000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
         nBlockZerocoinV2 = 1153160; // (PIVX: 1153160) //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
         nEnforceNewSporkKey = 1544199012; // (PIVX: 1525158000) //!> Sporks signed after (GMT): Tuesday, May 1, 2018 7:00:00 AM GMT must use the new spork key
         nRejectOldSporkKey = 1544199012; // (PIVX: 1527811200) //!> Fully reject old spork key after (GMT): Friday, June 1, 2018 12:00:00 AM
