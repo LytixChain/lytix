@@ -4544,9 +4544,9 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
             mapBlockSource[pindex->GetBlockHash ()] = pfrom->GetId ();
         }
         CheckBlockIndex ();
-	    if (!ret) {
+        if (!ret) {
             // Check spamming
-            if(pfrom && GetBoolArg("-blockspamfilter", DEFAULT_BLOCK_SPAM_FILTER)) {
+            if(pindex && pfrom && GetBoolArg("-blockspamfilter", DEFAULT_BLOCK_SPAM_FILTER)) {
                 CNodeState *nodestate = State(pfrom->GetId());
 	        nodestate->nodeBlocks.onBlockReceived(pindex->nHeight);
                 bool nodeStatus = true;
