@@ -2893,9 +2893,9 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         }
 
         //Check that the block does not overmint
-        if (!IsBlockValueValid(block, nExpectedMint, pindex->nMint)) {
+        if (!IsBlockValueValid(block, nExpectedMint, pindex->pprev->nMint)) {
             return state.DoS(100, error("ConnectBlock() : reward pays too much (actual=%s vs limit=%s)",
-                                        FormatMoney(pindex->nMint), FormatMoney(nExpectedMint)),
+                                        FormatMoney(pindex->pprev->nMint), FormatMoney(nExpectedMint)),
                              REJECT_INVALID, "bad-cb-amount");
         }
     }
@@ -3077,9 +3077,11 @@ void static UpdateTip(CBlockIndex* pindexNew)
 {
     chainActive.SetTip(pindexNew);
 
-    // If turned on AutoZeromint will automatically convert PIV to zPIV
-    if (pwalletMain->isZeromintEnabled ())
-        pwalletMain->AutoZeromint ();
+#ifdef ENABLE_WALLET
+    // If turned on AutoZeromint will automatically convert LYTX to zLYTX
+    if (pwalletMain && pwalletMain->isZeromintEnabled())
+        pwalletMain->AutoZeromint();
+#endif // ENABLE_WALLET
 
     // New best block
     nTimeBestReceived = GetTime();
@@ -3984,7 +3986,6 @@ bool CheckWork(const CBlock block, CBlockIndex* const pindexPrev)
 
     unsigned int nBitsRequired = GetNextWorkRequired(pindexPrev, &block);
 
-    /* FIXME: GJH PIVX-specific value */
     if (block.IsProofOfWork() && (pindexPrev->nHeight + 1 <= 68589)) {
         double n1 = ConvertBitsToDouble(block.nBits);
         double n2 = ConvertBitsToDouble(nBitsRequired);
@@ -5577,8 +5578,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         bool fMissingSporks = !pSporkDB->SporkExists(SPORK_14_NEW_PROTOCOL_ENFORCEMENT) &&
                 !pSporkDB->SporkExists(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2) &&
                 !pSporkDB->SporkExists(SPORK_16_ZEROCOIN_MAINTENANCE_MODE) &&
-		!pSporkDB->SporkExists(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3) &&
-		!pSporkDB->SporkExists(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4);
+		!pSporkDB->SporkExists(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3);  
+		//!pSporkDB->SporkExists(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4);
 
         if (fMissingSporks || !fRequestedSporksIDB){
             LogPrintf("asking peer for sporks\n");
@@ -6406,7 +6407,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         }
     } else {
         //probably one the extensions
-        obfuScationPool.ProcessMessageObfuscation(pfrom, strCommand, vRecv);
+        //obfuScationPool.ProcessMessageObfuscation(pfrom, strCommand, vRecv);
         mnodeman.ProcessMessage(pfrom, strCommand, vRecv);
         budget.ProcessMessage(pfrom, strCommand, vRecv);
         masternodePayments.ProcessMessageMasternodePayments(pfrom, strCommand, vRecv);
@@ -6438,8 +6439,8 @@ int ActiveProtocol()
             return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
     // SPORK_17 was used for 71032 (v1.7.4)
-    if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
-            return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
+    //if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
+    //        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
 
     return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
