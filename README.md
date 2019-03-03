@@ -20,7 +20,9 @@ CPU minable only coin - mine with the wallet - no other method is supported
 
 50% reward to PoW/PoS 50% reward to Masternodes
 
-30 LYTX reward until 540,000 - 15 PoS / 15 Masternodes
+30 LYTX reward until 100000 - 15 PoS / 15 Masternodes
+- 100 until 110000
+- 30 until 540000
 - 24 until 1080000
 - 18 until 1620000
 - 12 until 2160000
