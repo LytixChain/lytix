@@ -999,14 +999,14 @@ jh_close(sph_jh_context *sc, unsigned ub, unsigned n,
 	jh_init(sc, iv);
 }
 
-/* see sph_jh.h */
+/* see sph_jh.h 0911nh*/
 void
 sph_jh224_init(void *cc)
 {
 	jh_init(cc, IV224);
 }
 
-/* see sph_jh.h */
+/* see sph_jh.h 0821ah*/
 void
 sph_jh224(void *cc, const void *data, size_t len)
 {
