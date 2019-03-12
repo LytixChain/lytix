@@ -9,7 +9,6 @@ cache:
   - depends/sdk-sources
   - $HOME/.ccache
 stages:
- #- lint
   - test
 env:
   global:
@@ -42,25 +41,12 @@ after_script:
 
 jobs:
   include:
-# lint stage
-    - stage: lint
-      env:
-      sudo: false
-      cache: false
-      language: python
-      python: '3.6'
-      install:
-        - set -o errexit; source .travis/lint_04_install.sh
-      before_script:
-        - set -o errexit; source .travis/lint_05_before_script.sh
-      script:
-        - set -o errexit; source .travis/lint_06_script.sh
 # ARM
     - stage: test
       env: >-
         HOST=arm-linux-gnueabihf
         PACKAGES="python3 g++-arm-linux-gnueabihf"
-        #DEP_OPTS="NO_QT=1"
+        # DEP_OPTS="NO_QT=1"
         RUN_UNIT_TESTS=false
         RUN_FUNCTIONAL_TESTS=false
         GOAL="install"
@@ -76,7 +62,7 @@ jobs:
         RUN_UNIT_TESTS=false
         RUN_FUNCTIONAL_TESTS=false
         GOAL="install"
-        BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports"
+        BITCOIN_CONFIG="--with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports"
 # Win32
     - stage: test
       env: >-
@@ -98,8 +84,8 @@ jobs:
     - stage: test
       env: >-
         HOST=i686-pc-linux-gnu
-        PACKAGES="g++-multilib python3-zmq"
         DEP_OPTS="NO_QT=1"
+        PACKAGES="g++-multilib python3-zmq"
         GOAL="install"
         BITCOIN_CONFIG="--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
         CONFIG_SHELL="/bin/dash"
