@@ -2,6 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,7 +19,9 @@
 #include <vector>
 
 #define MASTERNODE_COLLATERAL_AMOUNT 5000
-#define MAXNODE_COLLATERAL_AMOUNT 25000
+#define MAXNODE_T1_COLLATERAL_AMOUNT 50000
+#define MAXNODE_T2_COLLATERAL_AMOUNT 75000
+#define MAXNODE_T2_COLLATERAL_AMOUNT 100000
 
 typedef unsigned char MessageStartChars[MESSAGE_START_SIZE];
 
