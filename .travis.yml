@@ -25,7 +25,7 @@ env:
       env: >-
         HOST=arm-linux-gnueabihf
         PACKAGES="python3 g++-arm-linux-gnueabihf"
-        # DEP_OPTS="NO_QT=1"
+        DEP_OPTS="NO_QT=1"
         RUN_UNIT_TESTS=false
         RUN_FUNCTIONAL_TESTS=false
         GOAL="install"
