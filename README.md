@@ -3,22 +3,18 @@ Lytix Core integration/staging repository
 
 [![Build Status](https://travis-ci.org/LytixChain/lytix.png)](https://travis-ci.org/LytixChain/lytix) [![GitHub tag](https://img.shields.io/github/tag/LytixChain/lytix.svg)](https://github.com/lytixchain/lytix/tree/v1.1.4)
 
-Lytix is an open source crypto-currency focused on fast private transactions with low transaction fees & low confirmations.  It is currently under development and plans are to pull in Bitcoin's improvements for a PIVX clone. I am targeting a mid-December 2018 re-release of the coin.
-
-If the date changes I will notify everyone. Please note that everyone that had a balance during the first release will get an airdrop on re-release plus some extra to cover the trouble and lost time during the first try.
-
-It will be Proof of Stake after a 100,000 block Proof of Work period with masternodes. After 100,000 staked wallets will help support the network. 
-
+Lytix is an open source crypto-currency focused on fast private transactions with low transaction fees & low confirmations.  It is currently in production. We are in our Proof of Stake phase and development is underway for our Maxnode 3 Tier system.  The goal is to have that live in Testnet in a few months and live in Mainnet by the beginning of Summer 2019.
 
 ------------------------
 
-CPU minable only coin - mine with the wallet - no other method is supported
+Mining is over - Proof of Stake is the current means of procuring LYTX
 
 5,000 LYTX for Masternodes
 
-100,000 Proof of Work burn in until PoS
+100,000 Proof of Work burn in until PoS - completed
 
 50% reward to PoW/PoS 50% reward to Masternodes
+This will change to 60% Masternodes and 40% Stakers i nthe next release
 
 30 LYTX reward until 100000 - 15 PoS / 15 Masternodes
 - 100 until 110000
@@ -39,4 +35,5 @@ ZeroCoin begins at block 150,000
 - Website - http://www.lytixchain.org
 - Block Explorer - http://lytixchain.org:8001
 - Twitter - https://twitter.com/ChainLytix
-
+- Exchange - https://crex24.com/exchange/LYTX-BTC
+- Exchange - bisq.network
