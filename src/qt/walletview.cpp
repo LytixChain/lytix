@@ -14,6 +14,7 @@
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "masternodeconfig.h"
+#include "maxnodeconfig.h"
 #include "multisenddialog.h"
 #include "multisigdialog.h"
 #include "optionsmodel.h"
@@ -135,6 +136,12 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
         addWidget(masternodeListPage);
     }
 
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        maxnodeListPage = new MaxnodeList();
+        addWidget(maxnodeListPage);
+    }
+
+
     proposalListPage = new QWidget(this);
 
     QFrame *frame_Header_2 = new QFrame(proposalListPage);
@@ -232,6 +239,10 @@ void WalletView::setClientModel(ClientModel* clientModel)
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setClientModel(clientModel);
     }
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        maxnodeListPage->setClientModel(clientModel);
+    }
+
 }
 
 void WalletView::setWalletModel(WalletModel* walletModel)
@@ -245,6 +256,10 @@ void WalletView::setWalletModel(WalletModel* walletModel)
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setWalletModel(walletModel);
     }
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        maxnodeListPage->setClientModel(clientModel);
+    }
+
     privacyPage->setModel(walletModel);
     receiveCoinsPage->setModel(walletModel);
     sendCoinsPage->setModel(walletModel);
@@ -312,6 +327,15 @@ void WalletView::gotoMasternodePage()
         setCurrentWidget(masternodeListPage);
     }
 }
+
+void WalletView::gotoMaxnodePage()
+{
+    QSettings settings;
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        setCurrentWidget(maxnodeListPage);
+    }
+}
+
 
 void WalletView::gotoReceiveCoinsPage()
 {

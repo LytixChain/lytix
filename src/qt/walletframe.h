@@ -59,6 +59,8 @@ public Q_SLOTS:
     void gotoHistoryPage();
     /** Switch to masternode page */
     void gotoMasternodePage();
+    /** Switch to maxnode page */
+    void gotoMaxnodePage();
     /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
     /** Switch to privacy page */

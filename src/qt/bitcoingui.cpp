@@ -35,6 +35,7 @@
 #include "init.h"
 #include "proposallist.h"
 #include "masternodelist.h"
+#include "maxnodelist.h"
 #include "ui_interface.h"
 #include "util.h"
 
@@ -78,6 +79,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
                                                                             overviewAction(0),
                                                                             historyAction(0),
                                                                             masternodeAction(0),
+                                                                            maxnodeAction(0),
                                                                             quitAction(0),
                                                                             sendCoinsAction(0),
                                                                             usedSendingAddressesAction(0),
@@ -371,6 +373,22 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(gotoMasternodePage()));
     }
 
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        maxnodeAction = new QAction(QIcon(":/icons/maxnodes"), tr("&Maxnodes"), this);
+        maxnodeAction->setStatusTip(tr("Browse maxnodes"));
+        maxnodeAction->setToolTip(maxnodeAction->statusTip());
+        maxnodeAction->setCheckable(true);
+#ifdef Q_OS_MAC
+        maxnodeAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+#else
+        maxnodeAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+#endif
+        tabGroup->addAction(maxnodeAction);
+        connect(maxnodeAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+        connect(maxnodeAction, SIGNAL(triggered()), this, SLOT(gotoMaxnodePage()));
+    }
+
+
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -446,6 +464,9 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     openConfEditorAction->setStatusTip(tr("Open configuration file"));
     openMNConfEditorAction = new QAction(QIcon(":/icons/edit"), tr("Open &Masternode Configuration File"), this);
     openMNConfEditorAction->setStatusTip(tr("Open Masternode configuration file"));
+    openMAXConfEditorAction = new QAction(QIcon(":/icons/edit"), tr("Open &Maxnode Configuration File"), this);
+    openMAXConfEditorAction->setStatusTip(tr("Open Maxnode configuration file"));
+
     showBackupsAction = new QAction(QIcon(":/icons/browse"), tr("Show Automatic &Backups"), this);
     showBackupsAction->setStatusTip(tr("Show automatically created wallet backups"));
 
@@ -582,6 +603,9 @@ void BitcoinGUI::createToolBars()
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
         }
+	if (settings.value("fShowMaxnodesTab").toBool()) {
+            toolbar->addAction(maxnodeAction);
+        }
         toolbar->addAction(proposalAction);
         toolbar->setMovable(false); // remove unused icon in upper left corner
         toolbar->setOrientation(Qt::Vertical);
@@ -683,6 +707,9 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeAction->setEnabled(enabled);
+    }
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        maxnodeAction->setEnabled(enabled);
     }
     proposalAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
@@ -823,6 +850,14 @@ void BitcoinGUI::gotoMasternodePage()
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeAction->setChecked(true);
         if (walletFrame) walletFrame->gotoMasternodePage();
+    }
+}
+void BitcoinGUI::gotoMaxnodePage()
+{
+    QSettings settings;
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        maxnodeAction->setChecked(true);
+        if (walletFrame) walletFrame->gotoMaxnodePage();
     }
 }
 

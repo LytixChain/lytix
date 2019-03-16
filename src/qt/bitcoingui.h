@@ -33,6 +33,7 @@ class UnitDisplayStatusBarControl;
 class WalletFrame;
 class WalletModel;
 class MasternodeList;
+class MaxnodeList;
 class ProposalList;
 
 class CWallet;
@@ -99,6 +100,7 @@ private:
     QAction* overviewAction;
     QAction* historyAction;
     QAction* masternodeAction;
+    QAction* maxnodeAction;
     QAction* quitAction;
     QAction* sendCoinsAction;
     QAction* usedSendingAddressesAction;
@@ -127,6 +129,7 @@ private:
     QAction* openRepairAction;
     QAction* openConfEditorAction;
     QAction* openMNConfEditorAction;
+    QAction* openMAXConfEditorAction;
     QAction* showBackupsAction;
     QAction* openAction;
     QAction* openBlockExplorerAction;
@@ -212,6 +215,8 @@ private Q_SLOTS:
     void gotoBlockExplorerPage();
     /** Switch to masternode page */
     void gotoMasternodePage();
+    /** Switch to maxnode page */
+    void gotoMaxnodePage();
     /** Switch to privacy page */
     void gotoReceiveCoinsPage();
     /** Switch to receive coins page */

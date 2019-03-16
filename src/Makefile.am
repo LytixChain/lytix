@@ -142,11 +142,13 @@ BITCOIN_CORE_H = \
   limitedmap.h \
   main.h \
   masternode.h \
+  maxnode.h \
   masternode-payments.h \
   masternode-budget.h \
   masternode-sync.h \
   masternodeman.h \
   masternodeconfig.h \
+  maxnodeconfig.h \
   merkleblock.h \
   miner.h \
   mintpool.h \
@@ -270,6 +272,7 @@ libbitcoin_wallet_a_SOURCES = \
   crypter.cpp \
   swifttx.cpp \
   masternode.cpp \
+  maxnode.cpp \
   masternode-budget.cpp \
   masternode-payments.cpp \
   masternode-sync.cpp \

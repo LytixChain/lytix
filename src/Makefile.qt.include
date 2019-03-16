@@ -45,6 +45,7 @@ QT_FORMS_UI = \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/masternodelist.ui \
+  qt/forms/maxnodelist.ui \
   qt/forms/multisenddialog.ui \
   qt/forms/multisigdialog.ui\
   qt/forms/openuridialog.ui \
@@ -82,6 +83,7 @@ QT_MOC_CPP = \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
   qt/moc_masternodelist.cpp \
+  qt/moc_maxnodelist.cpp \
   qt/moc_multisenddialog.cpp \
   qt/moc_multisigdialog.cpp\
   qt/moc_notificator.cpp \
@@ -161,6 +163,7 @@ BITCOIN_QT_H = \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
   qt/masternodelist.h \
+  qt/maxnodelist.h \
   qt/multisenddialog.h \
   qt/multisigdialog.h\
   qt/networkstyle.h \
@@ -190,6 +193,7 @@ BITCOIN_QT_H = \
   qt/privkeypage.h \
   qt/outputspage.h \
   qt/configuremasternodepage.h \
+  qt/configuremaxnodepage.h \
   qt/signverifymessagedialog.h \
   qt/splashscreen.h \
   qt/trafficgraphwidget.h \
@@ -244,6 +248,7 @@ RES_ICONS = \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
   qt/res/icons/masternodes.png \
+  qt/res/icons/maxnodes.png \
   qt/res/icons/overview.png \
   qt/res/icons/qrcode.png \
   qt/res/icons/quit.png \
@@ -283,6 +288,7 @@ BITCOIN_QT_CPP = \
   qt/guiutil.cpp \
   qt/intro.cpp \
   qt/masternodelist.cpp \
+  qt/maxnodelist.cpp \
   qt/networkstyle.cpp \
   qt/notificator.cpp \
   qt/optionsdialog.cpp \
@@ -312,6 +318,7 @@ BITCOIN_QT_CPP += \
   qt/obfuscationconfig.cpp \
   qt/editaddressdialog.cpp \
   qt/masternodelist.cpp \
+  qt/maxnodelist.cpp \
   qt/multisenddialog.cpp \
   qt/multisigdialog.cpp\
   qt/openuridialog.cpp \

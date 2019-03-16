@@ -11,6 +11,7 @@
 #include "amount.h"
 #include "askpassphrasedialog.h"
 #include "masternodelist.h"
+#include "maxnodelist.h"
 #include "proposallist.h"
 
 #include <QStackedWidget>
@@ -73,6 +74,7 @@ private:
     SendCoinsDialog* sendCoinsPage;
     BlockExplorer* explorerWindow;
     MasternodeList* masternodeListPage;
+    MaxnodeList* maxnodeListPage;
     QWidget* proposalListPage;
 
     TransactionView* transactionView;
@@ -88,6 +90,8 @@ public Q_SLOTS:
     void gotoHistoryPage();
     /** Switch to masternode page */
     void gotoMasternodePage();
+    /** Switch to maxnode page */
+    void gotoMaxnodePage();
     /** Switch to explorer page */
     void gotoBlockExplorerPage();
     /** Switch to privacy page */
