@@ -363,7 +363,7 @@ am__libbitcoin_util_a_SOURCES_DIST = allocators.cpp compat/strnlen.cpp \
 	invalid_outpoints.json.h invalid_serials.json.h kernel.h \
 	swifttx.h key.h keystore.h leveldbwrapper.h limitedmap.h \
 	main.h masternode.h masternode-payments.h masternode-budget.h \
-	masternode-sync.h masternodeman.h masternodeconfig.h \
+	masternode-sync.h masternodeman.h masternodeconfig.h maxnodeconfig.h \
 	merkleblock.h miner.h mintpool.h mruset.h netbase.h net.h \
 	noui.h pow.h protocol.h pubkey.h random.h reverselock.h \
 	reverse_iterate.h rpcclient.h rpcprotocol.h rpcserver.h \
@@ -413,6 +413,7 @@ am_libbitcoin_wallet_a_OBJECTS =  \
 	libbitcoin_wallet_a-masternode-payments.$(OBJEXT) \
 	libbitcoin_wallet_a-masternode-sync.$(OBJEXT) \
 	libbitcoin_wallet_a-masternodeconfig.$(OBJEXT) \
+	libbitcoin_wallet_a-maxnodeconfig.$(OBJEXT) \
 	libbitcoin_wallet_a-masternodeman.$(OBJEXT) \
 	libbitcoin_wallet_a-mintpool.$(OBJEXT) \
 	libbitcoin_wallet_a-rpcdump.$(OBJEXT) \
@@ -1701,6 +1702,7 @@ BITCOIN_CORE_H = \
   masternode-sync.h \
   masternodeman.h \
   masternodeconfig.h \
+  maxnodeconfig.h \
   merkleblock.h \
   miner.h \
   mintpool.h \
@@ -1823,6 +1825,7 @@ libbitcoin_wallet_a_SOURCES = \
   masternode-payments.cpp \
   masternode-sync.cpp \
   masternodeconfig.cpp \
+  maxnodeconfig.cpp \
   masternodeman.cpp \
   mintpool.cpp \
   rpcdump.cpp \
@@ -3294,6 +3297,7 @@ include ./$(DEPDIR)/libbitcoin_wallet_a-masternode-payments.Po
 include ./$(DEPDIR)/libbitcoin_wallet_a-masternode-sync.Po
 include ./$(DEPDIR)/libbitcoin_wallet_a-masternode.Po
 include ./$(DEPDIR)/libbitcoin_wallet_a-masternodeconfig.Po
+include ./$(DEPDIR)/libbitcoin_wallet_a-maxnodeconfig.Po
 include ./$(DEPDIR)/libbitcoin_wallet_a-masternodeman.Po
 include ./$(DEPDIR)/libbitcoin_wallet_a-mintpool.Po
 include ./$(DEPDIR)/libbitcoin_wallet_a-obfuscation-relay.Po
@@ -5148,6 +5152,21 @@ libbitcoin_wallet_a-masternodeconfig.obj: masternodeconfig.cpp
 #	$(AM_V_CXX)source='masternodeconfig.cpp' object='libbitcoin_wallet_a-masternodeconfig.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_wallet_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_wallet_a_CXXFLAGS) $(CXXFLAGS) -c -o libbitcoin_wallet_a-masternodeconfig.obj `if test -f 'masternodeconfig.cpp'; then $(CYGPATH_W) 'masternodeconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/masternodeconfig.cpp'; fi`
+
+libbitcoin_wallet_a-maxnodeconfig.o: maxnodeconfig.cpp
+        $(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_wallet_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_wallet_a_CXXFLAGS) $(CXXFLAGS) -MT libbitcoin_wallet_a-maxnodeconfig.o -MD -MP -MF $(DEPDIR)/libbitcoin_wallet_a-maxnodeconfig.Tpo -c -o libbitcoin_wallet_a-maxnodeconfig.o `test -f 'maxnodeconfig.cpp' || echo '$(srcdir)/'`maxnodeconfig.cpp
+        $(AM_V_at)$(am__mv) $(DEPDIR)/libbitcoin_wallet_a-maxnodeconfig.Tpo $(DEPDIR)/libbitcoin_wallet_a-maxnodeconfig.Po
+#       $(AM_V_CXX)source='maxnodeconfig.cpp' object='libbitcoin_wallet_a-maxnodeconfig.o' libtool=no \
+#       DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#       $(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_wallet_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_wallet_a_CXXFLAGS) $(CXXFLAGS) -c -o libbitcoin_wallet_a-maxnodeconfig.o `test -f 'maxnodeconfig.cpp' || echo '$(srcdir)/'`maxnodeconfig.cpp
+
+libbitcoin_wallet_a-maxnodeconfig.obj: maxnodeconfig.cpp
+        $(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_wallet_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_wallet_a_CXXFLAGS) $(CXXFLAGS) -MT libbitcoin_wallet_a-maxnodeconfig.obj -MD -MP -MF $(DEPDIR)/libbitcoin_wallet_a-maxnodeconfig.Tpo -c -o libbitcoin_wallet_a-maxnodeconfig.obj `if test -f 'maxnodeconfig.cpp'; then $(CYGPATH_W) 'maxnodeconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/maxnodeconfig.cpp'; fi`
+        $(AM_V_at)$(am__mv) $(DEPDIR)/libbitcoin_wallet_a-maxnodeconfig.Tpo $(DEPDIR)/libbitcoin_wallet_a-maxnodeconfig.Po
+#       $(AM_V_CXX)source='maxnodeconfig.cpp' object='libbitcoin_wallet_a-maxnodeconfig.obj' libtool=no \
+#       DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#       $(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_wallet_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_wallet_a_CXXFLAGS) $(CXXFLAGS) -c -o libbitcoin_wallet_a-maxnodeconfig.obj `if test -f 'maxnodeconfig.cpp'; then $(CYGPATH_W) 'maxnodeconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/maxnodeconfig.cpp'; fi`
+
 
 libbitcoin_wallet_a-masternodeman.o: masternodeman.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_wallet_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_wallet_a_CXXFLAGS) $(CXXFLAGS) -MT libbitcoin_wallet_a-masternodeman.o -MD -MP -MF $(DEPDIR)/libbitcoin_wallet_a-masternodeman.Tpo -c -o libbitcoin_wallet_a-masternodeman.o `test -f 'masternodeman.cpp' || echo '$(srcdir)/'`masternodeman.cpp

@@ -101,8 +101,8 @@ void OptionsModel::Init()
         settings.setValue("fShowMasternodesTab", masternodeConfig.getCount());
 
     if (!settings.contains("fShowMaxnodesTab"))
-        settings.setValue("fShowMaxnodesTab", masternodeConfig.getCount());
-        //settings.setValue("fShowMaxnodesTab", maxnodeConfig.getCount());
+        //settings.setValue("fShowMaxnodesTab", masternodeConfig.getCount());
+        settings.setValue("fShowMaxnodesTab", maxnodeConfig.getCount());
 
     // These are shared with the core or have a command-line parameter
     // and we want command-line parameters to overwrite the GUI settings.

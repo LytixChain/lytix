@@ -368,6 +368,16 @@ void openMNConfigfile()
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
 
+void openMAXConfigfile()
+{
+    boost::filesystem::path pathConfig = GetMaxnodeConfigFile();
+
+    /* Open maxnode.conf with the associated application */
+    if (boost::filesystem::exists(pathConfig))
+        QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
+}
+
+
 void showBackups()
 {
     boost::filesystem::path pathBackups = GetDataDir() / "backups";

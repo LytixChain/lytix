@@ -149,6 +149,7 @@ BITCOIN_CORE_H = \
   masternodeman.h \
   masternodeconfig.h \
   maxnodeconfig.h \
+  maxnodeconfig.h \
   merkleblock.h \
   miner.h \
   mintpool.h \
@@ -277,6 +278,7 @@ libbitcoin_wallet_a_SOURCES = \
   masternode-payments.cpp \
   masternode-sync.cpp \
   masternodeconfig.cpp \
+  maxnodeconfig.cpp \
   masternodeman.cpp \
   mintpool.cpp \
   rpcdump.cpp \

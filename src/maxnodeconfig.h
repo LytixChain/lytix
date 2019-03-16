@@ -89,6 +89,8 @@ public:
         {
             this->ip = ip;
         }
+
+
     };
 
     CMaxnodeConfig()

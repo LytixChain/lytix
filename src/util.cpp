@@ -508,6 +508,13 @@ boost::filesystem::path GetMasternodeConfigFile()
     return pathConfigFile;
 }
 
+boost::filesystem::path GetMaxnodeConfigFile()
+{
+    boost::filesystem::path pathConfigFile(GetArg("-mnconf", "maxnode.conf"));
+    if (!pathConfigFile.is_complete()) pathConfigFile = GetDataDir() / pathConfigFile;
+    return pathConfigFile;
+}
+
 void ReadConfigFile(map<string, string>& mapSettingsRet,
     map<string, vector<string> >& mapMultiSettingsRet)
 {
