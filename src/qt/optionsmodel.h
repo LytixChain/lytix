@@ -50,6 +50,7 @@ public:
         HideZeroBalances,    // bool
         AnonymizeCoinAmount, //int
         ShowMasternodesTab,  // bool
+        ShowMaxnodesTab,  // bool
         Listen,              // bool
         StakeSplitThreshold, // int
         OptionIDRowCount,
