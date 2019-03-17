@@ -263,6 +263,16 @@
             </property>
            </widget>
           </item>
+	  <item>
+           <widget class="QCheckBox" name="showMaxnodesTab">
+            <property name="toolTip">
+             <string>Show additional tab listing all your maxnodes in first sub-tab&lt;br/&gt;and all maxnodes on the network in second sub-tab.</string>
+            </property>
+            <property name="text">
+             <string>Show Maxnodes Tab</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QCheckBox" name="spendZeroConfChange">
             <property name="toolTip">
