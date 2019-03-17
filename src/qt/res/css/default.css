@@ -733,59 +733,6 @@ min-width:260px;
 /* QDialog#MultisigDialog QPushButton { */
 /* QDialog#MultisigDialog QFrame#addressFrame { */
 
-/**************************** Privacy Dialog ********************************************/
-
-
-QWidget#PrivacyDialog QFrame {
-background-color:transparent;
-border:0px solid #000;
-}
-
-QWidget#PrivacyDialog QFrame#labelMintStatus {
-background-color:#eee;
-border: 1px inset gray;
-}
-
-QWidget#PrivacyDialog QLabel {
-border:0px solid #000;
-}
-
-QWidget#PrivacyDialog QLabel#zLYTXLabel {
-font-size:14px;
-color:#ffffff;
-background-color:#1b1b1c;
-}
-
-QWidget#PrivacyDialog QLabel#oPIVLabel {
-font-size:14px;
-color:#ffffff;
-background-color:#1b1b1c;
-}
-
-QWidget#PrivacyDialog QPushButton {
-font-size:12px;
-font-weight:normal;
-padding-left:5px;
-padding-right:5px;
-padding-top:1px;
-padding-bottom:1px;
-height: 26px;
-margin: 2px;
-}
-
-QWidget#PrivacyDialog QProgressBar#obfuscationProgress { /* Obfuscation Completion */
-border: 1px solid #818181;
-border-radius: 1px;
-margin-right:43px;
-text-align: right;
-color:#818181;
-}
-
-QWidget#PrivacyDialog QProgressBar#obfuscationProgress::chunk {
-background-color: #2F3244;
-width:1px;
-}
-
 /**************************** SETTINGS MENU *********************************************/
 
 /* Encrypt Wallet and Change Passphrase Dialog */
@@ -1656,32 +1603,6 @@ color:#333333;
 
 QDialog#TransactionDescDialog QTextEdit { /* Contents of Receive Coin Dialog */
 border:1px solid #d7d7d7;
-}
-
-/**************************** PRIVACY PAGE *****************************************/
-/* QDialog#PrivacyDialog */
-/* QWidget#PrivacyDialog */
-
-QWidget#PrivacyDialog .QFrame[frameShape="4"] { /* QFrame::HLine == 0x0004 */
-border:1px solid #0c0c0c;
-}
-
-QWidget#PrivacyDialog .QFrame#frame_Content {
-background-color:#f8f6f6;
-}
-
-QWidget#PrivacyDialog .QFrame#verticalFrameLeft {
-background-color:#ffffff;
-}
-
-QWidget#PrivacyDialog .QFrame#verticalFrameRight {
-background-color:#ffffff;
-}
-
-QWidget#PrivacyDialog .QToolButton {
-margin:2px;
-min-height: 24px;
-min-width: 24px;
 }
 
 /**************************** MASTERNODE LIST *******************************************/

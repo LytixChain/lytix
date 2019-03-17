@@ -21,7 +21,6 @@ class BitcoinGUI;
 class ClientModel;
 class OverviewPage;
 class ReceiveCoinsDialog;
-class PrivacyDialog;
 class SendCoinsDialog;
 class SendCoinsRecipient;
 class TransactionView;
@@ -70,7 +69,6 @@ private:
     OverviewPage* overviewPage;
     QWidget* transactionsPage;
     ReceiveCoinsDialog* receiveCoinsPage;
-    PrivacyDialog* privacyPage;
     SendCoinsDialog* sendCoinsPage;
     BlockExplorer* explorerWindow;
     MasternodeList* masternodeListPage;
@@ -94,8 +92,6 @@ public Q_SLOTS:
     void gotoMaxnodePage();
     /** Switch to explorer page */
     void gotoBlockExplorerPage();
-    /** Switch to privacy page */
-    void gotoPrivacyPage();
     /** Switch to proposal page */
     void gotoProposalPage();	
     /** Switch to receive coins page */
