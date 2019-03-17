@@ -27,7 +27,7 @@ This will change to 60% Masternodes and 40% Stakers i nthe next release
 - 4 from then on 
 
 15 confirmations maturity for mined or staked rewards
-ZeroCoin begins at block 150,000
+ZeroCoin is in the process of removal and is in maitnenance mode
 
 -------------------------
 
