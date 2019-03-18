@@ -345,8 +345,6 @@ QString TransactionTableModel::formatTxType(const TransactionRecord* wtx) const
         return tr("Payment to yourself");
     case TransactionRecord::StakeMint:
         return tr("LYTX Stake");
-    case TransactionRecord::StakeZPIV:
-        return tr("zLYTX Stake");
     case TransactionRecord::Generated:
         return tr("Mined");
     case TransactionRecord::ObfuscationDenominate:
@@ -359,16 +357,6 @@ QString TransactionTableModel::formatTxType(const TransactionRecord* wtx) const
         return tr("Obfuscation Create Denominations");
     case TransactionRecord::Obfuscated:
         return tr("Obfuscated");
-    case TransactionRecord::ZerocoinMint:
-        return tr("Converted LYTX to zLYTX");
-    case TransactionRecord::ZerocoinSpend:
-        return tr("Spent zLYTX");
-    case TransactionRecord::RecvFromZerocoinSpend:
-        return tr("Received LYTX from zLYTX");
-    case TransactionRecord::ZerocoinSpend_Change_zPiv:
-        return tr("Minted Change as zLYTX from zLYTX Spend");
-    case TransactionRecord::ZerocoinSpend_FromMe:
-        return tr("Converted zLYTX to LYTX");
 
     default:
         return QString();
@@ -422,11 +410,6 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord* wtx, b
         return lookupAddress(wtx->address, tooltip) + watchAddress;
     case TransactionRecord::SendToOther:
         return QString::fromStdString(wtx->address) + watchAddress;
-    case TransactionRecord::ZerocoinMint:
-    case TransactionRecord::ZerocoinSpend_Change_zPiv:
-        return tr("Anonymous (zLYTX Transaction)");
-    case TransactionRecord::StakeZPIV:
-        return tr("Anonymous (zLYTX Stake)");
     case TransactionRecord::SendToSelf:
     default:
         return tr("(n/a)") + watchAddress;
