@@ -5927,40 +5927,6 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     </message>
 </context>
 <context>
-    <name>ZLytixControlDialog</name>
-    <message>
-        <location filename="../forms/zpivcontroldialog.ui" line="+20"/>
-        <source>Select zLytix to Spend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Quantity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <location line="+14"/>
-        <source>0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-7"/>
-        <source>zLytix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Select/Deselect All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Is Spendable</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>lytix-core</name>
     <message>
         <location filename="../lytixstrings.cpp" line="+15"/>
