@@ -167,7 +167,6 @@ am__append_22 = \
   qt/proposalrecord.cpp \
   qt/proposaltablemodel.cpp \
   qt/receivecoinsdialog.cpp \
-  qt/privacydialog.cpp \
   qt/receiverequestdialog.cpp \
   qt/recentrequeststablemodel.cpp \
   qt/sendcoinsdialog.cpp \
@@ -470,7 +469,7 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/columnalignedlayout.cpp qt/proposalfilterproxy.cpp \
 	qt/proposallist.cpp qt/proposalrecord.cpp \
 	qt/proposaltablemodel.cpp qt/receivecoinsdialog.cpp \
-	qt/privacydialog.cpp qt/receiverequestdialog.cpp \
+	qt/receiverequestdialog.cpp \
 	qt/recentrequeststablemodel.cpp qt/sendcoinsdialog.cpp \
 	qt/sendcoinsentry.cpp qt/signverifymessagedialog.cpp \
 	qt/transactiondesc.cpp qt/transactiondescdialog.cpp \
@@ -495,7 +494,7 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/columnalignedlayout.h qt/proposalfilterproxy.h \
 	qt/proposallist.h qt/proposalrecord.h qt/proposaltablemodel.h \
 	qt/peertablemodel.h qt/platformstyle.h qt/qvalidatedlineedit.h \
-	qt/qvaluecombobox.h qt/receivecoinsdialog.h qt/privacydialog.h \
+	qt/qvaluecombobox.h qt/receivecoinsdialog.h \
 	qt/receiverequestdialog.h qt/recentrequeststablemodel.h \
 	qt/rpcconsole.h qt/sendcoinsdialog.h qt/sendcoinsentry.h \
 	qt/signverifymessagedialog.h qt/splashscreen.h \
@@ -513,7 +512,7 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/forms/multisenddialog.ui qt/forms/multisigdialog.ui \
 	qt/forms/openuridialog.ui qt/forms/optionsdialog.ui \
 	qt/forms/overviewpage.ui qt/forms/receivecoinsdialog.ui \
-	qt/forms/privacydialog.ui qt/forms/receiverequestdialog.ui \
+	qt/forms/receiverequestdialog.ui \
 	qt/forms/rpcconsole.ui qt/forms/sendcoinsdialog.ui \
 	qt/forms/sendcoinsentry.ui qt/forms/signverifymessagedialog.ui \
 	qt/forms/transactiondescdialog.ui \
@@ -552,7 +551,7 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/res/icons/masternodes.png qt/res/icons/overview.png \
 	qt/res/icons/qrcode.png qt/res/icons/quit.png \
 	qt/res/icons/receive.png qt/res/icons/receive_dark.png \
-	qt/res/icons/privacy.png qt/res/icons/remove.png \
+	qt/res/icons/remove.png \
 	qt/res/icons/send.png qt/res/icons/send_dark.png \
 	qt/res/icons/staking_active.png \
 	qt/res/icons/staking_inactive.png qt/res/icons/synced.png \
@@ -601,7 +600,6 @@ am__objects_4 = qt/qt_libbitcoinqt_a-addressbookpage.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-proposalrecord.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-proposaltablemodel.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-receivecoinsdialog.$(OBJEXT) \
-	qt/qt_libbitcoinqt_a-privacydialog.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-receiverequestdialog.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-recentrequeststablemodel.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-sendcoinsdialog.$(OBJEXT) \
@@ -684,7 +682,6 @@ am__objects_6 = qt/qt_libbitcoinqt_a-moc_addressbookpage.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_qvalidatedlineedit.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_qvaluecombobox.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_receivecoinsdialog.$(OBJEXT) \
-	qt/qt_libbitcoinqt_a-moc_privacydialog.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_receiverequestdialog.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_recentrequeststablemodel.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_rpcconsole.$(OBJEXT) \
@@ -2140,7 +2137,6 @@ QT_FORMS_UI = \
   qt/forms/optionsdialog.ui \
   qt/forms/overviewpage.ui \
   qt/forms/receivecoinsdialog.ui \
-  qt/forms/privacydialog.ui \
   qt/forms/receiverequestdialog.ui \
   qt/forms/rpcconsole.ui \
   qt/forms/sendcoinsdialog.ui \
@@ -2186,7 +2182,6 @@ QT_MOC_CPP = \
   qt/moc_qvalidatedlineedit.cpp \
   qt/moc_qvaluecombobox.cpp \
   qt/moc_receivecoinsdialog.cpp \
-  qt/moc_privacydialog.cpp \
   qt/moc_receiverequestdialog.cpp \
   qt/moc_recentrequeststablemodel.cpp \
   qt/moc_rpcconsole.cpp \
@@ -2266,7 +2261,6 @@ BITCOIN_QT_H = \
   qt/qvalidatedlineedit.h \
   qt/qvaluecombobox.h \
   qt/receivecoinsdialog.h \
-  qt/privacydialog.h \
   qt/receiverequestdialog.h \
   qt/recentrequeststablemodel.h \
   qt/rpcconsole.h \
@@ -2330,7 +2324,6 @@ RES_ICONS = \
   qt/res/icons/quit.png \
   qt/res/icons/receive.png \
   qt/res/icons/receive_dark.png \
-  qt/res/icons/privacy.png \
   qt/res/icons/remove.png \
   qt/res/icons/send.png \
   qt/res/icons/send_dark.png \
@@ -2758,8 +2751,6 @@ qt/qt_libbitcoinqt_a-proposaltablemodel.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-receivecoinsdialog.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
-qt/qt_libbitcoinqt_a-privacydialog.$(OBJEXT): qt/$(am__dirstamp) \
-	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-receiverequestdialog.$(OBJEXT):  \
 	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-recentrequeststablemodel.$(OBJEXT):  \
@@ -2864,8 +2855,6 @@ qt/qt_libbitcoinqt_a-moc_qvaluecombobox.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_receivecoinsdialog.$(OBJEXT):  \
 	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
-qt/qt_libbitcoinqt_a-moc_privacydialog.$(OBJEXT): qt/$(am__dirstamp) \
-	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_receiverequestdialog.$(OBJEXT):  \
 	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_recentrequeststablemodel.$(OBJEXT):  \
@@ -3400,7 +3389,6 @@ include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_optionsmodel.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_overviewpage.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_paymentserver.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_peertablemodel.Po
-include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposalfilterproxy.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposallist.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_proposaltablemodel.Po
@@ -3438,7 +3426,6 @@ include qt/$(DEPDIR)/qt_libbitcoinqt_a-paymentrequestplus.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-paymentserver.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-peertablemodel.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-platformstyle.Po
-include qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalfilterproxy.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-proposallist.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-proposalrecord.Po
@@ -5993,20 +5980,6 @@ qt/qt_libbitcoinqt_a-receivecoinsdialog.obj: qt/receivecoinsdialog.cpp
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-receivecoinsdialog.obj `if test -f 'qt/receivecoinsdialog.cpp'; then $(CYGPATH_W) 'qt/receivecoinsdialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/receivecoinsdialog.cpp'; fi`
 
-qt/qt_libbitcoinqt_a-privacydialog.o: qt/privacydialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-privacydialog.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Tpo -c -o qt/qt_libbitcoinqt_a-privacydialog.o `test -f 'qt/privacydialog.cpp' || echo '$(srcdir)/'`qt/privacydialog.cpp
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Po
-#	$(AM_V_CXX)source='qt/privacydialog.cpp' object='qt/qt_libbitcoinqt_a-privacydialog.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-privacydialog.o `test -f 'qt/privacydialog.cpp' || echo '$(srcdir)/'`qt/privacydialog.cpp
-
-qt/qt_libbitcoinqt_a-privacydialog.obj: qt/privacydialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-privacydialog.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Tpo -c -o qt/qt_libbitcoinqt_a-privacydialog.obj `if test -f 'qt/privacydialog.cpp'; then $(CYGPATH_W) 'qt/privacydialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/privacydialog.cpp'; fi`
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-privacydialog.Po
-#	$(AM_V_CXX)source='qt/privacydialog.cpp' object='qt/qt_libbitcoinqt_a-privacydialog.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-privacydialog.obj `if test -f 'qt/privacydialog.cpp'; then $(CYGPATH_W) 'qt/privacydialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/privacydialog.cpp'; fi`
-
 qt/qt_libbitcoinqt_a-receiverequestdialog.o: qt/receiverequestdialog.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-receiverequestdialog.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-receiverequestdialog.Tpo -c -o qt/qt_libbitcoinqt_a-receiverequestdialog.o `test -f 'qt/receiverequestdialog.cpp' || echo '$(srcdir)/'`qt/receiverequestdialog.cpp
 	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-receiverequestdialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-receiverequestdialog.Po
@@ -6734,20 +6707,6 @@ qt/qt_libbitcoinqt_a-moc_receivecoinsdialog.obj: qt/moc_receivecoinsdialog.cpp
 #	$(AM_V_CXX)source='qt/moc_receivecoinsdialog.cpp' object='qt/qt_libbitcoinqt_a-moc_receivecoinsdialog.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_receivecoinsdialog.obj `if test -f 'qt/moc_receivecoinsdialog.cpp'; then $(CYGPATH_W) 'qt/moc_receivecoinsdialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_receivecoinsdialog.cpp'; fi`
-
-qt/qt_libbitcoinqt_a-moc_privacydialog.o: qt/moc_privacydialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_privacydialog.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Tpo -c -o qt/qt_libbitcoinqt_a-moc_privacydialog.o `test -f 'qt/moc_privacydialog.cpp' || echo '$(srcdir)/'`qt/moc_privacydialog.cpp
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Po
-#	$(AM_V_CXX)source='qt/moc_privacydialog.cpp' object='qt/qt_libbitcoinqt_a-moc_privacydialog.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_privacydialog.o `test -f 'qt/moc_privacydialog.cpp' || echo '$(srcdir)/'`qt/moc_privacydialog.cpp
-
-qt/qt_libbitcoinqt_a-moc_privacydialog.obj: qt/moc_privacydialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_privacydialog.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Tpo -c -o qt/qt_libbitcoinqt_a-moc_privacydialog.obj `if test -f 'qt/moc_privacydialog.cpp'; then $(CYGPATH_W) 'qt/moc_privacydialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_privacydialog.cpp'; fi`
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_privacydialog.Po
-#	$(AM_V_CXX)source='qt/moc_privacydialog.cpp' object='qt/qt_libbitcoinqt_a-moc_privacydialog.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_privacydialog.obj `if test -f 'qt/moc_privacydialog.cpp'; then $(CYGPATH_W) 'qt/moc_privacydialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_privacydialog.cpp'; fi`
 
 qt/qt_libbitcoinqt_a-moc_receiverequestdialog.o: qt/moc_receiverequestdialog.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_receiverequestdialog.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_receiverequestdialog.Tpo -c -o qt/qt_libbitcoinqt_a-moc_receiverequestdialog.o `test -f 'qt/moc_receiverequestdialog.cpp' || echo '$(srcdir)/'`qt/moc_receiverequestdialog.cpp
