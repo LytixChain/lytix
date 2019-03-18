@@ -182,8 +182,7 @@ am__append_22 = \
   qt/walletframe.cpp \
   qt/walletmodel.cpp \
   qt/walletmodeltransaction.cpp \
-  qt/walletview.cpp \
-  qt/zpivcontroldialog.cpp
+  qt/walletview.cpp
 
 #am__append_23 = $(BITCOIN_MM)
 #am__append_24 = $(BITCOIN_RC)
@@ -479,7 +478,7 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/transactiontablemodel.cpp qt/transactionview.cpp \
 	qt/walletframe.cpp qt/walletmodel.cpp \
 	qt/walletmodeltransaction.cpp qt/walletview.cpp \
-	qt/zpivcontroldialog.cpp qt/addressbookpage.h \
+	qt/addressbookpage.h \
 	qt/addresstablemodel.h qt/askpassphrasedialog.h \
 	qt/bantablemodel.h qt/bip38tooldialog.h \
 	qt/bitcoinaddressvalidator.h qt/bitcoinamountfield.h \
@@ -505,7 +504,7 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/transactionrecord.h qt/transactiontablemodel.h \
 	qt/transactionview.h qt/utilitydialog.h qt/walletframe.h \
 	qt/walletmodel.h qt/walletmodeltransaction.h qt/walletview.h \
-	qt/winshutdownmonitor.h qt/zpivcontroldialog.h \
+	qt/winshutdownmonitor.h \
 	qt/forms/addressbookpage.ui qt/forms/askpassphrasedialog.ui \
 	qt/forms/bip38tooldialog.ui qt/forms/coincontroldialog.ui \
 	qt/forms/blockexplorer.ui qt/forms/obfuscationconfig.ui \
@@ -518,7 +517,7 @@ am__qt_libbitcoinqt_a_SOURCES_DIST = qt/bantablemodel.cpp \
 	qt/forms/rpcconsole.ui qt/forms/sendcoinsdialog.ui \
 	qt/forms/sendcoinsentry.ui qt/forms/signverifymessagedialog.ui \
 	qt/forms/transactiondescdialog.ui \
-	qt/forms/zpivcontroldialog.ui qt/bitcoin.qrc \
+	qt/bitcoin.qrc \
 	qt/bitcoin_locale.qrc qt/locale/bitcoin_bg.ts \
 	qt/locale/bitcoin_ca.ts qt/locale/bitcoin_cs.ts \
 	qt/locale/bitcoin_da.ts qt/locale/bitcoin_de.ts \
@@ -618,8 +617,6 @@ am__objects_4 = qt/qt_libbitcoinqt_a-addressbookpage.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-walletmodel.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-walletmodeltransaction.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-walletview.$(OBJEXT) \
-	qt/qt_libbitcoinqt_a-zpivcontroldialog.$(OBJEXT)
-am__objects_5 =  \
 	qt/qt_libbitcoinqt_a-bantablemodel.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-bitcoinaddressvalidator.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-bitcoinamountfield.$(OBJEXT) \
@@ -705,11 +702,8 @@ am__objects_6 = qt/qt_libbitcoinqt_a-moc_addressbookpage.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_walletframe.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_walletmodel.$(OBJEXT) \
 	qt/qt_libbitcoinqt_a-moc_walletview.$(OBJEXT) \
-	qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.$(OBJEXT)
-am__objects_7 = qt/qt_libbitcoinqt_a-paymentrequest.pb.$(OBJEXT)
-am__objects_8 =  \
 	qt/qt_libbitcoinqt_a-qrc_bitcoin.$(OBJEXT)
-am__objects_9 = qt/qt_libbitcoinqt_a-qrc_bitcoin_locale.$(OBJEXT)
+am__objects_7 = qt/qt_libbitcoinqt_a-qrc_bitcoin_locale.$(OBJEXT)
 nodist_qt_libbitcoinqt_a_OBJECTS = $(am__objects_6) \
 	$(am__objects_1) $(am__objects_7) \
 	$(am__objects_1) $(am__objects_8) \
@@ -2152,8 +2146,7 @@ QT_FORMS_UI = \
   qt/forms/sendcoinsdialog.ui \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
-  qt/forms/transactiondescdialog.ui \
-  qt/forms/zpivcontroldialog.ui
+  qt/forms/transactiondescdialog.ui
 
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -2210,8 +2203,7 @@ QT_MOC_CPP = \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
-  qt/moc_walletview.cpp \
-  qt/moc_zpivcontroldialog.cpp
+  qt/moc_walletview.cpp
 
 BITCOIN_MM = \
   qt/macdockiconhandler.mm \
@@ -2294,8 +2286,7 @@ BITCOIN_QT_H = \
   qt/walletmodel.h \
   qt/walletmodeltransaction.h \
   qt/walletview.h \
-  qt/winshutdownmonitor.h \
-  qt/zpivcontroldialog.h
+  qt/winshutdownmonitor.h
 
 RES_ICONS = \
   qt/res/icons/add.png \
@@ -2799,8 +2790,6 @@ qt/qt_libbitcoinqt_a-walletmodeltransaction.$(OBJEXT):  \
 	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-walletview.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
-qt/qt_libbitcoinqt_a-zpivcontroldialog.$(OBJEXT): qt/$(am__dirstamp) \
-	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_addressbookpage.$(OBJEXT):  \
 	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_addresstablemodel.$(OBJEXT):  \
@@ -2911,8 +2900,6 @@ qt/qt_libbitcoinqt_a-moc_walletmodel.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-moc_walletview.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
-qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.$(OBJEXT):  \
-	qt/$(am__dirstamp) qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-paymentrequest.pb.$(OBJEXT): qt/$(am__dirstamp) \
 	qt/$(DEPDIR)/$(am__dirstamp)
 qt/qt_libbitcoinqt_a-qrc_bitcoin.$(OBJEXT): qt/$(am__dirstamp) \
@@ -3437,7 +3424,6 @@ include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_utilitydialog.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_walletframe.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_walletmodel.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_walletview.Po
-include qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_zpivcontroldialog.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-multisenddialog.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-multisigdialog.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-networkstyle.Po
@@ -3482,7 +3468,6 @@ include qt/$(DEPDIR)/qt_libbitcoinqt_a-walletmodel.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-walletmodeltransaction.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-walletview.Po
 include qt/$(DEPDIR)/qt_libbitcoinqt_a-winshutdownmonitor.Po
-include qt/$(DEPDIR)/qt_libbitcoinqt_a-zpivcontroldialog.Po
 include qt/$(DEPDIR)/qt_lytix_qt-bitcoin.Po
 include qt/$(DEPDIR)/qt_lytix_qt-macdockiconhandler.Po
 include qt/$(DEPDIR)/qt_lytix_qt-macnotificationhandler.Po
@@ -6232,20 +6217,6 @@ qt/qt_libbitcoinqt_a-walletview.obj: qt/walletview.cpp
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-walletview.obj `if test -f 'qt/walletview.cpp'; then $(CYGPATH_W) 'qt/walletview.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/walletview.cpp'; fi`
 
-qt/qt_libbitcoinqt_a-zpivcontroldialog.o: qt/zpivcontroldialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-zpivcontroldialog.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-zpivcontroldialog.Tpo -c -o qt/qt_libbitcoinqt_a-zpivcontroldialog.o `test -f 'qt/zpivcontroldialog.cpp' || echo '$(srcdir)/'`qt/zpivcontroldialog.cpp
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-zpivcontroldialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-zpivcontroldialog.Po
-#	$(AM_V_CXX)source='qt/zpivcontroldialog.cpp' object='qt/qt_libbitcoinqt_a-zpivcontroldialog.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-zpivcontroldialog.o `test -f 'qt/zpivcontroldialog.cpp' || echo '$(srcdir)/'`qt/zpivcontroldialog.cpp
-
-qt/qt_libbitcoinqt_a-zpivcontroldialog.obj: qt/zpivcontroldialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-zpivcontroldialog.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-zpivcontroldialog.Tpo -c -o qt/qt_libbitcoinqt_a-zpivcontroldialog.obj `if test -f 'qt/zpivcontroldialog.cpp'; then $(CYGPATH_W) 'qt/zpivcontroldialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/zpivcontroldialog.cpp'; fi`
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-zpivcontroldialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-zpivcontroldialog.Po
-#	$(AM_V_CXX)source='qt/zpivcontroldialog.cpp' object='qt/qt_libbitcoinqt_a-zpivcontroldialog.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-zpivcontroldialog.obj `if test -f 'qt/zpivcontroldialog.cpp'; then $(CYGPATH_W) 'qt/zpivcontroldialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/zpivcontroldialog.cpp'; fi`
-
 qt/qt_libbitcoinqt_a-moc_addressbookpage.o: qt/moc_addressbookpage.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_addressbookpage.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_addressbookpage.Tpo -c -o qt/qt_libbitcoinqt_a-moc_addressbookpage.o `test -f 'qt/moc_addressbookpage.cpp' || echo '$(srcdir)/'`qt/moc_addressbookpage.cpp
 	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_addressbookpage.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_addressbookpage.Po
@@ -7015,20 +6986,6 @@ qt/qt_libbitcoinqt_a-moc_walletview.obj: qt/moc_walletview.cpp
 #	$(AM_V_CXX)source='qt/moc_walletview.cpp' object='qt/qt_libbitcoinqt_a-moc_walletview.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_walletview.obj `if test -f 'qt/moc_walletview.cpp'; then $(CYGPATH_W) 'qt/moc_walletview.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_walletview.cpp'; fi`
-
-qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.o: qt/moc_zpivcontroldialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_zpivcontroldialog.Tpo -c -o qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.o `test -f 'qt/moc_zpivcontroldialog.cpp' || echo '$(srcdir)/'`qt/moc_zpivcontroldialog.cpp
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_zpivcontroldialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_zpivcontroldialog.Po
-#	$(AM_V_CXX)source='qt/moc_zpivcontroldialog.cpp' object='qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.o `test -f 'qt/moc_zpivcontroldialog.cpp' || echo '$(srcdir)/'`qt/moc_zpivcontroldialog.cpp
-
-qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.obj: qt/moc_zpivcontroldialog.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.obj -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_zpivcontroldialog.Tpo -c -o qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.obj `if test -f 'qt/moc_zpivcontroldialog.cpp'; then $(CYGPATH_W) 'qt/moc_zpivcontroldialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_zpivcontroldialog.cpp'; fi`
-	$(AM_V_at)$(am__mv) qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_zpivcontroldialog.Tpo qt/$(DEPDIR)/qt_libbitcoinqt_a-moc_zpivcontroldialog.Po
-#	$(AM_V_CXX)source='qt/moc_zpivcontroldialog.cpp' object='qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -c -o qt/qt_libbitcoinqt_a-moc_zpivcontroldialog.obj `if test -f 'qt/moc_zpivcontroldialog.cpp'; then $(CYGPATH_W) 'qt/moc_zpivcontroldialog.cpp'; else $(CYGPATH_W) '$(srcdir)/qt/moc_zpivcontroldialog.cpp'; fi`
 
 qt/qt_libbitcoinqt_a-paymentrequest.pb.o: qt/paymentrequest.pb.cc
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qt_libbitcoinqt_a_CPPFLAGS) $(CPPFLAGS) $(qt_libbitcoinqt_a_CXXFLAGS) $(CXXFLAGS) -MT qt/qt_libbitcoinqt_a-paymentrequest.pb.o -MD -MP -MF qt/$(DEPDIR)/qt_libbitcoinqt_a-paymentrequest.pb.Tpo -c -o qt/qt_libbitcoinqt_a-paymentrequest.pb.o `test -f 'qt/paymentrequest.pb.cc' || echo '$(srcdir)/'`qt/paymentrequest.pb.cc
