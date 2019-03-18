@@ -815,10 +815,6 @@
                     </layout>
                    </widget>
                   </item>
-                </widget>
-               </item>
-              </layout>
-             </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_right" stretch="1">
                <item>
