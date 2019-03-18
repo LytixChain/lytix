@@ -674,16 +674,6 @@
                          </property>
                         </widget>
                        </item>
-                       <item row="4" column="0">
-                        <widget class="QLabel" name="labelLockedBalanceText">
-                         <property name="toolTip">
-                          <string>Locked LYTX or Masternode collaterals. These are excluded from zLYTX minting.</string>
-                         </property>
-                         <property name="text">
-                          <string>Locked:</string>
-                         </property>
-                        </widget>
-                       </item>
                        <item row="4" column="1">
                         <widget class="QLabel" name="labelLockedBalance">
                          <property name="font">
@@ -696,7 +686,7 @@
                           <cursorShape>IBeamCursor</cursorShape>
                          </property>
                          <property name="toolTip">
-                          <string>Locked LYTX or Masternode collaterals. These are excluded from zLYTX minting.</string>
+                          <string>Locked LYTX or Masternode collaterals.</string>
                          </property>
                          <property name="text">
                           <string notr="true">0.000 000 00 LYTX</string>

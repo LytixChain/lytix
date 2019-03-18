@@ -592,21 +592,6 @@ public:
 #ifndef QT_NO_TOOLTIP
         threadsScriptVerif->setToolTip(QApplication::translate("OptionsDialog", "(0 = auto, <0 = leave that many cores free)", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
-#ifndef QT_NO_TOOLTIP
-        checkBoxZeromintEnable->setToolTip(QApplication::translate("OptionsDialog", "Enable automatic minting of LYTX units to zLYTX", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
-        checkBoxZeromintEnable->setText(QApplication::translate("OptionsDialog", "Enable zLYTX Automint", Q_NULLPTR));
-#ifndef QT_NO_TOOLTIP
-        percentage_label->setToolTip(QApplication::translate("OptionsDialog", "Percentage of incoming LYTX which get automatically converted to zLYTX via Zerocoin Protocol (min: 10%)", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
-        percentage_label->setText(QApplication::translate("OptionsDialog", "Percentage of autominted zLYTX", Q_NULLPTR));
-#ifndef QT_NO_TOOLTIP
-        labelPreferredDenom->setToolTip(QApplication::translate("OptionsDialog", "Wait with automatic conversion to Zerocoin until enough LYTX for this denomination is available", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
-        labelPreferredDenom->setText(QApplication::translate("OptionsDialog", "Preferred Automint zLYTX Denomination", Q_NULLPTR));
-#ifndef QT_NO_TOOLTIP
-        preferredDenom->setToolTip(QApplication::translate("OptionsDialog", "Wait with automatic conversion to Zerocoin until enough LYTX for this denomination is available", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
         tabWidget->setTabText(tabWidget->indexOf(tabMain), QApplication::translate("OptionsDialog", "&Main", Q_NULLPTR));
         labelStakeSplitThresholdText->setText(QApplication::translate("OptionsDialog", "Stake split threshold:", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("OptionsDialog", "Expert", Q_NULLPTR));
