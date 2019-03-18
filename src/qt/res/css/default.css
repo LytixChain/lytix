@@ -1048,115 +1048,6 @@ font-size:12px;
 margin-left:16px;
 }
 
-QWidget .QFrame#frame_Balances .QLabel#labelLockedBalanceText { /* Available zLYTX Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-color:#0c0c0c;
-margin-right:5px;
-padding-right:5px;
-font-weight:bold;
-font-size:12px;
-}
-
-QWidget .QFrame#frame_Balances .QLabel#labelLockedBalance { /* Available zLYTX Balance */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-font-size:12px;
-font-weight:bold;
-color:#1b1b1c;
-margin-left:0px;
-}
-
-QWidget .QFrame#frame_Balances .QLabel#labelWatchLocked { /* Available zLYTX Balance */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-font-size:12px;
-margin-left:16px;
-}
-
-/* Zerocoin additions start here ***********************************************/
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#label_5z_3 { /* Zerocoin Balance Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-background-color:transparent;
-color:#382F44;
-font-weight:bold;
-font-size:14px;
-margin-right:5px;
-padding-right:5px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalanceText { /* Available zLYTX Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-color:#0c0c0c;
-margin-right:5px;
-padding-right:5px;
-font-weight:bold;
-font-size:12px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalance { /* Available zLYTX Balance */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-font-size:12px;
-font-weight:bold;
-color:#1b1b1c;
-margin-left:0px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalanceUnconfirmedText { /* Unconfirmed zLYTX Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-color:#0c0c0c;
-margin-right:5px;
-padding-right:5px;
-font-weight:bold;
-font-size:12px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalanceUnconfirmed { /* Unconfirmed zLYTX Balance */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-font-size:12px;
-font-weight:bold;
-color:#1b1b1c;
-margin-left:0px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalanceMatureText { /* Mature zLYTX Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-color:#0c0c0c;
-margin-right:5px;
-padding-right:5px;
-font-weight:bold;
-font-size:12px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalanceMature { /* Mature zLYTX Balance */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-font-size:12px;
-font-weight:bold;
-color:#1b1b1c;
-margin-left:0px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalanceImmatureText { /* Immature zLYTX Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-color:#0c0c0c;
-margin-right:5px;
-padding-right:5px;
-font-weight:bold;
-font-size:12px;
-}
-
-QWidget .QFrame#frame_ZerocoinBalances .QLabel#labelzBalanceImmature { /* Immature zLYTX Balance */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-font-size:12px;
-font-weight:bold;
-color:#1b1b1c;
-margin-left:0px;
-}
-
 QWidget .QFrame#frame_CombinedBalances .QLabel#label_5z { /* Combined Balance Label */
 qproperty-alignment: 'AlignVCenter | AlignLeft';
 min-width:160px;
@@ -1168,39 +1059,11 @@ margin-right:5px;
 padding-right:5px;
 }
 
-QWidget .QFrame#frame_CombinedBalances .QLabel#labelBalanceTextz { /* Available LYTX Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-color:#0c0c0c;
-margin-right:5px;
-padding-right:5px;
-font-weight:bold;
-font-size:12px;
-}
-
 QWidget .QFrame#frame_CombinedBalances .QLabel#labelBalancez { /* Available LYTX Balance */
 qproperty-alignment: 'AlignVCenter | AlignLeft';
 font-size:26px;
 font-weight:normal;
 color:#0c0c0c;
-}
-
-QWidget .QFrame#frame_CombinedBalances .QLabel#labelzBalanceTextz { /* Available zLYTX Label */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-min-width:160px;
-color:#0c0c0c;
-margin-right:5px;
-padding-right:5px;
-font-weight:bold;
-font-size:12px;
-}
-
-QWidget .QFrame#frame_CombinedBalances .QLabel#labelzBalancez { /* Available zLYTX Balance */
-qproperty-alignment: 'AlignVCenter | AlignLeft';
-font-size:12px;
-font-weight:bold;
-color:#1b1b1c;
-margin-left:0px;
 }
 
 QWidget .QFrame#frame_CombinedBalances .QLabel#labelTotalTextz { /* Available total Label */
@@ -1515,11 +1378,6 @@ QDialog#CoinControlDialog .CoinControlTreeWidget#treeWidget::indicator { /* Coin
 
 }
 
-QDialog#ZLytixControlDialog .QTreeWidget#treeWidget { /* zLYTX Control Widget Container */
-outline:0;
-background-color:#ffffff;
-border:1px solid #333;
-}
 
 /**************************** RECEIVE COINS *********************************************/
 
