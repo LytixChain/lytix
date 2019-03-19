@@ -1755,6 +1755,9 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
     fMasterNode = GetBoolArg("-masternode", false);
+    fMaxNodeT1 = GetBoolArg("-maxnodet1", false);
+    fMaxNodeT2 = GetBoolArg("-maxnodet2", false);
+    fMaxNodeT3 = GetBoolArg("-maxnodet3", false);
 
     if ((fMasterNode || masternodeConfig.getCount() > -1) && fTxIndex == false) {
         return InitError("Enabling Masternode support requires turning on transaction indexing."

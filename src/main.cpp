@@ -1911,12 +1911,12 @@ int64_t GetBlockValue(int nHeight)
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(643000 * COIN);
     } else if ( nHeight > 1 && nHeight <= 50) {
-        CoinAmount = static_cast<int64_t>(1 * COIN);
+        CoinAmount = static_cast<int64_t>(5000 * COIN);
     } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
-        CoinAmount = static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 350) {
+        CoinAmount = static_cast<int64_t>(5000 * COIN);
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 450000) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
-    } else if (nHeight > 350 && nHeight <= (1 * DropTime)) {
+    } else if (nHeight > 450000 && nHeight <= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
     } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
         CoinAmount = static_cast<int64_t>(24 * COIN);
@@ -1972,28 +1972,63 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 {
     int64_t ret = 0;
 
+    if (Params().NetworkID() == CBaseChainParams::TESTNET) {
+
     if (nHeight <= 499) {
         ret = 0;
-    // Maxnode rewards
-    //
-    /**} else if (nHeight > 499 && nMaxnodeTier == 1) {
-	ret = blockValue * 5;
-    } else if (nHeight > 499 && nMaxnodeTier == 2) {
-        ret = blockValue * 7.5;
-    } else if (nHeight > 499 && nMaxnodeTier == 3) {
-        ret = blockValue * 10;
-    **/
     } else if (nHeight > 499) {
         ret = blockValue * 0.6;
     } else {
-        //When zPIV is staked, masternode only gets 20 LYTX
         ret = 15 * COIN;
-        if (isZPIVStake)
-            ret = 20 * COIN;
+    }
+    return ret;
+    }
+
+    if (nHeight <= 499) {
+        ret = 0;
+    } else if (nHeight > 499) {
+        ret = blockValue * 0.6;
+    } else {
+        ret = 15 * COIN;
     }
 
     return ret;
 }
+
+int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bool isZPIVStake)
+{
+    int64_t ret = 0;
+
+    if (Params().NetworkID() == CBaseChainParams::TESTNET) {
+
+    if (nHeight <= 499) {
+        ret = 0;
+    
+    } else if (nHeight > 499 && fMaxNodeT1) {
+        ret = blockValue * 5;
+    } else if (nHeight > 499 && fMaxNodeT2) {
+        ret = blockValue * 7.5;
+    } else if (nHeight > 499 && fMaxNodeT1) {
+        ret = blockValue * 10;
+    }
+
+    return ret;
+    }
+
+    if (nHeight <= 499) {
+        ret = 0;
+
+    } else if (nHeight > 499 && fMaxNodeT1) {
+        ret = blockValue * 5;
+    } else if (nHeight > 499 && fMaxNodeT2) {
+        ret = blockValue * 7.5;
+    } else if (nHeight > 499 && fMaxNodeT1) {
+        ret = blockValue * 10;
+    }
+
+    return ret;
+}
+
 
 bool IsInitialBlockDownload()
 {

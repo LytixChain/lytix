@@ -34,6 +34,9 @@
 //PIVX only features
 
 extern bool fMasterNode;
+extern bool fMaxNodeT1;
+extern bool fMaxNodeT2;
+extern bool fMaxNodeT3;
 extern bool fLiteMode;
 extern bool fEnableSwiftTX;
 extern int nSwiftTXDepth;

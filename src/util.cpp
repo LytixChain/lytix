@@ -112,6 +112,13 @@ using namespace std;
 bool fMasterNode = false;
 string strMasterNodePrivKey = "";
 string strMasterNodeAddr = "";
+// Maxnode
+bool fMaxNodeT1 = false;
+bool fMaxNodeT2 = false;
+bool fMaxNodeT3 = false;
+string strMaxNodePrivKey = "";
+string strMaxNodeAddr = "";
+
 bool fLiteMode = false;
 // SwiftX
 bool fEnableSwiftTX = true;
