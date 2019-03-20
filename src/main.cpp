@@ -5328,6 +5328,12 @@ bool static AlreadyHave(const CInv& inv)
             return true;
         }
         return false;
+    case MSG_MAXNODE_WINNER:
+        if (maxnodePayments.mapMaxnodePayeeVotes.count(inv.hash)) {
+            maxnodeSync.AddedMaxnodeWinner(inv.hash);
+            return true;
+        }
+        return false;
     case MSG_BUDGET_VOTE:
         if (budget.mapSeenMasternodeBudgetVotes.count(inv.hash)) {
             masternodeSync.AddedBudgetItem(inv.hash);
@@ -5360,6 +5366,16 @@ bool static AlreadyHave(const CInv& inv)
         return false;
     case MSG_MASTERNODE_PING:
         return mnodeman.mapSeenMasternodePing.count(inv.hash);
+
+    case MSG_MAXNODE_ANNOUNCE:
+        if (maxnodeman.mapSeenMaxnodeBroadcast.count(inv.hash)) {
+            maxnodeSync.AddedMaxnodeList(inv.hash);
+            return true;
+        }
+        return false;
+
+    case MSG_MAXNODE_PING:
+        return maxnodeman.mapSeenMaxnodePing.count(inv.hash);
     }
     // Don't know what it is, just say we already got one
     return true;
@@ -5499,6 +5515,15 @@ void static ProcessGetData(CNode* pfrom)
                         pushed = true;
                     }
                 }
+                if (!pushed && inv.type == MSG_MAXNODE_WINNER) {
+                    if (maxnodePayments.mapMaxnodePayeeVotes.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << maxnodePayments.mapMaxnodePayeeVotes[inv.hash];
+                        pfrom->PushMessage("mnw", ss);
+                        pushed = true;
+                    }
+                }
                 if (!pushed && inv.type == MSG_BUDGET_VOTE) {
                     if (budget.mapSeenMasternodeBudgetVotes.count(inv.hash)) {
                         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
@@ -5549,11 +5574,31 @@ void static ProcessGetData(CNode* pfrom)
                     }
                 }
 
+                if (!pushed && inv.type == MSG_MAXNODE_ANNOUNCE) {
+                    if (maxnodeman.mapSeenMaxnodeBroadcast.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << maxnodeman.mapSeenMaxnodeBroadcast[inv.hash];
+                        pfrom->PushMessage("mnb", ss);
+                        pushed = true;
+                    }
+                }
+
                 if (!pushed && inv.type == MSG_MASTERNODE_PING) {
                     if (mnodeman.mapSeenMasternodePing.count(inv.hash)) {
                         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
                         ss.reserve(1000);
                         ss << mnodeman.mapSeenMasternodePing[inv.hash];
+                        pfrom->PushMessage("mnp", ss);
+                        pushed = true;
+                    }
+                }
+
+                if (!pushed && inv.type == MSG_MAXNODE_PING) {
+                    if (maxnodeman.mapSeenMaxnodePing.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << maxnodeman.mapSeenMaxnodePing[inv.hash];
                         pfrom->PushMessage("mnp", ss);
                         pushed = true;
                     }

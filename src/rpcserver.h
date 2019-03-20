@@ -326,8 +326,32 @@ extern UniValue mnbudgetrawvote(const UniValue& params, bool fHelp);
 extern UniValue mnfinalbudget(const UniValue& params, bool fHelp);
 extern UniValue checkbudgets(const UniValue& params, bool fHelp);
 
+extern UniValue getpoolinfo(const UniValue& params, bool fHelp); // in rpcmaxnode.cpp
+extern UniValue maxnode(const UniValue& params, bool fHelp);
+extern UniValue listmaxnodes(const UniValue& params, bool fHelp);
+extern UniValue getmaxnodecount(const UniValue& params, bool fHelp);
+extern UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp);
+extern UniValue decodemaxnodebroadcast(const UniValue& params, bool fHelp);
+extern UniValue relaymaxnodebroadcast(const UniValue& params, bool fHelp);
+extern UniValue maxnodeconnect(const UniValue& params, bool fHelp);
+extern UniValue maxnodecurrent(const UniValue& params, bool fHelp);
+extern UniValue maxnodedebug(const UniValue& params, bool fHelp);
+extern UniValue startmaxnode(const UniValue& params, bool fHelp);
+extern UniValue createmaxnodekey(const UniValue& params, bool fHelp);
+extern UniValue getmaxnodeoutputs(const UniValue& params, bool fHelp);
+extern UniValue listmaxnodeconf(const UniValue& params, bool fHelp);
+extern UniValue getmaxnodestatus(const UniValue& params, bool fHelp);
+extern UniValue getmaxnodewinners(const UniValue& params, bool fHelp);
+extern UniValue getmaxnodescores(const UniValue& params, bool fHelp);
+
+extern UniValue maxbudget(const UniValue& params, bool fHelp); // in rpcmasternode-budget.cpp
+extern UniValue maxbudgetvote(const UniValue& params, bool fHelp);
+extern UniValue maxbudgetrawvote(const UniValue& params, bool fHelp);
+extern UniValue maxfinalbudget(const UniValue& params, bool fHelp);
+
 extern UniValue getinfo(const UniValue& params, bool fHelp); // in rpcmisc.cpp
 extern UniValue mnsync(const UniValue& params, bool fHelp);
+extern UniValue maxsync(const UniValue& params, bool fHelp);
 extern UniValue spork(const UniValue& params, bool fHelp);
 extern UniValue validateaddress(const UniValue& params, bool fHelp);
 extern UniValue createmultisig(const UniValue& params, bool fHelp);

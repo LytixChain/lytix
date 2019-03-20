@@ -91,6 +91,7 @@ endif
 # coin core #
 BITCOIN_CORE_H = \
   activemasternode.h \
+  activemaxnode.h \
   accumulators.h \
   accumulatorcheckpoints.h \
   accumulatorcheckpoints.json.h \
@@ -144,11 +145,14 @@ BITCOIN_CORE_H = \
   masternode.h \
   maxnode.h \
   masternode-payments.h \
+  maxnode-payments.h \
   masternode-budget.h \
+  maxnode-budget.h \
   masternode-sync.h \
+  maxnode-sync.h \
   masternodeman.h \
+  maxnodeman.h \
   masternodeconfig.h \
-  maxnodeconfig.h \
   maxnodeconfig.h \
   merkleblock.h \
   miner.h \
@@ -234,7 +238,9 @@ libbitcoin_server_a_SOURCES = \
   rest.cpp \
   rpcblockchain.cpp \
   rpcmasternode.cpp \
+  rpcmaxnode.cpp \
   rpcmasternode-budget.cpp \
+  rpcmaxnode-budget.cpp \
   rpcmining.cpp \
   rpcmisc.cpp \
   rpcnet.cpp \
@@ -265,6 +271,7 @@ libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_wallet_a_SOURCES = \
   activemasternode.cpp \
+  activemaxnode.cpp \
   bip38.cpp \
   denomination_functions.cpp \
   obfuscation.cpp \

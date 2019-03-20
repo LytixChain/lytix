@@ -9,6 +9,7 @@
 #include "init.h"
 #include "main.h"
 #include "masternodeman.h"
+#include "maxnodeman.h"
 #include "script/sign.h"
 #include "swifttx.h"
 #include "ui_interface.h"
@@ -37,6 +38,8 @@ std::vector<CTxIn> vecMasternodesUsed;
 map<uint256, CObfuscationBroadcastTx> mapObfuscationBroadcastTxes;
 // Keep track of the active Masternode
 CActiveMasternode activeMasternode;
+// Keep track of the active Maxnode
+CActiveMaxnode activeMaxnode;
 
 /* *** BEGIN OBFUSCATION MAGIC - PIV **********
     Copyright (c) 2014-2015, Dash Developers
@@ -79,6 +82,14 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
             pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MASTERNODE_REJECTED, errorID);
             return;
         }
+
+	CMaxnode* pmax = maxnodeman.Find(activeMaxnode.vin);
+        if (pmax == NULL) {
+            errorID = ERR_MN_LIST;
+            pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
+            return;
+        }
+
 
         if (sessionUsers == 0) {
             if (pmn->nLastDsq != 0 &&

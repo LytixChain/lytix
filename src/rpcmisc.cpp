@@ -222,6 +222,78 @@ UniValue mnsync(const UniValue& params, bool fHelp)
     return "failure";
 }
 
+UniValue maxsync(const UniValue& params, bool fHelp)
+{
+    std::string strMode;
+    if (params.size() == 1)
+        strMode = params[0].get_str();
+
+    if (fHelp || params.size() != 1 || (strMode != "status" && strMode != "reset")) {
+        throw runtime_error(
+            "maxsync \"status|reset\"\n"
+            "\nReturns the sync status or resets sync.\n"
+
+            "\nArguments:\n"
+            "1. \"mode\"    (string, required) either 'status' or 'reset'\n"
+
+            "\nResult ('status' mode):\n"
+            "{\n"
+            "  \"IsBlockchainSynced\": true|false,    (boolean) 'true' if blockchain is synced\n"
+            "  \"lastMaxnodeList\": xxxx,        (numeric) Timestamp of last MAX list message\n"
+            "  \"lastMaxnodeWinner\": xxxx,      (numeric) Timestamp of last MAX winner message\n"
+            "  \"lastBudgetItem\": xxxx,            (numeric) Timestamp of last MAX budget message\n"
+            "  \"lastFailure\": xxxx,           (numeric) Timestamp of last failed sync\n"
+            "  \"nCountFailures\": n,           (numeric) Number of failed syncs (total)\n"
+            "  \"sumMaxnodeList\": n,        (numeric) Number of MAX list messages (total)\n"
+            "  \"sumMaxnodeWinner\": n,      (numeric) Number of MAX winner messages (total)\n"
+            "  \"sumBudgetItemProp\": n,        (numeric) Number of MAX budget messages (total)\n"
+            "  \"sumBudgetItemFin\": n,         (numeric) Number of MAX budget finalization messages (total)\n"
+            "  \"countMaxnodeList\": n,      (numeric) Number of MAX list messages (local)\n"
+            "  \"countMaxnodeWinner\": n,    (numeric) Number of MAX winner messages (local)\n"
+            "  \"countBudgetItemProp\": n,      (numeric) Number of MAX budget messages (local)\n"
+            "  \"countBudgetItemFin\": n,       (numeric) Number of MAX budget finalization messages (local)\n"
+            "  \"RequestedMaxnodeAssets\": n, (numeric) Status code of last sync phase\n"
+            "  \"RequestedMaxnodeAttempt\": n, (numeric) Status code of last sync attempt\n"
+            "}\n"
+
+            "\nResult ('reset' mode):\n"
+            "\"status\"     (string) 'success'\n"
+
+            "\nExamples:\n" +
+            HelpExampleCli("maxsync", "\"status\"") + HelpExampleRpc("maxsync", "\"status\""));
+    }
+
+    if (strMode == "status") {
+        UniValue obj(UniValue::VOBJ);
+
+        obj.push_back(Pair("IsBlockchainSynced", maxnodeSync.IsBlockchainSynced()));
+        obj.push_back(Pair("lastMaxnodeList", maxnodeSync.lastMaxnodeList));
+        obj.push_back(Pair("lastMaxnodeWinner", maxnodeSync.lastMaxnodeWinner));
+        obj.push_back(Pair("lastBudgetItem", maxnodeSync.lastBudgetItem));
+        obj.push_back(Pair("lastFailure", maxnodeSync.lastFailure));
+        obj.push_back(Pair("nCountFailures", maxnodeSync.nCountFailures));
+        obj.push_back(Pair("sumMaxnodeList", maxnodeSync.sumMaxnodeList));
+        obj.push_back(Pair("sumMaxnodeWinner", maxnodeSync.sumMaxnodeWinner));
+        obj.push_back(Pair("sumBudgetItemProp", maxnodeSync.sumBudgetItemProp));
+        obj.push_back(Pair("sumBudgetItemFin", maxnodeSync.sumBudgetItemFin));
+        obj.push_back(Pair("countMaxnodeList", maxnodeSync.countMaxnodeList));
+        obj.push_back(Pair("countMaxnodeWinner", maxnodeSync.countMaxnodeWinner));
+        obj.push_back(Pair("countBudgetItemProp", maxnodeSync.countBudgetItemProp));
+        obj.push_back(Pair("countBudgetItemFin", maxnodeSync.countBudgetItemFin));
+        obj.push_back(Pair("RequestedMaxnodeAssets", maxnodeSync.RequestedMaxnodeAssets));
+        obj.push_back(Pair("RequestedMaxnodeAttempt", maxnodeSync.RequestedMaxnodeAttempt));
+
+        return obj;
+    }
+
+    if (strMode == "reset") {
+        maxnodeSync.Reset();
+        return "success";
+    }
+    return "failure";
+}
+
+
 #ifdef ENABLE_WALLET
 class DescribeAddressVisitor : public boost::static_visitor<UniValue>
 {

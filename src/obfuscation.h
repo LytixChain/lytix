@@ -10,6 +10,9 @@
 #include "masternode-payments.h"
 #include "masternode-sync.h"
 #include "masternodeman.h"
+#include "maxnode-payments.h"
+#include "maxnode-sync.h"
+#include "maxnodeman.h"
 #include "obfuscation-relay.h"
 #include "sync.h"
 
@@ -21,6 +24,7 @@ class CBitcoinAddress;
 class CObfuscationQueue;
 class CObfuscationBroadcastTx;
 class CActiveMasternode;
+class CActiveMaxnode;
 
 // pool states for mixing
 #define POOL_STATUS_UNKNOWN 0              // waiting for update
@@ -38,6 +42,10 @@ class CActiveMasternode;
 #define MASTERNODE_REJECTED 0
 #define MASTERNODE_RESET -1
 
+#define MAXNODE_ACCEPTED 1
+#define MAXNODE_REJECTED 0
+#define MAXNODE_RESET -1
+
 #define OBFUSCATION_QUEUE_TIMEOUT 30
 #define OBFUSCATION_SIGNING_TIMEOUT 15
 
@@ -53,8 +61,10 @@ extern CObfuscationPool obfuScationPool;
 extern CObfuScationSigner obfuScationSigner;
 extern std::vector<CObfuscationQueue> vecObfuscationQueue;
 extern std::string strMasterNodePrivKey;
+extern std::string strMaxNodePrivKey;
 extern map<uint256, CObfuscationBroadcastTx> mapObfuscationBroadcastTxes;
 extern CActiveMasternode activeMasternode;
+extern CActiveMaxnode activeMaxnode;
 
 /** Holds an Obfuscation input
  */

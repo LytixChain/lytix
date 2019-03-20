@@ -7,8 +7,10 @@
 #define OBFUSCATION_RELAY_H
 
 #include "activemasternode.h"
+#include "activemaxnode.h"
 #include "main.h"
 #include "masternodeman.h"
+#include "maxnodeman.h"
 
 
 class CObfuScationRelay

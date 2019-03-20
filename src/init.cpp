@@ -15,6 +15,7 @@
 #include "accumulatorcheckpoints.h"
 #include "accumulators.h"
 #include "activemasternode.h"
+#include "activemaxnode.h"
 #include "addrman.h"
 #include "amount.h"
 #include "checkpoints.h"
@@ -26,8 +27,11 @@
 #include "main.h"
 #include "masternode-budget.h"
 #include "masternode-payments.h"
+#include "maxnode-payments.h"
 #include "masternodeconfig.h"
+#include "maxnodeconfig.h"
 #include "masternodeman.h"
+#include "maxnodeman.h"
 #include "miner.h"
 #include "net.h"
 #include "rpcserver.h"
@@ -1792,6 +1796,99 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
         } else {
             return InitError(_("You must specify a masternodeprivkey in the configuration. Please see documentation for help."));
+        }
+    }
+
+    if (fMaxNodeT1) {
+        LogPrintf("IS TIER 1 MAX NODE\n");
+        strMaxNodeAddr = GetArg("-maxnodeaddr", "");
+
+        LogPrintf(" addr %s\n", strMaxNodeAddr.c_str());
+
+        if (!strMaxNodeAddr.empty()) {
+            CService addrTest = CService(strMaxNodeAddr);
+            if (!addrTest.IsValid()) {
+                return InitError("Invalid -maxnodeaddr address: " + strMaxNodeAddr);
+            }
+        }
+
+        strMaxNodePrivKey = GetArg("-maxnodeprivkey", "");
+        if (!strMaxNodePrivKey.empty()) {
+            std::string errorMessage;
+
+            CKey key;
+            CPubKey pubkey;
+
+            if (!obfuScationSigner.SetKey(strMaxNodePrivKey, errorMessage, key, pubkey)) {
+                return InitError(_("Invalid maxnodeprivkey. Please see documenation."));
+            }
+
+            activeMaxnode.pubKeyMaxnode = pubkey;
+
+        } else {
+            return InitError(_("You must specify a maxnodeprivkey in the configuration. Please see documentation for help."));
+        }
+    }
+
+    if (fMaxNodeT2) {
+        LogPrintf("IS TIER 2 MAX NODE\n");
+        strMaxNodeAddr = GetArg("-maxnodeaddr", "");
+
+        LogPrintf(" addr %s\n", strMaxNodeAddr.c_str());
+
+        if (!strMaxNodeAddr.empty()) {
+            CService addrTest = CService(strMaxNodeAddr);
+            if (!addrTest.IsValid()) {
+                return InitError("Invalid -maxnodeaddr address: " + strMaxNodeAddr);
+            }
+        }
+
+        strMaxNodePrivKey = GetArg("-maxnodeprivkey", "");
+        if (!strMaxNodePrivKey.empty()) {
+            std::string errorMessage;
+
+            CKey key;
+            CPubKey pubkey;
+
+            if (!obfuScationSigner.SetKey(strMaxNodePrivKey, errorMessage, key, pubkey)) {
+                return InitError(_("Invalid maxnodeprivkey. Please see documenation."));
+            }
+
+            activeMaxnode.pubKeyMaxnode = pubkey;
+
+        } else {
+            return InitError(_("You must specify a maxnodeprivkey in the configuration. Please see documentation for help."));
+        }
+    }
+
+    if (fMaxNodeT3) {
+        LogPrintf("IS TIER 3 MAX NODE\n");
+        strMaxNodeAddr = GetArg("-maxnodeaddr", "");
+
+        LogPrintf(" addr %s\n", strMaxNodeAddr.c_str());
+
+        if (!strMaxNodeAddr.empty()) {
+            CService addrTest = CService(strMaxNodeAddr);
+            if (!addrTest.IsValid()) {
+                return InitError("Invalid -maxnodeaddr address: " + strMaxNodeAddr);
+            }
+        }
+
+        strMaxNodePrivKey = GetArg("-maxnodeprivkey", "");
+        if (!strMaxNodePrivKey.empty()) {
+            std::string errorMessage;
+
+            CKey key;
+            CPubKey pubkey;
+
+            if (!obfuScationSigner.SetKey(strMaxNodePrivKey, errorMessage, key, pubkey)) {
+                return InitError(_("Invalid maxnodeprivkey. Please see documenation."));
+            }
+
+            activeMaxnode.pubKeyMaxnode = pubkey;
+
+        } else {
+            return InitError(_("You must specify a maxnodeprivkey in the configuration. Please see documentation for help."));
         }
     }
 
