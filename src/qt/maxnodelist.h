@@ -7,7 +7,7 @@
 #ifndef MAXNODELIST_H
 #define MAXNODELIST_H
 
-#include "masternode.h"
+#include "maxnode.h"
 #include "maxnode.h"
 #include "platformstyle.h"
 #include "sync.h"
@@ -53,7 +53,7 @@ private:
     bool fFilterUpdated;
 
 public Q_SLOTS:
-    void updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMasternode* pmn);
+    void updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMaxnode* pmax);
     void updateMyNodeList(bool fForce = false);
 
 Q_SIGNALS:
@@ -63,7 +63,7 @@ private:
     Ui::MaxnodeList* ui;
     ClientModel* clientModel;
     WalletModel* walletModel;
-    CCriticalSection cs_mnlistupdate;
+    CCriticalSection cs_maxlistupdate;
     QString strCurrentFilter;
 
 private Q_SLOTS:

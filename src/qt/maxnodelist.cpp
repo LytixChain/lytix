@@ -1,22 +1,20 @@
 // Copyright (c) 2014-2016 The Dash Developers
 // Copyright (c) 2016-2018 The PIVX developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The Lytxi developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "masternodelist.h"
-#include "ui_masternodelist.h"
 #include "maxnodelist.h"
 #include "ui_maxnodelist.h"
 
 
-#include "activemasternode.h"
+#include "activemaxnode.h"
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "init.h"
-#include "masternode-sync.h"
-#include "masternodeconfig.h"
-#include "masternodeman.h"
+#include "maxnode-sync.h"
+#include "maxnodeconfig.h"
+#include "maxnodeman.h"
 #include "sync.h"
 #include "wallet.h"
 #include "walletmodel.h"
@@ -66,7 +64,7 @@ MaxnodeList::MaxnodeList(QWidget* parent) : QWidget(parent),
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMyNodeList()));
     timer->start(1000);
 
-    // Fill MN list
+    // Fill MAX list
     fFilterUpdated = true;
     nTimeFilterUpdated = GetTime();
 }
@@ -98,19 +96,19 @@ void MaxnodeList::StartAlias(std::string strAlias)
     std::string strStatusHtml;
     strStatusHtml += "<center>Alias: " + strAlias;
 
-    BOOST_FOREACH (CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
-        if (mne.getAlias() == strAlias) {
+    BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
+        if (maxe.getAlias() == strAlias) {
             std::string strError;
-            CMasternodeBroadcast mnb;
+            CMaxnodeBroadcast maxb;
 
-            bool fSuccess = CMasternodeBroadcast::Create(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), strError, mnb);
+            bool fSuccess = CMaxnodeBroadcast::Create(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), strError, maxb);
 
             if (fSuccess) {
-                strStatusHtml += "<br>Successfully started masternode.";
-                mnodeman.UpdateMasternodeList(mnb);
-                mnb.Relay();
+                strStatusHtml += "<br>Successfully started maxnode.";
+                maxnodeman.UpdateMaxnodeList(maxb);
+                maxb.Relay();
             } else {
-                strStatusHtml += "<br>Failed to start masternode.<br>Error: " + strError;
+                strStatusHtml += "<br>Failed to start maxnode.<br>Error: " + strError;
             }
             break;
         }
@@ -130,34 +128,34 @@ void MaxnodeList::StartAll(std::string strCommand)
     int nCountFailed = 0;
     std::string strFailedHtml;
 
-    BOOST_FOREACH (CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
+    BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
         std::string strError;
-        CMasternodeBroadcast mnb;
+        CMaxnodeBroadcast maxb;
 
         int nIndex;
-        if(!mne.castOutputIndex(nIndex))
+        if(!maxe.castOutputIndex(nIndex))
             continue;
 
-        CTxIn txin = CTxIn(uint256S(mne.getTxHash()), uint32_t(nIndex));
-        CMasternode* pmn = mnodeman.Find(txin);
+        CTxIn txin = CTxIn(uint256S(maxe.getTxHash()), uint32_t(nIndex));
+        CMaxnode* pmax = maxnodeman.Find(txin);
 
-        if (strCommand == "start-missing" && pmn) continue;
+        if (strCommand == "start-missing" && pmax) continue;
 
-        bool fSuccess = CMasternodeBroadcast::Create(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), strError, mnb);
+        bool fSuccess = CMaxnodeBroadcast::Create(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), strError, maxb);
 
         if (fSuccess) {
             nCountSuccessful++;
-            mnodeman.UpdateMasternodeList(mnb);
-            mnb.Relay();
+            maxnodeman.UpdateMaxnodeList(maxb);
+            maxb.Relay();
         } else {
             nCountFailed++;
-            strFailedHtml += "\nFailed to start " + mne.getAlias() + ". Error: " + strError;
+            strFailedHtml += "\nFailed to start " + maxe.getAlias() + ". Error: " + strError;
         }
     }
     pwalletMain->Lock();
 
     std::string returnObj;
-    returnObj = strprintf("Successfully started %d masternodes, failed to start %d, total %d", nCountSuccessful, nCountFailed, nCountFailed + nCountSuccessful);
+    returnObj = strprintf("Successfully started %d maxnodes, failed to start %d, total %d", nCountSuccessful, nCountFailed, nCountFailed + nCountSuccessful);
     if (nCountFailed > 0) {
         returnObj += strFailedHtml;
     }
@@ -169,9 +167,9 @@ void MaxnodeList::StartAll(std::string strCommand)
     updateMyNodeList(true);
 }
 
-void MaxnodeList::updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMasternode* pmn)
+void MaxnodeList::updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMaxnode* pmax)
 {
-    LOCK(cs_mnlistupdate);
+    LOCK(cs_maxlistupdate);
     bool fOldRowFound = false;
     int nNewRow = 0;
 
@@ -189,12 +187,12 @@ void MaxnodeList::updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMaster
     }
 
     QTableWidgetItem* aliasItem = new QTableWidgetItem(strAlias);
-    QTableWidgetItem* addrItem = new QTableWidgetItem(pmn ? QString::fromStdString(pmn->addr.ToString()) : strAddr);
-    QTableWidgetItem* protocolItem = new QTableWidgetItem(QString::number(pmn ? pmn->protocolVersion : -1));
-    QTableWidgetItem* statusItem = new QTableWidgetItem(QString::fromStdString(pmn ? pmn->GetStatus() : "MISSING"));
-    GUIUtil::DHMSTableWidgetItem* activeSecondsItem = new GUIUtil::DHMSTableWidgetItem(pmn ? (pmn->lastPing.sigTime - pmn->sigTime) : 0);
-    QTableWidgetItem* lastSeenItem = new QTableWidgetItem(QString::fromStdString(DateTimeStrFormat("%Y-%m-%d %H:%M", pmn ? pmn->lastPing.sigTime : 0)));
-    QTableWidgetItem* pubkeyItem = new QTableWidgetItem(QString::fromStdString(pmn ? CBitcoinAddress(pmn->pubKeyCollateralAddress.GetID()).ToString() : ""));
+    QTableWidgetItem* addrItem = new QTableWidgetItem(pmax ? QString::fromStdString(pmax->addr.ToString()) : strAddr);
+    QTableWidgetItem* protocolItem = new QTableWidgetItem(QString::number(pmax ? pmax->protocolVersion : -1));
+    QTableWidgetItem* statusItem = new QTableWidgetItem(QString::fromStdString(pmax ? pmax->GetStatus() : "MISSING"));
+    GUIUtil::DHMSTableWidgetItem* activeSecondsItem = new GUIUtil::DHMSTableWidgetItem(pmax ? (pmax->lastPing.sigTime - pmax->sigTime) : 0);
+    QTableWidgetItem* lastSeenItem = new QTableWidgetItem(QString::fromStdString(DateTimeStrFormat("%Y-%m-%d %H:%M", pmax ? pmax->lastPing.sigTime : 0)));
+    QTableWidgetItem* pubkeyItem = new QTableWidgetItem(QString::fromStdString(pmax ? CBitcoinAddress(pmax->pubKeyCollateralAddress.GetID()).ToString() : ""));
 
     ui->tableWidgetMyMaxnodes->setItem(nNewRow, 0, aliasItem);
     ui->tableWidgetMyMaxnodes->setItem(nNewRow, 1, addrItem);
@@ -209,23 +207,23 @@ void MaxnodeList::updateMyNodeList(bool fForce)
 {
     static int64_t nTimeMyListUpdated = 0;
 
-    // automatically update my masternode list only once in MY_MASTERNODELIST_UPDATE_SECONDS seconds,
+    // automatically update my maxnode list only once in MY_MAXNODELIST_UPDATE_SECONDS seconds,
     // this update still can be triggered manually at any time via button click
-    int64_t nSecondsTillUpdate = nTimeMyListUpdated + MY_MASTERNODELIST_UPDATE_SECONDS - GetTime();
+    int64_t nSecondsTillUpdate = nTimeMyListUpdated + MY_MAXNODELIST_UPDATE_SECONDS - GetTime();
     ui->secondsLabel->setText(QString::number(nSecondsTillUpdate));
 
     if (nSecondsTillUpdate > 0 && !fForce) return;
     nTimeMyListUpdated = GetTime();
 
     ui->tableWidgetMyMaxnodes->setSortingEnabled(false);
-    BOOST_FOREACH (CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
+    BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
         int nIndex;
-        if(!mne.castOutputIndex(nIndex))
+        if(!maxe.castOutputIndex(nIndex))
             continue;
 
-        CTxIn txin = CTxIn(uint256S(mne.getTxHash()), uint32_t(nIndex));
-        CMasternode* pmn = mnodeman.Find(txin);
-        updateMyMaxnodeInfo(QString::fromStdString(mne.getAlias()), QString::fromStdString(mne.getIp()), pmn);
+        CTxIn txin = CTxIn(uint256S(maxe.getTxHash()), uint32_t(nIndex));
+        CMaxnode* pmax = maxnodeman.Find(txin);
+        updateMyMaxnodeInfo(QString::fromStdString(maxe.getAlias()), QString::fromStdString(maxe.getIp()), pmax);
     }
     ui->tableWidgetMyMaxnodes->setSortingEnabled(true);
 
@@ -246,8 +244,8 @@ void MaxnodeList::on_startButton_clicked()
     std::string strAlias = ui->tableWidgetMyMaxnodes->item(nSelectedRow, 0)->text().toStdString();
 
     // Display message box
-    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm masternode start"),
-        tr("Are you sure you want to start masternode %1?").arg(QString::fromStdString(strAlias)),
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm maxnode start"),
+        tr("Are you sure you want to start maxnode %1?").arg(QString::fromStdString(strAlias)),
         QMessageBox::Yes | QMessageBox::Cancel,
         QMessageBox::Cancel);
 
@@ -271,8 +269,8 @@ void MaxnodeList::on_startButton_clicked()
 void MaxnodeList::on_startAllButton_clicked()
 {
     // Display message box
-    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm all masternodes start"),
-        tr("Are you sure you want to start ALL masternodes?"),
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm all maxnodes start"),
+        tr("Are you sure you want to start ALL maxnodes?"),
         QMessageBox::Yes | QMessageBox::Cancel,
         QMessageBox::Cancel);
 
@@ -294,16 +292,16 @@ void MaxnodeList::on_startAllButton_clicked()
 
 void MaxnodeList::on_startMissingButton_clicked()
 {
-    if (!masternodeSync.IsMasternodeListSynced()) {
+    if (!maxnodeSync.IsMaxnodeListSynced()) {
         QMessageBox::critical(this, tr("Command is not available right now"),
-            tr("You can't use this command until masternode list is synced"));
+            tr("You can't use this command until maxnode list is synced"));
         return;
     }
 
     // Display message box
     QMessageBox::StandardButton retval = QMessageBox::question(this,
-        tr("Confirm missing masternodes start"),
-        tr("Are you sure you want to start MISSING masternodes?"),
+        tr("Confirm missing maxnodes start"),
+        tr("Are you sure you want to start MISSING maxnodes?"),
         QMessageBox::Yes | QMessageBox::Cancel,
         QMessageBox::Cancel);
 
