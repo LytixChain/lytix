@@ -400,6 +400,7 @@ static const CRPCCommand vRPCCommands[] =
         {"lytix", "mnsync", &mnsync, true, true, false},
         {"lytix", "spork", &spork, true, true, false},
         {"lytix", "getpoolinfo", &getpoolinfo, true, true, false},
+        {"lytix", "getmaxpoolinfo", &getmaxpoolinfo, true, true, false},
 	{"lytix", "maxbudget", &maxbudget, true, true, false},
         {"lytix", "maxbudgetvote", &maxbudgetvote, true, true, false},
         {"lytix", "maxbudgetrawvote", &maxbudgetrawvote, true, true, false},

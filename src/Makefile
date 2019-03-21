@@ -328,7 +328,6 @@ am_libbitcoin_server_a_OBJECTS =  \
 	libbitcoin_server_a-rpcmasternode.$(OBJEXT) \
 	libbitcoin_server_a-rpcmaxnode.$(OBJEXT) \
 	libbitcoin_server_a-rpcmasternode-budget.$(OBJEXT) \
-	libbitcoin_server_a-rpcmaxnode-budget.$(OBJEXT) \
 	libbitcoin_server_a-rpcmining.$(OBJEXT) \
 	libbitcoin_server_a-rpcmisc.$(OBJEXT) \
 	libbitcoin_server_a-rpcnet.$(OBJEXT) \
@@ -1795,7 +1794,6 @@ libbitcoin_server_a_SOURCES = \
   rpcmasternode.cpp \
   rpcmaxnode.cpp \
   rpcmasternode-budget.cpp \
-  rpcmaxnode-budget.cpp \
   rpcmining.cpp \
   rpcmisc.cpp \
   rpcnet.cpp \
@@ -3273,7 +3271,6 @@ include ./$(DEPDIR)/libbitcoin_server_a-pow.Po
 include ./$(DEPDIR)/libbitcoin_server_a-rest.Po
 include ./$(DEPDIR)/libbitcoin_server_a-rpcblockchain.Po
 include ./$(DEPDIR)/libbitcoin_server_a-rpcmasternode-budget.Po
-include ./$(DEPDIR)/libbitcoin_server_a-rpcmaxnode-budget.Po
 include ./$(DEPDIR)/libbitcoin_server_a-rpcmasternode.Po
 include ./$(DEPDIR)/libbitcoin_server_a-rpcmaxnode.Po
 include ./$(DEPDIR)/libbitcoin_server_a-rpcmining.Po
@@ -4595,19 +4592,6 @@ libbitcoin_server_a-rpcmasternode-budget.obj: rpcmasternode-budget.cpp
 #	$(AM_V_CXX)source='rpcmasternode-budget.cpp' object='libbitcoin_server_a-rpcmasternode-budget.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o libbitcoin_server_a-rpcmasternode-budget.obj `if test -f 'rpcmasternode-budget.cpp'; then $(CYGPATH_W) 'rpcmasternode-budget.cpp'; else $(CYGPATH_W) '$(srcdir)/rpcmasternode-budget.cpp'; fi`
-
-        $(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT libbitcoin_server_a-rpcmaxnode-budget.o -MD -MP -MF $(DEPDIR)/libbitcoin_server_a-rpcmaxnode-budget.Tpo -c -o libbitcoin_server_a-rpcmaxnode-budget.o `test -f 'rpcmaxnode-budget.cpp' || echo '$(srcdir)/'`rpcmaxnode-budget.cpp
-        $(AM_V_at)$(am__mv) $(DEPDIR)/libbitcoin_server_a-rpcmaxnode-budget.Tpo $(DEPDIR)/libbitcoin_server_a-rpcmaxnode-budget.Po
-#       $(AM_V_CXX)source='rpcmaxnode-budget.cpp' object='libbitcoin_server_a-rpcmaxnode-budget.o' libtool=no \
-#       DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#       $(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o libbitcoin_server_a-rpcmaxnode-budget.o `test -f 'rpcmaxnode-budget.cpp' || echo '$(srcdir)/'`rpcmaxnode-budget.cpp
-
-libbitcoin_server_a-rpcmaxnode-budget.obj: rpcmaxnode-budget.cpp
-        $(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT libbitcoin_server_a-rpcmaxnode-budget.obj -MD -MP -MF $(DEPDIR)/libbitcoin_server_a-rpcmaxnode-budget.Tpo -c -o libbitcoin_server_a-rpcmaxnode-budget.obj `if test -f 'rpcmaxnode-budget.cpp'; then $(CYGPATH_W) 'rpcmaxnode-budget.cpp'; else $(CYGPATH_W) '$(srcdir)/rpcmaxnode-budget.cpp'; fi`
-        $(AM_V_at)$(am__mv) $(DEPDIR)/libbitcoin_server_a-rpcmaxnode-budget.Tpo $(DEPDIR)/libbitcoin_server_a-rpcmaxnode-budget.Po
-#       $(AM_V_CXX)source='rpcmaxnode-budget.cpp' object='libbitcoin_server_a-rpcmaxnode-budget.obj' libtool=no \
-#       DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#       $(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o libbitcoin_server_a-rpcmaxnode-budget.obj `if test -f 'rpcmaxnode-budget.cpp'; then $(CYGPATH_W) 'rpcmaxnode-budget.cpp'; else $(CYGPATH_W) '$(srcdir)/rpcmaxnode-budget.cpp'; fi`
 
 libbitcoin_server_a-rpcmining.o: rpcmining.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT libbitcoin_server_a-rpcmining.o -MD -MP -MF $(DEPDIR)/libbitcoin_server_a-rpcmining.Tpo -c -o libbitcoin_server_a-rpcmining.o `test -f 'rpcmining.cpp' || echo '$(srcdir)/'`rpcmining.cpp

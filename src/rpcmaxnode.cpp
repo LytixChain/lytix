@@ -20,11 +20,11 @@
 #include <boost/tokenizer.hpp>
 #include <fstream>
 
-UniValue getpoolinfo(const UniValue& params, bool fHelp)
+UniValue getmaxpoolinfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
         throw runtime_error(
-            "getpoolinfo\n"
+            "getmaxpoolinfo\n"
             "\nReturns anonymous pool-related information\n"
 
             "\nResult:\n"
@@ -36,7 +36,7 @@ UniValue getpoolinfo(const UniValue& params, bool fHelp)
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("getpoolinfo", "") + HelpExampleRpc("getpoolinfo", ""));
+            HelpExampleCli("getmaxpoolinfo", "") + HelpExampleRpc("getmaxpoolinfo", ""));
 
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("current_maxnode", maxnodeman.GetCurrentMaxNode()->addr.ToString()));

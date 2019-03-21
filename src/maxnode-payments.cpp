@@ -180,7 +180,7 @@ bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMin
     if (pindexPrev == NULL) return true;
 
     int nHeight = 0;
-    if (pindexPrev->GetBlockHash() == block.hashPrevBlock) {
+    if (pindexPrev->GetMaxBlockHash() == block.hashPrevBlock) {
         nHeight = pindexPrev->nHeight + 1;
     } else { //out of order
         BlockMap::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
@@ -502,7 +502,7 @@ bool CMaxnodePayments::IsScheduled(CMaxnode& max, int nNotBlockHeight)
 bool CMaxnodePayments::AddWinningMaxnode(CMaxnodePaymentWinner& winnerIn)
 {
     uint256 blockHash = 0;
-    if (!GetBlockHash(blockHash, winnerIn.nBlockHeight - 100)) {
+    if (!GetMaxBlockHash(blockHash, winnerIn.nBlockHeight - 100)) {
         return false;
     }
 

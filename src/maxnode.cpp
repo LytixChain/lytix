@@ -21,7 +21,7 @@ map<uint256, int> mapSeenMaxnodeScanningErrors;
 std::map<int64_t, uint256> mapCacheBlockHashes;
 
 //Get the last hash that matches the modulus given. Processed in reverse order
-bool GetBlockHash(uint256& hash, int nBlockHeight)
+bool GetMaxBlockHash(uint256& hash, int nBlockHeight)
 {
     if (chainActive.Tip() == NULL) return false;
 
@@ -45,7 +45,7 @@ bool GetBlockHash(uint256& hash, int nBlockHeight)
     int n = 0;
     for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
         if (n >= nBlocksAgo) {
-            hash = BlockReading->GetBlockHash();
+            hash = BlockReading->GetMaxBlockHash();
             mapCacheBlockHashes[nBlockHeight] = hash;
             return true;
         }
@@ -171,7 +171,7 @@ uint256 CMaxnode::CalculateScore(int mod, int64_t nBlockHeight)
     uint256 hash = 0;
     uint256 aux = vin.prevout.hash + vin.prevout.n;
 
-    if (!GetBlockHash(hash, nBlockHeight)) {
+    if (!GetMaxBlockHash(hash, nBlockHeight)) {
         LogPrint("maxnode","CalculateScore ERROR - nHeight %d - Returned 0\n", nBlockHeight);
         return 0;
     }
@@ -726,7 +726,7 @@ CMaxnodePing::CMaxnodePing()
 CMaxnodePing::CMaxnodePing(CTxIn& newVin)
 {
     vin = newVin;
-    blockHash = chainActive[chainActive.Height() - 12]->GetBlockHash();
+    blockHash = chainActive[chainActive.Height() - 12]->GetMaxBlockHash();
     sigTime = GetAdjustedTime();
     vchSig = std::vector<unsigned char>();
 }

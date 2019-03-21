@@ -289,6 +289,7 @@ public:
         return block;
     }
 
+
     int64_t GetZerocoinSupply() const
     {
         int64_t nTotal = 0;
@@ -304,6 +305,11 @@ public:
     }
 
     uint256 GetBlockHash() const
+    {
+        return *phashBlock;
+    }
+
+    uint256 GetMaxBlockHash() const
     {
         return *phashBlock;
     }

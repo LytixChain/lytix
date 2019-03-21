@@ -651,7 +651,7 @@ UniValue getbudgetvotes(const UniValue& params, bool fHelp)
     return ret;
 }
 
-UniValue getnextsuperblock(const UniValue& params, bool fHelp)
+UniValue getnextmaxsuperblock(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
         throw runtime_error(
@@ -1040,7 +1040,7 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
     return NullUniValue;
 }
 
-UniValue checkbudgets(const UniValue& params, bool fHelp)
+UniValue checkmaxbudgets(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
         throw runtime_error(
