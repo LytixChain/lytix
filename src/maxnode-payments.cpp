@@ -275,20 +275,20 @@ void FillMaxBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfS
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return;
 
-    if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(pindexPrev->nHeight + 1)) {
+    /**if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(pindexPrev->nHeight + 1)) {
         budget.FillMaxBlockPayee(txNew, nFees, fProofOfStake);
-    } else {
+    } else {**/
         maxnodePayments.FillMaxBlockPayee(txNew, nFees, fProofOfStake, fZPIVStake);
-    }
+    //}
 }
 
 std::string GetMaxRequiredPaymentsString(int nBlockHeight)
 {
-    if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(nBlockHeight)) {
+    /**if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(nBlockHeight)) {
         return budget.GetMaxRequiredPaymentsString(nBlockHeight);
-    } else {
+    } else {**/
         return maxnodePayments.GetMaxRequiredPaymentsString(nBlockHeight);
-    }
+    //}
 }
 
 void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake)
