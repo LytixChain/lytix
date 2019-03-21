@@ -14,7 +14,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 
-#define MN_WINNER_MINIMUM_AGE 8000    // Age in seconds. This should be > MAXNODE_REMOVAL_SECONDS to avoid misconfigured new nodes in the list.
+#define MAX_WINNER_MINIMUM_AGE 8000    // Age in seconds. This should be > MAXNODE_REMOVAL_SECONDS to avoid misconfigured new nodes in the list.
 
 /** Maxnode manager */
 CMaxnodeMan maxnodeman;
@@ -35,7 +35,7 @@ struct CompareScoreTxIn {
     }
 };
 
-struct CompareScoreMN {
+struct CompareScoreMAX {
     bool operator()(const pair<int64_t, CMaxnode>& t1,
         const pair<int64_t, CMaxnode>& t2) const
     {
@@ -49,7 +49,7 @@ struct CompareScoreMN {
 
 CMaxnodeDB::CMaxnodeDB()
 {
-    pathMN = GetDataDir() / "maxcache.dat";
+    pathMAX = GetDataDir() / "maxcache.dat";
     strMagicMessage = "MaxnodeCache";
 }
 
@@ -66,10 +66,10 @@ bool CMaxnodeDB::Write(const CMaxnodeMan& maxnodemanToSave)
     ssMaxnodes << hash;
 
     // open output file, and associate with CAutoFile
-    FILE* file = fopen(pathMN.string().c_str(), "wb");
+    FILE* file = fopen(pathMAX.string().c_str(), "wb");
     CAutoFile fileout(file, SER_DISK, CLIENT_VERSION);
     if (fileout.IsNull())
-        return error("%s : Failed to open file %s", __func__, pathMN.string());
+        return error("%s : Failed to open file %s", __func__, pathMAX.string());
 
     // Write and commit header, data
     try {
@@ -90,15 +90,15 @@ CMaxnodeDB::ReadResult CMaxnodeDB::Read(CMaxnodeMan& maxnodemanToLoad, bool fDry
 {
     int64_t nStart = GetTimeMillis();
     // open input file, and associate with CAutoFile
-    FILE* file = fopen(pathMN.string().c_str(), "rb");
+    FILE* file = fopen(pathMAX.string().c_str(), "rb");
     CAutoFile filein(file, SER_DISK, CLIENT_VERSION);
     if (filein.IsNull()) {
-        error("%s : Failed to open file %s", __func__, pathMN.string());
+        error("%s : Failed to open file %s", __func__, pathMAX.string());
         return FileError;
     }
 
     // use file size to size memory buffer
-    int fileSize = boost::filesystem::file_size(pathMN);
+    int fileSize = boost::filesystem::file_size(pathMAX);
     int dataSize = fileSize - sizeof(uint256);
     // Don't try to resize to a negative number if file is small
     if (dataSize < 0)
@@ -216,7 +216,7 @@ bool CMaxnodeMan::Add(CMaxnode& max)
     return false;
 }
 
-void CMaxnodeMan::AskForMN(CNode* pnode, CTxIn& vin)
+void CMaxnodeMan::AskForMAX(CNode* pnode, CTxIn& vin)
 {
     std::map<COutPoint, int64_t>::iterator i = mWeAskedForMaxnodeListEntry.find(vin.prevout);
     if (i != mWeAskedForMaxnodeListEntry.end()) {
@@ -226,9 +226,9 @@ void CMaxnodeMan::AskForMN(CNode* pnode, CTxIn& vin)
 
     // ask for the maxb info once from the node that sent maxp
 
-    LogPrint("maxnode", "CMaxnodeMan::AskForMN - Asking node for missing entry, vin: %s\n", vin.prevout.hash.ToString());
+    LogPrint("maxnode", "CMaxnodeMan::AskForMAX - Asking node for missing entry, vin: %s\n", vin.prevout.hash.ToString());
     pnode->PushMessage("dseg", vin);
-    int64_t askAgain = GetTime() + MAXNODE_MIN_MNP_SECONDS;
+    int64_t askAgain = GetTime() + MAXNODE_MIN_MAXP_SECONDS;
     mWeAskedForMaxnodeListEntry[vin.prevout] = askAgain;
 }
 
@@ -262,7 +262,7 @@ void CMaxnodeMan::CheckAndRemove(bool forceExpiredRemoval)
             map<uint256, CMaxnodeBroadcast>::iterator it3 = mapSeenMaxnodeBroadcast.begin();
             while (it3 != mapSeenMaxnodeBroadcast.end()) {
                 if ((*it3).second.vin == (*it).vin) {
-                    maxnodeSync.mapSeenSyncMNB.erase((*it3).first);
+                    maxnodeSync.mapSeenSyncMAXB.erase((*it3).first);
                     mapSeenMaxnodeBroadcast.erase(it3++);
                 } else {
                     ++it3;
@@ -320,7 +320,7 @@ void CMaxnodeMan::CheckAndRemove(bool forceExpiredRemoval)
     while (it3 != mapSeenMaxnodeBroadcast.end()) {
         if ((*it3).second.lastPing.sigTime < GetTime() - (MAXNODE_REMOVAL_SECONDS * 2)) {
             mapSeenMaxnodeBroadcast.erase(it3++);
-            maxnodeSync.mapSeenSyncMNB.erase((*it3).second.GetHash());
+            maxnodeSync.mapSeenSyncMAXB.erase((*it3).second.GetHash());
         } else {
             ++it3;
         }
@@ -353,14 +353,14 @@ int CMaxnodeMan::stable_size ()
 {
     int nStable_size = 0;
     int nMinProtocol = ActiveProtocol();
-    int64_t nMaxnode_Min_Age = MN_WINNER_MINIMUM_AGE;
+    int64_t nMaxnode_Min_Age = MAX_WINNER_MINIMUM_AGE;
     int64_t nMaxnode_Age = 0;
 
     BOOST_FOREACH (CMaxnode& max, vMaxnodes) {
         if (max.protocolVersion < nMinProtocol) {
             continue; // Skip obsolete versions
         }
-        if (IsSporkActive (SPORK_8_MAXNODE_PAYMENT_ENFORCEMENT)) {
+        if (IsSporkActive (SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
             nMaxnode_Age = GetAdjustedTime() - max.sigTime;
             if ((nMaxnode_Age) < nMaxnode_Min_Age) {
                 continue; // Skip maxnodes younger than (default) 8000 sec (MUST be > MAXNODE_REMOVAL_SECONDS)
@@ -595,7 +595,7 @@ CMaxnode* CMaxnodeMan::GetCurrentMaxNode(int mod, int64_t nBlockHeight, int minP
 int CMaxnodeMan::GetMaxnodeRank(const CTxIn& vin, int64_t nBlockHeight, int minProtocol, bool fOnlyActive)
 {
     std::vector<pair<int64_t, CTxIn> > vecMaxnodeScores;
-    int64_t nMaxnode_Min_Age = MN_WINNER_MINIMUM_AGE;
+    int64_t nMaxnode_Min_Age = MAX_WINNER_MINIMUM_AGE;
     int64_t nMaxnode_Age = 0;
 
     //make sure we know about this block
@@ -609,7 +609,7 @@ int CMaxnodeMan::GetMaxnodeRank(const CTxIn& vin, int64_t nBlockHeight, int minP
             continue;                                                       // Skip obsolete versions
         }
 
-        if (IsSporkActive(SPORK_8_MAXNODE_PAYMENT_ENFORCEMENT)) {
+        if (IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
             nMaxnode_Age = GetAdjustedTime() - max.sigTime;
             if ((nMaxnode_Age) < nMaxnode_Min_Age) {
                 if (fDebug) LogPrint("maxnode","Skipping just activated Maxnode. Age: %ld\n", nMaxnode_Age);
@@ -665,7 +665,7 @@ std::vector<pair<int, CMaxnode> > CMaxnodeMan::GetMaxnodeRanks(int64_t nBlockHei
         vecMaxnodeScores.push_back(make_pair(n2, max));
     }
 
-    sort(vecMaxnodeScores.rbegin(), vecMaxnodeScores.rend(), CompareScoreMN());
+    sort(vecMaxnodeScores.rbegin(), vecMaxnodeScores.rend(), CompareScoreMAX());
 
     int rank = 0;
     BOOST_FOREACH (PAIRTYPE(int64_t, CMaxnode) & s, vecMaxnodeScores) {
@@ -714,10 +714,10 @@ void CMaxnodeMan::ProcessMaxnodeConnections()
 
     LOCK(cs_vNodes);
     BOOST_FOREACH (CNode* pnode, vNodes) {
-        if (pnode->fObfuScationMax) {
+        if (pnode->fObfuScationMaster) {
             if (obfuScationPool.pSubmittedToMaxnode != NULL && pnode->addr == obfuScationPool.pSubmittedToMaxnode->addr) continue;
             LogPrint("maxnode","Closing Maxnode connection peer=%i \n", pnode->GetId());
-            pnode->fObfuScationMax = false;
+            pnode->fObfuScationMaster = false;
             pnode->Release();
         }
     }
@@ -795,7 +795,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         // something significant is broken or max is unknown,
         // we might have to ask for a maxnode entry once
-        AskForMN(pfrom, maxp.vin);
+        AskForMAX(pfrom, maxp.vin);
 
     } else if (strCommand == "dseg") { //Get Maxnode list or specific entry
 
@@ -858,7 +858,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
     // Light version for OLD MASSTERNODES - fake pings, no self-activation
     else if (strCommand == "dsee") { //ObfuScation Election Entry
 
-        if (IsSporkActive(SPORK_10_MAXNODE_PAY_UPDATED_NODES)) return;
+        if (IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)) return;
 
         CTxIn vin;
         CService addr;
@@ -937,8 +937,8 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             //   e.g. We don't want the entry relayed/time updated when we're syncing the list
             // max.pubkey = pubkey, IsVinAssociatedWithPubkey is validated once below,
             //   after that they just need to match
-            if (count == -1 && pmax->pubKeyCollateralAddress == pubkey && (GetAdjustedTime() - pmax->nLastDsee > MAXNODE_MIN_MNB_SECONDS)) {
-                if (pmax->protocolVersion > GETHEADERS_VERSION && sigTime - pmax->lastPing.sigTime < MAXNODE_MIN_MNB_SECONDS) return;
+            if (count == -1 && pmax->pubKeyCollateralAddress == pubkey && (GetAdjustedTime() - pmax->nLastDsee > MAXNODE_MIN_MAXB_SECONDS)) {
+                if (pmax->protocolVersion > GETHEADERS_VERSION && sigTime - pmax->lastPing.sigTime < MAXNODE_MIN_MAXB_SECONDS) return;
                 if (pmax->nLastDsee < sigTime) { //take the newest entry
                     LogPrint("maxnode", "dsee - Got updated entry for %s\n", vin.prevout.hash.ToString());
                     if (pmax->protocolVersion < GETHEADERS_VERSION) {
@@ -987,7 +987,8 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         CValidationState state;
         CMutableTransaction tx = CMutableTransaction();
-        CTxOut vout = CTxOut((MAXNODE_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey);
+	// TODO: come back and make this tier 1-3
+        CTxOut vout = CTxOut((MAXNODE_T1_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey);
         tx.vin.push_back(vin);
         tx.vout.push_back(vout);
 
@@ -1012,8 +1013,8 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             GetTransaction(vin.prevout.hash, tx2, hashBlock, true);
             BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
             if (mi != mapBlockIndex.end() && (*mi).second) {
-                CBlockIndex* pMNIndex = (*mi).second;                                                        // block for 10000 PIV tx -> 1 confirmation
-                CBlockIndex* pConfIndex = chainActive[pMNIndex->nHeight + MAXNODE_MIN_CONFIRMATIONS - 1]; // block where tx got MAXNODE_MIN_CONFIRMATIONS
+                CBlockIndex* pMAXIndex = (*mi).second;                                                        // block for 10000 PIV tx -> 1 confirmation
+                CBlockIndex* pConfIndex = chainActive[pMAXIndex->nHeight + MAXNODE_MIN_CONFIRMATIONS - 1]; // block where tx got MAXNODE_MIN_CONFIRMATIONS
                 if (pConfIndex->GetBlockTime() > sigTime) {
                     LogPrint("maxnode","maxb - Bad sigTime %d for Maxnode %s (%i conf block is at %d)\n",
                         sigTime, vin.prevout.hash.ToString(), MAXNODE_MIN_CONFIRMATIONS, pConfIndex->GetBlockTime());
@@ -1063,7 +1064,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
     else if (strCommand == "dseep") { //ObfuScation Election Entry Ping
 
-        if (IsSporkActive(SPORK_10_MAXNODE_PAY_UPDATED_NODES)) return;
+        if (IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)) return;
 
         CTxIn vin;
         vector<unsigned char> vchSig;
@@ -1096,7 +1097,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         if (pmax != NULL && pmax->protocolVersion >= maxnodePayments.GetMinMaxnodePaymentsProto()) {
             // LogPrint("maxnode","dseep - Found corresponding max for vin: %s\n", vin.ToString().c_str());
             // take this only if it's newer
-            if (sigTime - pmax->nLastDseep > MAXNODE_MIN_MNP_SECONDS) {
+            if (sigTime - pmax->nLastDseep > MAXNODE_MIN_MAXP_SECONDS) {
                 std::string strMessage = pmax->addr.ToString() + boost::lexical_cast<std::string>(sigTime) + boost::lexical_cast<std::string>(stop);
 
                 std::string errorMessage = "";
@@ -1124,7 +1125,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         LogPrint("maxnode", "dseep - Couldn't find Maxnode entry %s peer=%i\n", vin.prevout.hash.ToString(), pfrom->GetId());
 
-        AskForMN(pfrom, vin);
+        AskForMAX(pfrom, vin);
     }
 
     /*

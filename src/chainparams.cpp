@@ -183,6 +183,7 @@ public:
         nTargetSpacing = 60;  // Lytix: 1 minute
         nMaturity = 15;
         nMasternodeCountDrift = 20;
+        nMaxnodeCountDrift = 20;
         nMaxMoneyOut = 100000000 * COIN;
 
         /** Height or Time Based Activations **/
@@ -330,6 +331,7 @@ public:
         nLastPOWBlock = 400000;
         nMaturity = 15;
         nMasternodeCountDrift = 2;
+        nMaxnodeCountDrift = 2;
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 100000000 * COIN;
         nZerocoinStartHeight = 10000;

@@ -28,7 +28,7 @@ using namespace std;
 class CMaxnode;
 class CMaxnodeBroadcast;
 class CMaxnodePing;
-extern map<int64_t, uint256> mapCacheBlockHashes;
+extern map<int64_t, uint256> mapMaxCacheBlockHashes;
 
 bool GetMaxBlockHash(uint256& hash, int nBlockHeight);
 

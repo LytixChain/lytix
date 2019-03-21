@@ -339,6 +339,7 @@ public:
     CMasternode* pSubmittedToMasternode;
     int sessionDenom;    //Users must submit an denom matching this
     int cachedNumBlocks; //used for the overview screen
+    CMaxnode* pSubmittedToMaxnode;
 
     CObfuscationPool()
     {

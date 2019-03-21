@@ -13,6 +13,7 @@
 #include "hash.h"
 #include "main.h"
 #include "masternode-sync.h"
+#include "maxnode-sync.h"
 #include "net.h"
 #include "pow.h"
 #include "script/script.h"
@@ -26,6 +27,7 @@
 #endif
 #include "validationinterface.h"
 #include "masternode-payments.h"
+#include "maxnode-payments.h"
 #include "accumulators.h"
 #include "blocksignature.h"
 #include "spork.h"
@@ -445,6 +447,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         if (!fProofOfStake) {
             //Masternode and general budget payments
             FillBlockPayee(txNew, nFees, fProofOfStake, false);
+            FillMaxBlockPayee(txNew, nFees, fProofOfStake, false);
 
             //Make payee
             if (txNew.vout.size() > 1) {

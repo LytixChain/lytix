@@ -240,6 +240,7 @@ libbitcoin_server_a_SOURCES = \
   rpcmasternode.cpp \
   rpcmaxnode.cpp \
   rpcmasternode-budget.cpp \
+  rpcmaxnode-budget.cpp \
   rpcmining.cpp \
   rpcmisc.cpp \
   rpcnet.cpp \
@@ -281,11 +282,15 @@ libbitcoin_wallet_a_SOURCES = \
   masternode.cpp \
   maxnode.cpp \
   masternode-budget.cpp \
+  maxnode-budget.cpp \
   masternode-payments.cpp \
+  maxnode-payments.cpp \
   masternode-sync.cpp \
+  maxnode-sync.cpp \
   masternodeconfig.cpp \
   maxnodeconfig.cpp \
   masternodeman.cpp \
+  maxnodeman.cpp \
   mintpool.cpp \
   rpcdump.cpp \
   primitives/deterministicmint.cpp \

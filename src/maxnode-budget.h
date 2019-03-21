@@ -244,8 +244,8 @@ public:
     bool UpdateFinalizedBudget(CFinalizedBudgetVote& vote, CNode* pfrom, std::string& strError);
     bool PropExists(uint256 nHash);
     TrxValidationStatus IsTransactionValid(const CTransaction& txNew, int nBlockHeight);
-    std::string GetRequiredPaymentsString(int nBlockHeight);
-    void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake);
+    std::string GetMaxRequiredPaymentsString(int nBlockHeight);
+    void FillMaxBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake);
 
     void CheckOrphanVotes();
     void Clear()
@@ -512,7 +512,7 @@ public:
     int GetBlockEnd() { return nBlockEnd; }
     CScript GetPayee() { return address; }
     int GetTotalPaymentCount();
-    int GetRemainingPaymentCount();
+    int GetMaxRemainingPaymentCount();
     int GetBlockStartCycle();
     int GetBlockCurrentCycle();
     int GetBlockEndCycle();

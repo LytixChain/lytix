@@ -308,7 +308,7 @@ void CMaxnodeSync::Process()
                 // timeout
                 if (lastMaxnodeList == 0 &&
                     (RequestedMaxnodeAttempt >= MAXNODE_SYNC_THRESHOLD * 3 || GetTime() - nAssetSyncStarted > MAXNODE_SYNC_TIMEOUT * 5)) {
-                    if (IsSporkActive(SPORK_8_MAXNODE_PAYMENT_ENFORCEMENT)) {
+                    if (IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
                         LogPrintf("CMaxnodeSync::Process - ERROR - Sync has failed, will retry later\n");
                         RequestedMaxnodeAssets = MAXNODE_SYNC_FAILED;
                         RequestedMaxnodeAttempt = 0;
@@ -339,7 +339,7 @@ void CMaxnodeSync::Process()
                 // timeout
                 if (lastMaxnodeWinner == 0 &&
                     (RequestedMaxnodeAttempt >= MAXNODE_SYNC_THRESHOLD * 3 || GetTime() - nAssetSyncStarted > MAXNODE_SYNC_TIMEOUT * 5)) {
-                    if (IsSporkActive(SPORK_8_MAXNODE_PAYMENT_ENFORCEMENT)) {
+                    if (IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
                         LogPrintf("CMaxnodeSync::Process - ERROR - Sync has failed, will retry later\n");
                         RequestedMaxnodeAssets = MAXNODE_SYNC_FAILED;
                         RequestedMaxnodeAttempt = 0;

@@ -12,6 +12,7 @@
 #include "init.h"
 #include "main.h"
 #include "masternode-sync.h"
+#include "maxnode-sync.h"
 #include "net.h"
 #include "netbase.h"
 #include "rpcserver.h"

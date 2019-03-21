@@ -783,7 +783,7 @@ UniValue getmaxnodewinners (const UniValue& params, bool fHelp)
         UniValue obj(UniValue::VOBJ);
         obj.push_back(Pair("nHeight", i));
 
-        std::string strPayment = GetRequiredPaymentsString(i);
+        std::string strPayment = GetMaxRequiredPaymentsString(i);
         if (strFilter != "" && strPayment.find(strFilter) == std::string::npos) continue;
 
         if (strPayment.find(',') != std::string::npos) {

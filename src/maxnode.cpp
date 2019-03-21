@@ -18,7 +18,7 @@
 // keep track of the scanning errors I've seen
 map<uint256, int> mapSeenMaxnodeScanningErrors;
 // cache block hashes as we calculate them
-std::map<int64_t, uint256> mapCacheBlockHashes;
+std::map<int64_t, uint256> mapMaxCacheBlockHashes;
 
 //Get the last hash that matches the modulus given. Processed in reverse order
 bool GetMaxBlockHash(uint256& hash, int nBlockHeight)
@@ -28,8 +28,8 @@ bool GetMaxBlockHash(uint256& hash, int nBlockHeight)
     if (nBlockHeight == 0)
         nBlockHeight = chainActive.Tip()->nHeight;
 
-    if (mapCacheBlockHashes.count(nBlockHeight)) {
-        hash = mapCacheBlockHashes[nBlockHeight];
+    if (mapMaxCacheBlockHashes.count(nBlockHeight)) {
+        hash = mapMaxCacheBlockHashes[nBlockHeight];
         return true;
     }
 
@@ -46,7 +46,7 @@ bool GetMaxBlockHash(uint256& hash, int nBlockHeight)
     for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
         if (n >= nBlocksAgo) {
             hash = BlockReading->GetMaxBlockHash();
-            mapCacheBlockHashes[nBlockHeight] = hash;
+            mapMaxCacheBlockHashes[nBlockHeight] = hash;
             return true;
         }
         n++;

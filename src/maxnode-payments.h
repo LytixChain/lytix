@@ -14,7 +14,7 @@
 
 using namespace std;
 
-extern CCriticalSection cs_vecPayments;
+extern CCriticalSection cs_MaxvecPayments;
 extern CCriticalSection cs_mapMaxnodeBlocks;
 extern CCriticalSection cs_mapMaxnodePayeeVotes;
 
@@ -28,10 +28,10 @@ extern CMaxnodePayments maxnodePayments;
 #define MAXPAYMENTS_SIGNATURES_TOTAL 10
 
 void ProcessMessageMaxnodePayments(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
-bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight);
-std::string GetRequiredPaymentsString(int nBlockHeight);
-bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMinted);
-void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake, bool fZPIVStake);
+bool IsMaxBlockPayeeValid(const CBlock& block, int nBlockHeight);
+std::string GetMaxRequiredPaymentsString(int nBlockHeight);
+bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMinted);
+void FillMaxBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake, bool fZPIVStake);
 
 void DumpMaxnodePayments();
 
@@ -107,7 +107,7 @@ public:
 
     void AddPayee(CScript payeeIn, int nIncrement)
     {
-        LOCK(cs_vecPayments);
+        LOCK(cs_MaxvecPayments);
 
         BOOST_FOREACH (CMaxnodePayee& payee, vecPayments) {
             if (payee.scriptPubKey == payeeIn) {
@@ -122,7 +122,7 @@ public:
 
     bool GetPayee(CScript& payee)
     {
-        LOCK(cs_vecPayments);
+        LOCK(cs_MaxvecPayments);
 
         int nVotes = -1;
         BOOST_FOREACH (CMaxnodePayee& p, vecPayments) {
@@ -137,7 +137,7 @@ public:
 
     bool HasPayeeWithVotes(CScript payee, int nVotesReq)
     {
-        LOCK(cs_vecPayments);
+        LOCK(cs_MaxvecPayments);
 
         BOOST_FOREACH (CMaxnodePayee& p, vecPayments) {
             if (p.nVotes >= nVotesReq && p.scriptPubKey == payee) return true;
@@ -147,7 +147,7 @@ public:
     }
 
     bool IsTransactionValid(const CTransaction& txNew);
-    std::string GetRequiredPaymentsString();
+    std::string GetMaxRequiredPaymentsString();
 
     ADD_SERIALIZE_METHODS;
 
@@ -283,8 +283,8 @@ public:
 
     int GetMinMaxnodePaymentsProto();
     void ProcessMessageMaxnodePayments(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
-    std::string GetRequiredPaymentsString(int nBlockHeight);
-    void FillBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake);
+    std::string GetMaxRequiredPaymentsString(int nBlockHeight);
+    void FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake);
     std::string ToString() const;
     int GetOldestBlock();
     int GetNewestBlock();

@@ -401,10 +401,6 @@ static const CRPCCommand vRPCCommands[] =
         {"lytix", "spork", &spork, true, true, false},
         {"lytix", "getpoolinfo", &getpoolinfo, true, true, false},
         {"lytix", "getmaxpoolinfo", &getmaxpoolinfo, true, true, false},
-	{"lytix", "maxbudget", &maxbudget, true, true, false},
-        {"lytix", "maxbudgetvote", &maxbudgetvote, true, true, false},
-        {"lytix", "maxbudgetrawvote", &maxbudgetrawvote, true, true, false},
-        {"lytix", "maxfinalbudget", &maxfinalbudget, true, true, false},
         {"lytix", "maxsync", &maxsync, true, true, false},
 
 #ifdef ENABLE_WALLET

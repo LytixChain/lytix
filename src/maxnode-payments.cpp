@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,7 +20,7 @@
 /** Object for who's going to get paid on which blocks */
 CMaxnodePayments maxnodePayments;
 
-CCriticalSection cs_vecPayments;
+CCriticalSection cs_MaxvecPayments;
 CCriticalSection cs_mapMaxnodeBlocks;
 CCriticalSection cs_mapMaxnodePayeeVotes;
 
@@ -174,7 +174,7 @@ void DumpMaxnodePayments()
     LogPrint("maxnode","Budget dump finished  %dms\n", GetTimeMillis() - nStart);
 }
 
-bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMinted)
+bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMinted)
 {
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (pindexPrev == NULL) return true;
@@ -189,10 +189,10 @@ bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMin
     }
 
     if (nHeight == 0) {
-        LogPrint("maxnode","IsBlockValueValid() : WARNING: Couldn't find previous block\n");
+        LogPrint("maxnode","IsMaxBlockValueValid() : WARNING: Couldn't find previous block\n");
     }
 
-    //LogPrintf("XX69----------> IsBlockValueValid(): nMinted: %d, nExpectedValue: %d\n", FormatMoney(nMinted), FormatMoney(nExpectedValue));
+    //LogPrintf("XX69----------> IsMaxBlockValueValid(): nMinted: %d, nExpectedValue: %d\n", FormatMoney(nMinted), FormatMoney(nExpectedValue));
 
     if (!maxnodeSync.IsSynced()) { //there is no budget data to use to check anything
         //super blocks will always be on these blocks, max 100 per budgeting
@@ -223,7 +223,7 @@ bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMin
     return true;
 }
 
-bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
+bool IsMaxBlockPayeeValid(const CBlock& block, int nBlockHeight)
 {
     TrxValidationStatus transactionStatus = TrxValidationStatus::InValid;
 
@@ -270,28 +270,28 @@ bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
 }
 
 
-void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake, bool fZPIVStake)
+void FillMaxBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake, bool fZPIVStake)
 {
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return;
 
     if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(pindexPrev->nHeight + 1)) {
-        budget.FillBlockPayee(txNew, nFees, fProofOfStake);
+        budget.FillMaxBlockPayee(txNew, nFees, fProofOfStake);
     } else {
-        maxnodePayments.FillBlockPayee(txNew, nFees, fProofOfStake, fZPIVStake);
+        maxnodePayments.FillMaxBlockPayee(txNew, nFees, fProofOfStake, fZPIVStake);
     }
 }
 
-std::string GetRequiredPaymentsString(int nBlockHeight)
+std::string GetMaxRequiredPaymentsString(int nBlockHeight)
 {
     if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(nBlockHeight)) {
-        return budget.GetRequiredPaymentsString(nBlockHeight);
+        return budget.GetMaxRequiredPaymentsString(nBlockHeight);
     } else {
-        return maxnodePayments.GetRequiredPaymentsString(nBlockHeight);
+        return maxnodePayments.GetMaxRequiredPaymentsString(nBlockHeight);
     }
 }
 
-void CMaxnodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake)
+void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake)
 {
     //int lastPoW = Params().LAST_POW_BLOCK();
     CBlockIndex* pindexPrev = chainActive.Tip();
@@ -528,7 +528,7 @@ bool CMaxnodePayments::AddWinningMaxnode(CMaxnodePaymentWinner& winnerIn)
 
 bool CMaxnodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
 {
-    LOCK(cs_vecPayments);
+    LOCK(cs_MaxvecPayments);
 
     int nMaxSignatures = 0;
     int nMaxnode_Drift_Count = 0;
@@ -588,9 +588,9 @@ bool CMaxnodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
     return false;
 }
 
-std::string CMaxnodeBlockPayees::GetRequiredPaymentsString()
+std::string CMaxnodeBlockPayees::GetMaxRequiredPaymentsString()
 {
-    LOCK(cs_vecPayments);
+    LOCK(cs_MaxvecPayments);
 
     std::string ret = "Unknown";
 
@@ -609,12 +609,12 @@ std::string CMaxnodeBlockPayees::GetRequiredPaymentsString()
     return ret;
 }
 
-std::string CMaxnodePayments::GetRequiredPaymentsString(int nBlockHeight)
+std::string CMaxnodePayments::GetMaxRequiredPaymentsString(int nBlockHeight)
 {
     LOCK(cs_mapMaxnodeBlocks);
 
     if (mapMaxnodeBlocks.count(nBlockHeight)) {
-        return mapMaxnodeBlocks[nBlockHeight].GetRequiredPaymentsString();
+        return mapMaxnodeBlocks[nBlockHeight].GetMaxRequiredPaymentsString();
     }
 
     return "Unknown";
@@ -695,7 +695,9 @@ bool CMaxnodePaymentWinner::IsValid(CNode* pnode, std::string& strError)
 
 bool CMaxnodePayments::ProcessBlock(int nBlockHeight)
 {
-    if (!fMaxNode) return false;
+    if (!fMaxNodeT1) return false;
+    if (!fMaxNodeT2) return false;
+    if (!fMaxNodeT3) return false;
 
     //reference node - hybrid mode
 
@@ -767,7 +769,7 @@ bool CMaxnodePayments::ProcessBlock(int nBlockHeight)
 
 void CMaxnodePaymentWinner::Relay()
 {
-    CInv inv(MSG_MASTERNODE_WINNER, GetHash());
+    CInv inv(MSG_MAXNODE_WINNER, GetHash());
     RelayInv(inv);
 }
 
@@ -810,12 +812,12 @@ void CMaxnodePayments::Sync(CNode* node, int nCountNeeded)
     while (it != mapMaxnodePayeeVotes.end()) {
         CMaxnodePaymentWinner winner = (*it).second;
         if (winner.nBlockHeight >= nHeight - nCountNeeded && winner.nBlockHeight <= nHeight + 20) {
-            node->PushInventory(CInv(MSG_MASTERNODE_WINNER, winner.GetHash()));
+            node->PushInventory(CInv(MSG_MAXNODE_WINNER, winner.GetHash()));
             nInvCount++;
         }
         ++it;
     }
-    node->PushMessage("ssc", MASTERNODE_SYNC_MAXW, nInvCount);
+    node->PushMessage("ssc", MAXNODE_SYNC_MAXW, nInvCount);
 }
 
 std::string CMaxnodePayments::ToString() const

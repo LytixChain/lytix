@@ -9,6 +9,7 @@
 #include "base58.h"
 #include "key.h"
 #include "masternodeman.h"
+#include "maxnodeman.h"
 #include "net.h"
 #include "obfuscation.h"
 #include "protocol.h"
