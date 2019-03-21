@@ -37,9 +37,9 @@ void budgetToJSON(CBudgetProposal* pbudgetProposal, UniValue& bObj)
     bObj.push_back(Pair("RemainingPaymentCount", (int64_t)pbudgetProposal->GetMaxRemainingPaymentCount()));
     bObj.push_back(Pair("PaymentAddress", address2.ToString()));
     bObj.push_back(Pair("Ratio", pbudgetProposal->GetRatio()));
-    bObj.push_back(Pair("Yeas", (int64_t)pbudgetProposal->GetYeas()));
-    bObj.push_back(Pair("Nays", (int64_t)pbudgetProposal->GetNays()));
-    bObj.push_back(Pair("Abstains", (int64_t)pbudgetProposal->GetAbstains()));
+    bObj.push_back(Pair("Yeas", (int64_t)pbudgetProposal->GetMaxYeas()));
+    bObj.push_back(Pair("Nays", (int64_t)pbudgetProposal->GetMaxNays()));
+    bObj.push_back(Pair("Abstains", (int64_t)pbudgetProposal->GetMaxAbstains()));
     bObj.push_back(Pair("TotalPayment", ValueFromAmount(pbudgetProposal->GetAmount() * pbudgetProposal->GetTotalPaymentCount())));
     bObj.push_back(Pair("MonthlyPayment", ValueFromAmount(pbudgetProposal->GetAmount())));
     bObj.push_back(Pair("IsEstablished", pbudgetProposal->IsEstablished()));
@@ -630,7 +630,7 @@ UniValue getbudgetvotes(const UniValue& params, bool fHelp)
 
     UniValue ret(UniValue::VARR);
 
-    CBudgetProposal* pbudgetProposal = budget.FindProposal(strProposalName);
+    CBudgetProposal* pbudgetProposal = budget.FindMaxProposal(strProposalName);
 
     if (pbudgetProposal == NULL) throw runtime_error("Unknown proposal name");
 
@@ -776,7 +776,7 @@ UniValue getbudgetinfo(const UniValue& params, bool fHelp)
     std::string strShow = "valid";
     if (params.size() == 1) {
         std::string strProposalName = SanitizeString(params[0].get_str());
-        CBudgetProposal* pbudgetProposal = budget.FindProposal(strProposalName);
+        CBudgetProposal* pbudgetProposal = budget.FindMaxProposal(strProposalName);
         if (pbudgetProposal == NULL) throw runtime_error("Unknown proposal name");
         UniValue bObj(UniValue::VOBJ);
         budgetToJSON(pbudgetProposal, bObj);
@@ -993,10 +993,10 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
             UniValue bObj(UniValue::VOBJ);
             bObj.push_back(Pair("FeeTX", finalizedBudget->nFeeTXHash.ToString()));
             bObj.push_back(Pair("Hash", finalizedBudget->GetHash().ToString()));
-            bObj.push_back(Pair("BlockStart", (int64_t)finalizedBudget->GetBlockStart()));
-            bObj.push_back(Pair("BlockEnd", (int64_t)finalizedBudget->GetBlockEnd()));
+            bObj.push_back(Pair("BlockStart", (int64_t)finalizedBudget->GetMaxBlockStart()));
+            bObj.push_back(Pair("BlockEnd", (int64_t)finalizedBudget->GetMaxBlockEnd()));
             bObj.push_back(Pair("Proposals", finalizedBudget->GetProposals()));
-            bObj.push_back(Pair("VoteCount", (int64_t)finalizedBudget->GetVoteCount()));
+            bObj.push_back(Pair("VoteCount", (int64_t)finalizedBudget->GetMaxVoteCount()));
             bObj.push_back(Pair("Status", finalizedBudget->GetStatus()));
 
             std::string strError = "";

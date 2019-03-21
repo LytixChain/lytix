@@ -553,11 +553,11 @@ void CBudgetManager::FillMaxBlockPayee(CMutableTransaction& txNew, CAmount nFees
     std::map<uint256, CFinalizedBudget>::iterator it = mapFinalizedBudgets.begin();
     while (it != mapFinalizedBudgets.end()) {
         CFinalizedBudget* pfinalizedBudget = &((*it).second);
-        if (pfinalizedBudget->GetVoteCount() > nHighestCount &&
-            pindexPrev->nHeight + 1 >= pfinalizedBudget->GetBlockStart() &&
-            pindexPrev->nHeight + 1 <= pfinalizedBudget->GetBlockEnd() &&
-            pfinalizedBudget->GetPayeeAndAmount(pindexPrev->nHeight + 1, payee, nAmount)) {
-            nHighestCount = pfinalizedBudget->GetVoteCount();
+        if (pfinalizedBudget->GetMaxVoteCount() > nHighestCount &&
+            pindexPrev->nHeight + 1 >= pfinalizedBudget->GetMaxBlockStart() &&
+            pindexPrev->nHeight + 1 <= pfinalizedBudget->GetMaxBlockEnd() &&
+            pfinalizedBudget->GetMaxPayeeAndAmount(pindexPrev->nHeight + 1, payee, nAmount)) {
+            nHighestCount = pfinalizedBudget->GetMaxVoteCount();
         }
 
         ++it;
@@ -647,10 +647,10 @@ bool CBudgetManager::IsBudgetPaymentBlock(int nBlockHeight)
     std::map<uint256, CFinalizedBudget>::iterator it = mapFinalizedBudgets.begin();
     while (it != mapFinalizedBudgets.end()) {
         CFinalizedBudget* pfinalizedBudget = &((*it).second);
-        if (pfinalizedBudget->GetVoteCount() > nHighestCount &&
-            nBlockHeight >= pfinalizedBudget->GetBlockStart() &&
-            nBlockHeight <= pfinalizedBudget->GetBlockEnd()) {
-            nHighestCount = pfinalizedBudget->GetVoteCount();
+        if (pfinalizedBudget->GetMaxVoteCount() > nHighestCount &&
+            nBlockHeight >= pfinalizedBudget->GetMaxBlockStart() &&
+            nBlockHeight <= pfinalizedBudget->GetMaxBlockEnd()) {
+            nHighestCount = pfinalizedBudget->GetMaxVoteCount();
         }
 
         ++it;
@@ -682,10 +682,10 @@ TrxValidationStatus CBudgetManager::IsTransactionValid(const CTransaction& txNew
     while (it != mapFinalizedBudgets.end()) {
         CFinalizedBudget* pfinalizedBudget = &((*it).second);
 
-        if (pfinalizedBudget->GetVoteCount() > nHighestCount &&
-            nBlockHeight >= pfinalizedBudget->GetBlockStart() &&
-            nBlockHeight <= pfinalizedBudget->GetBlockEnd()) {
-            nHighestCount = pfinalizedBudget->GetVoteCount();
+        if (pfinalizedBudget->GetMaxVoteCount() > nHighestCount &&
+            nBlockHeight >= pfinalizedBudget->GetMaxBlockStart() &&
+            nBlockHeight <= pfinalizedBudget->GetMaxBlockEnd()) {
+            nHighestCount = pfinalizedBudget->GetMaxVoteCount();
         }
 
         ++it;
@@ -709,14 +709,14 @@ TrxValidationStatus CBudgetManager::IsTransactionValid(const CTransaction& txNew
         strProposals = pfinalizedBudget->GetProposals();
 
         LogPrint("maxbudget","CBudgetManager::IsTransactionValid - checking budget (%s) with blockstart %lli, blockend %lli, nBlockHeight %lli, votes %lli, nCountThreshold %lli\n",
-                 strProposals.c_str(), pfinalizedBudget->GetBlockStart(), pfinalizedBudget->GetBlockEnd(), 
-                 nBlockHeight, pfinalizedBudget->GetVoteCount(), nCountThreshold);
+                 strProposals.c_str(), pfinalizedBudget->GetMaxBlockStart(), pfinalizedBudget->GetMaxBlockEnd(), 
+                 nBlockHeight, pfinalizedBudget->GetMaxVoteCount(), nCountThreshold);
 
-        if (pfinalizedBudget->GetVoteCount() > nCountThreshold) {
+        if (pfinalizedBudget->GetMaxVoteCount() > nCountThreshold) {
             fThreshold = true;
-            LogPrint("maxbudget","CBudgetManager::IsTransactionValid - GetVoteCount() > nCountThreshold passed\n");
-            if (nBlockHeight >= pfinalizedBudget->GetBlockStart() && nBlockHeight <= pfinalizedBudget->GetBlockEnd()) {
-                LogPrint("maxbudget","CBudgetManager::IsTransactionValid - GetBlockStart() passed\n");
+            LogPrint("maxbudget","CBudgetManager::IsTransactionValid - GetMaxVoteCount() > nCountThreshold passed\n");
+            if (nBlockHeight >= pfinalizedBudget->GetMaxBlockStart() && nBlockHeight <= pfinalizedBudget->GetMaxBlockEnd()) {
+                LogPrint("maxbudget","CBudgetManager::IsTransactionValid - GetMaxBlockStart() passed\n");
                 transactionStatus = pfinalizedBudget->IsTransactionValid(txNew, nBlockHeight);
                 if (transactionStatus == TrxValidationStatus::Valid) {
                     LogPrint("maxbudget","CBudgetManager::IsTransactionValid - pfinalizedBudget->IsTransactionValid() passed\n");
@@ -727,7 +727,7 @@ TrxValidationStatus CBudgetManager::IsTransactionValid(const CTransaction& txNew
                 }
             }
             else {
-                LogPrint("maxbudget","CBudgetManager::IsTransactionValid - GetBlockStart() failed, budget is outside current payment cycle and will be ignored.\n");
+                LogPrint("maxbudget","CBudgetManager::IsTransactionValid - GetMaxBlockStart() failed, budget is outside current payment cycle and will be ignored.\n");
             }
                
         }
@@ -868,7 +868,7 @@ std::vector<CFinalizedBudget*> CBudgetManager::GetFinalizedBudgets()
     while (it != mapFinalizedBudgets.end()) {
         CFinalizedBudget* pfinalizedBudget = &((*it).second);
 
-        vFinalizedBudgetsSort.push_back(make_pair(pfinalizedBudget, pfinalizedBudget->GetVoteCount()));
+        vFinalizedBudgetsSort.push_back(make_pair(pfinalizedBudget, pfinalizedBudget->GetMaxVoteCount()));
         ++it;
     }
     std::sort(vFinalizedBudgetsSort.begin(), vFinalizedBudgetsSort.end(), sortFinalizedBudgetsByVotes());
@@ -891,9 +891,9 @@ std::string CBudgetManager::GetMaxRequiredPaymentsString(int nBlockHeight)
     std::map<uint256, CFinalizedBudget>::iterator it = mapFinalizedBudgets.begin();
     while (it != mapFinalizedBudgets.end()) {
         CFinalizedBudget* pfinalizedBudget = &((*it).second);
-        if (nBlockHeight >= pfinalizedBudget->GetBlockStart() && nBlockHeight <= pfinalizedBudget->GetBlockEnd()) {
+        if (nBlockHeight >= pfinalizedBudget->GetMaxBlockStart() && nBlockHeight <= pfinalizedBudget->GetMaxBlockEnd()) {
             CTxBudgetPayment payment;
-            if (pfinalizedBudget->GetBudgetPaymentByBlock(nBlockHeight, payment)) {
+            if (pfinalizedBudget->GetMaxBudgetPaymentByBlock(nBlockHeight, payment)) {
                 if (ret == "unknown-budget") {
                     ret = payment.nProposalHash.ToString();
                 } else {
@@ -1529,9 +1529,9 @@ bool CBudgetProposal::IsValid(std::string& strError, bool fCheckCollateral)
     }
 
     // Calculate maximum block this proposal will be valid, which is start of proposal + (number of payments * cycle)
-    int nProposalEnd = GetBlockStart() + (GetMaxBudgetPaymentCycleBlocks() * GetTotalPaymentCount());
+    int nProposalEnd = GetMaxBlockStart() + (GetMaxBudgetPaymentCycleBlocks() * GetTotalPaymentCount());
 
-    // if (GetBlockEnd() < pindexPrev->nHeight - GetMaxBudgetPaymentCycleBlocks() / 2) {
+    // if (GetMaxBlockEnd() < pindexPrev->nHeight - GetMaxBudgetPaymentCycleBlocks() / 2) {
     if(nProposalEnd < pindexPrev->nHeight){
         strError = "Proposal " + strProposalName + ": Invalid nBlockEnd (" + std::to_string(nProposalEnd) + ") < current height (" + std::to_string(pindexPrev->nHeight) + ")";
         return false;
@@ -1648,7 +1648,7 @@ int CBudgetProposal::GetMaxBlockStartCycle()
     return nBlockStart - nBlockStart % GetMaxBudgetPaymentCycleBlocks();
 }
 
-int CBudgetProposal::GetBlockCurrentCycle()
+int CBudgetProposal::GetMaxBlockCurrentCycle()
 {
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (pindexPrev == NULL) return -1;
@@ -1678,7 +1678,7 @@ int CBudgetProposal::GetTotalPaymentCount()
 int CBudgetProposal::GetMaxRemainingPaymentCount()
 {
     // If this budget starts in the future, this value will be wrong
-    int nPayments = (GetMaxBlockEndCycle() - GetBlockCurrentCycle()) / GetMaxBudgetPaymentCycleBlocks() - 1;
+    int nPayments = (GetMaxBlockEndCycle() - GetMaxBlockCurrentCycle()) / GetMaxBudgetPaymentCycleBlocks() - 1;
     // Take the lowest value
     return std::min(nPayments, GetTotalPaymentCount());
 }
@@ -1980,9 +1980,9 @@ std::string CFinalizedBudget::GetStatus()
     std::string retBadHashes = "";
     std::string retBadPayeeOrAmount = "";
 
-    for (int nBlockHeight = GetBlockStart(); nBlockHeight <= GetBlockEnd(); nBlockHeight++) {
+    for (int nBlockHeight = GetMaxBlockStart(); nBlockHeight <= GetMaxBlockEnd(); nBlockHeight++) {
         CTxBudgetPayment budgetPayment;
-        if (!GetBudgetPaymentByBlock(nBlockHeight, budgetPayment)) {
+        if (!GetMaxBudgetPaymentByBlock(nBlockHeight, budgetPayment)) {
             LogPrint("maxbudget","CFinalizedBudget::GetStatus - Couldn't find budget payment for block %lld\n", nBlockHeight);
             continue;
         }
@@ -2022,7 +2022,7 @@ bool CFinalizedBudget::IsValid(std::string& strError, bool fCheckCollateral)
     }
 
     // The following 2 checks check the same (basically if vecBudgetPayments.size() > 100)
-    if (GetBlockEnd() - nBlockStart > 100) {
+    if (GetMaxBlockEnd() - nBlockStart > 100) {
         strError = "Invalid BlockEnd";
         return false;
     }
@@ -2072,8 +2072,8 @@ bool CFinalizedBudget::IsValid(std::string& strError, bool fCheckCollateral)
     // Remove budgets where the last payment (from max. 100) ends before 2 budget-cycles before the current one
     int nMaxAge = nBlockStart - (2 * GetMaxBudgetPaymentCycleBlocks());
     
-    if (GetBlockEnd() < nMaxAge) {
-        strError = strprintf("Budget " + strBudgetName + " (" + strProposals + ") (ends at block %ld) too old and obsolete", GetBlockEnd());
+    if (GetMaxBlockEnd() < nMaxAge) {
+        strError = strprintf("Budget " + strBudgetName + " (" + strProposals + ") (ends at block %ld) too old and obsolete", GetMaxBlockEnd());
         return false;
     }
 
@@ -2089,7 +2089,7 @@ bool CFinalizedBudget::IsPaidAlready(uint256 nProposalHash, int nBlockHeight)
 
     for(it = mapPayment_History.begin(); it != mapPayment_History.end(); /* No incrementation needed */ ) {
         nPaidBlockHeight = (*it).second;
-        if((nPaidBlockHeight < GetBlockStart()) || (nPaidBlockHeight > GetBlockEnd())) {
+        if((nPaidBlockHeight < GetMaxBlockStart()) || (nPaidBlockHeight > GetMaxBlockEnd())) {
             nOldProposalHash = (*it).first;
             LogPrint("maxbudget", "CFinalizedBudget::IsPaidAlready - Budget Proposal %s, Block %d from old cycle deleted\n", 
                       nOldProposalHash.ToString().c_str(), nPaidBlockHeight);
@@ -2115,9 +2115,9 @@ bool CFinalizedBudget::IsPaidAlready(uint256 nProposalHash, int nBlockHeight)
 TrxValidationStatus CFinalizedBudget::IsTransactionValid(const CTransaction& txNew, int nBlockHeight)
 {
     TrxValidationStatus transactionStatus = TrxValidationStatus::InValid;
-    int nCurrentBudgetPayment = nBlockHeight - GetBlockStart();
+    int nCurrentBudgetPayment = nBlockHeight - GetMaxBlockStart();
     if (nCurrentBudgetPayment < 0) {
-        LogPrint("maxbudget","CFinalizedBudget::IsTransactionValid - Invalid block - height: %d start: %d\n", nBlockHeight, GetBlockStart());
+        LogPrint("maxbudget","CFinalizedBudget::IsTransactionValid - Invalid block - height: %d start: %d\n", nBlockHeight, GetMaxBlockStart());
         return TrxValidationStatus::InValid;
     }
 

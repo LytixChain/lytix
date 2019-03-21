@@ -154,7 +154,7 @@ public:
 
 /** Save Budget Manager (budget.dat)
  */
-class CBudgetDB
+class CMAXBudgetDB
 {
 private:
     boost::filesystem::path pathDB;
@@ -171,7 +171,7 @@ public:
         IncorrectFormat
     };
 
-    CBudgetDB();
+    CMAXBudgetDB();
     bool Write(const CBudgetManager& objToSave);
     ReadResult Read(CBudgetManager& objToLoad, bool fDryRun = false);
 };
@@ -226,12 +226,12 @@ public:
     void Calculate();
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
     void NewBlock();
-    CBudgetProposal* FindProposal(const std::string& strProposalName);
-    CBudgetProposal* FindProposal(uint256 nHash);
+    CBudgetProposal* FindMaxProposal(const std::string& strProposalName);
+    CBudgetProposal* FindMaxProposal(uint256 nHash);
     CFinalizedBudget* FindFinalizedBudget(uint256 nHash);
     std::pair<std::string, std::string> GetVotes(std::string strProposalName);
 
-    CAmount GetTotalBudget(int nHeight);
+    CAmount GetMaxTotalBudget(int nHeight);
     std::vector<CBudgetProposal*> GetBudget();
     std::vector<CBudgetProposal*> GetAllProposals();
     std::vector<CFinalizedBudget*> GetFinalizedBudgets();
@@ -344,10 +344,10 @@ public:
     std::string GetProposals();
     int GetBlockStart() { return nBlockStart; }
     int GetBlockEnd() { return nBlockStart + (int)(vecBudgetPayments.size() - 1); }
-    int GetVoteCount() { return (int)mapVotes.size(); }
+    int GetMaxVoteCount() { return (int)mapVotes.size(); }
     bool IsPaidAlready(uint256 nProposalHash, int nBlockHeight);
     TrxValidationStatus IsTransactionValid(const CTransaction& txNew, int nBlockHeight);
-    bool GetBudgetPaymentByBlock(int64_t nBlockHeight, CTxBudgetPayment& payment)
+    bool GetMaxBudgetPaymentByBlock(int64_t nBlockHeight, CTxBudgetPayment& payment)
     {
         LOCK(cs);
 
@@ -357,7 +357,7 @@ public:
         payment = vecBudgetPayments[i];
         return true;
     }
-    bool GetPayeeAndAmount(int64_t nBlockHeight, CScript& payee, CAmount& nAmount)
+    bool GetMaxPayeeAndAmount(int64_t nBlockHeight, CScript& payee, CAmount& nAmount)
     {
         LOCK(cs);
 
@@ -508,18 +508,18 @@ public:
 
     std::string GetName() { return strProposalName; }
     std::string GetURL() { return strURL; }
-    int GetBlockStart() { return nBlockStart; }
-    int GetBlockEnd() { return nBlockEnd; }
+    int Start() { return nBlockStart; }
+    int End() { return nBlockEnd; }
     CScript GetPayee() { return address; }
     int GetTotalPaymentCount();
     int GetMaxRemainingPaymentCount();
-    int GetBlockStartCycle();
-    int GetBlockCurrentCycle();
-    int GetBlockEndCycle();
+    int StartCycle();
+    int CurrentCycle();
+    int EndCycle();
     double GetRatio();
-    int GetYeas();
-    int GetNays();
-    int GetAbstains();
+    int GetMaxYeas();
+    int GetMaxNays();
+    int GetMaxAbstains();
     CAmount GetAmount() { return nAmount; }
     void SetAllotted(CAmount nAllotedIn) { nAlloted = nAllotedIn; }
     CAmount GetAllotted() { return nAlloted; }
