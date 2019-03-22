@@ -6525,7 +6525,7 @@ int ActiveProtocol()
     //if (IsSporkActive(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2))
     //        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
     
-    // SPORK_17 was used for 71031 (v1.7.0+)
+    // SPORK_17 was used for 71032 (v2.0.0+)
     if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
             return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
