@@ -10,6 +10,7 @@
 #include "init.h"
 #include "main.h"
 #include "masternodeconfig.h"
+#include "maxnodeconfig.h"
 #include "noui.h"
 #include "scheduler.h"
 #include "rpcserver.h"
@@ -112,6 +113,12 @@ bool AppInit(int argc, char* argv[])
         std::string strErr;
         if (!masternodeConfig.read(strErr)) {
             fprintf(stderr, "Error reading masternode configuration file: %s\n", strErr.c_str());
+            return false;
+        }
+
+	// parse maxnode.conf
+	else if (!maxnodeConfig.read(strErr)) {
+            fprintf(stderr, "Error reading maxnode configuration file: %s\n", strErr.c_str());
             return false;
         }
 
