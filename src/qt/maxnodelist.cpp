@@ -35,7 +35,6 @@ MaxnodeList::MaxnodeList(QWidget* parent) : QWidget(parent),
     ui->startButton->setEnabled(false);
 
     int columnAliasWidth = 100;
-    int columnTierWidth = 60;
     int columnAddressWidth = 200;
     int columnProtocolWidth = 60;
     int columnStatusWidth = 80;
@@ -44,12 +43,11 @@ MaxnodeList::MaxnodeList(QWidget* parent) : QWidget(parent),
 
     ui->tableWidgetMyMaxnodes->setAlternatingRowColors(true);
     ui->tableWidgetMyMaxnodes->setColumnWidth(0, columnAliasWidth);
-    ui->tableWidgetMyMaxnodes->setColumnWidth(1, columnTierWidth);
-    ui->tableWidgetMyMaxnodes->setColumnWidth(2, columnAddressWidth);
-    ui->tableWidgetMyMaxnodes->setColumnWidth(3, columnProtocolWidth);
-    ui->tableWidgetMyMaxnodes->setColumnWidth(4, columnStatusWidth);
-    ui->tableWidgetMyMaxnodes->setColumnWidth(5, columnActiveWidth);
-    ui->tableWidgetMyMaxnodes->setColumnWidth(6, columnLastSeenWidth);
+    ui->tableWidgetMyMaxnodes->setColumnWidth(1, columnAddressWidth);
+    ui->tableWidgetMyMaxnodes->setColumnWidth(2, columnProtocolWidth);
+    ui->tableWidgetMyMaxnodes->setColumnWidth(3, columnStatusWidth);
+    ui->tableWidgetMyMaxnodes->setColumnWidth(4, columnActiveWidth);
+    ui->tableWidgetMyMaxnodes->setColumnWidth(5, columnLastSeenWidth);
 
     ui->tableWidgetMyMaxnodes->setContextMenuPolicy(Qt::CustomContextMenu);
 

@@ -369,9 +369,9 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
         maxnodeAction->setToolTip(maxnodeAction->statusTip());
         maxnodeAction->setCheckable(true);
 #ifdef Q_OS_MAC
-        maxnodeAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+        maxnodeAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
 #else
-        maxnodeAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+        maxnodeAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
 #endif
         tabGroup->addAction(maxnodeAction);
         connect(maxnodeAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
