@@ -6,7 +6,6 @@
 
 #include "netbase.h"
 #include "maxnodeconfig.h"
-#include "maxnodeconfig.h"
 #include "util.h"
 #include "ui_interface.h"
 #include <base58.h>

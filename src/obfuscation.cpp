@@ -51,6 +51,7 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
 {
     if (fLiteMode) return; //disable all Obfuscation/Masternode related functionality
     if (!masternodeSync.IsBlockchainSynced()) return;
+    if (!maxnodeSync.IsBlockchainSynced()) return;
 
     if (strCommand == "dsa") { //Obfuscation Accept Into Pool
 
@@ -71,6 +72,15 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
 
             return;
         }
+
+        if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) {
+            errorID = ERR_NOT_A_MAX;
+            LogPrintf("dsa -- not a Maxnode! \n");
+            pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
+
+            return;
+        }
+
 
         int nDenom;
         CTransaction txCollateral;
@@ -97,6 +107,16 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
                 LogPrintf("dsa -- last dsq too recent, must wait. %s \n", pfrom->addr.ToString());
                 errorID = ERR_RECENT;
                 pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MASTERNODE_REJECTED, errorID);
+                return;
+            }
+        }
+
+	if (sessionUsers == 0) {
+            if (pmax->nLastDsq != 0 &&
+                pmax->nLastDsq + maxnodeman.CountEnabled(ActiveProtocol()) / 5 > maxnodeman.nDsqCount) {
+                LogPrintf("dsa -- last dsq too recent, must wait. %s \n", pfrom->addr.ToString());
+                errorID = ERR_RECENT;
+                pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
                 return;
             }
         }
@@ -1125,7 +1145,7 @@ bool CObfuscationPool::SignaturesComplete()
 
 //
 // Execute a Obfuscation denomination via a Masternode.
-// This is only ran from clients
+// This is only run from clients
 //
 void CObfuscationPool::SendObfuscationDenominate(std::vector<CTxIn>& vin, std::vector<CTxOut>& vout, CAmount amount)
 {

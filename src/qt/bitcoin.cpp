@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018 The Lytix developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -27,6 +27,7 @@
 #include "walletmodel.h"
 #endif
 #include "masternodeconfig.h"
+#include "maxnodeconfig.h"
 
 #include "init.h"
 #include "main.h"
@@ -605,6 +606,12 @@ int main(int argc, char* argv[])
     if (!masternodeConfig.read(strErr)) {
         QMessageBox::critical(0, QObject::tr("Lytix Core"),
             QObject::tr("Error reading masternode configuration file: %1").arg(strErr.c_str()));
+        return 0;
+    }
+    /// 7b. parse maxnode.conf
+    if (!maxnodeConfig.read(strErr)) {
+        QMessageBox::critical(0, QObject::tr("Lytix Core"),
+            QObject::tr("Error reading maxnode configuration file: %1").arg(strErr.c_str()));
         return 0;
     }
 

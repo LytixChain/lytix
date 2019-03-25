@@ -323,6 +323,7 @@ public:
         ERR_MODE,
         ERR_NON_STANDARD_PUBKEY,
         ERR_NOT_A_MN,
+        ERR_NOT_A_MAX,
         ERR_QUEUE_FULL,
         ERR_RECENT,
         ERR_SESSION,

@@ -19,6 +19,8 @@
 #include "main.h"
 #include "masternode-sync.h"
 #include "masternodeman.h"
+#include "maxnode-sync.h"
+#include "maxnodeman.h"
 #include "net.h"
 #include "ui_interface.h"
 #include "util.h"
@@ -37,6 +39,7 @@ ClientModel::ClientModel(OptionsModel* optionsModel, QObject* parent) : QObject(
                                                                         banTableModel(0),
                                                                         cachedNumBlocks(0),
                                                                         cachedMasternodeCountString(""),
+                                                                        cachedMaxnodeCountString(""),
                                                                         cachedReindexing(0), cachedImporting(0),
                                                                         numBlocksAtStartup(-1), pollTimer(0)
 {
@@ -81,6 +84,16 @@ QString ClientModel::getMasternodeCountString() const
     if(nUnknown < 0) nUnknown = 0;
     return tr("Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)").arg(QString::number((int)mnodeman.size())).arg(QString::number((int)ipv4)).arg(QString::number((int)ipv6)).arg(QString::number((int)onion)).arg(QString::number((int)nUnknown));
 }
+
+QString ClientModel::getMaxnodeCountString() const
+{
+    int ipv4 = 0, ipv6 = 0, onion = 0;
+    maxnodeman.CountNetworks(ActiveProtocol(), ipv4, ipv6, onion);
+    int nUnknown = maxnodeman.size() - ipv4 - ipv6 - onion;
+    if(nUnknown < 0) nUnknown = 0;
+    return tr("Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)").arg(QString::number((int)mnodeman.size())).arg(QString::number((int)ipv4)).arg(QString::number((int)ipv6)).arg(QString::number((int)onion)).arg(QString::number((int)nUnknown));
+}
+
 
 int ClientModel::getNumBlocks() const
 {
@@ -133,16 +146,21 @@ void ClientModel::updateTimer()
 
     static int prevAttempt = -1;
     static int prevAssets = -1;
+    static int prevmaxAttempt = -1;
+    static int prevmaxAssets = -1;
 
     // check for changed number of blocks we have, number of blocks peers claim to have, reindexing state and importing state
     if (cachedNumBlocks != newNumBlocks ||
         cachedReindexing != fReindex || cachedImporting != fImporting ||
-        masternodeSync.RequestedMasternodeAttempt != prevAttempt || masternodeSync.RequestedMasternodeAssets != prevAssets) {
+        masternodeSync.RequestedMasternodeAttempt != prevAttempt || masternodeSync.RequestedMasternodeAssets != prevAssets ||
+	maxnodeSync.RequestedMaxnodeAttempt != prevmaxAttempt || maxnodeSync.RequestedMaxnodeAssets != prevmaxAssets) {
         cachedNumBlocks = newNumBlocks;
         cachedReindexing = fReindex;
         cachedImporting = fImporting;
         prevAttempt = masternodeSync.RequestedMasternodeAttempt;
         prevAssets = masternodeSync.RequestedMasternodeAssets;
+	prevmaxAttempt = maxnodeSync.RequestedMaxnodeAttempt;
+        prevmaxAssets = maxnodeSync.RequestedMaxnodeAssets;
 
         Q_EMIT numBlocksChanged(newNumBlocks);
     }
@@ -159,11 +177,17 @@ void ClientModel::updateMnTimer()
     if (!lockMain)
         return;
     QString newMasternodeCountString = getMasternodeCountString();
+    QString newMaxnodeCountString = getMaxnodeCountString();
 
     if (cachedMasternodeCountString != newMasternodeCountString) {
         cachedMasternodeCountString = newMasternodeCountString;
 
         Q_EMIT strMasternodesChanged(cachedMasternodeCountString);
+    }
+    if (cachedMaxnodeCountString != newMaxnodeCountString) {
+        cachedMaxnodeCountString = newMaxnodeCountString;
+
+        Q_EMIT strMaxnodesChanged(cachedMaxnodeCountString);
     }
 }
 
