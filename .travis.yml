@@ -8,7 +8,6 @@ cache:
     - depends/sdk-sources
     - $HOME/.ccache
 stages:
-  - lint
   - test
 env:
   global:
@@ -40,19 +39,6 @@ after_script:
   - echo $TRAVIS_COMMIT_LOG
 jobs:
   include:
-
-    - stage: lint
-      name: 'lint'
-      env:
-      cache: false
-      language: python
-      python: '3.5' # Oldest supported version according to doc/dependencies.md
-      install:
-        - set -o errexit; source .travis/lint_04_install.sh
-      before_script:
-        - set -o errexit; source .travis/lint_05_before_script.sh
-      script:
-        - set -o errexit; source .travis/lint_06_script.sh
 
     - stage: test
       name: 'ARM  [GOAL: install]  [no unit or functional tests]'
