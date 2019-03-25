@@ -118,6 +118,10 @@ void openConfigfile();
 // Open masternode.conf
 void openMNConfigfile();
 
+// Open masternode.conf
+void openMAXConfigfile();
+
+
 // Browse backup folder
 void showBackups();
 

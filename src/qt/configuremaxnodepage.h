@@ -49,7 +49,7 @@ public:
     ~ConfigureMaxnodePage();
 
 	void counter(int counter);
-	void MNAliasCache(QString MnAliasCache);
+	void MAXAliasCache(QString MAXAliasCache);
     void loadAlias(QString strAlias);
     void loadIP(QString strIP);
     void loadPrivKey(QString strPrivKey);

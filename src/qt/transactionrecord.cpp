@@ -73,7 +73,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet* 
             sub.address = CBitcoinAddress(address).ToString();
             sub.credit = nNet;
         } else {
-            //Masternode reward
+            //Masternode reward TODO: make maxnode reward
             CTxDestination destMN;
             int nIndexMN = wtx.vout.size() - 1;
             if (ExtractDestination(wtx.vout[nIndexMN].scriptPubKey, destMN) && IsMine(*wallet, destMN)) {
@@ -361,7 +361,7 @@ void TransactionRecord::updateStatus(const CWalletTx& wtx)
         }
     }
     // For generated transactions, determine maturity
-    else if (type == TransactionRecord::Generated || type == TransactionRecord::StakeMint || type == TransactionRecord::StakeZPIV || type == TransactionRecord::MNReward) {
+    else if (type == TransactionRecord::Generated || type == TransactionRecord::StakeMint || type == TransactionRecord::StakeZPIV || type == TransactionRecord::MNReward || type == TransactionRecord::MAXReward ) {
         if (nBlocksToMaturity > 0) {
             status.status = TransactionStatus::Immature;
             status.matures_in = nBlocksToMaturity;
