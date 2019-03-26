@@ -3,7 +3,6 @@ dist: xenial
 os: linux
 language: minimal
 cache:
-  ccache: true
   directories:
     - depends/built
     - depends/sdk-sources
