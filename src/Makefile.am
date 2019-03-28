@@ -58,6 +58,8 @@ if ENABLE_WALLET
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
 endif
 
+.PHONY: FORCE check-symbols check-security
+
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
 
@@ -428,6 +430,18 @@ libbitcoin_util_a_SOURCES = \
 
 if GLIBC_BACK_COMPAT
 libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
+endif
+
+check-symbols: $(bin_PROGRAMS)
+if GLIBC_BACK_COMPAT
+	@echo "Checking glibc back compat..."
+	$(AM_V_at) READELF=$(READELF) CPPFILT=$(CPPFILT) $(PYTHON) $(top_srcdir)/contrib/devtools/symbol-check.py < $(bin_PROGRAMS)
+endif
+
+check-security: $(bin_PROGRAMS)
+if HARDEN
+	@echo "Checking binary security..."
+	$(AM_V_at) READELF=$(READELF) OBJDUMP=$(OBJDUMP) $(PYTHON) $(top_srcdir)/contrib/devtools/security-check.py < $(bin_PROGRAMS)
 endif
 
 # cli: shared between lytix-cli and lytix-qt
