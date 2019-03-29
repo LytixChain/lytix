@@ -57,6 +57,12 @@ def build():
     subprocess.check_call(["echo 'f9a8cdb38b9c309326764ebc937cba1523a3a751a7ab05df3ecc99d18ae466c9 inputs/osslsigncode-1.7.1.tar.gz' | sha256sum -c"], shell=True)
     subprocess.check_call(['make', '-C', '../lytix/depends', 'download', 'SOURCES_PATH=' + os.getcwd() + '/cache/common'])
 
+    if args.testlinux:
+        print('\nCompiling ' + args.version + ' Test Linux')
+        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'lytix='+args.commit, '--url', 'lytix='+args.url, '../lytix/contrib/gitian-descriptors/gitian-test-linux.yml'])
+        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-testlinux', '--destination', '../gitian.sigs/', '../lytix/contrib/gitian-descriptors/gitian-test-linux.yml'])
+        subprocess.check_call('mv build/out/lytix-*.tar.gz build/out/src/lytix-*.tar.gz ../lytix-binaries/'+args.version, shell=True)
+
     if args.linux:
         print('\nCompiling ' + args.version + ' Linux')
         subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'lytix='+args.commit, '--url', 'lytix='+args.url, '../lytix/contrib/gitian-descriptors/gitian-linux.yml'])
@@ -82,6 +88,7 @@ def build():
     if args.commit_files:
         print('\nCommitting '+args.version+' Unsigned Sigs\n')
         os.chdir('gitian.sigs')
+        subprocess.check_call(['git', 'add', args.version+'-testlinux/'+args.signer])
         subprocess.check_call(['git', 'add', args.version+'-linux/'+args.signer])
         subprocess.check_call(['git', 'add', args.version+'-win-unsigned/'+args.signer])
         subprocess.check_call(['git', 'add', args.version+'-osx-unsigned/'+args.signer])
@@ -123,6 +130,8 @@ def verify():
 
     print('\nVerifying v'+args.version+' Linux\n')
     subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-linux', '../lytix/contrib/gitian-descriptors/gitian-linux.yml'])
+    print('\nVerifying v'+args.version+' Test Linux\n')
+    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-testlinux', '../lytix/contrib/gitian-descriptors/gitian-testlinux.yml'])
     print('\nVerifying v'+args.version+' Windows\n')
     subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-win-unsigned', '../lytix/contrib/gitian-descriptors/gitian-win.yml'])
     print('\nVerifying v'+args.version+' MacOS\n')
@@ -159,6 +168,7 @@ def main():
     args = parser.parse_args()
     workdir = os.getcwd()
 
+    args.testlinux = 't' in args.os
     args.linux = 'l' in args.os
     args.windows = 'w' in args.os
     args.macos = 'm' in args.os
