@@ -1,5 +1,5 @@
 ---
-name: "lytix-linux-2.0.0"
+name: "lytix-test-linux-2.0.0"
 enable_cache: true
 distro: "ubuntu"
 suites:
@@ -8,8 +8,8 @@ architectures:
 - "amd64"
 packages:
 - "curl"
-- "g++-8-multilib"
-- "gcc-8-multilib"
+- "g++-7-multilib"
+- "gcc-7-multilib"
 - "binutils-gold"
 - "git"
 - "pkg-config"
