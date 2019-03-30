@@ -20,8 +20,6 @@ packages:
 - "bsdmainutils"
 - "ca-certificates"
 - "python3"
-- "linux-clang"
-- "linux-icc"
 remotes:
 - "url": "https://github.com/lytixchain/lytix.git"
   "dir": "lytix"
