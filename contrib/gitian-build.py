@@ -24,14 +24,14 @@ def setup():
     subprocess.check_call(['sudo', 'apt-get', 'install', '-qq'] + programs)
     if not os.path.isdir('gitian.sigs'):
         subprocess.check_call(['git', 'clone', 'https://github.com/lytixchain/gitian.sigs.git'])
-    if not os.path.isdir('bitcoin-detached-sigs'):
+    if not os.path.isdir('lytix-detached-sigs'):
         subprocess.check_call(['git', 'clone', 'https://github.com/lytixchain/lytix-detached-sigs.git'])
     if not os.path.isdir('gitian-builder'):
         subprocess.check_call(['git', 'clone', 'https://github.com/devrandom/gitian-builder.git'])
-    if not os.path.isdir('bitcoin'):
+    if not os.path.isdir('lytix'):
         subprocess.check_call(['git', 'clone', 'https://github.com/lytixchain/lytix.git'])
     os.chdir('gitian-builder')
-    make_image_prog = ['bin/make-base-vm', '--suite', 'trusty', '--arch', 'amd64']
+    make_image_prog = ['bin/make-base-vm', '--suite', 'bionic', '--arch', 'amd64']
     if args.docker:
         make_image_prog += ['--docker']
     elif not args.kvm:
@@ -56,6 +56,12 @@ def build():
     subprocess.check_call(["echo 'a8c4e9cafba922f89de0df1f2152e7be286aba73f78505169bc351a7938dd911 inputs/osslsigncode-Backports-to-1.7.1.patch' | sha256sum -c"], shell=True)
     subprocess.check_call(["echo 'f9a8cdb38b9c309326764ebc937cba1523a3a751a7ab05df3ecc99d18ae466c9 inputs/osslsigncode-1.7.1.tar.gz' | sha256sum -c"], shell=True)
     subprocess.check_call(['make', '-C', '../lytix/depends', 'download', 'SOURCES_PATH=' + os.getcwd() + '/cache/common'])
+
+    if args.testlinux:
+        print('\nCompiling ' + args.version + ' Test Linux')
+        subprocess.check_call(['bin/gbuild', '-j', args.jobs, '-m', args.memory, '--commit', 'lytix='+args.commit, '--url', 'lytix='+args.url, '../lytix/contrib/gitian-descriptors/gitian-test-linux.yml'])
+        subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-testlinux', '--destination', '../gitian.sigs/', '../lytix/contrib/gitian-descriptors/gitian-test-linux.yml'])
+        subprocess.check_call('mv build/out/lytix-*.tar.gz build/out/src/lytix-*.tar.gz ../lytix-binaries/'+args.version, shell=True)
 
     if args.linux:
         print('\nCompiling ' + args.version + ' Linux')
@@ -82,6 +88,7 @@ def build():
     if args.commit_files:
         print('\nCommitting '+args.version+' Unsigned Sigs\n')
         os.chdir('gitian.sigs')
+        subprocess.check_call(['git', 'add', args.version+'-testlinux/'+args.signer])
         subprocess.check_call(['git', 'add', args.version+'-linux/'+args.signer])
         subprocess.check_call(['git', 'add', args.version+'-win-unsigned/'+args.signer])
         subprocess.check_call(['git', 'add', args.version+'-osx-unsigned/'+args.signer])
@@ -94,7 +101,7 @@ def sign():
 
     if args.windows:
         print('\nSigning ' + args.version + ' Windows')
-        subprocess.check_call('cp inputs/bitcoin-' + args.version + '-win-unsigned.tar.gz inputs/bitcoin-win-unsigned.tar.gz', shell=True)
+        subprocess.check_call('cp inputs/lytix-' + args.version + '-win-unsigned.tar.gz inputs/lytix-win-unsigned.tar.gz', shell=True)
         subprocess.check_call(['bin/gbuild', '-i', '--commit', 'signature='+args.commit, '../lytix/contrib/gitian-descriptors/gitian-win-signer.yml'])
         subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-win-signed', '--destination', '../gitian.sigs/', '../lytix/contrib/gitian-descriptors/gitian-win-signer.yml'])
         subprocess.check_call('mv build/out/lytix-*win64-setup.exe ../lytix-binaries/'+args.version, shell=True)
@@ -102,10 +109,10 @@ def sign():
 
     if args.macos:
         print('\nSigning ' + args.version + ' MacOS')
-        subprocess.check_call('cp inputs/bitcoin-' + args.version + '-osx-unsigned.tar.gz inputs/bitcoin-osx-unsigned.tar.gz', shell=True)
+        subprocess.check_call('cp inputs/lytix-' + args.version + '-osx-unsigned.tar.gz inputs/lytix-osx-unsigned.tar.gz', shell=True)
         subprocess.check_call(['bin/gbuild', '-i', '--commit', 'signature='+args.commit, '../lytix/contrib/gitian-descriptors/gitian-osx-signer.yml'])
         subprocess.check_call(['bin/gsign', '-p', args.sign_prog, '--signer', args.signer, '--release', args.version+'-osx-signed', '--destination', '../gitian.sigs/', '../lytix/contrib/gitian-descriptors/gitian-osx-signer.yml'])
-        subprocess.check_call('mv build/out/lytix-osx-signed.dmg ../lytix-binaries/'+args.version+'/bitcoin-'+args.version+'-osx.dmg', shell=True)
+        subprocess.check_call('mv build/out/lytix-osx-signed.dmg ../lytix-binaries/'+args.version+'/lytix-'+args.version+'-osx.dmg', shell=True)
 
     os.chdir(workdir)
 
@@ -123,6 +130,8 @@ def verify():
 
     print('\nVerifying v'+args.version+' Linux\n')
     subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-linux', '../lytix/contrib/gitian-descriptors/gitian-linux.yml'])
+    print('\nVerifying v'+args.version+' Test Linux\n')
+    subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-testlinux', '../lytix/contrib/gitian-descriptors/gitian-testlinux.yml'])
     print('\nVerifying v'+args.version+' Windows\n')
     subprocess.check_call(['bin/gverify', '-v', '-d', '../gitian.sigs/', '-r', args.version+'-win-unsigned', '../lytix/contrib/gitian-descriptors/gitian-win.yml'])
     print('\nVerifying v'+args.version+' MacOS\n')
@@ -159,6 +168,7 @@ def main():
     args = parser.parse_args()
     workdir = os.getcwd()
 
+    args.testlinux = 't' in args.os
     args.linux = 'l' in args.os
     args.windows = 'w' in args.os
     args.macos = 'm' in args.os
@@ -211,7 +221,7 @@ def main():
     os.chdir('lytix')
     if args.pull:
         subprocess.check_call(['git', 'fetch', args.url, 'refs/pull/'+args.version+'/merge'])
-        os.chdir('../gitian-builder/inputs/bitcoin')
+        os.chdir('../gitian-builder/inputs/lytix')
         subprocess.check_call(['git', 'fetch', args.url, 'refs/pull/'+args.version+'/merge'])
         args.commit = subprocess.check_output(['git', 'show', '-s', '--format=%H', 'FETCH_HEAD'], universal_newlines=True, encoding='utf8').strip()
         args.version = 'pull-' + args.version
