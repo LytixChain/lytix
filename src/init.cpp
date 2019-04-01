@@ -213,8 +213,10 @@ void PrepareShutdown()
 #endif
     StopNode();
     DumpMasternodes();
+    DumpMaxnodes();
     DumpBudgets();
     DumpMasternodePayments();
+    DumpMaxnodePayments();
     UnregisterNodeSignals(GetNodeSignals());
 
     if (fFeeEstimatesInitialized) {
@@ -484,7 +486,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-stopafterblockimport", strprintf(_("Stop running after importing blocks from disk (default: %u)"), 0));
         strUsage += HelpMessageOpt("-sporkkey=<privkey>", _("Enable spork administration functionality with the appropriate private key."));
     }
-    string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, tor, mempool, net, proxy, http, libevent, lytix, (obfuscation, swiftx, masternode, mnpayments, mnbudget, zero)"; // Don't translate these and qt below
+    string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, tor, mempool, net, proxy, http, libevent, lytix, (obfuscation, swiftx, masternode, mnpayments, mnbudget, maxnode, maxpayments, maxbudget, zero)"; // Don't translate these and qt below
     if (mode == HMM_BITCOIN_QT)
         debugCategories += ", qt";
     strUsage += HelpMessageOpt("-debug=<category>", strprintf(_("Output debugging information (default: %u, supplying <category> is optional)"), 0) + ". " +
@@ -514,7 +516,7 @@ std::string HelpMessage(HelpMessageMode mode)
     }
     strUsage += HelpMessageOpt("-shrinkdebugfile", _("Shrink debug.log file on client startup (default: 1 when no -debug)"));
     strUsage += HelpMessageOpt("-testnet", _("Use the test network"));
-    strUsage += HelpMessageOpt("-litemode=<n>", strprintf(_("Disable all Lytix specific functionality (Masternodes, Zerocoin, SwiftX, Budgeting) (0-1, default: %u)"), 0));
+    strUsage += HelpMessageOpt("-litemode=<n>", strprintf(_("Disable all Lytix specific functionality (Masternodes, Maxnodes, Zerocoin, SwiftX, Budgeting) (0-1, default: %u)"), 0));
 
 #ifdef ENABLE_WALLET
     strUsage += HelpMessageGroup(_("Staking options:"));
@@ -1731,6 +1733,20 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             LogPrintf("file format is unknown or invalid, please fix it manually\n");
     }
 
+    uiInterface.InitMessage(_("Loading maxnode cache..."));
+
+    CMaxnodeDB maxdb;
+    CMaxnodeDB::ReadResult readMaxResult = maxdb.Read(maxnodeman);
+    if (readMaxResult == CMaxnodeDB::FileError)
+        LogPrintf("Missing maxnode cache file - maxcache.dat, will try to recreate\n");
+    else if (readMaxResult != CMaxnodeDB::Ok) {
+        LogPrintf("Error reading maxcache.dat: ");
+        if (readMaxResult == CMaxnodeDB::IncorrectFormat)
+            LogPrintf("magic is ok but data has invalid format, will try to recreate\n");
+        else
+            LogPrintf("file format is unknown or invalid, please fix it manually\n");
+    }
+
     uiInterface.InitMessage(_("Loading budget cache..."));
 
     CBudgetDB budgetdb;
@@ -1747,6 +1763,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
     //flag our cached items so we send them to our peers
+    // DISDIS TODO - add maxnode here
     budget.ResetSync();
     budget.ClearSeen();
 
@@ -1767,9 +1784,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
     fMasterNode = GetBoolArg("-masternode", false);
-    fMaxNodeT1 = GetBoolArg("-maxnodet1", false);
-    fMaxNodeT2 = GetBoolArg("-maxnodet2", false);
-    fMaxNodeT3 = GetBoolArg("-maxnodet3", false);
 
     if ((fMasterNode || masternodeConfig.getCount() > -1) && fTxIndex == false) {
         return InitError("Enabling Masternode support requires turning on transaction indexing."
@@ -1807,6 +1821,30 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
+    uiInterface.InitMessage(_("Loading maxnode payment cache..."));
+
+    CMaxnodePaymentDB maxpayments;
+    CMaxnodePaymentDB::ReadResult readMaxResult3 = maxpayments.Read(maxnodePayments);
+
+    if (readMaxResult3 == CMaxnodePaymentDB::FileError)
+        LogPrintf("Missing maxnode payment cache - maxpayments.dat, will try to recreate\n");
+    else if (readMaxResult3 != CMaxnodePaymentDB::Ok) {
+        LogPrintf("Error reading maxpayments.dat: ");
+        if (readMaxResult3 == CMaxnodePaymentDB::IncorrectFormat)
+            LogPrintf("magic is ok but data has invalid format, will try to recreate\n");
+        else
+            LogPrintf("file format is unknown or invalid, please fix it manually\n");
+    }
+
+    fMaxNodeT1 = GetBoolArg("-maxnodet1", false);
+    fMaxNodeT2 = GetBoolArg("-maxnodet2", false);
+    fMaxNodeT3 = GetBoolArg("-maxnodet3", false);
+
+    if ((fMaxNodeT1 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
+        return InitError("Enabling Maxnode support requires turning on transaction indexing."
+                         "Please add txindex=1 to your configuration and start with -reindex");
+    }
+
     if (fMaxNodeT1) {
         LogPrintf("IS TIER 1 MAX NODE\n");
         strMaxNodeAddr = GetArg("-maxnodeaddr", "");
@@ -1838,6 +1876,11 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
+    if ((fMaxNodeT2 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
+        return InitError("Enabling Maxnode support requires turning on transaction indexing."
+                         "Please add txindex=1 to your configuration and start with -reindex");
+    }
+
     if (fMaxNodeT2) {
         LogPrintf("IS TIER 2 MAX NODE\n");
         strMaxNodeAddr = GetArg("-maxnodeaddr", "");
@@ -1867,6 +1910,11 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         } else {
             return InitError(_("You must specify a maxnodeprivkey in the configuration. Please see documentation for help."));
         }
+    }
+
+    if ((fMaxNodeT3 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
+        return InitError("Enabling Maxnode support requires turning on transaction indexing."
+                         "Please add txindex=1 to your configuration and start with -reindex");
     }
 
     if (fMaxNodeT3) {

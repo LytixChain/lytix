@@ -20,10 +20,6 @@ packages:
 - "bsdmainutils"
 - "ca-certificates"
 - "python3"
-- "libqt5webkit5-dev"
-- "qt5-qmake"
-- "qt5-default"
-- "qttools5-dev-tools"
 remotes:
 - "url": "https://github.com/lytixchain/lytix.git"
   "dir": "lytix"
