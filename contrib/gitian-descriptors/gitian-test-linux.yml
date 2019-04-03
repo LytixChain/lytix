@@ -115,12 +115,12 @@ script: |
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
   for i in $HOSTS; do
-  #EXTRA_INCLUDES="$EXTRA_INCLUDES_BASE/$i"
-  # if [ -d "$EXTRA_INCLUDES" ]; then
-  #   export HOST_ID_SALT="$EXTRA_INCLUDES"
-  # fi
+  EXTRA_INCLUDES="$EXTRA_INCLUDES_BASE/$i"
+   if [ -d "$EXTRA_INCLUDES" ]; then
+     export HOST_ID_SALT="$EXTRA_INCLUDES"
+   fi
     make ${MAKEOPTS} -C ${BASEPREFIX} HOST="${i}"
-    # unset HOST_ID_SALT
+     unset HOST_ID_SALT
   done
 
   # Faketime for binaries
