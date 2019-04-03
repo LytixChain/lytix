@@ -1911,11 +1911,11 @@ int64_t GetBlockValue(int nHeight)
     //Pulls from chainparams.cpp LAST_POW_BLOCK here for reference
     //int64_t LAST_POW_BLOCK = 1000;
     if (nHeight == 1) {
-        CoinAmount = static_cast<int64_t>(643000 * COIN);
+        CoinAmount = static_cast<int64_t>(500000 * COIN);
     } else if ( nHeight > 1 && nHeight <= 50) {
-        CoinAmount = static_cast<int64_t>(5000 * COIN);
+        CoinAmount = static_cast<int64_t>(1000 * COIN);
     } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
-        CoinAmount = static_cast<int64_t>(5000 * COIN);
+        CoinAmount = static_cast<int64_t>(1000 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 450000) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
     } else if (nHeight > 450000 && nHeight <= (1 * DropTime)) {
