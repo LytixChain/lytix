@@ -856,7 +856,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
      */
 
     // Light version for OLD MASSTERNODES - fake pings, no self-activation
-    else if (strCommand == "dsee") { //ObfuScation Election Entry
+    else if (strCommand == "dmaxsee") { //ObfuScation Election Entry
 
         if (IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)) return;
 
@@ -878,7 +878,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         // make sure signature isn't in the future (past is OK)
         if (sigTime > GetAdjustedTime() + 60 * 60) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
@@ -889,7 +889,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         strMessage = addr.ToString() + boost::lexical_cast<std::string>(sigTime) + vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion) + donationAddress.ToString() + boost::lexical_cast<std::string>(donationPercentage);
 
         if (protocolVersion < maxnodePayments.GetMinMaxnodePaymentsProto()) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - ignoring outdated Maxnode %s protocol version %d < %d\n", vin.prevout.hash.ToString(), protocolVersion, maxnodePayments.GetMinMaxnodePaymentsProto());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - ignoring outdated Maxnode %s protocol version %d < %d\n", vin.prevout.hash.ToString(), protocolVersion, maxnodePayments.GetMinMaxnodePaymentsProto());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
@@ -898,7 +898,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         pubkeyScript = GetScriptForDestination(pubkey.GetID());
 
         if (pubkeyScript.size() != 25) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - pubkey the wrong size\n");
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - pubkey the wrong size\n");
             Misbehaving(pfrom->GetId(), 100);
             return;
         }
@@ -907,20 +907,20 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         pubkeyScript2 = GetScriptForDestination(pubkey2.GetID());
 
         if (pubkeyScript2.size() != 25) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - pubkey2 the wrong size\n");
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - pubkey2 the wrong size\n");
             Misbehaving(pfrom->GetId(), 100);
             return;
         }
 
         if (!vin.scriptSig.empty()) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - Ignore Not Empty ScriptSig %s\n", vin.prevout.hash.ToString());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Ignore Not Empty ScriptSig %s\n", vin.prevout.hash.ToString());
             Misbehaving(pfrom->GetId(), 100);
             return;
         }
 
         std::string errorMessage = "";
         if (!obfuScationSigner.VerifyMessage(pubkey, vchSig, strMessage, errorMessage)) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - Got bad Maxnode address signature\n");
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Got bad Maxnode address signature\n");
             Misbehaving(pfrom->GetId(), 100);
             return;
         }
@@ -930,7 +930,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         } else if (addr.GetPort() == 27071)
             return;
 
-        //search existing Maxnode list, this is where we update existing Maxnodes with new dsee broadcasts
+        //search existing Maxnode list, this is where we update existing Maxnodes with new dmaxsee broadcasts
         CMaxnode* pmax = this->Find(vin);
         if (pmax != NULL) {
             // count == -1 when it's a new entry
@@ -940,7 +940,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             if (count == -1 && pmax->pubKeyCollateralAddress == pubkey && (GetAdjustedTime() - pmax->nLastDsee > MAXNODE_MIN_MAXB_SECONDS)) {
                 if (pmax->protocolVersion > GETHEADERS_VERSION && sigTime - pmax->lastPing.sigTime < MAXNODE_MIN_MAXB_SECONDS) return;
                 if (pmax->nLastDsee < sigTime) { //take the newest entry
-                    LogPrint("maxnode", "dsee - Got updated entry for %s\n", vin.prevout.hash.ToString());
+                    LogPrint("maxnode", "dmaxsee - Got updated entry for %s\n", vin.prevout.hash.ToString());
                     if (pmax->protocolVersion < GETHEADERS_VERSION) {
                         pmax->pubKeyMaxnode = pubkey2;
                         pmax->sigTime = sigTime;
@@ -957,7 +957,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                         if (!lockNodes) return;
                         BOOST_FOREACH (CNode* pnode, vNodes)
                             if (pnode->nVersion >= maxnodePayments.GetMinMaxnodePaymentsProto())
-                                pnode->PushMessage("dsee", vin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
+                                pnode->PushMessage("dmaxsee", vin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
                     }
                 }
             }
@@ -967,20 +967,20 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         static std::map<COutPoint, CPubKey> mapSeenDsee;
         if (mapSeenDsee.count(vin.prevout) && mapSeenDsee[vin.prevout] == pubkey) {
-            LogPrint("maxnode", "dsee - already seen this vin %s\n", vin.prevout.ToString());
+            LogPrint("maxnode", "dmaxsee - already seen this vin %s\n", vin.prevout.ToString());
             return;
         }
         mapSeenDsee.insert(make_pair(vin.prevout, pubkey));
         // make sure the vout that was signed is related to the transaction that spawned the Maxnode
         //  - this is expensive, so it's only done once per Maxnode
         if (!obfuScationSigner.IsVinAssociatedWithPubkey(vin, pubkey)) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - Got mismatched pubkey and vin\n");
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Got mismatched pubkey and vin\n");
             Misbehaving(pfrom->GetId(), 100);
             return;
         }
 
 
-        LogPrint("maxnode", "dsee - Got NEW OLD Maxnode entry %s\n", vin.prevout.hash.ToString());
+        LogPrint("maxnode", "dmaxsee - Got NEW OLD Maxnode entry %s\n", vin.prevout.hash.ToString());
 
         // make sure it's still unspent
         //  - this is checked later by .check() in many places and by ThreadCheckObfuScationPool()
@@ -1002,7 +1002,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         if (fAcceptable) {
             if (GetInputAge(vin) < MAXNODE_MIN_CONFIRMATIONS) {
-                LogPrintf("CMaxnodeMan::ProcessMessage() : dsee - Input must have least %d confirmations\n", MAXNODE_MIN_CONFIRMATIONS);
+                LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Input must have least %d confirmations\n", MAXNODE_MIN_CONFIRMATIONS);
                 Misbehaving(pfrom->GetId(), 20);
                 return;
             }
@@ -1040,7 +1040,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             max.Check(true);
             // add v11 maxnodes, v12 should be added by maxb only
             if (protocolVersion < GETHEADERS_VERSION) {
-                LogPrint("maxnode", "dsee - Accepted OLD Maxnode entry %i %i\n", count, current);
+                LogPrint("maxnode", "dmaxsee - Accepted OLD Maxnode entry %i %i\n", count, current);
                 Add(max);
             }
             if (max.IsEnabled()) {
@@ -1048,14 +1048,14 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                 if (!lockNodes) return;
                 BOOST_FOREACH (CNode* pnode, vNodes)
                     if (pnode->nVersion >= maxnodePayments.GetMinMaxnodePaymentsProto())
-                        pnode->PushMessage("dsee", vin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
+                        pnode->PushMessage("dmaxsee", vin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
             }
         } else {
-            LogPrint("maxnode","dsee - Rejected Maxnode entry %s\n", vin.prevout.hash.ToString());
+            LogPrint("maxnode","dmaxsee - Rejected Maxnode entry %s\n", vin.prevout.hash.ToString());
 
             int nDoS = 0;
             if (state.IsInvalid(nDoS)) {
-                LogPrint("maxnode","dsee - %s from %i %s was not accepted into the memory pool\n", tx.GetHash().ToString().c_str(),
+                LogPrint("maxnode","dmaxsee - %s from %i %s was not accepted into the memory pool\n", tx.GetHash().ToString().c_str(),
                     pfrom->GetId(), pfrom->cleanSubVer.c_str());
                 if (nDoS > 0)
                     Misbehaving(pfrom->GetId(), nDoS);
@@ -1063,7 +1063,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         }
     }
 
-    else if (strCommand == "dseep") { //ObfuScation Election Entry Ping
+    else if (strCommand == "dmaxseep") { //ObfuScation Election Entry Ping
 
         if (IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)) return;
 
@@ -1073,16 +1073,16 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         bool stop;
         vRecv >> vin >> vchSig >> sigTime >> stop;
 
-        //LogPrint("maxnode","dseep - Received: vin: %s sigTime: %lld stop: %s\n", vin.ToString().c_str(), sigTime, stop ? "true" : "false");
+        //LogPrint("maxnode","dmaxseep - Received: vin: %s sigTime: %lld stop: %s\n", vin.ToString().c_str(), sigTime, stop ? "true" : "false");
 
         if (sigTime > GetAdjustedTime() + 60 * 60) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dseep - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxseep - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
 
         if (sigTime <= GetAdjustedTime() - 60 * 60) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dseep - Signature rejected, too far into the past %s - %d %d \n", vin.prevout.hash.ToString(), sigTime, GetAdjustedTime());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxseep - Signature rejected, too far into the past %s - %d %d \n", vin.prevout.hash.ToString(), sigTime, GetAdjustedTime());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
@@ -1096,14 +1096,14 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         // see if we have this Maxnode
         CMaxnode* pmax = this->Find(vin);
         if (pmax != NULL && pmax->protocolVersion >= maxnodePayments.GetMinMaxnodePaymentsProto()) {
-            // LogPrint("maxnode","dseep - Found corresponding max for vin: %s\n", vin.ToString().c_str());
+            // LogPrint("maxnode","dmaxseep - Found corresponding max for vin: %s\n", vin.ToString().c_str());
             // take this only if it's newer
             if (sigTime - pmax->nLastDseep > MAXNODE_MIN_MAXP_SECONDS) {
                 std::string strMessage = pmax->addr.ToString() + boost::lexical_cast<std::string>(sigTime) + boost::lexical_cast<std::string>(stop);
 
                 std::string errorMessage = "";
                 if (!obfuScationSigner.VerifyMessage(pmax->pubKeyMaxnode, vchSig, strMessage, errorMessage)) {
-                    LogPrint("maxnode","dseep - Got bad Maxnode address signature %s \n", vin.prevout.hash.ToString());
+                    LogPrint("maxnode","dmaxseep - Got bad Maxnode address signature %s \n", vin.prevout.hash.ToString());
                     //Misbehaving(pfrom->GetId(), 100);
                     return;
                 }
@@ -1115,16 +1115,16 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                 if (pmax->IsEnabled()) {
                     TRY_LOCK(cs_vNodes, lockNodes);
                     if (!lockNodes) return;
-                    LogPrint("maxnode", "dseep - relaying %s \n", vin.prevout.hash.ToString());
+                    LogPrint("maxnode", "dmaxseep - relaying %s \n", vin.prevout.hash.ToString());
                     BOOST_FOREACH (CNode* pnode, vNodes)
                         if (pnode->nVersion >= maxnodePayments.GetMinMaxnodePaymentsProto())
-                            pnode->PushMessage("dseep", vin, vchSig, sigTime, stop);
+                            pnode->PushMessage("dmaxseep", vin, vchSig, sigTime, stop);
                 }
             }
             return;
         }
 
-        LogPrint("maxnode", "dseep - Couldn't find Maxnode entry %s peer=%i\n", vin.prevout.hash.ToString(), pfrom->GetId());
+        LogPrint("maxnode", "dmaxseep - Couldn't find Maxnode entry %s peer=%i\n", vin.prevout.hash.ToString(), pfrom->GetId());
 
         AskForMAX(pfrom, vin);
     }

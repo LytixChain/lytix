@@ -210,19 +210,19 @@ bool CActiveMaxnode::SendMaxnodePing(std::string& errorMessage)
         std::string strMessage = service.ToString() + boost::lexical_cast<std::string>(maxNodeSignatureTime) + boost::lexical_cast<std::string>(false);
 
         if (!obfuScationSigner.SignMessage(strMessage, retErrorMessage, vchMaxNodeSignature, keyMaxnode)) {
-            errorMessage = "dseep sign message failed: " + retErrorMessage;
+            errorMessage = "dmaxseep sign message failed: " + retErrorMessage;
             return false;
         }
 
         if (!obfuScationSigner.VerifyMessage(pubKeyMaxnode, vchMaxNodeSignature, strMessage, retErrorMessage)) {
-            errorMessage = "dseep verify message failed: " + retErrorMessage;
+            errorMessage = "dmaxseep verify message failed: " + retErrorMessage;
             return false;
         }
 
-        LogPrint("maxnode", "dseep - relaying from active max, %s \n", vin.ToString().c_str());
+        LogPrint("maxnode", "dmaxseep - relaying from active max, %s \n", vin.ToString().c_str());
         LOCK(cs_vNodes);
         BOOST_FOREACH (CNode* pnode, vNodes)
-            pnode->PushMessage("dseep", vin, vchMaxNodeSignature, maxNodeSignatureTime, false);
+            pnode->PushMessage("dmaxseep", vin, vchMaxNodeSignature, maxNodeSignatureTime, false);
 
         /*
          * END OF "REMOVE"
@@ -317,20 +317,20 @@ bool CActiveMaxnode::CreateBroadcast(CTxIn vin, CService service, CKey keyCollat
     std::string strMessage = service.ToString() + boost::lexical_cast<std::string>(maxNodeSignatureTime) + vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(PROTOCOL_VERSION) + donationAddress + boost::lexical_cast<std::string>(donationPercantage);
 
     if (!obfuScationSigner.SignMessage(strMessage, retErrorMessage, vchMaxNodeSignature, keyCollateralAddress)) {
-        errorMessage = "dsee sign message failed: " + retErrorMessage;
+        errorMessage = "dmaxsee sign message failed: " + retErrorMessage;
         LogPrintf("CActiveMaxnode::Register() - Error: %s\n", errorMessage.c_str());
         return false;
     }
 
     if (!obfuScationSigner.VerifyMessage(pubKeyCollateralAddress, vchMaxNodeSignature, strMessage, retErrorMessage)) {
-        errorMessage = "dsee verify message failed: " + retErrorMessage;
+        errorMessage = "dmaxsee verify message failed: " + retErrorMessage;
         LogPrintf("CActiveMaxnode::Register() - Error: %s\n", errorMessage.c_str());
         return false;
     }
 
     LOCK(cs_vNodes);
     BOOST_FOREACH (CNode* pnode, vNodes)
-        pnode->PushMessage("dsee", vin, service, vchMaxNodeSignature, maxNodeSignatureTime, pubKeyCollateralAddress, pubKeyMaxnode, -1, -1, maxNodeSignatureTime, PROTOCOL_VERSION, donationAddress, donationPercantage);
+        pnode->PushMessage("dmaxsee", vin, service, vchMaxNodeSignature, maxNodeSignatureTime, pubKeyCollateralAddress, pubKeyMaxnode, -1, -1, maxNodeSignatureTime, PROTOCOL_VERSION, donationAddress, donationPercantage);
 
     /*
      * END OF "REMOVE"

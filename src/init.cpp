@@ -1836,9 +1836,11 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             LogPrintf("file format is unknown or invalid, please fix it manually\n");
     }
 
-    fMaxNodeT1 = GetBoolArg("-maxnodet1", false);
-    fMaxNodeT2 = GetBoolArg("-maxnodet2", false);
-    fMaxNodeT3 = GetBoolArg("-maxnodet3", false);
+    //DISDIS - TODO: figure out a way to have this in the lytix.conf file as a generic but pick the correct tier
+
+    fMaxNodeT1 = GetBoolArg("-maxnode", false);
+    fMaxNodeT2 = GetBoolArg("-maxnode", false);
+    fMaxNodeT3 = GetBoolArg("-maxnode", false);
 
     if ((fMaxNodeT1 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
         return InitError("Enabling Maxnode support requires turning on transaction indexing."
