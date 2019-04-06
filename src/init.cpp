@@ -1838,16 +1838,14 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     //DISDIS - TODO: figure out a way to have this in the lytix.conf file as a generic but pick the correct tier
 
-    fMaxNodeT1 = GetBoolArg("-maxnode", false);
-    fMaxNodeT2 = GetBoolArg("-maxnode", false);
-    fMaxNodeT3 = GetBoolArg("-maxnode", false);
+    fMaxNode = GetBoolArg("-maxnode", false);
 
-    if ((fMaxNodeT1 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
+    if ((fMaxNode || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
         return InitError("Enabling Maxnode support requires turning on transaction indexing."
                          "Please add txindex=1 to your configuration and start with -reindex");
     }
 
-    if (fMaxNodeT1) {
+    if (fMaxNode) {
         LogPrintf("IS TIER 1 MAX NODE\n");
         strMaxNodeAddr = GetArg("-maxnodeaddr", "");
 
@@ -1878,77 +1876,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
-    if ((fMaxNodeT2 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
-        return InitError("Enabling Maxnode support requires turning on transaction indexing."
-                         "Please add txindex=1 to your configuration and start with -reindex");
-    }
-
-    if (fMaxNodeT2) {
-        LogPrintf("IS TIER 2 MAX NODE\n");
-        strMaxNodeAddr = GetArg("-maxnodeaddr", "");
-
-        LogPrintf(" addr %s\n", strMaxNodeAddr.c_str());
-
-        if (!strMaxNodeAddr.empty()) {
-            CService addrTest = CService(strMaxNodeAddr);
-            if (!addrTest.IsValid()) {
-                return InitError("Invalid -maxnodeaddr address: " + strMaxNodeAddr);
-            }
-        }
-
-        strMaxNodePrivKey = GetArg("-maxnodeprivkey", "");
-        if (!strMaxNodePrivKey.empty()) {
-            std::string errorMessage;
-
-            CKey key;
-            CPubKey pubkey;
-
-            if (!obfuScationSigner.SetKey(strMaxNodePrivKey, errorMessage, key, pubkey)) {
-                return InitError(_("Invalid maxnodeprivkey. Please see documenation."));
-            }
-
-            activeMaxnode.pubKeyMaxnode = pubkey;
-
-        } else {
-            return InitError(_("You must specify a maxnodeprivkey in the configuration. Please see documentation for help."));
-        }
-    }
-
-    if ((fMaxNodeT3 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
-        return InitError("Enabling Maxnode support requires turning on transaction indexing."
-                         "Please add txindex=1 to your configuration and start with -reindex");
-    }
-
-    if (fMaxNodeT3) {
-        LogPrintf("IS TIER 3 MAX NODE\n");
-        strMaxNodeAddr = GetArg("-maxnodeaddr", "");
-
-        LogPrintf(" addr %s\n", strMaxNodeAddr.c_str());
-
-        if (!strMaxNodeAddr.empty()) {
-            CService addrTest = CService(strMaxNodeAddr);
-            if (!addrTest.IsValid()) {
-                return InitError("Invalid -maxnodeaddr address: " + strMaxNodeAddr);
-            }
-        }
-
-        strMaxNodePrivKey = GetArg("-maxnodeprivkey", "");
-        if (!strMaxNodePrivKey.empty()) {
-            std::string errorMessage;
-
-            CKey key;
-            CPubKey pubkey;
-
-            if (!obfuScationSigner.SetKey(strMaxNodePrivKey, errorMessage, key, pubkey)) {
-                return InitError(_("Invalid maxnodeprivkey. Please see documenation."));
-            }
-
-            activeMaxnode.pubKeyMaxnode = pubkey;
-
-        } else {
-            return InitError(_("You must specify a maxnodeprivkey in the configuration. Please see documentation for help."));
-        }
-    }
 
     //get the mode of budget voting for this masternode
     strBudgetMode = GetArg("-budgetvotemode", "auto");

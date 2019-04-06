@@ -571,11 +571,7 @@ bool CMaxnodeBroadcast::CheckInputsAndAdd(int& nDoS)
 {
     // we are a maxnode with the same vin (i.e. already activated) and this maxb is ours (matches our Maxnode privkey)
     // so nothing to do here for us
-    if (fMaxNodeT1 && vin.prevout == activeMaxnode.vin.prevout && pubKeyMaxnode == activeMaxnode.pubKeyMaxnode)
-        return true;
-    if (fMaxNodeT2 && vin.prevout == activeMaxnode.vin.prevout && pubKeyMaxnode == activeMaxnode.pubKeyMaxnode)
-        return true;
-    if (fMaxNodeT3 && vin.prevout == activeMaxnode.vin.prevout && pubKeyMaxnode == activeMaxnode.pubKeyMaxnode)
+    if (fMaxNode && vin.prevout == activeMaxnode.vin.prevout && pubKeyMaxnode == activeMaxnode.pubKeyMaxnode)
         return true;
 
     // incorrect ping or its sigTime

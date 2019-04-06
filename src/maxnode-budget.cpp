@@ -1850,18 +1850,8 @@ void CFinalizedBudget::AutoCheck()
 
     LogPrint("maxbudget","CFinalizedBudget::AutoCheck - %lli - %d\n", pindexPrev->nHeight, fAutoChecked);
 
-    if (!fMaxNodeT1 || fAutoChecked) {
-        LogPrint("maxbudget","CFinalizedBudget::AutoCheck fMaxNode=%d fAutoChecked=%d\n", fMaxNodeT1, fAutoChecked);
-        return;
-    }
-
-    if (!fMaxNodeT2 || fAutoChecked) {
-        LogPrint("maxbudget","CFinalizedBudget::AutoCheck fMaxNode=%d fAutoChecked=%d\n", fMaxNodeT2, fAutoChecked);
-        return;
-    }
-
-    if (!fMaxNodeT3 || fAutoChecked) {
-        LogPrint("maxbudget","CFinalizedBudget::AutoCheck fMaxNode=%d fAutoChecked=%d\n", fMaxNodeT3, fAutoChecked);
+    if (!fMaxNode || fAutoChecked) {
+        LogPrint("maxbudget","CFinalizedBudget::AutoCheck fMaxNode=%d fAutoChecked=%d\n", fMaxNode, fAutoChecked);
         return;
     }
 

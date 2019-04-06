@@ -73,7 +73,7 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
             return;
         }
 
-        if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) {
+        if (!fMaxNode) {
             errorID = ERR_NOT_A_MAX;
             LogPrintf("dsa -- not a Maxnode! \n");
             pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);

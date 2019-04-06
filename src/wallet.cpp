@@ -1144,9 +1144,7 @@ CAmount CWalletTx::GetAnonymizableCredit(bool fUseCache) const
 
         if (pwallet->IsSpent(hashTx, i) || pwallet->IsLockedCoin(hashTx, i)) continue;
         if (fMasterNode && vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN) continue; // do not count MN-like outputs
-        if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
-        if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt2-like outputs
-        if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt3-like outputs
+        if (fMaxNode && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
 
         const int rounds = pwallet->GetInputObfuscationRounds(vin);
         if (rounds >= -2 && rounds < nZeromintPercentage) {
@@ -1211,9 +1209,7 @@ CAmount CWalletTx::GetUnlockedCredit() const
 
         if (pwallet->IsSpent(hashTx, i) || pwallet->IsLockedCoin(hashTx, i)) continue;
         if (fMasterNode && vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN) continue; // do not count MN-like outputs
-	if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
-        if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt2-like outputs
-        if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt3-like outputs
+	if (fMaxNode && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
 
         nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
         if (!MoneyRange(nCredit))
@@ -1251,15 +1247,7 @@ CAmount CWalletTx::GetLockedCredit() const
             nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
         }
 
-	if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
-            nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
-        }
-
-	if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) {
-            nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
-        }
-
-	if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) {
+	if (fMaxNode && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
             nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
         }
 
@@ -1382,15 +1370,7 @@ CAmount CWalletTx::GetLockedWatchOnlyCredit() const
             nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
         }
 
-	if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
-            nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
-        }
-
-	if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) {
-            nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
-        }
-
-	if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) {
+	if (fMaxNode && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
             nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
         }
 
@@ -2025,18 +2005,12 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                 } else if (nCoinType == ONLY_NOT10000IFMN) {
                     found = !(fMasterNode && pcoin->vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN);
 		} else if (nCoinType == ONLY_NOT10000IFMN) {
-                    found = !(fMaxNodeT1 && pcoin->vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN);
-		} else if (nCoinType == ONLY_NOT10000IFMN) {
-                    found = !(fMaxNodeT2 && pcoin->vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN);
-		} else if (nCoinType == ONLY_NOT10000IFMN) {
-                    found = !(fMaxNodeT3 && pcoin->vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN);
+                    found = !(fMaxNode && pcoin->vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN);
                 } else if (nCoinType == ONLY_NONDENOMINATED_NOT10000IFMN) {
                     if (IsCollateralAmount(pcoin->vout[i].nValue)) continue; // do not use collateral amounts
                     found = !IsDenominatedAmount(pcoin->vout[i].nValue);
                     if (found && fMasterNode) found = pcoin->vout[i].nValue != MASTERNODE_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
-                    if (found && fMaxNodeT1) found = pcoin->vout[i].nValue != MAXNODE_T1_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
-		    if (found && fMaxNodeT2) found = pcoin->vout[i].nValue != MAXNODE_T3_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
-		    if (found && fMaxNodeT3) found = pcoin->vout[i].nValue != MAXNODE_T3_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
+                    if (found && fMaxNode) found = pcoin->vout[i].nValue != MAXNODE_T1_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
                 } else if (nCoinType == ONLY_10000) {
                     found = pcoin->vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN;
 		} else if (nCoinType == ONLY_10000) {
@@ -2570,9 +2544,7 @@ bool CWallet::SelectCoinsDark(CAmount nValueMin, CAmount nValueMax, std::vector<
         //do not allow collaterals to be selected
         if (IsCollateralAmount(out.tx->vout[out.i].nValue)) continue;
         if (fMasterNode && out.tx->vout[out.i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN) continue; //masternode input
-	if (fMaxNodeT1 && out.tx->vout[out.i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
-        if (fMaxNodeT2 && out.tx->vout[out.i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt2-like outputs
-        if (fMaxNodeT3 && out.tx->vout[out.i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt3-like outputs
+	if (fMaxNode && out.tx->vout[out.i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
 
         if (nValueRet + out.tx->vout[out.i].nValue <= nValueMax) {
             CTxIn vin = CTxIn(out.tx->GetHash(), out.i);
