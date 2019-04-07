@@ -8,7 +8,7 @@ qt_linux_packages:=qt expat dbus libxcb xcb_proto libXau xproto freetype fontcon
 rapidcheck_packages = rapidcheck
 
 qt_darwin_packages=qt
-qt_mingw32_packages=qt
+qt_mingw32_packages=qt binutils-avr
 
 wallet_packages=bdb
 
