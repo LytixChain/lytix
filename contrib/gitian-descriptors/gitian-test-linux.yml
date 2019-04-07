@@ -85,12 +85,27 @@ script: |
   EXTRA_INCLUDES_BASE=$WRAP_DIR/extra_includes
   mkdir -p $EXTRA_INCLUDES_BASE
 
+  # x86 needs /usr/include/i386-linux-gnu/asm pointed to /usr/include/x86_64-linux-gnu/asm,
+  # but we can't write there. Instead, create a link here and force it to be included in the
+  # search paths by wrapping gcc/g++.
+
+  mkdir -p $EXTRA_INCLUDES_BASE/i686-pc-linux-gnu
+  rm -f $WRAP_DIR/extra_includes/i686-pc-linux-gnu/asm
+  ln -s /usr/include/x86_64-linux-gnu/asm $EXTRA_INCLUDES_BASE/i686-pc-linux-gnu/asm
+
   for prog in gcc g++; do
   rm -f ${WRAP_DIR}/${prog}
   cat << EOF > ${WRAP_DIR}/${prog}
   #!/usr/bin/env bash
   REAL="`which -a ${prog}-8 | grep -v ${WRAP_DIR}/${prog} | head -1`"
   for var in "\$@"
+  do
+    if [ "\$var" = "-m32" ]; then
+      export C_INCLUDE_PATH="$EXTRA_INCLUDES_BASE/i686-pc-linux-gnu"
+      export CPLUS_INCLUDE_PATH="$EXTRA_INCLUDES_BASE/i686-pc-linux-gnu"
+      break
+    fi
+  done
   \$REAL \$@
   EOF
   chmod +x ${WRAP_DIR}/${prog}
@@ -141,12 +156,14 @@ script: |
     tar --strip-components=1 -xf ../$SOURCEDIST
 
     # Workaround for tarball not building with the bare tag version
-    echo '#!/bin/true' > share/genbuild.sh
+    echo '#!/bin/true' >share/genbuild.sh
     mkdir src/obj
     cp ../src/obj/build.h src/obj/
 
     CONFIG_SITE=${BASEPREFIX}/${i}/share/config.site ./configure --prefix=/ --disable-ccache --disable-maintainer-mode --disable-dependency-tracking ${CONFIGFLAGS} CFLAGS="${HOST_CFLAGS}" CXXFLAGS="${HOST_CXXFLAGS}" LDFLAGS="${HOST_LDFLAGS}"
     make ${MAKEOPTS}
+    #make ${MAKEOPTS} -C src check-security
+    #make ${MAKEOPTS} -C src check-symbols
 
     make install DESTDIR=${INSTALLPATH}
     cd installed
@@ -154,6 +171,7 @@ script: |
     find . -name "lib*.a" -delete
     rm -rf ${DISTNAME}/lib/pkgconfig
     find ${DISTNAME}/bin -type f -executable -print0 | xargs -0 -n1 -I{} ../contrib/devtools/split-debug.sh {} {} {}.dbg
+    #find ${DISTNAME}/lib -type f -print0 | xargs -0 -n1 -I{} ../contrib/devtools/split-debug.sh {} {} {}.dbg
     cp ../doc/README.md ${DISTNAME}/
     find ${DISTNAME} -not -name "*.dbg" | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${OUTDIR}/${DISTNAME}-${i}.tar.gz
     find ${DISTNAME} -name "*.dbg" | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${OUTDIR}/${DISTNAME}-${i}-debug.tar.gz
