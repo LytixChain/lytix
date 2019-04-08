@@ -20,6 +20,7 @@ packages:
 - "bsdmainutils"
 - "ca-certificates"
 - "python3"
+- "libx11-xcb1"
 remotes:
 - "url": "https://github.com/lytixchain/lytix.git"
   "dir": "lytix"
