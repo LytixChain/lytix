@@ -2,7 +2,7 @@
 name: "lytix-aarch64-2.0.0"
 enable_cache: true
 suites:
-- "bionic"
+- "xenial"
 architectures:
 - "amd64"
 packages:

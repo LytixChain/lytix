@@ -20,7 +20,7 @@ packages:
 - "nsis"
 - "zip"
 - "ca-certificates"
-- "python"
+- "python3"
 remotes:
 - "url": "https://github.com/lytixchain/lytix.git"
   "dir": "lytix"
