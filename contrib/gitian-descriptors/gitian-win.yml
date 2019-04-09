@@ -1,8 +1,8 @@
 ---
-name: "lytix-win-1.7.5"
+name: "lytix-win-2.0.0"
 enable_cache: true
 suites:
-- "trusty"
+- "bionic"
 architectures:
 - "amd64"
 packages:
