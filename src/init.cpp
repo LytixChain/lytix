@@ -1846,7 +1846,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
     if (fMaxNode) {
-        LogPrintf("IS TIER 1 MAX NODE\n");
+        LogPrintf("IS MAX NODE\n");
         strMaxNodeAddr = GetArg("-maxnodeaddr", "");
 
         LogPrintf(" addr %s\n", strMaxNodeAddr.c_str());

@@ -84,6 +84,7 @@ $(package)_config_opts += -no-feature-wizard
 $(package)_config_opts += -no-feature-xml
 
 ifneq ($(build_os),darwin)
+$(package)_config_opts_darwin += -no-opengl
 $(package)_config_opts_darwin += -device-option MAC_SDK_PATH=$(OSX_SDK)
 $(package)_config_opts_darwin += -device-option MAC_SDK_VERSION=$(OSX_SDK_VERSION)
 $(package)_config_opts_darwin += -device-option CROSS_COMPILE="$(host)-"

@@ -1,11 +1,13 @@
 // Copyright (c) 2014-2016 The Dash developers
 // Copyright (c) 2016-2018 The PIVX developers
+// Copyright (c) 2018-2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "swifttx.h"
 
 #include "activemasternode.h"
+#include "activemaxnode.h"
 #include "base58.h"
 #include "key.h"
 #include "masternodeman.h"
