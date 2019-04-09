@@ -1,4 +1,4 @@
-Lytix Core integration/staging repository
+Lytix Core repository
 =====================================
 
 [![Build Status](https://travis-ci.org/LytixChain/lytix.png)](https://travis-ci.org/LytixChain/lytix) [![GitHub tag](https://img.shields.io/github/tag/LytixChain/lytix.svg)](https://github.com/lytixchain/lytix/tree/v1.1.4)
