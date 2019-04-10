@@ -28,6 +28,7 @@ packages:
 - "python3-dev"
 - "python3-setuptools"
 - "python3-biplist"
+- "python3-pip"
 - "fonts-tuffy"
 remotes:
 - "url": "https://github.com/lytixchain/lytix.git"
@@ -98,6 +99,10 @@ script: |
   for i in $HOSTS; do
     make ${MAKEOPTS} -C ${BASEPREFIX} HOST="${i}"
   done
+
+  # install dependencies for python pip
+  pip install ds_store
+  pip install mac_alias
 
   # Faketime for binaries
   export PATH=${PATH_orig}
