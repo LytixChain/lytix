@@ -100,10 +100,6 @@ script: |
     make ${MAKEOPTS} -C ${BASEPREFIX} HOST="${i}"
   done
 
-  # install dependencies for python pip
-  pip install ds_store
-  pip install mac_alias
-
   # Faketime for binaries
   export PATH=${PATH_orig}
   create_global_faketime_wrappers "${REFERENCE_DATETIME}"
@@ -136,6 +132,10 @@ script: |
     INSTALLPATH=`pwd`/installed/${DISTNAME}
     mkdir -p ${INSTALLPATH}
     tar --strip-components=1 -xf ../$SOURCEDIST
+
+    # install dependencies for python pip
+    pip install ds_store
+    pip install mac_alias
 
     # Workaround for tarball not building with the bare tag version
     echo '#!/bin/true' >share/genbuild.sh
