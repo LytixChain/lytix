@@ -57,6 +57,7 @@ INCLUDEPATH += . \
 
 # Input
 HEADERS += src/activemasternode.h \
+           src/activemaxnode.h \
            src/addrman.h \
            src/alert.h \
            src/allocators.h \
@@ -93,10 +94,15 @@ HEADERS += src/activemasternode.h \
            src/main.h \
            src/masternode-budget.h \
            src/masternode-payments.h \
+           src/maxnode-payments.h \
            src/masternode-sync.h \
+           src/maxnode-sync.h \
            src/masternode.h \
+           src/maxnode.h \
            src/masternodeconfig.h \
+           src/maxnodeconfig.h \
            src/masternodeman.h \
+           src/maxnodeman.h \
            src/merkleblock.h \
            src/miner.h \
            src/mruset.h \
@@ -355,6 +361,7 @@ FORMS += src/qt/forms/addressbookpage.ui \
          src/qt/forms/signverifymessagedialog.ui \
          src/qt/forms/transactiondescdialog.ui
 SOURCES += src/activemasternode.cpp \
+           src/activemaxnode.cpp \
            src/addrman.cpp \
            src/alert.cpp \
            src/allocators.cpp \
@@ -390,10 +397,15 @@ SOURCES += src/activemasternode.cpp \
            src/main.cpp \
            src/masternode-budget.cpp \
            src/masternode-payments.cpp \
+           src/maxnode-payments.cpp \
            src/masternode-sync.cpp \
+           src/maxnode-sync.cpp \
            src/masternode.cpp \
+           src/maxnode.cpp \
            src/masternodeconfig.cpp \
+           src/maxnodeconfig.cpp \
            src/masternodeman.cpp \
+           src/maxnodeman.cpp \
            src/merkleblock.cpp \
            src/miner.cpp \
            src/net.cpp \
@@ -409,6 +421,7 @@ SOURCES += src/activemasternode.cpp \
            src/rpcdump.cpp \
            src/rpcmasternode-budget.cpp \
            src/rpcmasternode.cpp \
+           src/rpcmaxnode.cpp \
            src/rpcmining.cpp \
            src/rpcmisc.cpp \
            src/rpcnet.cpp \

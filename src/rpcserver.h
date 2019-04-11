@@ -327,7 +327,6 @@ extern UniValue mnbudgetrawvote(const UniValue& params, bool fHelp);
 extern UniValue mnfinalbudget(const UniValue& params, bool fHelp);
 extern UniValue checkbudgets(const UniValue& params, bool fHelp);
 
-extern UniValue getpoolinfo(const UniValue& params, bool fHelp); // in rpcmaxnode.cpp
 extern UniValue maxnode(const UniValue& params, bool fHelp);
 extern UniValue listmaxnodes(const UniValue& params, bool fHelp);
 extern UniValue getmaxnodecount(const UniValue& params, bool fHelp);
@@ -345,7 +344,7 @@ extern UniValue getmaxnodestatus(const UniValue& params, bool fHelp);
 extern UniValue getmaxnodewinners(const UniValue& params, bool fHelp);
 extern UniValue getmaxnodescores(const UniValue& params, bool fHelp);
 
-extern UniValue maxbudget(const UniValue& params, bool fHelp); // in rpcmasternode-budget.cpp
+extern UniValue maxbudget(const UniValue& params, bool fHelp); // in rpcmaxnode-budget.cpp
 extern UniValue maxbudgetvote(const UniValue& params, bool fHelp);
 extern UniValue maxbudgetrawvote(const UniValue& params, bool fHelp);
 extern UniValue maxfinalbudget(const UniValue& params, bool fHelp);
