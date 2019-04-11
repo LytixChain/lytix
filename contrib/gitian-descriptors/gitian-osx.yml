@@ -38,6 +38,9 @@ files:
 script: |
   set -e -o pipefail
 
+  /usr/local/bin/pip install ds_store
+  /usr/local/bin/pip install mac_alias
+
   WRAP_DIR=$HOME/wrapped
   HOSTS="x86_64-apple-darwin14"
   CONFIGFLAGS="--enable-reduce-exports --disable-bench --disable-gui-tests GENISOIMAGE=$WRAP_DIR/genisoimage"
