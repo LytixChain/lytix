@@ -50,7 +50,7 @@ public:
 
 	void counter(int counter);
 	void MAXAliasCache(QString MAXAliasCache);
-    void loadAlias(QString strAlias);
+    void loadAlias(QString strMaxAlias.g);
     void loadIP(QString strIP);
     void loadPrivKey(QString strPrivKey);
     void loadTxHash(QString strTxHash);

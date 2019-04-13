@@ -8,7 +8,6 @@
 #define MAXNODELIST_H
 
 #include "maxnode.h"
-#include "maxnode.h"
 #include "platformstyle.h"
 #include "sync.h"
 #include "util.h"
@@ -44,8 +43,8 @@ public:
 
     void setClientModel(ClientModel* clientModel);
     void setWalletModel(WalletModel* walletModel);
-    void StartAlias(std::string strAlias);
-    void StartAll(std::string strCommand = "start-all");
+    void StartAlias(std::string strMaxAlias);
+    void StartAll(std::string strMaxCommand = "start-all");
 
 private:
     QMenu* contextMenu;
@@ -53,7 +52,7 @@ private:
     bool fFilterUpdated;
 
 public Q_SLOTS:
-    void updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMaxnode* pmax);
+    void updateMyMaxnodeInfo(QString strMaxAlias, QString strMaxAddr, CMaxnode* pmax);
     void updateMyNodeList(bool fForce = false);
 
 Q_SIGNALS:

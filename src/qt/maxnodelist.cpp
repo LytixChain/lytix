@@ -89,13 +89,13 @@ void MaxnodeList::showContextMenu(const QPoint& point)
 }
 
 
-void MaxnodeList::StartAlias(std::string strAlias)
+void MaxnodeList::StartAlias(std::string strMaxAlias)
 {
     std::string strStatusHtml;
-    strStatusHtml += "<center>Alias: " + strAlias;
+    strStatusHtml += "<center>Alias: " + strMaxAlias;
 
     BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
-        if (maxe.getAlias() == strAlias) {
+        if (maxe.getAlias() == strMaxAlias) {
             std::string strError;
             CMaxnodeBroadcast maxb;
 
@@ -120,7 +120,7 @@ void MaxnodeList::StartAlias(std::string strAlias)
     updateMyNodeList(true);
 }
 
-void MaxnodeList::StartAll(std::string strCommand)
+void MaxnodeList::StartAll(std::string strMaxCommand)
 {
     int nCountSuccessful = 0;
     int nCountFailed = 0;
@@ -137,7 +137,7 @@ void MaxnodeList::StartAll(std::string strCommand)
         CTxIn txin = CTxIn(uint256S(maxe.getTxHash()), uint32_t(nIndex));
         CMaxnode* pmax = maxnodeman.Find(txin);
 
-        if (strCommand == "start-missing" && pmax) continue;
+        if (strMaxCommand == "start-missing" && pmax) continue;
 
         bool fSuccess = CMaxnodeBroadcast::Create(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), strError, maxb);
 
@@ -165,14 +165,14 @@ void MaxnodeList::StartAll(std::string strCommand)
     updateMyNodeList(true);
 }
 
-void MaxnodeList::updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMaxnode* pmax)
+void MaxnodeList::updateMyMaxnodeInfo(QString strMaxAlias, QString strMaxAddr, CMaxnode* pmax)
 {
     LOCK(cs_maxlistupdate);
     bool fOldRowFound = false;
     int nNewRow = 0;
 
     for (int i = 0; i < ui->tableWidgetMyMaxnodes->rowCount(); i++) {
-        if (ui->tableWidgetMyMaxnodes->item(i, 0)->text() == strAlias) {
+        if (ui->tableWidgetMyMaxnodes->item(i, 0)->text() == strMaxAlias) {
             fOldRowFound = true;
             nNewRow = i;
             break;
@@ -184,8 +184,8 @@ void MaxnodeList::updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMaxnod
         ui->tableWidgetMyMaxnodes->insertRow(nNewRow);
     }
 
-    QTableWidgetItem* aliasItem = new QTableWidgetItem(strAlias);
-    QTableWidgetItem* addrItem = new QTableWidgetItem(pmax ? QString::fromStdString(pmax->addr.ToString()) : strAddr);
+    QTableWidgetItem* aliasItem = new QTableWidgetItem(strMaxAlias);
+    QTableWidgetItem* addrItem = new QTableWidgetItem(pmax ? QString::fromStdString(pmax->addr.ToString()) : strMaxAddr);
     QTableWidgetItem* protocolItem = new QTableWidgetItem(QString::number(pmax ? pmax->protocolVersion : -1));
     QTableWidgetItem* statusItem = new QTableWidgetItem(QString::fromStdString(pmax ? pmax->GetStatus() : "MISSING"));
     GUIUtil::DHMSTableWidgetItem* activeSecondsItem = new GUIUtil::DHMSTableWidgetItem(pmax ? (pmax->lastPing.sigTime - pmax->sigTime) : 0);
@@ -239,11 +239,11 @@ void MaxnodeList::on_startButton_clicked()
 
     QModelIndex index = selected.at(0);
     int nSelectedRow = index.row();
-    std::string strAlias = ui->tableWidgetMyMaxnodes->item(nSelectedRow, 0)->text().toStdString();
+    std::string strMaxAlias = ui->tableWidgetMyMaxnodes->item(nSelectedRow, 0)->text().toStdString();
 
     // Display message box
     QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm maxnode start"),
-        tr("Are you sure you want to start maxnode %1?").arg(QString::fromStdString(strAlias)),
+        tr("Are you sure you want to start maxnode %1?").arg(QString::fromStdString(strMaxAlias)),
         QMessageBox::Yes | QMessageBox::Cancel,
         QMessageBox::Cancel);
 
@@ -256,11 +256,11 @@ void MaxnodeList::on_startButton_clicked()
 
         if (!ctx.isValid()) return; // Unlock wallet was cancelled
 
-        StartAlias(strAlias);
+        StartAlias(strMaxAlias);
         return;
     }
 
-    StartAlias(strAlias);
+    StartAlias(strMaxAlias);
 }
 
 

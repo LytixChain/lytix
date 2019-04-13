@@ -61,9 +61,9 @@ ConfigureMaxnodePage::~ConfigureMaxnodePage()
 }
 
 
-void ConfigureMaxnodePage::loadAlias(QString strAlias)
+void ConfigureMaxnodePage::loadAlias(QString strMaxAlias)
 {
-   ui->aliasEdit->setText(strAlias);
+   ui->aliasEdit->setText(strMaxAlias);
 }
 
 void ConfigureMaxnodePage::counter(int counter)
