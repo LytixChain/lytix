@@ -227,7 +227,7 @@ void CMaxnodeMan::AskForMAX(CNode* pnode, CTxIn& vin)
     // ask for the maxb info once from the node that sent maxp
 
     LogPrint("maxnode", "CMaxnodeMan::AskForMAX - Asking node for missing entry, vin: %s\n", vin.prevout.hash.ToString());
-    pnode->PushMessage("dseg", vin);
+    pnode->PushMessage("dmaxseg", vin);
     int64_t askAgain = GetTime() + MAXNODE_MIN_MAXP_SECONDS;
     mWeAskedForMaxnodeListEntry[vin.prevout] = askAgain;
 }
@@ -424,14 +424,14 @@ void CMaxnodeMan::DsegUpdate(CNode* pnode)
             std::map<CNetAddr, int64_t>::iterator it = mWeAskedForMaxnodeList.find(pnode->addr);
             if (it != mWeAskedForMaxnodeList.end()) {
                 if (GetTime() < (*it).second) {
-                    LogPrint("maxnode", "dseg - we already asked peer %i for the list; skipping...\n", pnode->GetId());
+                    LogPrint("maxnode", "dmaxseg - we already asked peer %i for the list; skipping...\n", pnode->GetId());
                     return;
                 }
             }
         }
     }
 
-    pnode->PushMessage("dseg", CTxIn());
+    pnode->PushMessage("dmaxseg", CTxIn());
     int64_t askAgain = GetTime() + MAXNODES_DSEG_SECONDS;
     mWeAskedForMaxnodeList[pnode->addr] = askAgain;
 }
@@ -797,7 +797,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         // we might have to ask for a maxnode entry once
         AskForMAX(pfrom, maxp.vin);
 
-    } else if (strCommand == "dseg") { //Get Maxnode list or specific entry
+    } else if (strCommand == "dmaxseg") { //Get Maxnode list or specific entry
 
         CTxIn vin;
         vRecv >> vin;
@@ -811,7 +811,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                 if (i != mAskedUsForMaxnodeList.end()) {
                     int64_t t = (*i).second;
                     if (GetTime() < t) {
-                        LogPrintf("CMaxnodeMan::ProcessMessage() : dseg - peer already asked me for the list\n");
+                        LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxseg - peer already asked me for the list\n");
                         Misbehaving(pfrom->GetId(), 34);
                         return;
                     }
@@ -828,7 +828,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             if (max.addr.IsRFC1918()) continue; //local network
 
             if (max.IsEnabled()) {
-                LogPrint("maxnode", "dseg - Sending Maxnode entry - %s \n", max.vin.prevout.hash.ToString());
+                LogPrint("maxnode", "dmaxseg - Sending Maxnode entry - %s \n", max.vin.prevout.hash.ToString());
                 if (vin == CTxIn() || vin == max.vin) {
                     CMaxnodeBroadcast maxb = CMaxnodeBroadcast(max);
                     uint256 hash = maxb.GetHash();
@@ -838,7 +838,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                     if (!mapSeenMaxnodeBroadcast.count(hash)) mapSeenMaxnodeBroadcast.insert(make_pair(hash, maxb));
 
                     if (vin == max.vin) {
-                        LogPrint("maxnode", "dseg - Sent 1 Maxnode entry to peer %i\n", pfrom->GetId());
+                        LogPrint("maxnode", "dmaxseg - Sent 1 Maxnode entry to peer %i\n", pfrom->GetId());
                         return;
                     }
                 }
@@ -847,7 +847,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         if (vin == CTxIn()) {
             pfrom->PushMessage("ssc", MAXNODE_SYNC_LIST, nInvCount);
-            LogPrint("maxnode", "dseg - Sent %d Maxnode entries to peer %i\n", nInvCount, pfrom->GetId());
+            LogPrint("maxnode", "dmaxseg - Sent %d Maxnode entries to peer %i\n", nInvCount, pfrom->GetId());
         }
     }
     /*
