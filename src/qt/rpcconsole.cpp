@@ -672,6 +672,11 @@ void RPCConsole::setMasternodeCount(const QString& strMasternodes)
     ui->masternodeCount->setText(strMasternodes);
 }
 
+void RPCConsole::setMaxnodeCount(const QString& strMaxnodes)
+{
+    ui->maxnodeCount->setText(strMaxnodes);
+}
+
 void RPCConsole::on_lineEdit_returnPressed()
 {
     QString cmd = ui->lineEdit->text();
