@@ -90,6 +90,8 @@ public Q_SLOTS:
     void setNumBlocks(int count);
     /** Set number of masternodes shown in the UI */
     void setMasternodeCount(const QString& strMasternodes);
+    /** Set number of maxnodes shown in the UI */
+    void setMaxnodeCount(const QString& strMaxnodes);
     /** Go forward or back in history */
     void browseHistory(int offset);
     /** Scroll console view to end */
