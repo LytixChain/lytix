@@ -55,7 +55,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         strCommand = params[0].get_str();
 
     if (fHelp ||
-        (strCommand != "start" && strCommand != "start-alias" && strCommand != "start-many" && strCommand != "start-all" && strCommand != "start-missing" &&
+        (strCommand != "start" && strCommand != "start-alias" && strCommand != "start-many" && strCommand != "start-all-max" && strCommand != "start-missing" &&
             strCommand != "start-disabled" && strCommand != "list" && strCommand != "list-conf" && strCommand != "count" && strCommand != "enforce" &&
             strCommand != "debug" && strCommand != "current" && strCommand != "winners" && strCommand != "genkey" && strCommand != "connect" &&
             strCommand != "outputs" && strCommand != "status" && strCommand != "calcscore"))
@@ -126,7 +126,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         return maxnodedebug(newParams, fHelp);
     }
 
-    if (strCommand == "start" || strCommand == "start-alias" || strCommand == "start-many" || strCommand == "start-all" || strCommand == "start-missing" || strCommand == "start-disabled") {
+    if (strCommand == "start" || strCommand == "start-alias" || strCommand == "start-many" || strCommand == "start-all-max" || strCommand == "start-missing" || strCommand == "start-disabled") {
         return startmaxnode(params, fHelp);
     }
 
@@ -401,7 +401,7 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
         // Backwards compatibility with legacy 'maxnode' super-command forwarder
         if (strCommand == "start") strCommand = "local";
         if (strCommand == "start-alias") strCommand = "alias";
-        if (strCommand == "start-all") strCommand = "all";
+        if (strCommand == "start-all-max") strCommand = "all";
         if (strCommand == "start-many") strCommand = "many";
         if (strCommand == "start-missing") strCommand = "missing";
         if (strCommand == "start-disabled") strCommand = "disabled";
