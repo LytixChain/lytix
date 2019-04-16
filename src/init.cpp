@@ -1892,6 +1892,18 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
+    if (GetBoolArg("-maxconflock", true) && pwalletMain) {
+        LOCK(pwalletMain->cs_wallet);
+        LogPrintf("Locking Maxnodes:\n");
+        uint256 maxTxHash;
+        BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
+            LogPrintf("  %s %s\n", maxe.getTxHash(), maxe.getOutputIndex());
+            maxTxHash.SetHex(maxe.getTxHash());
+            COutPoint outpoint = COutPoint(maxTxHash, boost::lexical_cast<unsigned int>(maxe.getOutputIndex()));
+            pwalletMain->LockCoin(outpoint);
+        }
+    }
+    
     fEnableZeromint = GetBoolArg("-enablezeromint", true);
 
     nZeromintPercentage = GetArg("-zeromintpercentage", 10);
