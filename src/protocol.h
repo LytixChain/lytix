@@ -145,6 +145,7 @@ public:
 
     bool IsKnownType() const;
     bool IsMasterNodeType() const;
+    bool IsMaxNodeType() const;
     const char* GetCommand() const;
     std::string ToString() const;
 

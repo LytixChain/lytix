@@ -142,6 +142,10 @@ bool CInv::IsMasterNodeType() const{
  	return (type >= 6);
 }
 
+bool CInv::IsMaxNodeType() const{
+        return (type >= 7);
+}
+
 const char* CInv::GetCommand() const
 {
     if (!IsKnownType()) {
