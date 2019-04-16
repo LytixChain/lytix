@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2017 The PIVX developers
-// Copyright (c) 2018 The Lytix developers
+// Copyright (c) 2018-2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -150,6 +150,9 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
 
         CMasternode* pmn = mnodeman.Find(dsq.vin);
         if (pmn == NULL) return;
+
+	CMaxnode* pmax = maxnodeman.Find(dsq.vin);
+        if (pmax == NULL) return;
 
         // if the queue is ready, submit if we can
         if (dsq.ready) {
