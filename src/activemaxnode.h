@@ -34,7 +34,7 @@ private:
     /// Create Maxnode broadcast, needs to be relayed manually after that
     bool CreateBroadcast(CTxIn vin, CService service, CKey key, CPubKey pubKey, CKey keyMaxnode, CPubKey pubKeyMaxnode, std::string& errorMessage, CMaxnodeBroadcast &maxb);
 
-    /// Get 1000 LYTX input that can be used for the Maxnode
+    /// Get 50000 LYTX input that can be used for the Maxnode
     bool GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey, std::string strTxHash, std::string strOutputIndex);
     bool GetVinFromOutput(COutput out, CTxIn& vin, CPubKey& pubkey, CKey& secretKey);
 
@@ -62,7 +62,7 @@ public:
     /// Create Maxnode broadcast, needs to be relayed manually after that
     bool CreateBroadcast(std::string strService, std::string strKey, std::string strTxHash, std::string strOutputIndex, std::string& errorMessage, CMaxnodeBroadcast &maxb, bool fOffline = false);
 
-    /// Get 1000 LYTX input that can be used for the Maxnode
+    /// Get 50000 LYTX input that can be used for the Maxnode
     bool GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey);
     vector<COutput> SelectCoinsMaxnode();
 

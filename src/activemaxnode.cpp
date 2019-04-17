@@ -13,7 +13,7 @@
 #include "spork.h"
 
 //
-// Bootup the Maxnode, look for a 1000 LYTX input and register on the network
+// Bootup the Maxnode, look for a 50000 LYTX input and register on the network
 //
 void CActiveMaxnode::ManageStatus()
 {
