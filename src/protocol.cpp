@@ -34,6 +34,8 @@ static const char* ppszTypeName[] =
         "mn quorum",
         "mn announce",
         "mn ping",
+        "max ping",
+	"dmaxstx",
         "dstx"};
 
 CMessageHeader::CMessageHeader()
