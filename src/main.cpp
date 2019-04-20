@@ -1986,6 +1986,8 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     return ret;
     }
 
+    if (IsSporkActive(SPORK_18_MASTERNODE_REWARDS_CHANGE)) {
+
     if (nHeight <= 499) {
         ret = 0;
     } else if (nHeight > 499) {
@@ -1995,33 +1997,60 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     }
 
     return ret;
+    } 
+
+    //Current pre-spork 18 change
+
+    else {
+
+    if (nHeight <= 499) {
+        ret = 0;
+    } else if (nHeight > 499) {
+        ret = blockValue * 0.5;
+    } else {
+        ret = 15 * COIN;
+    }
+
+    return ret;
+    }
+
 }
+
 
 int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bool isZPIVStake)
 {
-    int64_t ret = 0;
+    	int64_t ret = 0;
 
-    if (Params().NetworkID() == CBaseChainParams::TESTNET) {
+    	if (Params().NetworkID() == CBaseChainParams::TESTNET) {
 
-    if (nHeight <= 499) {
-        ret = 0;
+    	if (nHeight <= 499) {
+        	ret = 0;
     
-    } else if (nHeight > 499 && fMaxNode) {
-        ret = blockValue * 5;
-    }
+    	} else if (nHeight > 499 && fMaxNode) {
+        	ret = blockValue * 5;
+    	}
 
-    return ret;
-    }
+    	return ret;
+    	}
 
-    if (nHeight <= 499) {
+        if (IsSporkActive(SPORK_19_MAXNODE_ACTIVATION)) {
+
+    	if (nHeight <= 499) {
+        	ret = 0;
+
+    	} else if (nHeight > 499 && fMaxNode) {
+        	ret = blockValue * 5;
+    	}
+    	return ret;
+	}
+
+	else {
+
         ret = 0;
 
-    } else if (nHeight > 499 && fMaxNode) {
-        ret = blockValue * 5;
-    }
-    return ret;
+        return ret;
+        }
 }
-
 
 bool IsInitialBlockDownload()
 {
@@ -5660,8 +5689,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         bool fMissingSporks = !pSporkDB->SporkExists(SPORK_14_NEW_PROTOCOL_ENFORCEMENT) &&
                 !pSporkDB->SporkExists(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2) &&
                 !pSporkDB->SporkExists(SPORK_16_ZEROCOIN_MAINTENANCE_MODE) &&
-		!pSporkDB->SporkExists(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3);  
-		//!pSporkDB->SporkExists(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4);
+		!pSporkDB->SporkExists(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3) && 
+		!pSporkDB->SporkExists(SPORK_18_MASTERNODE_REWARDS_CHANGE) &&
+		!pSporkDB->SporkExists(SPORK_19_MAXNODE_ACTIVATION);
 
         if (fMissingSporks || !fRequestedSporksIDB){
             LogPrintf("asking peer for sporks\n");
@@ -6519,11 +6549,6 @@ int ActiveProtocol()
     // SPORK_17 was used for 71032 (v2.0.0+)
     if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
             return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
-
-    // SPORK_17 was used for 71032 (v1.7.4)
-    //if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
-    //        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
-
 
     return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
 }

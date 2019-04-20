@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2016 The Dash developers
 // Copyright (c) 2016-2018 The PIVX developers
+// Copyright (c) 2018-2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -137,7 +138,8 @@ int64_t GetSporkValue(int nSporkID)
         if (nSporkID == SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2) r = SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2_DEFAULT;
         if (nSporkID == SPORK_16_ZEROCOIN_MAINTENANCE_MODE) r = SPORK_16_ZEROCOIN_MAINTENANCE_MODE_DEFAULT;
         if (nSporkID == SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3) r = SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3_DEFAULT;
-        //if (nSporkID == SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4) r = SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4_DEFAULT;
+        if (nSporkID == SPORK_18_MASTERNODE_REWARDS_CHANGE) r = SPORK_18_MASTERNODE_REWARDS_CHANGE_DEFAULT;
+        if (nSporkID == SPORK_19_MAXNODE_ACTIVATION) r = SPORK_19_MAXNODE_ACTIVATION_DEFAULT;
 
         if (r == -1) LogPrintf("%s : Unknown Spork %d\n", __func__, nSporkID);
     }
@@ -286,7 +288,8 @@ int CSporkManager::GetSporkIDByName(std::string strName)
     if (strName == "SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2") return SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2;
     if (strName == "SPORK_16_ZEROCOIN_MAINTENANCE_MODE") return SPORK_16_ZEROCOIN_MAINTENANCE_MODE;
     if (strName == "SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3") return SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3;
-    //if (strName == "SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4") return SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4;
+    if (strName == "SPORK_18_MASTERNODE_REWARDS_CHANGE") return SPORK_18_MASTERNODE_REWARDS_CHANGE;
+    if (strName == "SPORK_19_MAXNODE_ACTIVATION") return SPORK_19_MAXNODE_ACTIVATION;
 
     return -1;
 }
@@ -305,7 +308,8 @@ std::string CSporkManager::GetSporkNameByID(int id)
     if (id == SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2) return "SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2";
     if (id == SPORK_16_ZEROCOIN_MAINTENANCE_MODE) return "SPORK_16_ZEROCOIN_MAINTENANCE_MODE";
     if (id == SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3) return "SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3";
-    //if (id == SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4) return "SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4";
+    if (id == SPORK_18_MASTERNODE_REWARDS_CHANGE) return "SPORK_18_MASTERNODE_REWARDS_CHANGE";
+    if (id == SPORK_19_MAXNODE_ACTIVATION) return "SPORK_19_MAXNODE_ACTIVATION";
 
     return "Unknown";
 }
