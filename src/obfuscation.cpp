@@ -668,6 +668,8 @@ void CObfuscationPool::Check()
     }
 }
 
+//DIS DIS DIS break out maxnode here nh 4/21/2019
+
 void CObfuscationPool::CheckFinalTransaction()
 {
     if (!fMasterNode) return; // check and relay final tx only on masternode
@@ -740,6 +742,7 @@ void CObfuscationPool::CheckFinalTransaction()
         SetNull();
         RelayStatus(sessionID, GetState(), GetEntriesCount(), MASTERNODE_RESET);
     }
+
 }
 
 //

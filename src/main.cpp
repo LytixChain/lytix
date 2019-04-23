@@ -1547,7 +1547,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
     return true;
 }
 
-bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransaction& tx, bool fLimitFree, bool* pfMissingInputs, bool fRejectInsaneFee, bool isDSTX)
+bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransaction& tx, bool fLimitFree, bool* pfMissingInputs, bool fRejectInsaneFee, bool isDSTX, bool isDMAXSTX)
 {
     AssertLockHeld(cs_main);
     if (pfMissingInputs)
@@ -1676,6 +1676,9 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransact
         // Don't accept it if it can't get into a block
         // but prioritise dstx and don't check fees for it
         if (isDSTX) {
+            mempool.PrioritiseTransaction(hash, hash.ToString(), 1000, 0.1 * COIN);
+	}
+	if (isDMAXSTX) {
             mempool.PrioritiseTransaction(hash, hash.ToString(), 1000, 0.1 * COIN);
         } else { // same as !ignoreFees for AcceptToMemoryPool
             CAmount txMinFee = GetMinRelayFee(tx, nSize, true);
@@ -5335,6 +5338,8 @@ bool static AlreadyHave(const CInv& inv)
     }
     case MSG_DSTX:
         return mapObfuscationBroadcastTxes.count(inv.hash);
+    case MSG_DMAXSTX:
+        return mapObfuscationBroadcastTxes.count(inv.hash);
     case MSG_BLOCK:
         return mapBlockIndex.count(inv.hash);
     case MSG_TXLOCK_REQUEST:
@@ -5633,6 +5638,17 @@ void static ProcessGetData(CNode* pfrom)
                         ss << mapObfuscationBroadcastTxes[inv.hash].tx << mapObfuscationBroadcastTxes[inv.hash].vin << mapObfuscationBroadcastTxes[inv.hash].vchSig << mapObfuscationBroadcastTxes[inv.hash].sigTime;
 
                         pfrom->PushMessage("dstx", ss);
+                        pushed = true;
+                    }
+                }
+
+		if (!pushed && inv.type == MSG_DMAXSTX) {
+                    if (mapObfuscationBroadcastTxes.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << mapObfuscationBroadcastTxes[inv.hash].tx << mapObfuscationBroadcastTxes[inv.hash].vin << mapObfuscationBroadcastTxes[inv.hash].vchSig << mapObfuscationBroadcastTxes[inv.hash].sigTime;
+
+                        pfrom->PushMessage("dmaxstx", ss);
                         pushed = true;
                     }
                 }
@@ -6088,6 +6104,43 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                     mapObfuscationBroadcastTxes.insert(make_pair(tx.GetHash(), dstx));
                 }
             }
+
+	} else if (strCommand == "dmaxstx") {
+            //these allow masternodes to publish a limited amount of free transactions
+            vRecv >> tx >> vin >> vchSig >> sigTime;
+
+            CMaxnode* pmax = maxnodeman.Find(vin);
+            if (pmax != NULL) {
+                if (!pmax->allowFreeTx) {
+                    //multiple peers can send us a valid masternode transaction
+                    if (fDebug) LogPrintf("dstx: Maxnode sending too many transactions %s\n", tx.GetHash().ToString());
+                    return true;
+                }
+
+                std::string strMessage = tx.GetHash().ToString() + boost::lexical_cast<std::string>(sigTime);
+
+                std::string errorMessage = "";
+                if (!obfuScationSigner.VerifyMessage(pmax->pubKeyMaxnode, vchSig, strMessage, errorMessage)) {
+                    LogPrintf("dmaxstx: Got bad maxnode address signature %s \n", vin.ToString());
+                    //pfrom->Misbehaving(20);
+                    return false;
+                }
+
+                LogPrintf("dstx: Got Maxnode transaction %s\n", tx.GetHash().ToString());
+
+                ignoreFees = true;
+                pmax->allowFreeTx = false;
+
+                if (!mapObfuscationBroadcastTxes.count(tx.GetHash())) {
+                    CObfuscationBroadcastTx dmaxstx;
+                    dmaxstx.tx = tx;
+                    dmaxstx.vin = vin;
+                    dmaxstx.vchSig = vchSig;
+                    dmaxstx.sigTime = sigTime;
+
+                    mapObfuscationBroadcastTxes.insert(make_pair(tx.GetHash(), dmaxstx));
+                }
+            }
         }
 
         CInv inv(MSG_TX, tx.GetHash());
@@ -6181,6 +6234,11 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 
         if (strCommand == "dstx") {
             CInv inv(MSG_DSTX, tx.GetHash());
+            RelayInv(inv);
+        }
+
+	if (strCommand == "dmaxstx") {
+            CInv inv(MSG_DMAXSTX, tx.GetHash());
             RelayInv(inv);
         }
 
