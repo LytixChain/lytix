@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2016 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2019 The Lytix developers
+// Copyright (c) 2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,11 +15,11 @@
 #include "sync.h"
 #include "wallet.h"
 
-#define ACTIVE_MAXNODE_INITIAL 0 // initial state
-#define ACTIVE_MAXNODE_SYNC_IN_PROCESS 1
-#define ACTIVE_MAXNODE_INPUT_TOO_NEW 2
-#define ACTIVE_MAXNODE_NOT_CAPABLE 3
-#define ACTIVE_MAXNODE_STARTED 4
+#define ACTIVE_MAXNODE_INITIAL 10 // initial state
+#define ACTIVE_MAXNODE_SYNC_IN_PROCESS 11
+#define ACTIVE_MAXNODE_INPUT_TOO_NEW 12
+#define ACTIVE_MAXNODE_NOT_CAPABLE 13
+#define ACTIVE_MAXNODE_STARTED 14
 
 // Responsible for activating the Maxnode and pinging the network
 class CActiveMaxnode
