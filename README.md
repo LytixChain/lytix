@@ -7,14 +7,18 @@ Lytix is an open source crypto-currency focused on fast private transactions wit
 
 ------------------------
 
-Mining is over - Proof of Stake is the current means of procuring LYTX
+Proof of Stake is the current means of procuring LYTX
 
 5,000 LYTX for Masternodes
+
+50,000 LYTX for Tier 1 Maxnode
+75,000 LYTX for Tier 2 Maxnode
+100,000 LYTX for Tier 3 Maxnode
 
 100,000 Proof of Work burn in until PoS - completed
 
 50% reward to PoW/PoS 50% reward to Masternodes
-This will change to 60% Masternodes and 40% Stakers i nthe next release
+This will change to 60% Masternodes and 40% Stakers in the next release
 
 30 LYTX reward until 100000 - 15 PoS / 15 Masternodes
 - 100 until 110000
@@ -27,7 +31,7 @@ This will change to 60% Masternodes and 40% Stakers i nthe next release
 - 4 from then on 
 
 15 confirmations maturity for mined or staked rewards
-ZeroCoin is in the process of removal and is in maitnenance mode
+ZeroCoin is removed in current source and is in maitnenance mode on Mainnet
 
 -------------------------
 
