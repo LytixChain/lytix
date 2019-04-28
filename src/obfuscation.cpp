@@ -673,7 +673,7 @@ void CObfuscationPool::Check()
 void CObfuscationPool::CheckFinalTransaction()
 {
     if (!fMasterNode) return; // check and relay final tx only on masternode
-    if (!fMaxNode) return; // check and relay final tx only on masternode
+    if (!fMaxNode) return; // check and relay final tx only on maxnode
 
     CWalletTx txNew = CWalletTx(pwalletMain, finalTransaction);
 
@@ -708,6 +708,11 @@ void CObfuscationPool::CheckFinalTransaction()
             return;
         }
 
+	if (!obfuScationSigner.SetKey(strMaxNodePrivKey, strError, key2, pubkey2)) {
+            LogPrintf("CObfuscationPool::Check() - ERROR: Invalid Maxnodeprivkey: '%s'\n", strError);
+            return;
+        }
+
         if (!obfuScationSigner.SignMessage(strMessage, strError, vchSig, key2)) {
             LogPrintf("CObfuscationPool::Check() - Sign message failed\n");
             return;
@@ -730,6 +735,19 @@ void CObfuscationPool::CheckFinalTransaction()
 
         CInv inv(MSG_DSTX, txNew.GetHash());
         RelayInv(inv);
+
+	if (!mapObfuscationBroadcastTxes.count(txNew.GetHash())) {
+            CObfuscationBroadcastTx dmaxstx;
+            dmaxstx.tx = txNew;
+            dmaxstx.vin = activeMaxnode.vin;
+            dmaxstx.vchSig = vchSig;
+            dmaxstx.sigTime = sigTime;
+
+            mapObfuscationBroadcastTxes.insert(make_pair(txNew.GetHash(), dmaxstx));
+        }
+
+        CInv maxinv(MSG_DMAXSTX, txNew.GetHash());
+        RelayInv(maxinv);
 
         // Tell the clients it was successful
         RelayCompletedTransaction(sessionID, false, MSG_SUCCESS);
