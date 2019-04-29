@@ -133,7 +133,7 @@ public:
     CPubKey pubKeyMaxnode1;
     std::vector<unsigned char> sig;
     int activeState;
-    int64_t sigTime; //mnb message time
+    int64_t sigTime; //maxb message time
     int cacheInputAge;
     int cacheInputAgeBlock;
     bool unitTest;
@@ -296,7 +296,7 @@ class CMaxnodeBroadcast : public CMaxnode
 public:
     CMaxnodeBroadcast();
     CMaxnodeBroadcast(CService newAddr, CTxIn newVin, CPubKey newPubkey, CPubKey newPubkey2, int protocolVersionIn);
-    CMaxnodeBroadcast(const CMaxnode& mn);
+    CMaxnodeBroadcast(const CMaxnode& max);
 
     bool CheckAndUpdate(int& nDoS);
     bool CheckInputsAndAdd(int& nDos);

@@ -637,8 +637,8 @@ bool CMaxnodeBroadcast::CheckInputsAndAdd(int& nDoS)
     }
 
     LogPrint("maxnode","maxb - Got NEW Maxnode entry - %s - %lli \n", vin.prevout.hash.ToString(), sigTime);
-    CMaxnode mn(*this);
-    maxnodeman.Add(mn);
+    CMaxnode max(*this);
+    maxnodeman.Add(max);
 
     // if it matches our Maxnode privkey, then we've been remotely activated
     if (pubKeyMaxnode == activeMaxnode.pubKeyMaxnode && protocolVersion == PROTOCOL_VERSION) {
