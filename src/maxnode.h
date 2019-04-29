@@ -42,7 +42,7 @@ class CMaxnodePing
 public:
     CTxIn vin;
     uint256 blockHash;
-    int64_t sigTime; //mnb message times
+    int64_t sigTime; //maxb message times
     std::vector<unsigned char> vchSig;
     //removed stop
 
@@ -150,7 +150,7 @@ public:
 
     CMaxnode();
     CMaxnode(const CMaxnode& other);
-    CMaxnode(const CMaxnodeBroadcast& mnb);
+    CMaxnode(const CMaxnodeBroadcast& maxb);
 
 
     void swap(CMaxnode& first, CMaxnode& second) // nothrow
@@ -221,7 +221,7 @@ public:
 
     int64_t SecondsSincePayment();
 
-    bool UpdateFromNewBroadcast(CMaxnodeBroadcast& mnb);
+    bool UpdateFromNewBroadcast(CMaxnodeBroadcast& maxb);
 
     inline uint64_t SliceHash(uint256& hash, int slice)
     {
@@ -331,8 +331,8 @@ public:
     }
 
     /// Create Maxnode broadcast, needs to be relayed manually after that
-    static bool Create(CTxIn vin, CService service, CKey keyCollateralAddressNew, CPubKey pubKeyCollateralAddressNew, CKey keyMaxnodeNew, CPubKey pubKeyMaxnodeNew, std::string& strErrorRet, CMaxnodeBroadcast& mnbRet);
-    static bool Create(std::string strService, std::string strKey, std::string strTxHash, std::string strOutputIndex, std::string& strErrorRet, CMaxnodeBroadcast& mnbRet, bool fOffline = false);
+    static bool Create(CTxIn vin, CService service, CKey keyCollateralAddressNew, CPubKey pubKeyCollateralAddressNew, CKey keyMaxnodeNew, CPubKey pubKeyMaxnodeNew, std::string& strErrorRet, CMaxnodeBroadcast& maxbRet);
+    static bool Create(std::string strService, std::string strKey, std::string strTxHash, std::string strOutputIndex, std::string& strErrorRet, CMaxnodeBroadcast& maxbRet, bool fOffline = false);
     static bool CheckDefaultPort(std::string strService, std::string& strErrorRet, std::string strContext);
 };
 
