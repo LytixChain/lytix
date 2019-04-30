@@ -1324,7 +1324,7 @@ void CBudgetManager::Sync(CNode* pfrom, uint256 nProp, bool fPartial)
     while (it1 != mapSeenMaxnodeBudgetProposals.end()) {
         CBudgetProposal* pbudgetProposal = FindMaxProposal((*it1).first);
         if (pbudgetProposal && pbudgetProposal->fValid && (nProp == 0 || (*it1).first == nProp)) {
-            pfrom->PushInventory(CInv(MSG_BUDGET_PROPOSAL, (*it1).second.GetHash()));
+            pfrom->PushInventory(CInv(MSG_MAX_BUDGET_PROPOSAL, (*it1).second.GetHash()));
             nInvCount++;
 
             //send votes
@@ -1332,7 +1332,7 @@ void CBudgetManager::Sync(CNode* pfrom, uint256 nProp, bool fPartial)
             while (it2 != pbudgetProposal->mapVotes.end()) {
                 if ((*it2).second.fValid) {
                     if ((fPartial && !(*it2).second.fSynced) || !fPartial) {
-                        pfrom->PushInventory(CInv(MSG_BUDGET_VOTE, (*it2).second.GetHash()));
+                        pfrom->PushInventory(CInv(MSG_MAX_BUDGET_VOTE, (*it2).second.GetHash()));
                         nInvCount++;
                     }
                 }
@@ -1352,7 +1352,7 @@ void CBudgetManager::Sync(CNode* pfrom, uint256 nProp, bool fPartial)
     while (it3 != mapSeenFinalizedBudgets.end()) {
         CFinalizedBudget* pfinalizedBudget = FindFinalizedBudget((*it3).first);
         if (pfinalizedBudget && pfinalizedBudget->fValid && (nProp == 0 || (*it3).first == nProp)) {
-            pfrom->PushInventory(CInv(MSG_BUDGET_FINALIZED, (*it3).second.GetHash()));
+            pfrom->PushInventory(CInv(MSG_MAX_BUDGET_FINALIZED, (*it3).second.GetHash()));
             nInvCount++;
 
             //send votes
@@ -1360,7 +1360,7 @@ void CBudgetManager::Sync(CNode* pfrom, uint256 nProp, bool fPartial)
             while (it4 != pfinalizedBudget->mapVotes.end()) {
                 if ((*it4).second.fValid) {
                     if ((fPartial && !(*it4).second.fSynced) || !fPartial) {
-                        pfrom->PushInventory(CInv(MSG_BUDGET_FINALIZED_VOTE, (*it4).second.GetHash()));
+                        pfrom->PushInventory(CInv(MSG_MAX_BUDGET_FINALIZED_VOTE, (*it4).second.GetHash()));
                         nInvCount++;
                     }
                 }
@@ -1708,7 +1708,7 @@ CBudgetProposalBroadcast::CBudgetProposalBroadcast(std::string strProposalNameIn
 
 void CBudgetProposalBroadcast::Relay()
 {
-    CInv inv(MSG_BUDGET_PROPOSAL, GetHash());
+    CInv inv(MSG_MAX_BUDGET_PROPOSAL, GetHash());
     RelayInv(inv);
 }
 
@@ -1734,7 +1734,7 @@ CBudgetVote::CBudgetVote(CTxIn vinIn, uint256 nProposalHashIn, int nVoteIn)
 
 void CBudgetVote::Relay()
 {
-    CInv inv(MSG_BUDGET_VOTE, GetHash());
+    CInv inv(MSG_MAX_BUDGET_VOTE, GetHash());
     RelayInv(inv);
 }
 
@@ -2214,7 +2214,7 @@ CFinalizedBudgetBroadcast::CFinalizedBudgetBroadcast(std::string strBudgetNameIn
 
 void CFinalizedBudgetBroadcast::Relay()
 {
-    CInv inv(MSG_BUDGET_FINALIZED, GetHash());
+    CInv inv(MSG_MAX_BUDGET_FINALIZED, GetHash());
     RelayInv(inv);
 }
 
@@ -2240,7 +2240,7 @@ CFinalizedBudgetVote::CFinalizedBudgetVote(CTxIn vinIn, uint256 nBudgetHashIn)
 
 void CFinalizedBudgetVote::Relay()
 {
-    CInv inv(MSG_BUDGET_FINALIZED_VOTE, GetHash());
+    CInv inv(MSG_MAX_BUDGET_FINALIZED_VOTE, GetHash());
     RelayInv(inv);
 }
 
