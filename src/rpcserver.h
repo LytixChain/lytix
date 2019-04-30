@@ -344,11 +344,6 @@ extern UniValue getmaxnodestatus(const UniValue& params, bool fHelp);
 extern UniValue getmaxnodewinners(const UniValue& params, bool fHelp);
 extern UniValue getmaxnodescores(const UniValue& params, bool fHelp);
 
-extern UniValue maxbudget(const UniValue& params, bool fHelp); // in rpcmaxnode-budget.cpp
-extern UniValue maxbudgetvote(const UniValue& params, bool fHelp);
-extern UniValue maxbudgetrawvote(const UniValue& params, bool fHelp);
-extern UniValue maxfinalbudget(const UniValue& params, bool fHelp);
-
 extern UniValue getinfo(const UniValue& params, bool fHelp); // in rpcmisc.cpp
 extern UniValue mnsync(const UniValue& params, bool fHelp);
 extern UniValue maxsync(const UniValue& params, bool fHelp);
