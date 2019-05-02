@@ -1,4 +1,5 @@
 // Copyright (c) 2014-2015 The Dash developers
+//
 // Copyright (c) 2015-2017 The PIVX developers
 // Copyright (c) 2018-2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
@@ -2291,8 +2292,11 @@ bool CObfuScationSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey)
     if (GetTransaction(vin.prevout.hash, txVin, hash, true)) {
         BOOST_FOREACH (CTxOut out, txVin.vout) {
             if (out.nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN) {
+		
+	    } else if (out.nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
+
                 if (out.scriptPubKey == payee2) return true;
-            }
+	    }
         }
     }
 
@@ -2402,6 +2406,7 @@ bool CObfuscationQueue::Relay()
 bool CObfuscationQueue::CheckSignature()
 {
     CMasternode* pmn = mnodeman.Find(vin);
+    CMaxnode* pmax = maxnodeman.Find(vin);
 
     if (pmn != NULL) {
         std::string strMessage = vin.ToString() + boost::lexical_cast<std::string>(nDenom) + boost::lexical_cast<std::string>(time) + boost::lexical_cast<std::string>(ready);
@@ -2411,9 +2416,22 @@ bool CObfuscationQueue::CheckSignature()
             return error("CObfuscationQueue::CheckSignature() - Got bad Masternode address signature %s \n", vin.ToString().c_str());
         }
 
+
         return true;
     }
 
+    if (pmax != NULL) {
+        std::string strMessage = vin.ToString() + boost::lexical_cast<std::string>(nDenom) + boost::lexical_cast<std::string>(time) + boost::lexical_cast<std::string>(ready);
+
+        std::string errorMessage = "";
+        if (!obfuScationSigner.VerifyMessage(pmax->pubKeyMaxnode, vchSig, strMessage, errorMessage)) {
+            return error("CObfuscationQueue::CheckSignature() - Got bad Maxnode address signature %s \n", vin.ToString().c_str());
+        }
+
+
+        return true;
+    }
+    
     return false;
 }
 
@@ -2443,6 +2461,20 @@ void CObfuscationPool::RelayIn(const std::vector<CTxDSIn>& vin, const int64_t& n
     if (pnode != NULL) {
         LogPrintf("RelayIn - found master, relaying message - %s \n", pnode->addr.ToString());
         pnode->PushMessage("dsi", vin2, nAmount, txCollateral, vout2);
+    }
+
+    if (!pSubmittedToMaxnode) return;
+
+    BOOST_FOREACH (CTxDSIn in, vin)
+        vin2.push_back(in);
+
+    BOOST_FOREACH (CTxDSOut out, vout)
+        vout2.push_back(out);
+
+    CNode* pmaxnode = FindNode(pSubmittedToMaxnode->addr);
+    if (pmaxnode != NULL) {
+        LogPrintf("RelayIn - found maxnode, relaying message - %s \n", pmaxnode->addr.ToString());
+        pmaxnode->PushMessage("dsi", vin2, nAmount, txCollateral, vout2);
     }
 }
 
@@ -2492,6 +2524,30 @@ void ThreadCheckObfuScationPool()
             }
 
             //if(c % MASTERNODES_DUMP_SECONDS == 0) DumpMasternodes();
+
+            obfuScationPool.CheckTimeout();
+            obfuScationPool.CheckForCompleteQueue();
+
+            if (obfuScationPool.GetState() == POOL_STATUS_IDLE && c % 15 == 0) {
+                obfuScationPool.DoAutomaticDenominating();
+            }
+        }
+
+	if (maxnodeSync.IsBlockchainSynced()) {
+            c++;
+
+            // check if we should activate or ping every few minutes,
+            // start right after sync is considered to be done
+            if (c % MAXNODE_PING_SECONDS == 1) activeMaxnode.ManageStatus();
+
+            if (c % 60 == 0) {
+                maxnodeman.CheckAndRemove();
+                maxnodeman.ProcessMaxnodeConnections();
+                maxnodePayments.CleanPaymentList();
+                CleanTransactionLocksList();
+            }
+
+            //if(c % MAXNODES_DUMP_SECONDS == 0) DumpMaxnodes();
 
             obfuScationPool.CheckTimeout();
             obfuScationPool.CheckForCompleteQueue();
