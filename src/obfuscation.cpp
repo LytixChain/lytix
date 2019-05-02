@@ -110,17 +110,17 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
                 pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MASTERNODE_REJECTED, errorID);
                 return;
             }
-        }
 
-	if (sessionUsers == 0) {
-            if (pmax->nLastDsq != 0 &&
+	    if (pmax->nLastDsq != 0 &&
                 pmax->nLastDsq + maxnodeman.CountEnabled(ActiveProtocol()) / 5 > maxnodeman.nDsqCount) {
                 LogPrintf("dsa -- last dsq too recent, must wait. %s \n", pfrom->addr.ToString());
                 errorID = ERR_RECENT;
                 pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
                 return;
             }
+
         }
+
 
         if (!IsCompatibleWithSession(nDenom, txCollateral, errorID)) {
             LogPrintf("dsa -- not compatible with existing transactions! \n");
@@ -162,6 +162,13 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
                 LogPrintf("dsq - message doesn't match current Masternode - %s != %s\n", pSubmittedToMasternode->addr.ToString(), addr.ToString());
                 return;
             }
+	    if (!pSubmittedToMaxnode) return;
+            if ((CNetAddr)pSubmittedToMaxnode->addr != (CNetAddr)addr) {
+                LogPrintf("dsq - message doesn't match current Maxnode - %s != %s\n", pSubmittedToMaxnode->addr.ToString(), addr.ToString());
+                return;
+            }
+
+        //}
 
             if (state == POOL_STATUS_QUEUE) {
                 LogPrint("obfuscation", "Obfuscation queue is ready - %s\n", addr.ToString());
@@ -171,6 +178,8 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
             BOOST_FOREACH (CObfuscationQueue q, vecObfuscationQueue) {
                 if (q.vin == dsq.vin) return;
             }
+
+	    //DISDIS - add maxnode here
 
             LogPrint("obfuscation", "dsq last %d last2 %d count %d\n", pmn->nLastDsq, pmn->nLastDsq + mnodeman.size() / 5, mnodeman.nDsqCount);
             //don't allow a few nodes to dominate the queuing process

@@ -5547,7 +5547,7 @@ void static ProcessGetData(CNode* pfrom)
                         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
                         ss.reserve(1000);
                         ss << maxnodePayments.mapMaxnodePayeeVotes[inv.hash];
-                        pfrom->PushMessage("mnw", ss);
+                        pfrom->PushMessage("maxw", ss);
                         pushed = true;
                     }
                 }
@@ -5606,7 +5606,7 @@ void static ProcessGetData(CNode* pfrom)
                         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
                         ss.reserve(1000);
                         ss << maxnodeman.mapSeenMaxnodeBroadcast[inv.hash];
-                        pfrom->PushMessage("mnb", ss);
+                        pfrom->PushMessage("maxb", ss);
                         pushed = true;
                     }
                 }
@@ -5626,7 +5626,7 @@ void static ProcessGetData(CNode* pfrom)
                         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
                         ss.reserve(1000);
                         ss << maxnodeman.mapSeenMaxnodePing[inv.hash];
-                        pfrom->PushMessage("mnp", ss);
+                        pfrom->PushMessage("maxp", ss);
                         pushed = true;
                     }
                 }
@@ -6113,7 +6113,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             if (pmax != NULL) {
                 if (!pmax->allowFreeTx) {
                     //multiple peers can send us a valid masternode transaction
-                    if (fDebug) LogPrintf("dstx: Maxnode sending too many transactions %s\n", tx.GetHash().ToString());
+                    if (fDebug) LogPrintf("dmaxstx: Maxnode sending too many transactions %s\n", tx.GetHash().ToString());
                     return true;
                 }
 
@@ -6126,7 +6126,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                     return false;
                 }
 
-                LogPrintf("dstx: Got Maxnode transaction %s\n", tx.GetHash().ToString());
+                LogPrintf("dmaxstx: Got Maxnode transaction %s\n", tx.GetHash().ToString());
 
                 ignoreFees = true;
                 pmax->allowFreeTx = false;
@@ -6579,11 +6579,14 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         //probably one the extensions
         //obfuScationPool.ProcessMessageObfuscation(pfrom, strCommand, vRecv);
         mnodeman.ProcessMessage(pfrom, strCommand, vRecv);
+        maxnodeman.ProcessMessage(pfrom, strCommand, vRecv);
         budget.ProcessMessage(pfrom, strCommand, vRecv);
         masternodePayments.ProcessMessageMasternodePayments(pfrom, strCommand, vRecv);
+        maxnodePayments.ProcessMessageMaxnodePayments(pfrom, strCommand, vRecv);
         ProcessMessageSwiftTX(pfrom, strCommand, vRecv);
         ProcessSpork(pfrom, strCommand, vRecv);
         masternodeSync.ProcessMessage(pfrom, strCommand, vRecv);
+        maxnodeSync.ProcessMessage(pfrom, strCommand, vRecv);
     }
 
 
