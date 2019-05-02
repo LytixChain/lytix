@@ -168,8 +168,6 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
                 return;
             }
 
-        //}
-
             if (state == POOL_STATUS_QUEUE) {
                 LogPrint("obfuscation", "Obfuscation queue is ready - %s\n", addr.ToString());
                 PrepareObfuscationDenominate();
