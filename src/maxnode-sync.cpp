@@ -183,7 +183,7 @@ std::string CMaxnodeSync::GetSyncStatus()
 
 void CMaxnodeSync::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
-    if (strCommand == "ssc") { //Sync status count
+    if (strCommand == "smaxsc") { //Sync status count
         int nItemID;
         int nCount;
         vRecv >> nItemID >> nCount;
@@ -214,7 +214,7 @@ void CMaxnodeSync::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataSt
             break;
         }
 
-        LogPrint("maxnode", "CMaxnodeSync:ProcessMessage - ssc - got inventory count %d %d\n", nItemID, nCount);
+        LogPrint("maxnode", "CMaxnodeSync:ProcessMessage - smaxc - got inventory count %d %d\n", nItemID, nCount);
     }
 }
 

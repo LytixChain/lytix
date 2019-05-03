@@ -1342,7 +1342,7 @@ void CBudgetManager::Sync(CNode* pfrom, uint256 nProp, bool fPartial)
         ++it1;
     }
 
-    pfrom->PushMessage("ssc", MAXNODE_SYNC_BUDGET_PROP, nInvCount);
+    pfrom->PushMessage("smaxsc", MAXNODE_SYNC_BUDGET_PROP, nInvCount);
 
     LogPrint("maxbudget", "CBudgetManager::Sync - sent %d items\n", nInvCount);
 
@@ -1370,7 +1370,7 @@ void CBudgetManager::Sync(CNode* pfrom, uint256 nProp, bool fPartial)
         ++it3;
     }
 
-    pfrom->PushMessage("ssc", MAXNODE_SYNC_BUDGET_FIN, nInvCount);
+    pfrom->PushMessage("smaxsc", MAXNODE_SYNC_BUDGET_FIN, nInvCount);
     LogPrint("maxbudget", "CBudgetManager::Sync - sent %d items\n", nInvCount);
 }
 

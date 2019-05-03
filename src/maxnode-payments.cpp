@@ -815,7 +815,7 @@ void CMaxnodePayments::Sync(CNode* node, int nCountNeeded)
         }
         ++it;
     }
-    node->PushMessage("ssc", MAXNODE_SYNC_MAXW, nInvCount);
+    node->PushMessage("smaxsc", MAXNODE_SYNC_MAXW, nInvCount);
 }
 
 std::string CMaxnodePayments::ToString() const

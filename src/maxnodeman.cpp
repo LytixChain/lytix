@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2019 The Lytix developers
+// Copyright (c) 2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -846,7 +846,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         }
 
         if (vin == CTxIn()) {
-            pfrom->PushMessage("ssc", MAXNODE_SYNC_LIST, nInvCount);
+            pfrom->PushMessage("smaxsc", MAXNODE_SYNC_LIST, nInvCount);
             LogPrint("maxnode", "dmaxseg - Sent %d Maxnode entries to peer %i\n", nInvCount, pfrom->GetId());
         }
     }
