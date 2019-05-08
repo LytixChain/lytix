@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 The Dash Developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018-2019 The Lytix developers
+// Copyright (c) 2018-2019 The Lytix developer
 
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -21,38 +21,38 @@
 #include <fstream>
 using namespace std;
 
-void budgetToJSON(CBudgetProposal* pbudgetProposal, UniValue& bObj)
+void mxbudgetToJSON(CMAXBudgetProposal* pmxbudgetProposal, UniValue& bObj)
 {
     CTxDestination address1;
-    ExtractDestination(pbudgetProposal->GetPayee(), address1);
+    ExtractDestination(pmxbudgetProposal->GetPayee(), address1);
     CBitcoinAddress address2(address1);
 
-    bObj.push_back(Pair("Name", pbudgetProposal->GetName()));
-    bObj.push_back(Pair("URL", pbudgetProposal->GetURL()));
-    bObj.push_back(Pair("Hash", pbudgetProposal->GetHash().ToString()));
-    bObj.push_back(Pair("FeeHash", pbudgetProposal->nFeeTXHash.ToString()));
-    bObj.push_back(Pair("BlockStart", (int64_t)pbudgetProposal->GetMaxBlockStart()));
-    bObj.push_back(Pair("BlockEnd", (int64_t)pbudgetProposal->GetMaxBlockEnd()));
-    bObj.push_back(Pair("TotalPaymentCount", (int64_t)pbudgetProposal->GetMaxTotalPaymentCount()));
-    bObj.push_back(Pair("RemainingPaymentCount", (int64_t)pbudgetProposal->GetMaxRemainingPaymentCount()));
+    bObj.push_back(Pair("Name", pmxbudgetProposal->GetName()));
+    bObj.push_back(Pair("URL", pmxbudgetProposal->GetURL()));
+    bObj.push_back(Pair("Hash", pmxbudgetProposal->GetHash().ToString()));
+    bObj.push_back(Pair("FeeHash", pmxbudgetProposal->nFeeTXHash.ToString()));
+    bObj.push_back(Pair("BlockStart", (int64_t)pmxbudgetProposal->GetMaxBlockStart()));
+    bObj.push_back(Pair("BlockEnd", (int64_t)pmxbudgetProposal->GetMaxBlockEnd()));
+    bObj.push_back(Pair("TotalPaymentCount", (int64_t)pmxbudgetProposal->GetMaxTotalPaymentCount()));
+    bObj.push_back(Pair("RemainingPaymentCount", (int64_t)pmxbudgetProposal->GetMaxRemainingPaymentCount()));
     bObj.push_back(Pair("PaymentAddress", address2.ToString()));
-    bObj.push_back(Pair("Ratio", pbudgetProposal->GetRatio()));
-    bObj.push_back(Pair("Yeas", (int64_t)pbudgetProposal->GetMaxYeas()));
-    bObj.push_back(Pair("Nays", (int64_t)pbudgetProposal->GetMaxNays()));
-    bObj.push_back(Pair("Abstains", (int64_t)pbudgetProposal->GetMaxAbstains()));
-    bObj.push_back(Pair("TotalPayment", ValueFromAmount(pbudgetProposal->GetAmount() * pbudgetProposal->GetMaxTotalPaymentCount())));
-    bObj.push_back(Pair("MonthlyPayment", ValueFromAmount(pbudgetProposal->GetAmount())));
-    bObj.push_back(Pair("IsEstablished", pbudgetProposal->IsEstablished()));
+    bObj.push_back(Pair("Ratio", pmxbudgetProposal->GetMaxRatio()));
+    bObj.push_back(Pair("Yeas", (int64_t)pmxbudgetProposal->GetMaxYeas()));
+    bObj.push_back(Pair("Nays", (int64_t)pmxbudgetProposal->GetMaxNays()));
+    bObj.push_back(Pair("Abstains", (int64_t)pmxbudgetProposal->GetMaxAbstains()));
+    bObj.push_back(Pair("TotalPayment", ValueFromAmount(pmxbudgetProposal->GetAmount() * pmxbudgetProposal->GetMaxTotalPaymentCount())));
+    bObj.push_back(Pair("MonthlyPayment", ValueFromAmount(pmxbudgetProposal->GetAmount())));
+    bObj.push_back(Pair("IsEstablished", pmxbudgetProposal->IsEstablished()));
 
     std::string strError = "";
-    bObj.push_back(Pair("IsValid", pbudgetProposal->IsValid(strError)));
+    bObj.push_back(Pair("IsValid", pmxbudgetProposal->IsValid(strError)));
     bObj.push_back(Pair("IsValidReason", strError.c_str()));
-    bObj.push_back(Pair("fValid", pbudgetProposal->fValid));
+    bObj.push_back(Pair("fValid", pmxbudgetProposal->fValid));
 }
 
 // This command is retained for backwards compatibility, but is depreciated.
 // Future removal of this command is planned to keep things clean.
-UniValue maxbudget(const UniValue& params, bool fHelp)
+UniValue mxbudget(const UniValue& params, bool fHelp)
 {
     string strCommand;
     if (params.size() >= 1)
@@ -61,8 +61,8 @@ UniValue maxbudget(const UniValue& params, bool fHelp)
     if (fHelp ||
         (strCommand != "vote-alias" && strCommand != "vote-many" && strCommand != "prepare" && strCommand != "submit" && strCommand != "vote" && strCommand != "getvotes" && strCommand != "getinfo" && strCommand != "show" && strCommand != "projection" && strCommand != "check" && strCommand != "nextblock"))
         throw runtime_error(
-            "maxbudget \"command\"... ( \"passphrase\" )\n"
-            "\nVote or show current budgets\n"
+            "mxbudget \"command\"... ( \"passphrase\" )\n"
+            "\nVote or show current mxbudgets\n"
             "This command is depreciated, please see individual command documentation for future reference\n\n"
 
             "\nAvailable commands:\n"
@@ -70,13 +70,13 @@ UniValue maxbudget(const UniValue& params, bool fHelp)
             "  submit             - Submit proposal for network\n"
             "  vote-many          - Vote on a Lytix initiative\n"
             "  vote-alias         - Vote on a Lytix initiative\n"
-            "  vote               - Vote on a Lytix initiative/budget\n"
-            "  getvotes           - Show current maxnode budgets\n"
-            "  getinfo            - Show current maxnode budgets\n"
-            "  show               - Show all budgets\n"
+            "  vote               - Vote on a Lytix initiative/mxbudget\n"
+            "  getvotes           - Show current maxnode mxbudgets\n"
+            "  getinfo            - Show current maxnode mxbudgets\n"
+            "  show               - Show all mxbudgets\n"
             "  projection         - Show the projection of which proposals will be paid the next cycle\n"
             "  check              - Scan proposals and remove invalid\n"
-            "  nextblock          - Get next superblock for budget system\n");
+            "  nextblock          - Get next superblock for mxbudget system\n");
 
     if (strCommand == "nextblock") {
         UniValue newParams(UniValue::VARR);
@@ -109,7 +109,7 @@ UniValue maxbudget(const UniValue& params, bool fHelp)
         if (strCommand == "vote-alias")
             throw runtime_error(
                 "vote-alias is not supported with this command\n"
-                "Please use maxbudgetvote instead.\n"
+                "Please use mxbudgetvote instead.\n"
             );
         return maxbudgetvote(params, fHelp);
     }
@@ -194,13 +194,13 @@ UniValue preparebudget(const UniValue& params, bool fHelp)
     if (nPaymentCount < 1)
         throw runtime_error("Invalid payment count, must be more than zero.");
 
-    // Start must be in the next budget cycle
+    // Start must be in the next mxbudget cycle
     if (pindexPrev != NULL) nBlockMin = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
 
     int nBlockStart = params[3].get_int();
     if (nBlockStart % GetMaxBudgetPaymentCycleBlocks() != 0) {
         int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
-        throw runtime_error(strprintf("Invalid block start - must be a budget cycle block. Next valid block: %d", nNext));
+        throw runtime_error(strprintf("Invalid block start - must be a mxbudget cycle block. Next valid block: %d", nNext));
     }
 
     int nBlockEnd = nBlockStart + GetMaxBudgetPaymentCycleBlocks() * nPaymentCount; // End must be AFTER current cycle
@@ -222,11 +222,11 @@ UniValue preparebudget(const UniValue& params, bool fHelp)
     //*************************************************************************
 
     // create transaction 15 minutes into the future, to allow for confirmation time
-    CBudgetProposalBroadcast budgetProposalBroadcast(strProposalName, strURL, nPaymentCount, scriptPubKey, nAmount, nBlockStart, 0);
+    CMAXBudgetProposalBroadcast mxbudgetProposalBroadcast(strProposalName, strURL, nPaymentCount, scriptPubKey, nAmount, nBlockStart, 0);
 
     std::string strError = "";
-    if (!budgetProposalBroadcast.IsValid(strError, false))
-        throw runtime_error("Proposal is not valid - " + budgetProposalBroadcast.GetHash().ToString() + " - " + strError);
+    if (!mxbudgetProposalBroadcast.IsValid(strError, false))
+        throw runtime_error("Proposal is not valid - " + mxbudgetProposalBroadcast.GetHash().ToString() + " - " + strError);
 
     bool useIX = false; //true;
     // if (params.size() > 7) {
@@ -236,7 +236,7 @@ UniValue preparebudget(const UniValue& params, bool fHelp)
     // }
 
     CWalletTx wtx;
-    if (!pwalletMain->GetBudgetSystemCollateralTX(wtx, budgetProposalBroadcast.GetHash(), useIX)) { // 50 PIV collateral for proposal
+    if (!pwalletMain->GetBudgetSystemCollateralTX(wtx, mxbudgetProposalBroadcast.GetHash(), useIX)) { // 50 PIV collateral for proposal
         throw runtime_error("Error making collateral transaction for proposal. Please check your wallet balance.");
     }
 
@@ -289,13 +289,13 @@ UniValue submitbudget(const UniValue& params, bool fHelp)
     if (nPaymentCount < 1)
         throw runtime_error("Invalid payment count, must be more than zero.");
 
-    // Start must be in the next budget cycle
+    // Start must be in the next mxbudget cycle
     if (pindexPrev != NULL) nBlockMin = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
 
     int nBlockStart = params[3].get_int();
     if (nBlockStart % GetMaxBudgetPaymentCycleBlocks() != 0) {
         int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
-        throw runtime_error(strprintf("Invalid block start - must be a budget cycle block. Next valid block: %d", nNext));
+        throw runtime_error(strprintf("Invalid block start - must be a mxbudget cycle block. Next valid block: %d", nNext));
     }
 
     int nBlockEnd = nBlockStart + (GetMaxBudgetPaymentCycleBlocks() * nPaymentCount); // End must be AFTER current cycle
@@ -316,11 +316,11 @@ UniValue submitbudget(const UniValue& params, bool fHelp)
     uint256 hash = ParseHashV(params[6], "parameter 1");
 
     //create the proposal incase we're the first to make it
-    CBudgetProposalBroadcast budgetProposalBroadcast(strProposalName, strURL, nPaymentCount, scriptPubKey, nAmount, nBlockStart, hash);
+    CMAXBudgetProposalBroadcast mxbudgetProposalBroadcast(strProposalName, strURL, nPaymentCount, scriptPubKey, nAmount, nBlockStart, hash);
 
     std::string strError = "";
     int nConf = 0;
-    if (!IsBudgetCollateralValid(hash, budgetProposalBroadcast.GetHash(), strError, budgetProposalBroadcast.nTime, nConf)) {
+    if (!IsMaxBudgetCollateralValid(hash, mxbudgetProposalBroadcast.GetHash(), strError, mxbudgetProposalBroadcast.nTime, nConf)) {
         throw runtime_error("Proposal FeeTX is not valid - " + hash.ToString() + " - " + strError);
     }
 
@@ -328,25 +328,25 @@ UniValue submitbudget(const UniValue& params, bool fHelp)
         throw runtime_error("Must wait for client to sync with maxnode network. Try again in a minute or so.");
     }
 
-    // if(!budgetProposalBroadcast.IsValid(strError)){
-    //     return "Proposal is not valid - " + budgetProposalBroadcast.GetHash().ToString() + " - " + strError;
+    // if(!mxbudgetProposalBroadcast.IsValid(strError)){
+    //     return "Proposal is not valid - " + mxbudgetProposalBroadcast.GetHash().ToString() + " - " + strError;
     // }
 
-    budget.mapSeenMaxnodeBudgetProposals.insert(make_pair(budgetProposalBroadcast.GetHash(), budgetProposalBroadcast));
-    budgetProposalBroadcast.Relay();
-    if(budget.AddProposal(budgetProposalBroadcast)) {
-        return budgetProposalBroadcast.GetHash().ToString();
+    maxbudget.mapSeenMaxnodeBudgetProposals.insert(make_pair(mxbudgetProposalBroadcast.GetHash(), mxbudgetProposalBroadcast));
+    mxbudgetProposalBroadcast.Relay();
+    if(maxbudget.AddProposal(mxbudgetProposalBroadcast)) {
+        return mxbudgetProposalBroadcast.GetHash().ToString();
     }
     throw runtime_error("Invalid proposal, see debug.log for details.");
 }
 
-UniValue maxbudgetvote(const UniValue& params, bool fHelp)
+UniValue mxbudgetvote(const UniValue& params, bool fHelp)
 {
     std::string strCommand;
     if (params.size() >= 1) {
         strCommand = params[0].get_str();
 
-        // Backwards compatibility with legacy `maxbudget` command
+        // Backwards compatibility with legacy `mxbudget` command
         if (strCommand == "vote") strCommand = "local";
         if (strCommand == "vote-many") strCommand = "many";
         if (strCommand == "vote-alias") strCommand = "alias";
@@ -355,8 +355,8 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
     if (fHelp || (params.size() == 3 && (strCommand != "local" && strCommand != "many")) || (params.size() == 4 && strCommand != "alias") ||
         params.size() > 4 || params.size() < 3)
         throw runtime_error(
-            "maxbudgetvote \"local|many|alias\" \"votehash\" \"yes|no\" ( \"alias\" )\n"
-            "\nVote on a budget proposal\n"
+            "mxbudgetvote \"local|many|alias\" \"votehash\" \"yes|no\" ( \"alias\" )\n"
+            "\nVote on a mxbudget proposal\n"
 
             "\nArguments:\n"
             "1. \"mode\"      (string, required) The voting mode. 'local' for voting directly from a maxnode, 'many' for voting with a MN controller and casting the same vote for each MN, 'alias' for voting with a MN controller and casting a vote for a single MN\n"
@@ -378,8 +378,8 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("maxbudgetvote", "\"local\" \"ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041\" \"yes\"") +
-            HelpExampleRpc("maxbudgetvote", "\"local\" \"ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041\" \"yes\""));
+            HelpExampleCli("mxbudgetvote", "\"local\" \"ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041\" \"yes\"") +
+            HelpExampleRpc("mxbudgetvote", "\"local\" \"ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041\" \"yes\""));
 
     uint256 hash = ParseHashV(params[1], "parameter 1");
     std::string strVote = params[2].get_str();
@@ -421,7 +421,7 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
                 break;
             }
 
-            CBudgetVote vote(activeMaxnode.vin, hash, nVote);
+            CMAXBudgetVote vote(activeMaxnode.vin, hash, nVote);
             if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
                 failed++;
                 statusObj.push_back(Pair("node", "local"));
@@ -432,9 +432,9 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
             }
 
             std::string strError = "";
-            if (budget.UpdateProposal(vote, NULL, strError)) {
+            if (maxbudget.UpdateProposal(vote, NULL, strError)) {
                 success++;
-                budget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
+                maxbudget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
                 vote.Relay();
                 statusObj.push_back(Pair("node", "local"));
                 statusObj.push_back(Pair("result", "success"));
@@ -488,7 +488,7 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
                 continue;
             }
 
-            CBudgetVote vote(pmax->vin, hash, nVote);
+            CMAXBudgetVote vote(pmax->vin, hash, nVote);
             if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
                 failed++;
                 statusObj.push_back(Pair("node", maxe.getAlias()));
@@ -499,8 +499,8 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
             }
 
             std::string strError = "";
-            if (budget.UpdateProposal(vote, NULL, strError)) {
-                budget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
+            if (maxbudget.UpdateProposal(vote, NULL, strError)) {
+                maxbudget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
                 vote.Relay();
                 success++;
                 statusObj.push_back(Pair("node", maxe.getAlias()));
@@ -563,7 +563,7 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
                 continue;
             }
 
-            CBudgetVote vote(pmax->vin, hash, nVote);
+            CMAXBudgetVote vote(pmax->vin, hash, nVote);
             if(!vote.Sign(keyMaxnode, pubKeyMaxnode)){
                 failed++;
                 statusObj.push_back(Pair("node", maxe.getAlias()));
@@ -574,8 +574,8 @@ UniValue maxbudgetvote(const UniValue& params, bool fHelp)
             }
 
             std::string strError = "";
-            if(budget.UpdateProposal(vote, NULL, strError)) {
-                budget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
+            if(maxbudget.UpdateProposal(vote, NULL, strError)) {
+                maxbudget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
                 vote.Relay();
                 success++;
                 statusObj.push_back(Pair("node", maxe.getAlias()));
@@ -606,7 +606,7 @@ UniValue getbudgetvotes(const UniValue& params, bool fHelp)
     if (params.size() != 1)
         throw runtime_error(
             "getbudgetvotes \"proposal-name\"\n"
-            "\nPrint vote information for a budget proposal\n"
+            "\nPrint vote information for a mxbudget proposal\n"
 
             "\nArguments:\n"
             "1. \"proposal-name\":      (string, required) Name of the proposal\n"
@@ -630,12 +630,12 @@ UniValue getbudgetvotes(const UniValue& params, bool fHelp)
 
     UniValue ret(UniValue::VARR);
 
-    CBudgetProposal* pbudgetProposal = budget.FindMaxProposal(strProposalName);
+    CMAXBudgetProposal* pmxbudgetProposal = maxbudget.FindMaxProposal(strProposalName);
 
-    if (pbudgetProposal == NULL) throw runtime_error("Unknown proposal name");
+    if (pmxbudgetProposal == NULL) throw runtime_error("Unknown proposal name");
 
-    std::map<uint256, CBudgetVote>::iterator it = pbudgetProposal->mapVotes.begin();
-    while (it != pbudgetProposal->mapVotes.end()) {
+    std::map<uint256, CMAXBudgetVote>::iterator it = pmxbudgetProposal->mapVotes.begin();
+    while (it != pmxbudgetProposal->mapVotes.end()) {
         UniValue bObj(UniValue::VOBJ);
         bObj.push_back(Pair("maxId", (*it).second.vin.prevout.hash.ToString()));
         bObj.push_back(Pair("nHash", (*it).first.ToString().c_str()));
@@ -713,17 +713,17 @@ UniValue getbudgetprojection(const UniValue& params, bool fHelp)
     UniValue resultObj(UniValue::VOBJ);
     CAmount nTotalAllotted = 0;
 
-    std::vector<CBudgetProposal*> winningProps = budget.GetBudget();
-    BOOST_FOREACH (CBudgetProposal* pbudgetProposal, winningProps) {
-        nTotalAllotted += pbudgetProposal->GetAllotted();
+    std::vector<CMAXBudgetProposal*> winningProps = maxbudget.GetBudget();
+    BOOST_FOREACH (CMAXBudgetProposal* pmxbudgetProposal, winningProps) {
+        nTotalAllotted += pmxbudgetProposal->GetAllotted();
 
         CTxDestination address1;
-        ExtractDestination(pbudgetProposal->GetPayee(), address1);
+        ExtractDestination(pmxbudgetProposal->GetPayee(), address1);
         CBitcoinAddress address2(address1);
 
         UniValue bObj(UniValue::VOBJ);
-        budgetToJSON(pbudgetProposal, bObj);
-        bObj.push_back(Pair("Alloted", ValueFromAmount(pbudgetProposal->GetAllotted())));
+        mxbudgetToJSON(pmxbudgetProposal, bObj);
+        bObj.push_back(Pair("Alloted", ValueFromAmount(pmxbudgetProposal->GetAllotted())));
         bObj.push_back(Pair("TotalBudgetAlloted", ValueFromAmount(nTotalAllotted)));
 
         ret.push_back(bObj);
@@ -737,7 +737,7 @@ UniValue getbudgetinfo(const UniValue& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getbudgetinfo ( \"proposal\" )\n"
-            "\nShow current maxnode budgets\n"
+            "\nShow current maxnode mxbudgets\n"
 
             "\nArguments:\n"
             "1. \"proposal\"    (string, optional) Proposal name\n"
@@ -776,20 +776,20 @@ UniValue getbudgetinfo(const UniValue& params, bool fHelp)
     std::string strShow = "valid";
     if (params.size() == 1) {
         std::string strProposalName = SanitizeString(params[0].get_str());
-        CBudgetProposal* pbudgetProposal = budget.FindMaxProposal(strProposalName);
-        if (pbudgetProposal == NULL) throw runtime_error("Unknown proposal name");
+        CMAXBudgetProposal* pmxbudgetProposal = maxbudget.FindMaxProposal(strProposalName);
+        if (pmxbudgetProposal == NULL) throw runtime_error("Unknown proposal name");
         UniValue bObj(UniValue::VOBJ);
-        budgetToJSON(pbudgetProposal, bObj);
+        mxbudgetToJSON(pmxbudgetProposal, bObj);
         ret.push_back(bObj);
         return ret;
     }
 
-    std::vector<CBudgetProposal*> winningProps = budget.GetAllProposals();
-    BOOST_FOREACH (CBudgetProposal* pbudgetProposal, winningProps) {
-        if (strShow == "valid" && !pbudgetProposal->fValid) continue;
+    std::vector<CMAXBudgetProposal*> winningProps = maxbudget.GetAllProposals();
+    BOOST_FOREACH (CMAXBudgetProposal* pmxbudgetProposal, winningProps) {
+        if (strShow == "valid" && !pmxbudgetProposal->fValid) continue;
 
         UniValue bObj(UniValue::VOBJ);
-        budgetToJSON(pbudgetProposal, bObj);
+        mxbudgetToJSON(pmxbudgetProposal, bObj);
 
         ret.push_back(bObj);
     }
@@ -797,11 +797,11 @@ UniValue getbudgetinfo(const UniValue& params, bool fHelp)
     return ret;
 }
 
-UniValue maxbudgetrawvote(const UniValue& params, bool fHelp)
+UniValue mxbudgetrawvote(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 6)
         throw runtime_error(
-            "maxbudgetrawvote \"maxnode-tx-hash\" maxnode-tx-index \"proposal-hash\" yes|no time \"vote-sig\"\n"
+            "mxbudgetrawvote \"maxnode-tx-hash\" maxnode-tx-index \"proposal-hash\" yes|no time \"vote-sig\"\n"
             "\nCompile and relay a proposal vote with provided external signature instead of signing vote internally\n"
 
             "\nArguments:\n"
@@ -816,7 +816,7 @@ UniValue maxbudgetrawvote(const UniValue& params, bool fHelp)
             "\"status\"     (string) Vote status or error message\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("maxbudgetrawvote", "") + HelpExampleRpc("maxbudgetrawvote", ""));
+            HelpExampleCli("mxbudgetrawvote", "") + HelpExampleRpc("mxbudgetrawvote", ""));
 
     uint256 hashMnTx = ParseHashV(params[0], "max tx hash");
     int nMnTxIndex = params[1].get_int();
@@ -843,7 +843,7 @@ UniValue maxbudgetrawvote(const UniValue& params, bool fHelp)
         return "Failure to find maxnode in list : " + vin.ToString();
     }
 
-    CBudgetVote vote(vin, hashProposal, nVote);
+    CMAXBudgetVote vote(vin, hashProposal, nVote);
     vote.nTime = nTime;
     vote.vchSig = vchSig;
 
@@ -852,8 +852,8 @@ UniValue maxbudgetrawvote(const UniValue& params, bool fHelp)
     }
 
     std::string strError = "";
-    if (budget.UpdateProposal(vote, NULL, strError)) {
-        budget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
+    if (maxbudget.UpdateProposal(vote, NULL, strError)) {
+        maxbudget.mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
         vote.Relay();
         return "Voted successfully";
     } else {
@@ -861,7 +861,7 @@ UniValue maxbudgetrawvote(const UniValue& params, bool fHelp)
     }
 }
 
-UniValue maxfinalbudget(const UniValue& params, bool fHelp)
+UniValue maxfinalmxbudget(const UniValue& params, bool fHelp)
 {
     string strCommand;
     if (params.size() >= 1)
@@ -870,18 +870,18 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
     if (fHelp ||
         (strCommand != "suggest" && strCommand != "vote-many" && strCommand != "vote" && strCommand != "show" && strCommand != "getvotes"))
         throw runtime_error(
-            "maxfinalbudget \"command\"... ( \"passphrase\" )\n"
-            "\nVote or show current budgets\n"
+            "maxfinalmxbudget \"command\"... ( \"passphrase\" )\n"
+            "\nVote or show current mxbudgets\n"
 
             "\nAvailable commands:\n"
-            "  vote-many   - Vote on a finalized budget\n"
-            "  vote        - Vote on a finalized budget\n"
-            "  show        - Show existing finalized budgets\n"
-            "  getvotes     - Get vote information for each finalized budget\n");
+            "  vote-many   - Vote on a finalized mxbudget\n"
+            "  vote        - Vote on a finalized mxbudget\n"
+            "  show        - Show existing finalized mxbudgets\n"
+            "  getvotes     - Get vote information for each finalized mxbudget\n");
 
     if (strCommand == "vote-many") {
         if (params.size() != 2)
-            throw runtime_error("Correct usage is 'maxfinalbudget vote-many BUDGET_HASH'");
+            throw runtime_error("Correct usage is 'maxfinalmxbudget vote-many BUDGET_HASH'");
 
         std::string strHash = params[1].get_str();
         uint256 hash(strHash);
@@ -921,7 +921,7 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
             }
 
 
-            CFinalizedBudgetVote vote(pmax->vin, hash);
+            CMAXFinalizedBudgetVote vote(pmax->vin, hash);
             if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
                 failed++;
                 statusObj.push_back(Pair("result", "failed"));
@@ -931,8 +931,8 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
             }
 
             std::string strError = "";
-            if (budget.UpdateFinalizedBudget(vote, NULL, strError)) {
-                budget.mapSeenFinalizedBudgetVotes.insert(make_pair(vote.GetHash(), vote));
+            if (maxbudget.UpdateFinalizedBudget(vote, NULL, strError)) {
+                maxbudget.mapSeenFinalizedBudgetVotes.insert(make_pair(vote.GetHash(), vote));
                 vote.Relay();
                 success++;
                 statusObj.push_back(Pair("result", "success"));
@@ -953,7 +953,7 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
 
     if (strCommand == "vote") {
         if (params.size() != 2)
-            throw runtime_error("Correct usage is 'maxfinalbudget vote BUDGET_HASH'");
+            throw runtime_error("Correct usage is 'maxfinalmxbudget vote BUDGET_HASH'");
 
         std::string strHash = params[1].get_str();
         uint256 hash(strHash);
@@ -970,14 +970,14 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
             return "Failure to find maxnode in list : " + activeMaxnode.vin.ToString();
         }
 
-        CFinalizedBudgetVote vote(activeMaxnode.vin, hash);
+        CMAXFinalizedBudgetVote vote(activeMaxnode.vin, hash);
         if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
             return "Failure to sign.";
         }
 
         std::string strError = "";
-        if (budget.UpdateFinalizedBudget(vote, NULL, strError)) {
-            budget.mapSeenFinalizedBudgetVotes.insert(make_pair(vote.GetHash(), vote));
+        if (maxbudget.UpdateFinalizedBudget(vote, NULL, strError)) {
+            maxbudget.mapSeenFinalizedBudgetVotes.insert(make_pair(vote.GetHash(), vote));
             vote.Relay();
             return "success";
         } else {
@@ -988,14 +988,14 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
     if (strCommand == "show") {
         UniValue resultObj(UniValue::VOBJ);
 
-        std::vector<CFinalizedBudget*> winningFbs = budget.GetFinalizedBudgets();
-        BOOST_FOREACH (CFinalizedBudget* finalizedBudget, winningFbs) {
+        std::vector<CMAXFinalizedBudget*> winningFbs = maxbudget.GetFinalizedBudgets();
+        BOOST_FOREACH (CMAXFinalizedBudget* finalizedBudget, winningFbs) {
             UniValue bObj(UniValue::VOBJ);
             bObj.push_back(Pair("FeeTX", finalizedBudget->nFeeTXHash.ToString()));
             bObj.push_back(Pair("Hash", finalizedBudget->GetHash().ToString()));
             bObj.push_back(Pair("BlockStart", (int64_t)finalizedBudget->GetMaxBlockStart()));
             bObj.push_back(Pair("BlockEnd", (int64_t)finalizedBudget->GetMaxBlockEnd()));
-            bObj.push_back(Pair("Proposals", finalizedBudget->GetProposals()));
+            bObj.push_back(Pair("Proposals", finalizedBudget->GetMaxProposals()));
             bObj.push_back(Pair("VoteCount", (int64_t)finalizedBudget->GetMaxVoteCount()));
             bObj.push_back(Pair("Status", finalizedBudget->GetStatus()));
 
@@ -1011,18 +1011,18 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
 
     if (strCommand == "getvotes") {
         if (params.size() != 2)
-            throw runtime_error("Correct usage is 'maxbudget getvotes budget-hash'");
+            throw runtime_error("Correct usage is 'mxbudget getvotes mxbudget-hash'");
 
         std::string strHash = params[1].get_str();
         uint256 hash(strHash);
 
         UniValue obj(UniValue::VOBJ);
 
-        CFinalizedBudget* pfinalBudget = budget.FindFinalizedBudget(hash);
+        CMAXFinalizedBudget* pfinalBudget = maxbudget.FindFinalizedBudget(hash);
 
-        if (pfinalBudget == NULL) return "Unknown budget hash";
+        if (pfinalBudget == NULL) return "Unknown mxbudget hash";
 
-        std::map<uint256, CFinalizedBudgetVote>::iterator it = pfinalBudget->mapVotes.begin();
+        std::map<uint256, CMAXFinalizedBudgetVote>::iterator it = pfinalBudget->mapVotes.begin();
         while (it != pfinalBudget->mapVotes.end()) {
             UniValue bObj(UniValue::VOBJ);
             bObj.push_back(Pair("nHash", (*it).first.ToString().c_str()));
@@ -1040,7 +1040,7 @@ UniValue maxfinalbudget(const UniValue& params, bool fHelp)
     return NullUniValue;
 }
 
-UniValue checkmaxbudgets(const UniValue& params, bool fHelp)
+UniValue checkbudgets(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
         throw runtime_error(
@@ -1050,7 +1050,7 @@ UniValue checkmaxbudgets(const UniValue& params, bool fHelp)
             "\nExamples:\n" +
             HelpExampleCli("checkbudgets", "") + HelpExampleRpc("checkbudgets", ""));
 
-    budget.CheckAndRemove();
+    maxbudget.CheckAndRemove();
 
     return NullUniValue;
 }
