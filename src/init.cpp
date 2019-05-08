@@ -488,7 +488,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-stopafterblockimport", strprintf(_("Stop running after importing blocks from disk (default: %u)"), 0));
         strUsage += HelpMessageOpt("-sporkkey=<privkey>", _("Enable spork administration functionality with the appropriate private key."));
     }
-    string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, tor, mempool, net, proxy, http, libevent, lytix, (obfuscation, swiftx, masternode, mnpayments, mnbudget, maxnode, maxpayments, maxbudget, zero)"; // Don't translate these and qt below
+    string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, tor, mempool, net, proxy, http, libevent, lytix, (obfuscation, swiftx, masternode, mnpayments, mnbudget, maxnode, maxpayments, mxbudget, zero)"; // Don't translate these and qt below
     if (mode == HMM_BITCOIN_QT)
         debugCategories += ", qt";
     strUsage += HelpMessageOpt("-debug=<category>", strprintf(_("Output debugging information (default: %u, supplying <category> is optional)"), 0) + ". " +
@@ -1764,8 +1764,22 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             LogPrintf("file format is unknown or invalid, please fix it manually\n");
     }
 
+    uiInterface.InitMessage(_("Loading max budget cache..."));
+
+    CMAXBudgetDB maxbudgetdb;
+    CMAXBudgetDB::ReadResult readMAXResult2 = maxbudgetdb.Read(maxbudget);
+
+    if (readMAXResult2 == CMAXBudgetDB::FileError)
+        LogPrintf("Missing max budget cache - mxbudget.dat, will try to recreate\n");
+    else if (readMAXResult2 != CMAXBudgetDB::Ok) {
+        LogPrintf("Error reading mxbudget.dat: ");
+        if (readMAXResult2 == CMAXBudgetDB::IncorrectFormat)
+            LogPrintf("magic is ok but data has invalid format, will try to recreate\n");
+        else
+            LogPrintf("file format is unknown or invalid, please fix it manually\n");
+    }
+
     //flag our cached items so we send them to our peers
-    // DISDIS TODO - add maxnode here
     budget.ResetSync();
     budget.ClearSeen();
 
@@ -1784,6 +1798,27 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         else
             LogPrintf("file format is unknown or invalid, please fix it manually\n");
     }
+
+
+    maxbudget.ResetSync();
+    maxbudget.ClearSeen();
+
+
+    uiInterface.InitMessage(_("Loading maxnode payment cache..."));
+
+    CMaxnodePaymentDB maxpayments;
+    CMaxnodePaymentDB::ReadResult readMAXResult3 = maxpayments.Read(maxnodePayments);
+
+    if (readMAXResult3 == CMaxnodePaymentDB::FileError)
+        LogPrintf("Missing maxnode payment cache - maxpayments.dat, will try to recreate\n");
+    else if (readMAXResult3 != CMaxnodePaymentDB::Ok) {
+        LogPrintf("Error reading maxpayments.dat: ");
+        if (readMAXResult3 == CMaxnodePaymentDB::IncorrectFormat)
+            LogPrintf("magic is ok but data has invalid format, will try to recreate\n");
+        else
+            LogPrintf("file format is unknown or invalid, please fix it manually\n");
+    }
+
 
     fMasterNode = GetBoolArg("-masternode", false);
 
@@ -1823,20 +1858,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
-    uiInterface.InitMessage(_("Loading maxnode payment cache..."));
-
-    CMaxnodePaymentDB maxpayments;
-    CMaxnodePaymentDB::ReadResult readMaxResult3 = maxpayments.Read(maxnodePayments);
-
-    if (readMaxResult3 == CMaxnodePaymentDB::FileError)
-        LogPrintf("Missing maxnode payment cache - maxpayments.dat, will try to recreate\n");
-    else if (readMaxResult3 != CMaxnodePaymentDB::Ok) {
-        LogPrintf("Error reading maxpayments.dat: ");
-        if (readMaxResult3 == CMaxnodePaymentDB::IncorrectFormat)
-            LogPrintf("magic is ok but data has invalid format, will try to recreate\n");
-        else
-            LogPrintf("file format is unknown or invalid, please fix it manually\n");
-    }
 
     //DISDIS - TODO: figure out a way to have this in the lytix.conf file as a generic but pick the correct tier
 
