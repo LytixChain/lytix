@@ -112,8 +112,8 @@ void CMaxnodeSync::AddedMaxnodeWinner(uint256 hash)
 
 void CMaxnodeSync::AddedBudgetItem(uint256 hash)
 {
-    if (budget.mapSeenMaxnodeBudgetProposals.count(hash) || budget.mapSeenMaxnodeBudgetVotes.count(hash) ||
-        budget.mapSeenFinalizedBudgets.count(hash) || budget.mapSeenFinalizedBudgetVotes.count(hash)) {
+    if (maxbudget.mapSeenMaxnodeBudgetProposals.count(hash) || maxbudget.mapSeenMaxnodeBudgetVotes.count(hash) ||
+        maxbudget.mapSeenFinalizedBudgets.count(hash) || maxbudget.mapSeenFinalizedBudgetVotes.count(hash)) {
         if (mapSeenSyncBudget[hash] < MAXNODE_SYNC_THRESHOLD) {
             lastBudgetItem = GetTime();
             mapSeenSyncBudget[hash]++;

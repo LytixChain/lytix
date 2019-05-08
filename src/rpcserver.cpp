@@ -390,6 +390,7 @@ static const CRPCCommand vRPCCommands[] =
         {"lytix", "preparebudget", &preparebudget, true, true, false},
         {"lytix", "submitbudget", &submitbudget, true, true, false},
         {"lytix", "mnbudgetvote", &mnbudgetvote, true, true, false},
+        {"lytix", "maxbudgetvote", &mnbudgetvote, true, true, false},
         {"lytix", "getbudgetvotes", &getbudgetvotes, true, true, false},
         {"lytix", "getnextsuperblock", &getnextsuperblock, true, true, false},
         {"lytix", "getbudgetprojection", &getbudgetprojection, true, true, false},

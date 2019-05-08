@@ -31,16 +31,16 @@ void budgetToJSON(CBudgetProposal* pbudgetProposal, UniValue& bObj)
     bObj.push_back(Pair("URL", pbudgetProposal->GetURL()));
     bObj.push_back(Pair("Hash", pbudgetProposal->GetHash().ToString()));
     bObj.push_back(Pair("FeeHash", pbudgetProposal->nFeeTXHash.ToString()));
-    bObj.push_back(Pair("BlockStart", (int64_t)pbudgetProposal->GetBlockStart()));
-    bObj.push_back(Pair("BlockEnd", (int64_t)pbudgetProposal->GetBlockEnd()));
-    bObj.push_back(Pair("TotalPaymentCount", (int64_t)pbudgetProposal->GetTotalPaymentCount()));
+    bObj.push_back(Pair("BlockStart", (int64_t)pbudgetProposal->GetMaxBlockStart()));
+    bObj.push_back(Pair("BlockEnd", (int64_t)pbudgetProposal->GetMaxBlockEnd()));
+    bObj.push_back(Pair("TotalPaymentCount", (int64_t)pbudgetProposal->GetMaxTotalPaymentCount()));
     bObj.push_back(Pair("RemainingPaymentCount", (int64_t)pbudgetProposal->GetMaxRemainingPaymentCount()));
     bObj.push_back(Pair("PaymentAddress", address2.ToString()));
     bObj.push_back(Pair("Ratio", pbudgetProposal->GetRatio()));
     bObj.push_back(Pair("Yeas", (int64_t)pbudgetProposal->GetMaxYeas()));
     bObj.push_back(Pair("Nays", (int64_t)pbudgetProposal->GetMaxNays()));
     bObj.push_back(Pair("Abstains", (int64_t)pbudgetProposal->GetMaxAbstains()));
-    bObj.push_back(Pair("TotalPayment", ValueFromAmount(pbudgetProposal->GetAmount() * pbudgetProposal->GetTotalPaymentCount())));
+    bObj.push_back(Pair("TotalPayment", ValueFromAmount(pbudgetProposal->GetAmount() * pbudgetProposal->GetMaxTotalPaymentCount())));
     bObj.push_back(Pair("MonthlyPayment", ValueFromAmount(pbudgetProposal->GetAmount())));
     bObj.push_back(Pair("IsEstablished", pbudgetProposal->IsEstablished()));
 
@@ -195,15 +195,15 @@ UniValue preparebudget(const UniValue& params, bool fHelp)
         throw runtime_error("Invalid payment count, must be more than zero.");
 
     // Start must be in the next budget cycle
-    if (pindexPrev != NULL) nBlockMin = pindexPrev->nHeight - pindexPrev->nHeight % GetBudgetPaymentCycleBlocks() + GetBudgetPaymentCycleBlocks();
+    if (pindexPrev != NULL) nBlockMin = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
 
     int nBlockStart = params[3].get_int();
-    if (nBlockStart % GetBudgetPaymentCycleBlocks() != 0) {
-        int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetBudgetPaymentCycleBlocks() + GetBudgetPaymentCycleBlocks();
+    if (nBlockStart % GetMaxBudgetPaymentCycleBlocks() != 0) {
+        int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
         throw runtime_error(strprintf("Invalid block start - must be a budget cycle block. Next valid block: %d", nNext));
     }
 
-    int nBlockEnd = nBlockStart + GetBudgetPaymentCycleBlocks() * nPaymentCount; // End must be AFTER current cycle
+    int nBlockEnd = nBlockStart + GetMaxBudgetPaymentCycleBlocks() * nPaymentCount; // End must be AFTER current cycle
 
     if (nBlockStart < nBlockMin)
         throw runtime_error("Invalid block start, must be more than current height.");
@@ -290,15 +290,15 @@ UniValue submitbudget(const UniValue& params, bool fHelp)
         throw runtime_error("Invalid payment count, must be more than zero.");
 
     // Start must be in the next budget cycle
-    if (pindexPrev != NULL) nBlockMin = pindexPrev->nHeight - pindexPrev->nHeight % GetBudgetPaymentCycleBlocks() + GetBudgetPaymentCycleBlocks();
+    if (pindexPrev != NULL) nBlockMin = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
 
     int nBlockStart = params[3].get_int();
-    if (nBlockStart % GetBudgetPaymentCycleBlocks() != 0) {
-        int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetBudgetPaymentCycleBlocks() + GetBudgetPaymentCycleBlocks();
+    if (nBlockStart % GetMaxBudgetPaymentCycleBlocks() != 0) {
+        int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
         throw runtime_error(strprintf("Invalid block start - must be a budget cycle block. Next valid block: %d", nNext));
     }
 
-    int nBlockEnd = nBlockStart + (GetBudgetPaymentCycleBlocks() * nPaymentCount); // End must be AFTER current cycle
+    int nBlockEnd = nBlockStart + (GetMaxBudgetPaymentCycleBlocks() * nPaymentCount); // End must be AFTER current cycle
 
     if (nBlockStart < nBlockMin)
         throw runtime_error("Invalid block start, must be more than current height.");
@@ -667,7 +667,7 @@ UniValue getnextmaxsuperblock(const UniValue& params, bool fHelp)
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return "unknown";
 
-    int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetBudgetPaymentCycleBlocks() + GetBudgetPaymentCycleBlocks();
+    int nNext = pindexPrev->nHeight - pindexPrev->nHeight % GetMaxBudgetPaymentCycleBlocks() + GetMaxBudgetPaymentCycleBlocks();
     return nNext;
 }
 

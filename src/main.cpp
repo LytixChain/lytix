@@ -3,7 +3,7 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
 // Copyright (c) 2018 The Helium developers
-// Copyright (c) 2018-2019 The Lytix developers
+// Copyright (c) 2018-2019 The Lytix developer
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,6 +21,7 @@
 #include "kernel.h"
 #include "masternode-budget.h"
 #include "masternode-payments.h"
+#include "maxnode-budget.h"
 #include "maxnode-payments.h"
 #include "masternodeman.h"
 #include "maxnodeman.h"
@@ -5384,6 +5385,29 @@ bool static AlreadyHave(const CInv& inv)
             masternodeSync.AddedBudgetItem(inv.hash);
             return true;
         }
+    case MSG_MAX_BUDGET_VOTE:
+        if (maxbudget.mapSeenMaxnodeBudgetVotes.count(inv.hash)) {
+            maxnodeSync.AddedBudgetItem(inv.hash);
+            return true;
+        }
+        return false;
+    case MSG_MAX_BUDGET_PROPOSAL:
+        if (maxbudget.mapSeenMaxnodeBudgetProposals.count(inv.hash)) {
+            maxnodeSync.AddedBudgetItem(inv.hash);
+            return true;
+        }
+        return false;
+    case MSG_MAX_BUDGET_FINALIZED_VOTE:
+        if (maxbudget.mapSeenFinalizedBudgetVotes.count(inv.hash)) {
+            maxnodeSync.AddedBudgetItem(inv.hash);
+            return true;
+        }
+        return false;
+    case MSG_MAX_BUDGET_FINALIZED:
+        if (maxbudget.mapSeenFinalizedBudgets.count(inv.hash)) {
+            maxnodeSync.AddedBudgetItem(inv.hash);
+            return true;
+        }
         return false;
     case MSG_MASTERNODE_ANNOUNCE:
         if (mnodeman.mapSeenMasternodeBroadcast.count(inv.hash)) {
@@ -5586,6 +5610,46 @@ void static ProcessGetData(CNode* pfrom)
                         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
                         ss.reserve(1000);
                         ss << budget.mapSeenFinalizedBudgets[inv.hash];
+                        pfrom->PushMessage("fbs", ss);
+                        pushed = true;
+                    }
+                }
+
+		if (!pushed && inv.type == MSG_MAX_BUDGET_VOTE) {
+                    if (maxbudget.mapSeenMaxnodeBudgetVotes.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << maxbudget.mapSeenMaxnodeBudgetVotes[inv.hash];
+                        pfrom->PushMessage("mvote", ss);
+                        pushed = true;
+                    }
+                }
+
+                if (!pushed && inv.type == MSG_MAX_BUDGET_PROPOSAL) {
+                    if (maxbudget.mapSeenMaxnodeBudgetProposals.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << maxbudget.mapSeenMaxnodeBudgetProposals[inv.hash];
+                        pfrom->PushMessage("mprop", ss);
+                        pushed = true;
+                    }
+                }
+
+                if (!pushed && inv.type == MSG_MAX_BUDGET_FINALIZED_VOTE) {
+                    if (maxbudget.mapSeenFinalizedBudgetVotes.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << maxbudget.mapSeenFinalizedBudgetVotes[inv.hash];
+                        pfrom->PushMessage("fbvote", ss);
+                        pushed = true;
+                    }
+                }
+
+                if (!pushed && inv.type == MSG_MAX_BUDGET_FINALIZED) {
+                    if (maxbudget.mapSeenFinalizedBudgets.count(inv.hash)) {
+                        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                        ss.reserve(1000);
+                        ss << maxbudget.mapSeenFinalizedBudgets[inv.hash];
                         pfrom->PushMessage("fbs", ss);
                         pushed = true;
                     }

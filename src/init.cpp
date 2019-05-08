@@ -26,6 +26,7 @@
 #include "key.h"
 #include "main.h"
 #include "masternode-budget.h"
+#include "maxnode-budget.h"
 #include "masternode-payments.h"
 #include "maxnode-payments.h"
 #include "masternodeconfig.h"
@@ -215,6 +216,7 @@ void PrepareShutdown()
     DumpMasternodes();
     DumpMaxnodes();
     DumpBudgets();
+    DumpMaxBudgets();
     DumpMasternodePayments();
     DumpMaxnodePayments();
     UnregisterNodeSignals(GetNodeSignals());

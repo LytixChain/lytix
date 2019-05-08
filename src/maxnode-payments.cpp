@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2019 The Lytix developers
+// Copyright (c) 2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -196,7 +196,7 @@ bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount n
 
     if (!maxnodeSync.IsSynced()) { //there is no budget data to use to check anything
         //super blocks will always be on these blocks, max 100 per budgeting
-        if (nHeight % GetBudgetPaymentCycleBlocks() < 100) {
+        if (nHeight % GetMaxBudgetPaymentCycleBlocks() < 100) {
             return true;
         } else {
             if (nMinted > nExpectedValue) {
@@ -210,7 +210,7 @@ bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount n
             return nMinted <= nExpectedValue;
         }
 
-        if (budget.IsBudgetPaymentBlock(nHeight)) {
+        if (maxbudget.IsBudgetPaymentBlock(nHeight)) {
             //the value of the block is evaluated in CheckBlock
             return true;
         } else {
@@ -225,7 +225,7 @@ bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount n
 
 bool IsMaxBlockPayeeValid(const CBlock& block, int nBlockHeight)
 {
-    TrxValidationStatus transactionStatus = TrxValidationStatus::InValid;
+    MAXTrxValidationStatus transactionStatus = MAXTrxValidationStatus::InValid;
 
     if (!maxnodeSync.IsSynced()) { //there is no budget data to use to check anything -- find the longest chain
         LogPrint("maxpayments", "Client not synced, skipping block payee checks\n");
@@ -236,13 +236,13 @@ bool IsMaxBlockPayeeValid(const CBlock& block, int nBlockHeight)
 
     //check if it's a budget block
     if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS)) {
-        if (budget.IsBudgetPaymentBlock(nBlockHeight)) {
-            transactionStatus = budget.IsTransactionValid(txNew, nBlockHeight);
-            if (transactionStatus == TrxValidationStatus::Valid) {
+        if (maxbudget.IsBudgetPaymentBlock(nBlockHeight)) {
+            transactionStatus = maxbudget.IsTransactionValid(txNew, nBlockHeight);
+            if (transactionStatus == MAXTrxValidationStatus::Valid) {
                 return true;
             }
 
-            if (transactionStatus == TrxValidationStatus::InValid) {
+            if (transactionStatus == MAXTrxValidationStatus::InValid) {
                 LogPrint("maxnode","Invalid budget payment detected %s\n", txNew.ToString().c_str());
                 if (IsSporkActive(SPORK_9_MASTERNODE_BUDGET_ENFORCEMENT))
                     return false;
@@ -715,7 +715,7 @@ bool CMaxnodePayments::ProcessBlock(int nBlockHeight)
 
     CMaxnodePaymentWinner newWinner(activeMaxnode.vin);
 
-    if (budget.IsBudgetPaymentBlock(nBlockHeight)) {
+    if (maxbudget.IsBudgetPaymentBlock(nBlockHeight)) {
         //is budget payment block -- handled by the budgeting software
     } else {
         LogPrint("maxnode","CMaxnodePayments::ProcessBlock() Start nHeight %d - vin %s. \n", nBlockHeight, activeMaxnode.vin.prevout.hash.ToString());

@@ -319,6 +319,7 @@ extern UniValue mnbudget(const UniValue& params, bool fHelp); // in rpcmasternod
 extern UniValue preparebudget(const UniValue& params, bool fHelp);
 extern UniValue submitbudget(const UniValue& params, bool fHelp);
 extern UniValue mnbudgetvote(const UniValue& params, bool fHelp);
+extern UniValue maxbudgetvote(const UniValue& params, bool fHelp);
 extern UniValue getbudgetvotes(const UniValue& params, bool fHelp);
 extern UniValue getnextsuperblock(const UniValue& params, bool fHelp);
 extern UniValue getbudgetprojection(const UniValue& params, bool fHelp);
