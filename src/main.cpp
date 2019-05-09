@@ -4644,6 +4644,11 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
             masternodePayments.ProcessBlock(GetHeight() + 10);
             budget.NewBlock();
         }
+	if (maxnodeSync.RequestedMaxnodeAssets > MAXNODE_SYNC_LIST) {
+            obfuScationPool.NewBlock();
+            maxnodePayments.ProcessBlock(GetHeight() + 10);
+            maxbudget.NewBlock();
+        }
     }
 
     if (pwalletMain) {

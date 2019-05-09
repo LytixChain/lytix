@@ -2540,6 +2540,9 @@ void ThreadCheckObfuScationPool()
             }
         }
 
+	// try to sync from all available nodes, one step at a time
+        maxnodeSync.Process();
+
 	if (maxnodeSync.IsBlockchainSynced()) {
             c++;
 

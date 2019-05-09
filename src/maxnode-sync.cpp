@@ -214,7 +214,7 @@ void CMaxnodeSync::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataSt
             break;
         }
 
-        LogPrint("maxnode", "CMaxnodeSync:ProcessMessage - smaxc - got inventory count %d %d\n", nItemID, nCount);
+        LogPrint("maxnode", "CMaxnodeSync:ProcessMessage - smaxsc - got inventory count %d %d\n", nItemID, nCount);
     }
 }
 
