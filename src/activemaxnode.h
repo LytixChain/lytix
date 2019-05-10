@@ -32,11 +32,11 @@ private:
     bool SendMaxnodePing(std::string& errorMessage);
 
     /// Create Maxnode broadcast, needs to be relayed manually after that
-    bool CreateBroadcast(CTxIn vin, CService service, CKey key, CPubKey pubKey, CKey keyMaxnode, CPubKey pubKeyMaxnode, std::string& errorMessage, CMaxnodeBroadcast &maxb);
+    bool CreateBroadcast(CTxIn maxvin, CService service, CKey key, CPubKey pubKey, CKey keyMaxnode, CPubKey pubKeyMaxnode, std::string& errorMessage, CMaxnodeBroadcast &maxb);
 
     /// Get 50000 LYTX input that can be used for the Maxnode
-    bool GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey, std::string strTxHash, std::string strOutputIndex);
-    bool GetVinFromOutput(COutput out, CTxIn& vin, CPubKey& pubkey, CKey& secretKey);
+    bool GetMaxNodeVin(CTxIn& maxvin, CPubKey& pubkey, CKey& secretKey, std::string strTxHash, std::string strOutputIndex);
+    bool GetVinFromOutput(COutput out, CTxIn& maxvin, CPubKey& pubkey, CKey& secretKey);
 
 public:
     // Initialized by init.cpp
@@ -44,7 +44,7 @@ public:
     CPubKey pubKeyMaxnode;
 
     // Initialized while registering Maxnode
-    CTxIn vin;
+    CTxIn maxvin;
     CService service;
 
     int status;
@@ -63,11 +63,11 @@ public:
     bool CreateBroadcast(std::string strService, std::string strKey, std::string strTxHash, std::string strOutputIndex, std::string& errorMessage, CMaxnodeBroadcast &maxb, bool fOffline = false);
 
     /// Get 50000 LYTX input that can be used for the Maxnode
-    bool GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey);
+    bool GetMaxNodeVin(CTxIn& maxvin, CPubKey& pubkey, CKey& secretKey);
     vector<COutput> SelectCoinsMaxnode();
 
     /// Enable cold wallet mode (run a Maxnode with no funds)
-    bool EnableHotColdMaxNode(CTxIn& vin, CService& addr);
+    bool EnableHotColdMaxNode(CTxIn& maxvin, CService& addr);
 };
 
 #endif

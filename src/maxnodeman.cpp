@@ -206,9 +206,9 @@ bool CMaxnodeMan::Add(CMaxnode& max)
     if (!max.IsEnabled())
         return false;
 
-    CMaxnode* pmax = Find(max.vin);
+    CMaxnode* pmax = Find(max.maxvin);
     if (pmax == NULL) {
-        LogPrint("maxnode", "CMaxnodeMan: Adding new Maxnode %s - %i now\n", max.vin.prevout.hash.ToString(), size() + 1);
+        LogPrint("maxnode", "CMaxnodeMan: Adding new Maxnode %s - %i now\n", max.maxvin.prevout.hash.ToString(), size() + 1);
         vMaxnodes.push_back(max);
         return true;
     }
@@ -216,9 +216,9 @@ bool CMaxnodeMan::Add(CMaxnode& max)
     return false;
 }
 
-void CMaxnodeMan::AskForMAX(CNode* pnode, CTxIn& vin)
+void CMaxnodeMan::AskForMAX(CNode* pnode, CTxIn& maxvin)
 {
-    std::map<COutPoint, int64_t>::iterator i = mWeAskedForMaxnodeListEntry.find(vin.prevout);
+    std::map<COutPoint, int64_t>::iterator i = mWeAskedForMaxnodeListEntry.find(maxvin.prevout);
     if (i != mWeAskedForMaxnodeListEntry.end()) {
         int64_t t = (*i).second;
         if (GetTime() < t) return; // we've asked recently
@@ -226,10 +226,10 @@ void CMaxnodeMan::AskForMAX(CNode* pnode, CTxIn& vin)
 
     // ask for the maxb info once from the node that sent maxp
 
-    LogPrint("maxnode", "CMaxnodeMan::AskForMAX - Asking node for missing entry, vin: %s\n", vin.prevout.hash.ToString());
-    pnode->PushMessage("dmaxseg", vin);
+    LogPrint("maxnode", "CMaxnodeMan::AskForMAX - Asking node for missing entry, maxvin: %s\n", maxvin.prevout.hash.ToString());
+    pnode->PushMessage("dmaxseg", maxvin);
     int64_t askAgain = GetTime() + MAXNODE_MIN_MAXP_SECONDS;
-    mWeAskedForMaxnodeListEntry[vin.prevout] = askAgain;
+    mWeAskedForMaxnodeListEntry[maxvin.prevout] = askAgain;
 }
 
 void CMaxnodeMan::Check()
@@ -254,14 +254,14 @@ void CMaxnodeMan::CheckAndRemove(bool forceExpiredRemoval)
             (*it).activeState == CMaxnode::MAXNODE_VIN_SPENT ||
             (forceExpiredRemoval && (*it).activeState == CMaxnode::MAXNODE_EXPIRED) ||
             (*it).protocolVersion < maxnodePayments.GetMinMaxnodePaymentsProto()) {
-            LogPrint("maxnode", "CMaxnodeMan: Removing inactive Maxnode %s - %i now\n", (*it).vin.prevout.hash.ToString(), size() - 1);
+            LogPrint("maxnode", "CMaxnodeMan: Removing inactive Maxnode %s - %i now\n", (*it).maxvin.prevout.hash.ToString(), size() - 1);
 
-            //erase all of the broadcasts we've seen from this vin
+            //erase all of the broadcasts we've seen from this maxvin
             // -- if we missed a few pings and the node was removed, this will allow is to get it back without them
             //    sending a brand new maxb
             map<uint256, CMaxnodeBroadcast>::iterator it3 = mapSeenMaxnodeBroadcast.begin();
             while (it3 != mapSeenMaxnodeBroadcast.end()) {
-                if ((*it3).second.vin == (*it).vin) {
+                if ((*it3).second.maxvin == (*it).maxvin) {
                     maxnodeSync.mapSeenSyncMAXB.erase((*it3).first);
                     mapSeenMaxnodeBroadcast.erase(it3++);
                 } else {
@@ -272,7 +272,7 @@ void CMaxnodeMan::CheckAndRemove(bool forceExpiredRemoval)
             // allow us to ask for this maxnode again if we see another ping
             map<COutPoint, int64_t>::iterator it2 = mWeAskedForMaxnodeListEntry.begin();
             while (it2 != mWeAskedForMaxnodeListEntry.end()) {
-                if ((*it2).first == (*it).vin.prevout) {
+                if ((*it2).first == (*it).maxvin.prevout) {
                     mWeAskedForMaxnodeListEntry.erase(it2++);
                 } else {
                     ++it2;
@@ -449,12 +449,12 @@ CMaxnode* CMaxnodeMan::Find(const CScript& payee)
     return NULL;
 }
 
-CMaxnode* CMaxnodeMan::Find(const CTxIn& vin)
+CMaxnode* CMaxnodeMan::Find(const CTxIn& maxvin)
 {
     LOCK(cs);
 
     BOOST_FOREACH (CMaxnode& max, vMaxnodes) {
-        if (max.vin.prevout == vin.prevout)
+        if (max.maxvin.prevout == maxvin.prevout)
             return &max;
     }
     return NULL;
@@ -503,7 +503,7 @@ CMaxnode* CMaxnodeMan::GetNextMaxnodeInQueueForPayment(int nBlockHeight, bool fF
         //make sure it has as many confirmations as there are maxnodes
         if (max.GetMaxnodeInputAge() < nMnCount) continue;
 
-        vecMaxnodeLastPaid.push_back(make_pair(max.SecondsSincePayment(), max.vin));
+        vecMaxnodeLastPaid.push_back(make_pair(max.SecondsSincePayment(), max.maxvin));
     }
 
     nCount = (int)vecMaxnodeLastPaid.size();
@@ -554,7 +554,7 @@ CMaxnode* CMaxnodeMan::FindRandomNotInVec(std::vector<CTxIn>& vecToExclude, int 
         if (max.protocolVersion < protocolVersion || !max.IsEnabled()) continue;
         found = false;
         BOOST_FOREACH (CTxIn& usedVin, vecToExclude) {
-            if (max.vin.prevout == usedVin.prevout) {
+            if (max.maxvin.prevout == usedVin.prevout) {
                 found = true;
                 break;
             }
@@ -592,7 +592,7 @@ CMaxnode* CMaxnodeMan::GetCurrentMaxNode(int mod, int64_t nBlockHeight, int minP
     return winner;
 }
 
-int CMaxnodeMan::GetMaxnodeRank(const CTxIn& vin, int64_t nBlockHeight, int minProtocol, bool fOnlyActive)
+int CMaxnodeMan::GetMaxnodeRank(const CTxIn& maxvin, int64_t nBlockHeight, int minProtocol, bool fOnlyActive)
 {
     std::vector<pair<int64_t, CTxIn> > vecMaxnodeScores;
     int64_t nMaxnode_Min_Age = MAX_WINNER_MINIMUM_AGE;
@@ -623,7 +623,7 @@ int CMaxnodeMan::GetMaxnodeRank(const CTxIn& vin, int64_t nBlockHeight, int minP
         uint256 n = max.CalculateScore(1, nBlockHeight);
         int64_t n2 = n.GetCompact(false);
 
-        vecMaxnodeScores.push_back(make_pair(n2, max.vin));
+        vecMaxnodeScores.push_back(make_pair(n2, max.maxvin));
     }
 
     sort(vecMaxnodeScores.rbegin(), vecMaxnodeScores.rend(), CompareScoreTxIn());
@@ -631,7 +631,7 @@ int CMaxnodeMan::GetMaxnodeRank(const CTxIn& vin, int64_t nBlockHeight, int minP
     int rank = 0;
     BOOST_FOREACH (PAIRTYPE(int64_t, CTxIn) & s, vecMaxnodeScores) {
         rank++;
-        if (s.second.prevout == vin.prevout) {
+        if (s.second.prevout == maxvin.prevout) {
             return rank;
         }
     }
@@ -691,7 +691,7 @@ CMaxnode* CMaxnodeMan::GetMaxnodeByRank(int nRank, int64_t nBlockHeight, int min
         uint256 n = max.CalculateScore(1, nBlockHeight);
         int64_t n2 = n.GetCompact(false);
 
-        vecMaxnodeScores.push_back(make_pair(n2, max.vin));
+        vecMaxnodeScores.push_back(make_pair(n2, max.maxvin));
     }
 
     sort(vecMaxnodeScores.rbegin(), vecMaxnodeScores.rend(), CompareScoreTxIn());
@@ -751,8 +751,8 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         // make sure the vout that was signed is related to the transaction that spawned the Maxnode
         //  - this is expensive, so it's only done once per Maxnode
-        if (!obfuScationSigner.IsVinAssociatedWithPubkey(maxb.vin, maxb.pubKeyCollateralAddress)) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : maxb - Got mismatched pubkey and vin\n");
+        if (!obfuScationSigner.IsVinAssociatedWithPubkey(maxb.maxvin, maxb.pubKeyCollateralAddress)) {
+            LogPrintf("CMaxnodeMan::ProcessMessage() : maxb - Got mismatched pubkey and maxvin\n");
             Misbehaving(pfrom->GetId(), 33);
             return;
         }
@@ -764,7 +764,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             addrman.Add(CAddress(maxb.addr), pfrom->addr, 2 * 60 * 60);
             maxnodeSync.AddedMaxnodeList(maxb.GetHash());
         } else {
-            LogPrint("maxnode","maxb - Rejected Maxnode entry %s\n", maxb.vin.prevout.hash.ToString());
+            LogPrint("maxnode","maxb - Rejected Maxnode entry %s\n", maxb.maxvin.prevout.hash.ToString());
 
             if (nDoS > 0)
                 Misbehaving(pfrom->GetId(), nDoS);
@@ -775,7 +775,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         CMaxnodePing maxp;
         vRecv >> maxp;
 
-        LogPrint("maxnode", "maxp - Maxnode ping, vin: %s\n", maxp.vin.prevout.hash.ToString());
+        LogPrint("maxnode", "maxp - Maxnode ping, maxvin: %s\n", maxp.maxvin.prevout.hash.ToString());
 
         if (mapSeenMaxnodePing.count(maxp.GetHash())) return; //seen
         mapSeenMaxnodePing.insert(make_pair(maxp.GetHash(), maxp));
@@ -788,21 +788,21 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             Misbehaving(pfrom->GetId(), nDoS);
         } else {
             // if nothing significant failed, search existing Maxnode list
-            CMaxnode* pmax = Find(maxp.vin);
+            CMaxnode* pmax = Find(maxp.maxvin);
             // if it's known, don't ask for the maxb, just return
             if (pmax != NULL) return;
         }
 
         // something significant is broken or max is unknown,
         // we might have to ask for a maxnode entry once
-        AskForMAX(pfrom, maxp.vin);
+        AskForMAX(pfrom, maxp.maxvin);
 
     } else if (strCommand == "dmaxseg") { //Get Maxnode list or specific entry
 
-        CTxIn vin;
-        vRecv >> vin;
+        CTxIn maxvin;
+        vRecv >> maxvin;
 
-        if (vin == CTxIn()) { //only should ask for this once
+        if (maxvin == CTxIn()) { //only should ask for this once
             //local network
             bool isLocal = (pfrom->addr.IsRFC1918() || pfrom->addr.IsLocal());
 
@@ -828,8 +828,8 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             if (max.addr.IsRFC1918()) continue; //local network
 
             if (max.IsEnabled()) {
-                LogPrint("maxnode", "dmaxseg - Sending Maxnode entry - %s \n", max.vin.prevout.hash.ToString());
-                if (vin == CTxIn() || vin == max.vin) {
+                LogPrint("maxnode", "dmaxseg - Sending Maxnode entry - %s \n", max.maxvin.prevout.hash.ToString());
+                if (maxvin == CTxIn() || maxvin == max.maxvin) {
                     CMaxnodeBroadcast maxb = CMaxnodeBroadcast(max);
                     uint256 hash = maxb.GetHash();
                     pfrom->PushInventory(CInv(MSG_MAXNODE_ANNOUNCE, hash));
@@ -837,7 +837,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
                     if (!mapSeenMaxnodeBroadcast.count(hash)) mapSeenMaxnodeBroadcast.insert(make_pair(hash, maxb));
 
-                    if (vin == max.vin) {
+                    if (maxvin == max.maxvin) {
                         LogPrint("maxnode", "dmaxseg - Sent 1 Maxnode entry to peer %i\n", pfrom->GetId());
                         return;
                     }
@@ -845,7 +845,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             }
         }
 
-        if (vin == CTxIn()) {
+        if (maxvin == CTxIn()) {
             pfrom->PushMessage("smaxsc", MAXNODE_SYNC_LIST, nInvCount);
             LogPrint("maxnode", "dmaxseg - Sent %d Maxnode entries to peer %i\n", nInvCount, pfrom->GetId());
         }
@@ -860,7 +860,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         if (IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)) return;
 
-        CTxIn vin;
+        CTxIn maxvin;
         CService addr;
         CPubKey pubkey;
         CPubKey pubkey2;
@@ -874,11 +874,11 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         int donationPercentage;
         std::string strMessage;
 
-        vRecv >> vin >> addr >> vchSig >> sigTime >> pubkey >> pubkey2 >> count >> current >> lastUpdated >> protocolVersion >> donationAddress >> donationPercentage;
+        vRecv >> maxvin >> addr >> vchSig >> sigTime >> pubkey >> pubkey2 >> count >> current >> lastUpdated >> protocolVersion >> donationAddress >> donationPercentage;
 
         // make sure signature isn't in the future (past is OK)
         if (sigTime > GetAdjustedTime() + 60 * 60) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Signature rejected, too far into the future %s\n", maxvin.prevout.hash.ToString());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
@@ -889,7 +889,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         strMessage = addr.ToString() + boost::lexical_cast<std::string>(sigTime) + vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion) + donationAddress.ToString() + boost::lexical_cast<std::string>(donationPercentage);
 
         if (protocolVersion < maxnodePayments.GetMinMaxnodePaymentsProto()) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - ignoring outdated Maxnode %s protocol version %d < %d\n", vin.prevout.hash.ToString(), protocolVersion, maxnodePayments.GetMinMaxnodePaymentsProto());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - ignoring outdated Maxnode %s protocol version %d < %d\n", maxvin.prevout.hash.ToString(), protocolVersion, maxnodePayments.GetMinMaxnodePaymentsProto());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
@@ -912,8 +912,8 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             return;
         }
 
-        if (!vin.scriptSig.empty()) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Ignore Not Empty ScriptSig %s\n", vin.prevout.hash.ToString());
+        if (!maxvin.scriptSig.empty()) {
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Ignore Not Empty ScriptSig %s\n", maxvin.prevout.hash.ToString());
             Misbehaving(pfrom->GetId(), 100);
             return;
         }
@@ -931,7 +931,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             return;
 
         //search existing Maxnode list, this is where we update existing Maxnodes with new dmaxsee broadcasts
-        CMaxnode* pmax = this->Find(vin);
+        CMaxnode* pmax = this->Find(maxvin);
         if (pmax != NULL) {
             // count == -1 when it's a new entry
             //   e.g. We don't want the entry relayed/time updated when we're syncing the list
@@ -940,7 +940,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             if (count == -1 && pmax->pubKeyCollateralAddress == pubkey && (GetAdjustedTime() - pmax->nLastDsee > MAXNODE_MIN_MAXB_SECONDS)) {
                 if (pmax->protocolVersion > GETHEADERS_VERSION && sigTime - pmax->lastPing.sigTime < MAXNODE_MIN_MAXB_SECONDS) return;
                 if (pmax->nLastDsee < sigTime) { //take the newest entry
-                    LogPrint("maxnode", "dmaxsee - Got updated entry for %s\n", vin.prevout.hash.ToString());
+                    LogPrint("maxnode", "dmaxsee - Got updated entry for %s\n", maxvin.prevout.hash.ToString());
                     if (pmax->protocolVersion < GETHEADERS_VERSION) {
                         pmax->pubKeyMaxnode = pubkey2;
                         pmax->sigTime = sigTime;
@@ -948,7 +948,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                         pmax->protocolVersion = protocolVersion;
                         pmax->addr = addr;
                         //fake ping
-                        pmax->lastPing = CMaxnodePing(vin);
+                        pmax->lastPing = CMaxnodePing(maxvin);
                     }
                     pmax->nLastDsee = sigTime;
                     pmax->Check();
@@ -957,7 +957,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                         if (!lockNodes) return;
                         BOOST_FOREACH (CNode* pnode, vNodes)
                             if (pnode->nVersion >= maxnodePayments.GetMinMaxnodePaymentsProto())
-                                pnode->PushMessage("dmaxsee", vin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
+                                pnode->PushMessage("dmaxsee", maxvin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
                     }
                 }
             }
@@ -966,21 +966,21 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         }
 
         static std::map<COutPoint, CPubKey> mapSeenDsee;
-        if (mapSeenDsee.count(vin.prevout) && mapSeenDsee[vin.prevout] == pubkey) {
-            LogPrint("maxnode", "dmaxsee - already seen this vin %s\n", vin.prevout.ToString());
+        if (mapSeenDsee.count(maxvin.prevout) && mapSeenDsee[maxvin.prevout] == pubkey) {
+            LogPrint("maxnode", "dmaxsee - already seen this maxvin %s\n", maxvin.prevout.ToString());
             return;
         }
-        mapSeenDsee.insert(make_pair(vin.prevout, pubkey));
+        mapSeenDsee.insert(make_pair(maxvin.prevout, pubkey));
         // make sure the vout that was signed is related to the transaction that spawned the Maxnode
         //  - this is expensive, so it's only done once per Maxnode
-        if (!obfuScationSigner.IsVinAssociatedWithPubkey(vin, pubkey)) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Got mismatched pubkey and vin\n");
+        if (!obfuScationSigner.IsVinAssociatedWithPubkey(maxvin, pubkey)) {
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Got mismatched pubkey and maxvin\n");
             Misbehaving(pfrom->GetId(), 100);
             return;
         }
 
 
-        LogPrint("maxnode", "dmaxsee - Got NEW OLD Maxnode entry %s\n", vin.prevout.hash.ToString());
+        LogPrint("maxnode", "dmaxsee - Got NEW OLD Maxnode entry %s\n", maxvin.prevout.hash.ToString());
 
         // make sure it's still unspent
         //  - this is checked later by .check() in many places and by ThreadCheckObfuScationPool()
@@ -990,7 +990,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 	// TODO: come back and make this tier 1-3
         //CTxOut vout = CTxOut((MAXNODE_T1_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey || (MAXNODE_T2_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey || (MAXNODE_T3_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey);
         CTxOut vout = CTxOut((MAXNODE_T1_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey);
-        tx.vin.push_back(vin);
+        tx.vin.push_back(maxvin);
         tx.vout.push_back(vout);
 
         bool fAcceptable = false;
@@ -1001,7 +1001,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         }
 
         if (fAcceptable) {
-            if (GetInputAge(vin) < MAXNODE_MIN_CONFIRMATIONS) {
+            if (GetInputAge(maxvin) < MAXNODE_MIN_CONFIRMATIONS) {
                 LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Input must have least %d confirmations\n", MAXNODE_MIN_CONFIRMATIONS);
                 Misbehaving(pfrom->GetId(), 20);
                 return;
@@ -1011,14 +1011,14 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             // should be at least not earlier than block when 1000 PIVX tx got MAXNODE_MIN_CONFIRMATIONS
             uint256 hashBlock = 0;
             CTransaction tx2;
-            GetTransaction(vin.prevout.hash, tx2, hashBlock, true);
+            GetTransaction(maxvin.prevout.hash, tx2, hashBlock, true);
             BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
             if (mi != mapBlockIndex.end() && (*mi).second) {
                 CBlockIndex* pMAXIndex = (*mi).second;                                                        // block for 10000 PIV tx -> 1 confirmation
                 CBlockIndex* pConfIndex = chainActive[pMAXIndex->nHeight + MAXNODE_MIN_CONFIRMATIONS - 1]; // block where tx got MAXNODE_MIN_CONFIRMATIONS
                 if (pConfIndex->GetBlockTime() > sigTime) {
                     LogPrint("maxnode","maxb - Bad sigTime %d for Maxnode %s (%i conf block is at %d)\n",
-                        sigTime, vin.prevout.hash.ToString(), MAXNODE_MIN_CONFIRMATIONS, pConfIndex->GetBlockTime());
+                        sigTime, maxvin.prevout.hash.ToString(), MAXNODE_MIN_CONFIRMATIONS, pConfIndex->GetBlockTime());
                     return;
                 }
             }
@@ -1029,14 +1029,14 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             // add Maxnode
             CMaxnode max = CMaxnode();
             max.addr = addr;
-            max.vin = vin;
+            max.maxvin = maxvin;
             max.pubKeyCollateralAddress = pubkey;
             max.sig = vchSig;
             max.sigTime = sigTime;
             max.pubKeyMaxnode = pubkey2;
             max.protocolVersion = protocolVersion;
             // fake ping
-            max.lastPing = CMaxnodePing(vin);
+            max.lastPing = CMaxnodePing(maxvin);
             max.Check(true);
             // add v11 maxnodes, v12 should be added by maxb only
             if (protocolVersion < GETHEADERS_VERSION) {
@@ -1048,10 +1048,10 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                 if (!lockNodes) return;
                 BOOST_FOREACH (CNode* pnode, vNodes)
                     if (pnode->nVersion >= maxnodePayments.GetMinMaxnodePaymentsProto())
-                        pnode->PushMessage("dmaxsee", vin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
+                        pnode->PushMessage("dmaxsee", maxvin, addr, vchSig, sigTime, pubkey, pubkey2, count, current, lastUpdated, protocolVersion, donationAddress, donationPercentage);
             }
         } else {
-            LogPrint("maxnode","dmaxsee - Rejected Maxnode entry %s\n", vin.prevout.hash.ToString());
+            LogPrint("maxnode","dmaxsee - Rejected Maxnode entry %s\n", maxvin.prevout.hash.ToString());
 
             int nDoS = 0;
             if (state.IsInvalid(nDoS)) {
@@ -1067,66 +1067,66 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         if (IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)) return;
 
-        CTxIn vin;
+        CTxIn maxvin;
         vector<unsigned char> vchSig;
         int64_t sigTime;
         bool stop;
-        vRecv >> vin >> vchSig >> sigTime >> stop;
+        vRecv >> maxvin >> vchSig >> sigTime >> stop;
 
-        //LogPrint("maxnode","dmaxseep - Received: vin: %s sigTime: %lld stop: %s\n", vin.ToString().c_str(), sigTime, stop ? "true" : "false");
+        //LogPrint("maxnode","dmaxseep - Received: maxvin: %s sigTime: %lld stop: %s\n", maxvin.ToString().c_str(), sigTime, stop ? "true" : "false");
 
         if (sigTime > GetAdjustedTime() + 60 * 60) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxseep - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxseep - Signature rejected, too far into the future %s\n", maxvin.prevout.hash.ToString());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
 
         if (sigTime <= GetAdjustedTime() - 60 * 60) {
-            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxseep - Signature rejected, too far into the past %s - %d %d \n", vin.prevout.hash.ToString(), sigTime, GetAdjustedTime());
+            LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxseep - Signature rejected, too far into the past %s - %d %d \n", maxvin.prevout.hash.ToString(), sigTime, GetAdjustedTime());
             Misbehaving(pfrom->GetId(), 1);
             return;
         }
 
-        std::map<COutPoint, int64_t>::iterator i = mWeAskedForMaxnodeListEntry.find(vin.prevout);
+        std::map<COutPoint, int64_t>::iterator i = mWeAskedForMaxnodeListEntry.find(maxvin.prevout);
         if (i != mWeAskedForMaxnodeListEntry.end()) {
             int64_t t = (*i).second;
             if (GetTime() < t) return; // we've asked recently
         }
 
         // see if we have this Maxnode
-        CMaxnode* pmax = this->Find(vin);
+        CMaxnode* pmax = this->Find(maxvin);
         if (pmax != NULL && pmax->protocolVersion >= maxnodePayments.GetMinMaxnodePaymentsProto()) {
-            // LogPrint("maxnode","dmaxseep - Found corresponding max for vin: %s\n", vin.ToString().c_str());
+            // LogPrint("maxnode","dmaxseep - Found corresponding max for maxvin: %s\n", maxvin.ToString().c_str());
             // take this only if it's newer
             if (sigTime - pmax->nLastDseep > MAXNODE_MIN_MAXP_SECONDS) {
                 std::string strMessage = pmax->addr.ToString() + boost::lexical_cast<std::string>(sigTime) + boost::lexical_cast<std::string>(stop);
 
                 std::string errorMessage = "";
                 if (!obfuScationSigner.VerifyMessage(pmax->pubKeyMaxnode, vchSig, strMessage, errorMessage)) {
-                    LogPrint("maxnode","dmaxseep - Got bad Maxnode address signature %s \n", vin.prevout.hash.ToString());
+                    LogPrint("maxnode","dmaxseep - Got bad Maxnode address signature %s \n", maxvin.prevout.hash.ToString());
                     //Misbehaving(pfrom->GetId(), 100);
                     return;
                 }
 
                 // fake ping for v11 maxnodes, ignore for v12
-                if (pmax->protocolVersion < GETHEADERS_VERSION) pmax->lastPing = CMaxnodePing(vin);
+                if (pmax->protocolVersion < GETHEADERS_VERSION) pmax->lastPing = CMaxnodePing(maxvin);
                 pmax->nLastDseep = sigTime;
                 pmax->Check();
                 if (pmax->IsEnabled()) {
                     TRY_LOCK(cs_vNodes, lockNodes);
                     if (!lockNodes) return;
-                    LogPrint("maxnode", "dmaxseep - relaying %s \n", vin.prevout.hash.ToString());
+                    LogPrint("maxnode", "dmaxseep - relaying %s \n", maxvin.prevout.hash.ToString());
                     BOOST_FOREACH (CNode* pnode, vNodes)
                         if (pnode->nVersion >= maxnodePayments.GetMinMaxnodePaymentsProto())
-                            pnode->PushMessage("dmaxseep", vin, vchSig, sigTime, stop);
+                            pnode->PushMessage("dmaxseep", maxvin, vchSig, sigTime, stop);
                 }
             }
             return;
         }
 
-        LogPrint("maxnode", "dmaxseep - Couldn't find Maxnode entry %s peer=%i\n", vin.prevout.hash.ToString(), pfrom->GetId());
+        LogPrint("maxnode", "dmaxseep - Couldn't find Maxnode entry %s peer=%i\n", maxvin.prevout.hash.ToString(), pfrom->GetId());
 
-        AskForMAX(pfrom, vin);
+        AskForMAX(pfrom, maxvin);
     }
 
     /*
@@ -1134,14 +1134,14 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
      */
 }
 
-void CMaxnodeMan::Remove(CTxIn vin)
+void CMaxnodeMan::Remove(CTxIn maxvin)
 {
     LOCK(cs);
 
     vector<CMaxnode>::iterator it = vMaxnodes.begin();
     while (it != vMaxnodes.end()) {
-        if ((*it).vin == vin) {
-            LogPrint("maxnode", "CMaxnodeMan: Removing Maxnode %s - %i now\n", (*it).vin.prevout.hash.ToString(), size() - 1);
+        if ((*it).maxvin == maxvin) {
+            LogPrint("maxnode", "CMaxnodeMan: Removing Maxnode %s - %i now\n", (*it).maxvin.prevout.hash.ToString(), size() - 1);
             vMaxnodes.erase(it);
             break;
         }
@@ -1155,9 +1155,9 @@ void CMaxnodeMan::UpdateMaxnodeList(CMaxnodeBroadcast maxb)
 	mapSeenMaxnodeBroadcast.insert(make_pair(maxb.GetHash(), maxb));
 	maxnodeSync.AddedMaxnodeList(maxb.GetHash());
 
-    LogPrint("maxnode","CMaxnodeMan::UpdateMaxnodeList() -- maxnode=%s\n", maxb.vin.prevout.ToString());
+    LogPrint("maxnode","CMaxnodeMan::UpdateMaxnodeList() -- maxnode=%s\n", maxb.maxvin.prevout.ToString());
 
-    CMaxnode* pmax = Find(maxb.vin);
+    CMaxnode* pmax = Find(maxb.maxvin);
     if (pmax == NULL) {
         CMaxnode max(maxb);
         Add(max);

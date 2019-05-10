@@ -411,17 +411,17 @@ UniValue mxbudgetvote(const UniValue& params, bool fHelp)
                 break;
             }
 
-            CMaxnode* pmax = maxnodeman.Find(activeMaxnode.vin);
+            CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
             if (pmax == NULL) {
                 failed++;
                 statusObj.push_back(Pair("node", "local"));
                 statusObj.push_back(Pair("result", "failed"));
-                statusObj.push_back(Pair("error", "Failure to find maxnode in list : " + activeMaxnode.vin.ToString()));
+                statusObj.push_back(Pair("error", "Failure to find maxnode in list : " + activeMaxnode.maxvin.ToString()));
                 resultsObj.push_back(statusObj);
                 break;
             }
 
-            CMAXBudgetVote vote(activeMaxnode.vin, hash, nVote);
+            CMAXBudgetVote vote(activeMaxnode.maxvin, hash, nVote);
             if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
                 failed++;
                 statusObj.push_back(Pair("node", "local"));
@@ -488,7 +488,7 @@ UniValue mxbudgetvote(const UniValue& params, bool fHelp)
                 continue;
             }
 
-            CMAXBudgetVote vote(pmax->vin, hash, nVote);
+            CMAXBudgetVote vote(pmax->maxvin, hash, nVote);
             if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
                 failed++;
                 statusObj.push_back(Pair("node", maxe.getAlias()));
@@ -563,7 +563,7 @@ UniValue mxbudgetvote(const UniValue& params, bool fHelp)
                 continue;
             }
 
-            CMAXBudgetVote vote(pmax->vin, hash, nVote);
+            CMAXBudgetVote vote(pmax->maxvin, hash, nVote);
             if(!vote.Sign(keyMaxnode, pubKeyMaxnode)){
                 failed++;
                 statusObj.push_back(Pair("node", maxe.getAlias()));
@@ -820,7 +820,7 @@ UniValue mxbudgetrawvote(const UniValue& params, bool fHelp)
 
     uint256 hashMnTx = ParseHashV(params[0], "max tx hash");
     int nMnTxIndex = params[1].get_int();
-    CTxIn vin = CTxIn(hashMnTx, nMnTxIndex);
+    CTxIn maxvin = CTxIn(hashMnTx, nMnTxIndex);
 
     uint256 hashProposal = ParseHashV(params[2], "Proposal hash");
     std::string strVote = params[3].get_str();
@@ -838,12 +838,12 @@ UniValue mxbudgetrawvote(const UniValue& params, bool fHelp)
     if (fInvalid)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Malformed base64 encoding");
 
-    CMaxnode* pmax = maxnodeman.Find(vin);
+    CMaxnode* pmax = maxnodeman.Find(maxvin);
     if (pmax == NULL) {
-        return "Failure to find maxnode in list : " + vin.ToString();
+        return "Failure to find maxnode in list : " + maxvin.ToString();
     }
 
-    CMAXBudgetVote vote(vin, hashProposal, nVote);
+    CMAXBudgetVote vote(maxvin, hashProposal, nVote);
     vote.nTime = nTime;
     vote.vchSig = vchSig;
 
@@ -921,7 +921,7 @@ UniValue maxfinalmxbudget(const UniValue& params, bool fHelp)
             }
 
 
-            CMAXFinalizedBudgetVote vote(pmax->vin, hash);
+            CMAXFinalizedBudgetVote vote(pmax->maxvin, hash);
             if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
                 failed++;
                 statusObj.push_back(Pair("result", "failed"));
@@ -965,12 +965,12 @@ UniValue maxfinalmxbudget(const UniValue& params, bool fHelp)
         if (!obfuScationSigner.SetKey(strMaxNodePrivKey, errorMessage, keyMaxnode, pubKeyMaxnode))
             return "Error upon calling SetKey";
 
-        CMaxnode* pmax = maxnodeman.Find(activeMaxnode.vin);
+        CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
         if (pmax == NULL) {
-            return "Failure to find maxnode in list : " + activeMaxnode.vin.ToString();
+            return "Failure to find maxnode in list : " + activeMaxnode.maxvin.ToString();
         }
 
-        CMAXFinalizedBudgetVote vote(activeMaxnode.vin, hash);
+        CMAXFinalizedBudgetVote vote(activeMaxnode.maxvin, hash);
         if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
             return "Failure to sign.";
         }

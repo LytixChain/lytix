@@ -94,7 +94,7 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
             return;
         }
 
-	CMaxnode* pmax = maxnodeman.Find(activeMaxnode.vin);
+	CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
         if (pmax == NULL) {
             errorID = ERR_MN_LIST;
             pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
@@ -747,7 +747,7 @@ void CObfuscationPool::CheckFinalTransaction()
 	if (!mapObfuscationBroadcastTxes.count(txNew.GetHash())) {
             CObfuscationBroadcastTx dmaxstx;
             dmaxstx.tx = txNew;
-            dmaxstx.vin = activeMaxnode.vin;
+            dmaxstx.vin = activeMaxnode.maxvin;
             dmaxstx.vchSig = vchSig;
             dmaxstx.sigTime = sigTime;
 
@@ -767,6 +767,7 @@ void CObfuscationPool::CheckFinalTransaction()
         LogPrint("obfuscation", "CObfuscationPool::Check() -- COMPLETED -- RESETTING\n");
         SetNull();
         RelayStatus(sessionID, GetState(), GetEntriesCount(), MASTERNODE_RESET);
+        RelayStatus(sessionID, GetState(), GetEntriesCount(), MAXNODE_RESET);
     }
 
 }

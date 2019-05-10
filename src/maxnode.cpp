@@ -64,7 +64,7 @@ bool GetMaxBlockHash(uint256& hash, int nBlockHeight)
 CMaxnode::CMaxnode()
 {
     LOCK(cs);
-    vin = CTxIn();
+    maxvin = CTxIn();
     addr = CService();
     pubKeyCollateralAddress = CPubKey();
     pubKeyMaxnode = CPubKey();
@@ -89,7 +89,7 @@ CMaxnode::CMaxnode()
 CMaxnode::CMaxnode(const CMaxnode& other)
 {
     LOCK(cs);
-    vin = other.vin;
+    maxvin = other.maxvin;
     addr = other.addr;
     pubKeyCollateralAddress = other.pubKeyCollateralAddress;
     pubKeyMaxnode = other.pubKeyMaxnode;
@@ -114,7 +114,7 @@ CMaxnode::CMaxnode(const CMaxnode& other)
 CMaxnode::CMaxnode(const CMaxnodeBroadcast& maxb)
 {
     LOCK(cs);
-    vin = maxb.vin;
+    maxvin = maxb.maxvin;
     addr = maxb.addr;
     pubKeyCollateralAddress = maxb.pubKeyCollateralAddress;
     pubKeyMaxnode = maxb.pubKeyMaxnode;
@@ -169,7 +169,7 @@ uint256 CMaxnode::CalculateScore(int mod, int64_t nBlockHeight)
     if (chainActive.Tip() == NULL) return 0;
 
     uint256 hash = 0;
-    uint256 aux = vin.prevout.hash + vin.prevout.n;
+    uint256 aux = maxvin.prevout.hash + maxvin.prevout.n;
 
     if (!GetMaxBlockHash(hash, nBlockHeight)) {
         LogPrint("maxnode","CalculateScore ERROR - nHeight %d - Returned 0\n", nBlockHeight);
@@ -221,7 +221,7 @@ void CMaxnode::Check(bool forceCheck)
         CValidationState state;
         CMutableTransaction tx = CMutableTransaction();
         CTxOut vout = CTxOut((MAXNODE_T1_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey);
-        tx.vin.push_back(vin);
+        tx.vin.push_back(maxvin);
         tx.vout.push_back(vout);
 
         {
@@ -248,7 +248,7 @@ int64_t CMaxnode::SecondsSincePayment()
     if (sec < month) return sec; //if it's less than 30 days, give seconds
 
     CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
-    ss << vin;
+    ss << maxvin;
     ss << sigTime;
     uint256 hash = ss.GetHash();
 
@@ -265,7 +265,7 @@ int64_t CMaxnode::GetLastPaid()
     maxpayee = GetScriptForDestination(pubKeyCollateralAddress.GetID());
 
     CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
-    ss << vin;
+    ss << maxvin;
     ss << sigTime;
     uint256 hash = ss.GetHash();
 
@@ -336,7 +336,7 @@ bool CMaxnode::IsValidNetAddr()
 
 CMaxnodeBroadcast::CMaxnodeBroadcast()
 {
-    vin = CTxIn();
+    maxvin = CTxIn();
     addr = CService();
     pubKeyCollateralAddress = CPubKey();
     pubKeyMaxnode1 = CPubKey();
@@ -356,7 +356,7 @@ CMaxnodeBroadcast::CMaxnodeBroadcast()
 
 CMaxnodeBroadcast::CMaxnodeBroadcast(CService newAddr, CTxIn newVin, CPubKey pubKeyCollateralAddressNew, CPubKey pubKeyMaxnodeNew, int protocolVersionIn)
 {
-    vin = newVin;
+    maxvin = newVin;
     addr = newAddr;
     pubKeyCollateralAddress = pubKeyCollateralAddressNew;
     pubKeyMaxnode = pubKeyMaxnodeNew;
@@ -376,7 +376,7 @@ CMaxnodeBroadcast::CMaxnodeBroadcast(CService newAddr, CTxIn newVin, CPubKey pub
 
 CMaxnodeBroadcast::CMaxnodeBroadcast(const CMaxnode& max)
 {
-    vin = max.vin;
+    maxvin = max.maxvin;
     addr = max.addr;
     pubKeyCollateralAddress = max.pubKeyCollateralAddress;
     pubKeyMaxnode = max.pubKeyMaxnode;
@@ -484,7 +484,7 @@ bool CMaxnodeBroadcast::CheckAndUpdate(int& nDos)
 {
     // make sure signature isn't in the future (past is OK)
     if (sigTime > GetAdjustedTime() + 60 * 60) {
-        LogPrint("maxnode","maxb - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
+        LogPrint("maxnode","maxb - Signature rejected, too far into the future %s\n", maxvin.prevout.hash.ToString());
         nDos = 1;
         return false;
     }
@@ -494,7 +494,7 @@ bool CMaxnodeBroadcast::CheckAndUpdate(int& nDos)
     return false;
 
     if (protocolVersion < maxnodePayments.GetMinMaxnodePaymentsProto()) {
-        LogPrint("maxnode","maxb - ignoring outdated Maxnode %s protocol version %d\n", vin.prevout.hash.ToString(), protocolVersion);
+        LogPrint("maxnode","maxb - ignoring outdated Maxnode %s protocol version %d\n", maxvin.prevout.hash.ToString(), protocolVersion);
         return false;
     }
 
@@ -516,8 +516,8 @@ bool CMaxnodeBroadcast::CheckAndUpdate(int& nDos)
         return false;
     }
 
-    if (!vin.scriptSig.empty()) {
-        LogPrint("maxnode","maxb - Ignore Not Empty ScriptSig %s\n", vin.prevout.hash.ToString());
+    if (!maxvin.scriptSig.empty()) {
+        LogPrint("maxnode","maxb - Ignore Not Empty ScriptSig %s\n", maxvin.prevout.hash.ToString());
         return false;
     }
 
@@ -536,7 +536,7 @@ bool CMaxnodeBroadcast::CheckAndUpdate(int& nDos)
         return false;
 
     //search existing Maxnode list, this is where we update existing Maxnodes with new maxb broadcasts
-    CMaxnode* pmax = maxnodeman.Find(vin);
+    CMaxnode* pmax = maxnodeman.Find(maxvin);
 
     // no such maxnode, nothing to update
     if (pmax == NULL) return true;
@@ -546,7 +546,7 @@ bool CMaxnodeBroadcast::CheckAndUpdate(int& nDos)
 	// (mapSeenMaxnodeBroadcast in CMaxnodeMan::ProcessMessage should filter legit duplicates)
 	if(pmax->sigTime >= sigTime) {
 		return error("CMaxnodeBroadcast::CheckAndUpdate - Bad sigTime %d for Maxnode %20s %105s (existing broadcast is at %d)",
-					  sigTime, addr.ToString(), vin.ToString(), pmax->sigTime);
+					  sigTime, addr.ToString(), maxvin.ToString(), pmax->sigTime);
     }
 
     // maxnode is not enabled yet/already, nothing to update
@@ -556,7 +556,7 @@ bool CMaxnodeBroadcast::CheckAndUpdate(int& nDos)
     //   after that they just need to match
     if (pmax->pubKeyCollateralAddress == pubKeyCollateralAddress && !pmax->IsBroadcastedWithin(MAXNODE_MIN_MAXB_SECONDS)) {
         //take the newest entry
-        LogPrint("maxnode","maxb - Got updated entry for %s\n", vin.prevout.hash.ToString());
+        LogPrint("maxnode","maxb - Got updated entry for %s\n", maxvin.prevout.hash.ToString());
         if (pmax->UpdateFromNewBroadcast((*this))) {
             pmax->Check();
             if (pmax->IsEnabled()) Relay();
@@ -569,29 +569,29 @@ bool CMaxnodeBroadcast::CheckAndUpdate(int& nDos)
 
 bool CMaxnodeBroadcast::CheckInputsAndAdd(int& nDoS)
 {
-    // we are a maxnode with the same vin (i.e. already activated) and this maxb is ours (matches our Maxnode privkey)
+    // we are a maxnode with the same maxvin (i.e. already activated) and this maxb is ours (matches our Maxnode privkey)
     // so nothing to do here for us
-    if (fMaxNode && vin.prevout == activeMaxnode.vin.prevout && pubKeyMaxnode == activeMaxnode.pubKeyMaxnode)
+    if (fMaxNode && maxvin.prevout == activeMaxnode.maxvin.prevout && pubKeyMaxnode == activeMaxnode.pubKeyMaxnode)
         return true;
 
     // incorrect ping or its sigTime
     if(lastPing == CMaxnodePing() || !lastPing.CheckAndUpdate(nDoS, false, true)) return false;
 
     // search existing Maxnode list
-    CMaxnode* pmax = maxnodeman.Find(vin);
+    CMaxnode* pmax = maxnodeman.Find(maxvin);
 
     if (pmax != NULL) {
         // nothing to do here if we already know about this maxnode and it's enabled
         if (pmax->IsEnabled()) return true;
         // if it's not enabled, remove old MN first and continue
         else
-            maxnodeman.Remove(pmax->vin);
+            maxnodeman.Remove(pmax->maxvin);
     }
 
     CValidationState state;
     CMutableTransaction tx = CMutableTransaction();
     CTxOut vout = CTxOut((MAXNODE_T1_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey);
-    tx.vin.push_back(vin);
+    tx.vin.push_back(maxvin);
     tx.vout.push_back(vout);
 
     {
@@ -612,7 +612,7 @@ bool CMaxnodeBroadcast::CheckInputsAndAdd(int& nDoS)
 
     LogPrint("maxnode", "maxb - Accepted Maxnode entry\n");
 
-    if (GetInputAge(vin) < MAXNODE_MIN_CONFIRMATIONS) {
+    if (GetInputAge(maxvin) < MAXNODE_MIN_CONFIRMATIONS) {
         LogPrint("maxnode","maxb - Input must have at least %d confirmations\n", MAXNODE_MIN_CONFIRMATIONS);
         // maybe we miss few blocks, let this maxb to be checked again later
         maxnodeman.mapSeenMaxnodeBroadcast.erase(GetHash());
@@ -624,25 +624,25 @@ bool CMaxnodeBroadcast::CheckInputsAndAdd(int& nDoS)
     // should be at least not earlier than block when 1000 LYTX tx got MAXNODE_MIN_CONFIRMATIONS
     uint256 hashBlock = 0;
     CTransaction tx2;
-    GetTransaction(vin.prevout.hash, tx2, hashBlock, true);
+    GetTransaction(maxvin.prevout.hash, tx2, hashBlock, true);
     BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
     if (mi != mapBlockIndex.end() && (*mi).second) {
         CBlockIndex* pMNIndex = (*mi).second;                                                        // block for 1000 LYTX tx -> 1 confirmation
         CBlockIndex* pConfIndex = chainActive[pMNIndex->nHeight + MAXNODE_MIN_CONFIRMATIONS - 1]; // block where tx got MAXNODE_MIN_CONFIRMATIONS
         if (pConfIndex->GetBlockTime() > sigTime) {
             LogPrint("maxnode","maxb - Bad sigTime %d for Maxnode %s (%i conf block is at %d)\n",
-                sigTime, vin.prevout.hash.ToString(), MAXNODE_MIN_CONFIRMATIONS, pConfIndex->GetBlockTime());
+                sigTime, maxvin.prevout.hash.ToString(), MAXNODE_MIN_CONFIRMATIONS, pConfIndex->GetBlockTime());
             return false;
         }
     }
 
-    LogPrint("maxnode","maxb - Got NEW Maxnode entry - %s - %lli \n", vin.prevout.hash.ToString(), sigTime);
+    LogPrint("maxnode","maxb - Got NEW Maxnode entry - %s - %lli \n", maxvin.prevout.hash.ToString(), sigTime);
     CMaxnode max(*this);
     maxnodeman.Add(max);
 
     // if it matches our Maxnode privkey, then we've been remotely activated
     if (pubKeyMaxnode == activeMaxnode.pubKeyMaxnode && protocolVersion == PROTOCOL_VERSION) {
-        activeMaxnode.EnableHotColdMaxNode(vin, addr);
+        activeMaxnode.EnableHotColdMaxNode(maxvin, addr);
     }
 
     bool isLocal = addr.IsRFC1918() || addr.IsLocal();
@@ -713,7 +713,7 @@ std:: string CMaxnodeBroadcast::GetNewStrMessage()
 
 CMaxnodePing::CMaxnodePing()
 {
-    vin = CTxIn();
+    maxvin = CTxIn();
     blockHash = uint256(0);
     sigTime = 0;
     vchSig = std::vector<unsigned char>();
@@ -721,7 +721,7 @@ CMaxnodePing::CMaxnodePing()
 
 CMaxnodePing::CMaxnodePing(CTxIn& newVin)
 {
-    vin = newVin;
+    maxvin = newVin;
     blockHash = chainActive[chainActive.Height() - 12]->GetMaxBlockHash();
     sigTime = GetAdjustedTime();
     vchSig = std::vector<unsigned char>();
@@ -734,7 +734,7 @@ bool CMaxnodePing::Sign(CKey& keyMaxnode, CPubKey& pubKeyMaxnode)
     std::string strMaxNodeSignMessage;
 
     sigTime = GetAdjustedTime();
-    std::string strMessage = vin.ToString() + blockHash.ToString() + boost::lexical_cast<std::string>(sigTime);
+    std::string strMessage = maxvin.ToString() + blockHash.ToString() + boost::lexical_cast<std::string>(sigTime);
 
     if (!obfuScationSigner.SignMessage(strMessage, errorMessage, vchSig, keyMaxnode)) {
         LogPrint("maxnode","CMaxnodePing::Sign() - Error: %s\n", errorMessage);
@@ -750,12 +750,12 @@ bool CMaxnodePing::Sign(CKey& keyMaxnode, CPubKey& pubKeyMaxnode)
 }
 
 bool CMaxnodePing::VerifySignature(CPubKey& pubKeyMaxnode, int &nDos) {
-	std::string strMessage = vin.ToString() + blockHash.ToString() + boost::lexical_cast<std::string>(sigTime);
+	std::string strMessage = maxvin.ToString() + blockHash.ToString() + boost::lexical_cast<std::string>(sigTime);
 	std::string errorMessage = "";
 
 	if(!obfuScationSigner.VerifyMessage(pubKeyMaxnode, vchSig, strMessage, errorMessage)){
 		nDos = 33;
-		return error("CMaxnodePing::VerifySignature - Got bad Maxnode ping signature %s Error: %s", vin.ToString(), errorMessage);
+		return error("CMaxnodePing::VerifySignature - Got bad Maxnode ping signature %s Error: %s", maxvin.ToString(), errorMessage);
 	}
 	return true;
 }
@@ -763,19 +763,19 @@ bool CMaxnodePing::VerifySignature(CPubKey& pubKeyMaxnode, int &nDos) {
 bool CMaxnodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled, bool fCheckSigTimeOnly)
 {
     if (sigTime > GetAdjustedTime() + 60 * 60) {
-        LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Signature rejected, too far into the future %s\n", vin.prevout.hash.ToString());
+        LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Signature rejected, too far into the future %s\n", maxvin.prevout.hash.ToString());
         nDos = 1;
         return false;
     }
 
     if (sigTime <= GetAdjustedTime() - 60 * 60) {
-        LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Signature rejected, too far into the past %s - %d %d \n", vin.prevout.hash.ToString(), sigTime, GetAdjustedTime());
+        LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Signature rejected, too far into the past %s - %d %d \n", maxvin.prevout.hash.ToString(), sigTime, GetAdjustedTime());
         nDos = 1;
         return false;
     }
 
     if(fCheckSigTimeOnly) {
-    	CMaxnode* pmax = maxnodeman.Find(vin);
+    	CMaxnode* pmax = maxnodeman.Find(maxvin);
     	if(pmax) return VerifySignature(pmax->pubKeyMaxnode, nDos);
     	return true;
     }
@@ -783,11 +783,11 @@ bool CMaxnodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled, bool fCheckSi
     LogPrint("maxnode", "CMaxnodePing::CheckAndUpdate - New Ping - %s - %s - %lli\n", GetHash().ToString(), blockHash.ToString(), sigTime);
 
     // see if we have this Maxnode
-    CMaxnode* pmax = maxnodeman.Find(vin);
+    CMaxnode* pmax = maxnodeman.Find(maxvin);
     if (pmax != NULL && pmax->protocolVersion >= maxnodePayments.GetMinMaxnodePaymentsProto()) {
         if (fRequireEnabled && !pmax->IsEnabled()) return false;
 
-        // LogPrint("maxnode","maxping - Found corresponding maxnode for vin: %s\n", vin.ToString());
+        // LogPrint("maxnode","maxping - Found corresponding maxnode for maxvin: %s\n", maxvin.ToString());
         // update only if there is no known ping for this maxnode or
         // last ping was more then MAXNODE_MIN_MAXP_SECONDS-60 ago comparing to this one
         if (!pmax->IsPingedWithin(MAXNODE_MIN_MAXP_SECONDS - 60, sigTime)) {
@@ -797,14 +797,14 @@ bool CMaxnodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled, bool fCheckSi
             BlockMap::iterator mi = mapBlockIndex.find(blockHash);
             if (mi != mapBlockIndex.end() && (*mi).second) {
                 if ((*mi).second->nHeight < chainActive.Height() - 24) {
-                    LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Maxnode %s block hash %s is too old\n", vin.prevout.hash.ToString(), blockHash.ToString());
+                    LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Maxnode %s block hash %s is too old\n", maxvin.prevout.hash.ToString(), blockHash.ToString());
                     // Do nothing here (no Maxnode update, no maxping relay)
                     // Let this node to be visible but fail to accept maxping
 
                     return false;
                 }
             } else {
-                if (fDebug) LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Maxnode %s block hash %s is unknown\n", vin.prevout.hash.ToString(), blockHash.ToString());
+                if (fDebug) LogPrint("maxnode","CMaxnodePing::CheckAndUpdate - Maxnode %s block hash %s is unknown\n", maxvin.prevout.hash.ToString(), blockHash.ToString());
                 // maybe we stuck so we shouldn't ban this node, just fail to accept it
                 // TODO: or should we also request this block?
 
@@ -823,16 +823,16 @@ bool CMaxnodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled, bool fCheckSi
             pmax->Check(true);
             if (!pmax->IsEnabled()) return false;
 
-            LogPrint("maxnode", "CMaxnodePing::CheckAndUpdate - Maxnode ping accepted, vin: %s\n", vin.prevout.hash.ToString());
+            LogPrint("maxnode", "CMaxnodePing::CheckAndUpdate - Maxnode ping accepted, maxvin: %s\n", maxvin.prevout.hash.ToString());
 
             Relay();
             return true;
         }
-        LogPrint("maxnode", "CMaxnodePing::CheckAndUpdate - Maxnode ping arrived too early, vin: %s\n", vin.prevout.hash.ToString());
+        LogPrint("maxnode", "CMaxnodePing::CheckAndUpdate - Maxnode ping arrived too early, maxvin: %s\n", maxvin.prevout.hash.ToString());
         //nDos = 1; //disable, this is happening frequently and causing banned peers
         return false;
     }
-    LogPrint("maxnode", "CMaxnodePing::CheckAndUpdate - Couldn't find compatible Maxnode entry, vin: %s\n", vin.prevout.hash.ToString());
+    LogPrint("maxnode", "CMaxnodePing::CheckAndUpdate - Couldn't find compatible Maxnode entry, maxvin: %s\n", maxvin.prevout.hash.ToString());
 
     return false;
 }

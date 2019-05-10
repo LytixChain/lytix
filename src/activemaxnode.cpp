@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2016 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2019 The Lytix developers
+// Copyright (c) 2019 The Lytix developer
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,7 +37,7 @@ void CActiveMaxnode::ManageStatus()
         pmax = maxnodeman.Find(pubKeyMaxnode);
         if (pmax != NULL) {
             pmax->Check();
-            if (pmax->IsEnabled() && pmax->protocolVersion == PROTOCOL_VERSION) EnableHotColdMaxNode(pmax->vin, pmax->addr);
+            if (pmax->IsEnabled() && pmax->protocolVersion == PROTOCOL_VERSION) EnableHotColdMaxNode(pmax->maxvin, pmax->addr);
         }
     }
 
@@ -86,16 +86,16 @@ void CActiveMaxnode::ManageStatus()
         CPubKey pubKeyCollateralAddress;
         CKey keyCollateralAddress;
 
-        if (GetMaxNodeVin(vin, pubKeyCollateralAddress, keyCollateralAddress)) {
-            if (GetInputAge(vin) < MAXNODE_MIN_CONFIRMATIONS) {
+        if (GetMaxNodeVin(maxvin, pubKeyCollateralAddress, keyCollateralAddress)) {
+            if (GetInputAge(maxvin) < MAXNODE_MIN_CONFIRMATIONS) {
                 status = ACTIVE_MAXNODE_INPUT_TOO_NEW;
-                notCapableReason = strprintf("%s - %d confirmations", GetStatus(), GetInputAge(vin));
+                notCapableReason = strprintf("%s - %d confirmations", GetStatus(), GetInputAge(maxvin));
                 LogPrintf("CActiveMaxnode::ManageStatus() - %s\n", notCapableReason);
                 return;
             }
 
             LOCK(pwalletMain->cs_wallet);
-            pwalletMain->LockCoin(vin.prevout);
+            pwalletMain->LockCoin(maxvin.prevout);
 
             // send to all nodes
             CPubKey pubKeyMaxnode;
@@ -108,14 +108,14 @@ void CActiveMaxnode::ManageStatus()
             }
 
             CMaxnodeBroadcast maxb;
-            if (!CreateBroadcast(vin, service, keyCollateralAddress, pubKeyCollateralAddress, keyMaxnode, pubKeyMaxnode, errorMessage, maxb)) {
+            if (!CreateBroadcast(maxvin, service, keyCollateralAddress, pubKeyCollateralAddress, keyMaxnode, pubKeyMaxnode, errorMessage, maxb)) {
                 notCapableReason = "Error on Register: " + errorMessage;
                 LogPrintf("CActiveMaxnode::ManageStatus() - %s\n", notCapableReason);
                 return;
             }
 
             //send to all peers
-            LogPrintf("CActiveMaxnode::ManageStatus() - Relay broadcast vin = %s\n", vin.ToString());
+            LogPrintf("CActiveMaxnode::ManageStatus() - Relay broadcast maxvin = %s\n", maxvin.ToString());
             maxb.Relay();
 
             LogPrintf("CActiveMaxnode::ManageStatus() - Is capable max node!\n");
@@ -168,16 +168,16 @@ bool CActiveMaxnode::SendMaxnodePing(std::string& errorMessage)
         return false;
     }
 
-    LogPrintf("CActiveMaxnode::SendMaxnodePing() - Relay Maxnode Ping vin = %s\n", vin.ToString());
+    LogPrintf("CActiveMaxnode::SendMaxnodePing() - Relay Maxnode Ping maxvin = %s\n", maxvin.ToString());
 
-    CMaxnodePing maxp(vin);
+    CMaxnodePing maxp(maxvin);
     if (!maxp.Sign(keyMaxnode, pubKeyMaxnode)) {
         errorMessage = "Couldn't sign Maxnode Ping";
         return false;
     }
 
     // Update lastPing for our maxnode in Maxnode list
-    CMaxnode* pmax = maxnodeman.Find(vin);
+    CMaxnode* pmax = maxnodeman.Find(maxvin);
     if (pmax != NULL) {
         if (pmax->IsPingedWithin(MAXNODE_PING_SECONDS, maxp.sigTime)) {
             errorMessage = "Too early to send Maxnode Ping";
@@ -217,10 +217,10 @@ bool CActiveMaxnode::SendMaxnodePing(std::string& errorMessage)
             return false;
         }
 
-        LogPrint("maxnode", "dmaxseep - relaying from active max, %s \n", vin.ToString().c_str());
+        LogPrint("maxnode", "dmaxseep - relaying from active max, %s \n", maxvin.ToString().c_str());
         LOCK(cs_vNodes);
         BOOST_FOREACH (CNode* pnode, vNodes)
-            pnode->PushMessage("dmaxseep", vin, vchMaxNodeSignature, maxNodeSignatureTime, false);
+            pnode->PushMessage("dmaxseep", maxvin, vchMaxNodeSignature, maxNodeSignatureTime, false);
 
         /*
          * END OF "REMOVE"
@@ -229,7 +229,7 @@ bool CActiveMaxnode::SendMaxnodePing(std::string& errorMessage)
         return true;
     } else {
         // Seems like we are trying to send a ping while the Maxnode is not registered in the network
-        errorMessage = "Obfuscation Maxnode List doesn't include our Maxnode, shutting down Maxnode pinging service! " + vin.ToString();
+        errorMessage = "Obfuscation Maxnode List doesn't include our Maxnode, shutting down Maxnode pinging service! " + maxvin.ToString();
         status = ACTIVE_MAXNODE_NOT_CAPABLE;
         notCapableReason = errorMessage;
         return false;
@@ -238,7 +238,7 @@ bool CActiveMaxnode::SendMaxnodePing(std::string& errorMessage)
 
 bool CActiveMaxnode::CreateBroadcast(std::string strService, std::string strKeyMaxnode, std::string strTxHash, std::string strOutputIndex, std::string& errorMessage, CMaxnodeBroadcast &maxb, bool fOffline)
 {
-    CTxIn vin;
+    CTxIn maxvin;
     CPubKey pubKeyCollateralAddress;
     CKey keyCollateralAddress;
     CPubKey pubKeyMaxnode;
@@ -257,8 +257,8 @@ bool CActiveMaxnode::CreateBroadcast(std::string strService, std::string strKeyM
         return false;
     }
 
-    if (!GetMaxNodeVin(vin, pubKeyCollateralAddress, keyCollateralAddress, strTxHash, strOutputIndex)) {
-        errorMessage = strprintf("Could not allocate vin %s:%s for maxnode %s", strTxHash, strOutputIndex, strService);
+    if (!GetMaxNodeVin(maxvin, pubKeyCollateralAddress, keyCollateralAddress, strTxHash, strOutputIndex)) {
+        errorMessage = strprintf("Could not allocate maxvin %s:%s for maxnode %s", strTxHash, strOutputIndex, strService);
         LogPrintf("CActiveMaxnode::CreateBroadcast() - %s\n", errorMessage);
         return false;
     }
@@ -271,26 +271,26 @@ bool CActiveMaxnode::CreateBroadcast(std::string strService, std::string strKeyM
 
     addrman.Add(CAddress(service), CNetAddr("127.0.0.1"), 2 * 60 * 60);
 
-    return CreateBroadcast(vin, CService(strService), keyCollateralAddress, pubKeyCollateralAddress, keyMaxnode, pubKeyMaxnode, errorMessage, maxb);
+    return CreateBroadcast(maxvin, CService(strService), keyCollateralAddress, pubKeyCollateralAddress, keyMaxnode, pubKeyMaxnode, errorMessage, maxb);
 }
 
-bool CActiveMaxnode::CreateBroadcast(CTxIn vin, CService service, CKey keyCollateralAddress, CPubKey pubKeyCollateralAddress, CKey keyMaxnode, CPubKey pubKeyMaxnode, std::string& errorMessage, CMaxnodeBroadcast &maxb)
+bool CActiveMaxnode::CreateBroadcast(CTxIn maxvin, CService service, CKey keyCollateralAddress, CPubKey pubKeyCollateralAddress, CKey keyMaxnode, CPubKey pubKeyMaxnode, std::string& errorMessage, CMaxnodeBroadcast &maxb)
 {
 	// wait for reindex and/or import to finish
 	if (fImporting || fReindex) return false;
 
-    CMaxnodePing maxp(vin);
+    CMaxnodePing maxp(maxvin);
     if (!maxp.Sign(keyMaxnode, pubKeyMaxnode)) {
-        errorMessage = strprintf("Failed to sign ping, vin: %s", vin.ToString());
+        errorMessage = strprintf("Failed to sign ping, maxvin: %s", maxvin.ToString());
         LogPrintf("CActiveMaxnode::CreateBroadcast() -  %s\n", errorMessage);
         maxb = CMaxnodeBroadcast();
         return false;
     }
 
-    maxb = CMaxnodeBroadcast(service, vin, pubKeyCollateralAddress, pubKeyMaxnode, PROTOCOL_VERSION);
+    maxb = CMaxnodeBroadcast(service, maxvin, pubKeyCollateralAddress, pubKeyMaxnode, PROTOCOL_VERSION);
     maxb.lastPing = maxp;
     if (!maxb.Sign(keyCollateralAddress)) {
-        errorMessage = strprintf("Failed to sign broadcast, vin: %s", vin.ToString());
+        errorMessage = strprintf("Failed to sign broadcast, maxvin: %s", maxvin.ToString());
         LogPrintf("CActiveMaxnode::CreateBroadcast() - %s\n", errorMessage);
         maxb = CMaxnodeBroadcast();
         return false;
@@ -328,7 +328,7 @@ bool CActiveMaxnode::CreateBroadcast(CTxIn vin, CService service, CKey keyCollat
 
     LOCK(cs_vNodes);
     BOOST_FOREACH (CNode* pnode, vNodes)
-        pnode->PushMessage("dmaxsee", vin, service, vchMaxNodeSignature, maxNodeSignatureTime, pubKeyCollateralAddress, pubKeyMaxnode, -1, -1, maxNodeSignatureTime, PROTOCOL_VERSION, donationAddress, donationPercantage);
+        pnode->PushMessage("dmaxsee", maxvin, service, vchMaxNodeSignature, maxNodeSignatureTime, pubKeyCollateralAddress, pubKeyMaxnode, -1, -1, maxNodeSignatureTime, PROTOCOL_VERSION, donationAddress, donationPercantage);
 
     /*
      * END OF "REMOVE"
@@ -337,12 +337,12 @@ bool CActiveMaxnode::CreateBroadcast(CTxIn vin, CService service, CKey keyCollat
     return true;
 }
 
-bool CActiveMaxnode::GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey)
+bool CActiveMaxnode::GetMaxNodeVin(CTxIn& maxvin, CPubKey& pubkey, CKey& secretKey)
 {
-    return GetMaxNodeVin(vin, pubkey, secretKey, "", "");
+    return GetMaxNodeVin(maxvin, pubkey, secretKey, "", "");
 }
 
-bool CActiveMaxnode::GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey, std::string strTxHash, std::string strOutputIndex)
+bool CActiveMaxnode::GetMaxNodeVin(CTxIn& maxvin, CPubKey& pubkey, CKey& secretKey, std::string strTxHash, std::string strOutputIndex)
 {
 	// wait for reindex and/or import to finish
 	if (fImporting || fReindex) return false;
@@ -354,7 +354,7 @@ bool CActiveMaxnode::GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey,
     vector<COutput> possibleCoins = SelectCoinsMaxnode();
     COutput* selectedOutput;
 
-    // Find the vin
+    // Find the maxvin
     if (!strTxHash.empty()) {
         // Let's find it
         uint256 txHash(strTxHash);
@@ -375,7 +375,7 @@ bool CActiveMaxnode::GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey,
             }
         }
         if (!found) {
-            LogPrintf("CActiveMaxnode::GetMaxNodeVin - Could not locate valid vin\n");
+            LogPrintf("CActiveMaxnode::GetMaxNodeVin - Could not locate valid maxvin\n");
             return false;
         }
     } else {
@@ -383,25 +383,25 @@ bool CActiveMaxnode::GetMaxNodeVin(CTxIn& vin, CPubKey& pubkey, CKey& secretKey,
         if (possibleCoins.size() > 0) {
             selectedOutput = &possibleCoins[0];
         } else {
-            LogPrintf("CActiveMaxnode::GetMaxNodeVin - Could not locate specified vin from possible list\n");
+            LogPrintf("CActiveMaxnode::GetMaxNodeVin - Could not locate specified maxvin from possible list\n");
             return false;
         }
     }
 
     // At this point we have a selected output, retrieve the associated info
-    return GetVinFromOutput(*selectedOutput, vin, pubkey, secretKey);
+    return GetVinFromOutput(*selectedOutput, maxvin, pubkey, secretKey);
 }
 
 
-// Extract Maxnode vin information from output
-bool CActiveMaxnode::GetVinFromOutput(COutput out, CTxIn& vin, CPubKey& pubkey, CKey& secretKey)
+// Extract Maxnode maxvin information from output
+bool CActiveMaxnode::GetVinFromOutput(COutput out, CTxIn& maxvin, CPubKey& pubkey, CKey& secretKey)
 {
 	// wait for reindex and/or import to finish
 	if (fImporting || fReindex) return false;
 
     CScript pubScript;
 
-    vin = CTxIn(out.tx->GetHash(), out.i);
+    maxvin = CTxIn(out.tx->GetHash(), out.i);
     pubScript = out.tx->vout[out.i].scriptPubKey; // the inputs PubKey
 
     CTxDestination address1;
@@ -485,7 +485,7 @@ bool CActiveMaxnode::EnableHotColdMaxNode(CTxIn& newVin, CService& newService)
     status = ACTIVE_MAXNODE_STARTED;
 
     //The values below are needed for signing maxping messages going forward
-    vin = newVin;
+    maxvin = newVin;
     service = newService;
 
     LogPrintf("CActiveMaxnode::EnableHotColdMaxNode() - Enabled! You may shut down the cold daemon.\n");

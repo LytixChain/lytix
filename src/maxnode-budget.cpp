@@ -2165,7 +2165,7 @@ void CMAXFinalizedBudget::SubmitVote()
         return;
     }
 
-    CMAXFinalizedBudgetVote vote(activeMaxnode.vin, GetHash());
+    CMAXFinalizedBudgetVote vote(activeMaxnode.maxvin, GetHash());
     if (!vote.Sign(keyMaxnode, pubKeyMaxnode)) {
         LogPrint("maxbudget","CMAXFinalizedBudget::SubmitVote - Failure to sign.");
         return;

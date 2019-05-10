@@ -40,7 +40,7 @@ bool GetMaxBlockHash(uint256& hash, int nBlockHeight);
 class CMaxnodePing
 {
 public:
-    CTxIn vin;
+    CTxIn maxvin;
     uint256 blockHash;
     int64_t sigTime; //maxb message times
     std::vector<unsigned char> vchSig;
@@ -54,7 +54,7 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
     {
-        READWRITE(vin);
+        READWRITE(maxvin);
         READWRITE(blockHash);
         READWRITE(sigTime);
         READWRITE(vchSig);
@@ -68,7 +68,7 @@ public:
     uint256 GetHash()
     {
         CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
-        ss << vin;
+        ss << maxvin;
         ss << sigTime;
         return ss.GetHash();
     }
@@ -80,7 +80,7 @@ public:
 
         // by swapping the members of two classes,
         // the two classes are effectively swapped
-        swap(first.vin, second.vin);
+        swap(first.maxvin, second.maxvin);
         swap(first.blockHash, second.blockHash);
         swap(first.sigTime, second.sigTime);
         swap(first.vchSig, second.vchSig);
@@ -93,7 +93,7 @@ public:
     }
     friend bool operator==(const CMaxnodePing& a, const CMaxnodePing& b)
     {
-        return a.vin == b.vin && a.blockHash == b.blockHash;
+        return a.maxvin == b.maxvin && a.blockHash == b.blockHash;
     }
     friend bool operator!=(const CMaxnodePing& a, const CMaxnodePing& b)
     {
@@ -125,7 +125,7 @@ public:
         MAXNODE_POS_ERROR
     };
 
-    CTxIn vin;
+    CTxIn maxvin;
     CService addr;
     CPubKey pubKeyCollateralAddress;
     CPubKey pubKeyMaxnode;
@@ -160,7 +160,7 @@ public:
 
         // by swapping the members of two classes,
         // the two classes are effectively swapped
-        swap(first.vin, second.vin);
+        swap(first.maxvin, second.maxvin);
         swap(first.addr, second.addr);
         swap(first.pubKeyCollateralAddress, second.pubKeyCollateralAddress);
         swap(first.pubKeyMaxnode, second.pubKeyMaxnode);
@@ -185,11 +185,11 @@ public:
     }
     friend bool operator==(const CMaxnode& a, const CMaxnode& b)
     {
-        return a.vin == b.vin;
+        return a.maxvin == b.maxvin;
     }
     friend bool operator!=(const CMaxnode& a, const CMaxnode& b)
     {
-        return !(a.vin == b.vin);
+        return !(a.maxvin == b.maxvin);
     }
 
     uint256 CalculateScore(int mod = 1, int64_t nBlockHeight = 0);
@@ -201,7 +201,7 @@ public:
     {
         LOCK(cs);
 
-        READWRITE(vin);
+        READWRITE(maxvin);
         READWRITE(addr);
         READWRITE(pubKeyCollateralAddress);
         READWRITE(pubKeyMaxnode);
@@ -260,7 +260,7 @@ public:
         if (chainActive.Tip() == NULL) return 0;
 
         if (cacheInputAge == 0) {
-            cacheInputAge = GetInputAge(vin);
+            cacheInputAge = GetInputAge(maxvin);
             cacheInputAgeBlock = chainActive.Tip()->nHeight;
         }
 
@@ -311,7 +311,7 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
     {
-        READWRITE(vin);
+        READWRITE(maxvin);
         READWRITE(addr);
         READWRITE(pubKeyCollateralAddress);
         READWRITE(pubKeyMaxnode);
@@ -331,7 +331,7 @@ public:
     }
 
     /// Create Maxnode broadcast, needs to be relayed manually after that
-    static bool Create(CTxIn vin, CService service, CKey keyCollateralAddressNew, CPubKey pubKeyCollateralAddressNew, CKey keyMaxnodeNew, CPubKey pubKeyMaxnodeNew, std::string& strErrorRet, CMaxnodeBroadcast& maxbRet);
+    static bool Create(CTxIn maxvin, CService service, CKey keyCollateralAddressNew, CPubKey pubKeyCollateralAddressNew, CKey keyMaxnodeNew, CPubKey pubKeyMaxnodeNew, std::string& strErrorRet, CMaxnodeBroadcast& maxbRet);
     static bool Create(std::string strService, std::string strKey, std::string strTxHash, std::string strOutputIndex, std::string& strErrorRet, CMaxnodeBroadcast& maxbRet, bool fOffline = false);
     static bool CheckDefaultPort(std::string strService, std::string& strErrorRet, std::string strContext);
 };

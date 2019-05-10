@@ -699,7 +699,7 @@ bool CMaxnodePayments::ProcessBlock(int nBlockHeight)
 
     //reference node - hybrid mode
 
-    int n = maxnodeman.GetMaxnodeRank(activeMaxnode.vin, nBlockHeight - 100, ActiveProtocol());
+    int n = maxnodeman.GetMaxnodeRank(activeMaxnode.maxvin, nBlockHeight - 100, ActiveProtocol());
 
     if (n == -1) {
         LogPrint("maxpayments", "CMaxnodePayments::ProcessBlock - Unknown Maxnode\n");
@@ -713,12 +713,12 @@ bool CMaxnodePayments::ProcessBlock(int nBlockHeight)
 
     if (nBlockHeight <= nLastBlockHeight) return false;
 
-    CMaxnodePaymentWinner newWinner(activeMaxnode.vin);
+    CMaxnodePaymentWinner newWinner(activeMaxnode.maxvin);
 
     if (maxbudget.IsBudgetPaymentBlock(nBlockHeight)) {
         //is budget payment block -- handled by the budgeting software
     } else {
-        LogPrint("maxnode","CMaxnodePayments::ProcessBlock() Start nHeight %d - vin %s. \n", nBlockHeight, activeMaxnode.vin.prevout.hash.ToString());
+        LogPrint("maxnode","CMaxnodePayments::ProcessBlock() Start nHeight %d - maxvin %s. \n", nBlockHeight, activeMaxnode.maxvin.prevout.hash.ToString());
 
         // pay to the oldest MAX that still had no payment but its input is old enough and it was active long enough
         int nCount = 0;

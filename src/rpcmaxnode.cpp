@@ -231,11 +231,11 @@ UniValue listmaxnodes(const UniValue& params, bool fHelp)
     std::vector<pair<int, CMaxnode> > vMaxnodeRanks = maxnodeman.GetMaxnodeRanks(nHeight);
     BOOST_FOREACH (PAIRTYPE(int, CMaxnode) & s, vMaxnodeRanks) {
         UniValue obj(UniValue::VOBJ);
-        std::string strVin = s.second.vin.prevout.ToStringShort();
-        std::string strTxHash = s.second.vin.prevout.hash.ToString();
-        uint32_t oIdx = s.second.vin.prevout.n;
+        std::string strVin = s.second.maxvin.prevout.ToStringShort();
+        std::string strTxHash = s.second.maxvin.prevout.hash.ToString();
+        uint32_t oIdx = s.second.maxvin.prevout.n;
 
-        CMaxnode* max = maxnodeman.Find(s.second.vin);
+        CMaxnode* max = maxnodeman.Find(s.second.maxvin);
 
         if (max != NULL) {
             if (strFilter != "" && strTxHash.find(strFilter) == string::npos &&
@@ -357,7 +357,7 @@ UniValue maxnodecurrent (const UniValue& params, bool fHelp)
         UniValue obj(UniValue::VOBJ);
 
         obj.push_back(Pair("protocol", (int64_t)winner->protocolVersion));
-        obj.push_back(Pair("txhash", winner->vin.prevout.hash.ToString()));
+        obj.push_back(Pair("txhash", winner->maxvin.prevout.hash.ToString()));
         obj.push_back(Pair("pubkey", CBitcoinAddress(winner->pubKeyCollateralAddress.GetID()).ToString()));
         obj.push_back(Pair("lastseen", (winner->lastPing == CMaxnodePing()) ? winner->sigTime : (int64_t)winner->lastPing.sigTime));
         obj.push_back(Pair("activeseconds", (winner->lastPing == CMaxnodePing()) ? 0 : (int64_t)(winner->lastPing.sigTime - winner->sigTime)));
@@ -383,10 +383,10 @@ UniValue maxnodedebug (const UniValue& params, bool fHelp)
     if (activeMaxnode.status != ACTIVE_MAXNODE_INITIAL || !maxnodeSync.IsSynced())
         return activeMaxnode.GetStatus();
 
-    CTxIn vin = CTxIn();
+    CTxIn maxvin = CTxIn();
     CPubKey pubkey = CScript();
     CKey key;
-    if (!activeMaxnode.GetMaxNodeVin(vin, pubkey, key))
+    if (!activeMaxnode.GetMaxNodeVin(maxvin, pubkey, key))
         throw runtime_error("Missing maxnode input, please look at the documentation for instructions on maxnode creation\n");
     else
         return activeMaxnode.GetStatus();
@@ -475,8 +475,8 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
             int nIndex;
             if(!maxe.castOutputIndex(nIndex))
                 continue;
-            CTxIn vin = CTxIn(uint256(maxe.getTxHash()), uint32_t(nIndex));
-            CMaxnode* pmax = maxnodeman.Find(vin);
+            CTxIn maxvin = CTxIn(uint256(maxe.getTxHash()), uint32_t(nIndex));
+            CMaxnode* pmax = maxnodeman.Find(maxvin);
             CMaxnodeBroadcast maxb;
 
             if (pmax != NULL) {
@@ -654,8 +654,8 @@ UniValue listmaxnodeconf (const UniValue& params, bool fHelp)
         int nIndex;
         if(!maxe.castOutputIndex(nIndex))
             continue;
-        CTxIn vin = CTxIn(uint256(maxe.getTxHash()), uint32_t(nIndex));
-        CMaxnode* pmax = maxnodeman.Find(vin);
+        CTxIn maxvin = CTxIn(uint256(maxe.getTxHash()), uint32_t(nIndex));
+        CMaxnode* pmax = maxnodeman.Find(maxvin);
 
         std::string strStatus = pmax ? pmax->Status() : "MISSING";
 
@@ -699,12 +699,12 @@ UniValue getmaxnodestatus (const UniValue& params, bool fHelp)
 
     if (!fMaxNode) throw runtime_error("This is not a maxnode");
 
-    CMaxnode* pmax = maxnodeman.Find(activeMaxnode.vin);
+    CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
 
     if (pmax) {
         UniValue maxObj(UniValue::VOBJ);
-        maxObj.push_back(Pair("txhash", activeMaxnode.vin.prevout.hash.ToString()));
-        maxObj.push_back(Pair("outputidx", (uint64_t)activeMaxnode.vin.prevout.n));
+        maxObj.push_back(Pair("txhash", activeMaxnode.maxvin.prevout.hash.ToString()));
+        maxObj.push_back(Pair("outputidx", (uint64_t)activeMaxnode.maxvin.prevout.n));
         maxObj.push_back(Pair("netaddr", activeMaxnode.service.ToString()));
         maxObj.push_back(Pair("addr", CBitcoinAddress(pmax->pubKeyCollateralAddress.GetID()).ToString()));
         maxObj.push_back(Pair("status", activeMaxnode.status));
@@ -859,7 +859,7 @@ UniValue getmaxnodescores (const UniValue& params, bool fHelp)
             }
         }
         if (pBestMaxnode)
-            obj.push_back(Pair(strprintf("%d", nHeight), pBestMaxnode->vin.prevout.hash.ToString().c_str()));
+            obj.push_back(Pair(strprintf("%d", nHeight), pBestMaxnode->maxvin.prevout.hash.ToString().c_str()));
     }
 
     return obj;
@@ -981,7 +981,7 @@ UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp)
         BOOST_FOREACH(CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
             std::string errorMessage;
 
-            CTxIn vin = CTxIn(uint256S(maxe.getTxHash()), uint32_t(atoi(maxe.getOutputIndex().c_str())));
+            CTxIn maxvin = CTxIn(uint256S(maxe.getTxHash()), uint32_t(atoi(maxe.getOutputIndex().c_str())));
             CMaxnodeBroadcast maxb;
 
             bool success = activeMaxnode.CreateBroadcast(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), errorMessage, maxb, true);
@@ -1024,7 +1024,7 @@ UniValue decodemaxnodebroadcast(const UniValue& params, bool fHelp)
 
             "\nResult:\n"
             "{\n"
-            "  \"vin\": \"xxxx\"                (string) The unspent output which is holding the maxnode collateral\n"
+            "  \"maxvin\": \"xxxx\"                (string) The unspent output which is holding the maxnode collateral\n"
             "  \"addr\": \"xxxx\"               (string) IP address of the maxnode\n"
             "  \"pubkeycollateral\": \"xxxx\"   (string) Collateral address's public key\n"
             "  \"pubkeymaxnode\": \"xxxx\"   (string) Maxnode's public key\n"
@@ -1033,7 +1033,7 @@ UniValue decodemaxnodebroadcast(const UniValue& params, bool fHelp)
             "  \"protocolversion\": \"nnn\"     (numeric) Maxnode's protocol version\n"
             "  \"nlastdsq\": \"nnn\"            (numeric) The last time the maxnode sent a DSQ message (for mixing) (DEPRECATED)\n"
             "  \"lastping\" : {                 (object) JSON object with information about the maxnode's last ping\n"
-            "      \"vin\": \"xxxx\"            (string) The unspent output of the maxnode which is signing the message\n"
+            "      \"maxvin\": \"xxxx\"            (string) The unspent output of the maxnode which is signing the message\n"
             "      \"blockhash\": \"xxxx\"      (string) Current chaintip blockhash minus 12\n"
             "      \"sigtime\": \"nnn\"         (numeric) Signature time for this ping\n"
             "      \"vchsig\": \"xxxx\"         (string) Base64-encoded signature of this ping (verifiable via pubkeymaxnode)\n"
@@ -1052,7 +1052,7 @@ UniValue decodemaxnodebroadcast(const UniValue& params, bool fHelp)
 
     UniValue resultObj(UniValue::VOBJ);
 
-    resultObj.push_back(Pair("vin", maxb.vin.prevout.ToString()));
+    resultObj.push_back(Pair("maxvin", maxb.maxvin.prevout.ToString()));
     resultObj.push_back(Pair("addr", maxb.addr.ToString()));
     resultObj.push_back(Pair("pubkeycollateral", CBitcoinAddress(maxb.pubKeyCollateralAddress.GetID()).ToString()));
     resultObj.push_back(Pair("pubkeymaxnode", CBitcoinAddress(maxb.pubKeyMaxnode.GetID()).ToString()));
@@ -1062,7 +1062,7 @@ UniValue decodemaxnodebroadcast(const UniValue& params, bool fHelp)
     resultObj.push_back(Pair("nlastdsq", maxb.nLastDsq));
 
     UniValue lastPingObj(UniValue::VOBJ);
-    lastPingObj.push_back(Pair("vin", maxb.lastPing.vin.prevout.ToString()));
+    lastPingObj.push_back(Pair("maxvin", maxb.lastPing.maxvin.prevout.ToString()));
     lastPingObj.push_back(Pair("blockhash", maxb.lastPing.blockHash.ToString()));
     lastPingObj.push_back(Pair("sigtime", maxb.lastPing.sigTime));
     lastPingObj.push_back(Pair("vchsig", EncodeBase64(&maxb.lastPing.vchSig[0], maxb.lastPing.vchSig.size())));
@@ -1097,6 +1097,6 @@ UniValue relaymaxnodebroadcast(const UniValue& params, bool fHelp)
     maxnodeman.UpdateMaxnodeList(maxb);
     maxb.Relay();
 
-    return strprintf("Maxnode broadcast sent (service %s, vin %s)", maxb.addr.ToString(), maxb.vin.ToString());
+    return strprintf("Maxnode broadcast sent (service %s, maxvin %s)", maxb.addr.ToString(), maxb.maxvin.ToString());
 }
 
