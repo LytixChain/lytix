@@ -2,7 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018-2019 The Lytix developer
+// Copyright (c) 2018-2019 The Lytix developers
 
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -502,7 +502,7 @@ bool CWallet::GetMasternodeVinAndKeys(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& 
     return false;
 }
 
-bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& keyRet, std::string strTxHash, std::string strOutputIndex)
+bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKey& keyMaxRet, std::string strMaxTxHash, std::string strMaxOutputIndex)
 {
     // wait for reindex and/or import to finish
     if (fImporting || fReindex) return false;
@@ -515,23 +515,23 @@ bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& key
         return false;
     }
 
-    if (strTxHash.empty()) // No output specified, select the first one
-        return GetVinAndKeysFromOutput(vPossibleCoins[0], txinRet, pubKeyRet, keyRet);
+    if (strMaxTxHash.empty()) // No output specified, select the first one
+        return GetMaxVinAndKeysFromOutput(vPossibleCoins[0], txinMaxRet, pubMaxKeyRet, keyMaxRet);
 
     // Find specific vin
-    uint256 txHash = uint256S(strTxHash);
+    uint256 txHash = uint256S(strMaxTxHash);
 
     int nOutputIndex;
     try {
-        nOutputIndex = std::stoi(strOutputIndex.c_str());
+        nOutputIndex = std::stoi(strMaxOutputIndex.c_str());
     } catch (const std::exception& e) {
         LogPrintf("%s: %s on strOutputIndex\n", __func__, e.what());
         return false;
     }
 
-    BOOST_FOREACH (COutput& out, vPossibleCoins)
-        if (out.tx->GetHash() == txHash && out.i == nOutputIndex) // found it!
-            return GetVinAndKeysFromOutput(out, txinRet, pubKeyRet, keyRet);
+    BOOST_FOREACH (COutput& maxout, vPossibleCoins)
+        if (maxout.tx->GetHash() == txHash && maxout.i == nOutputIndex) // found it!
+            return GetMaxVinAndKeysFromOutput(maxout, txinMaxRet, pubMaxKeyRet, keyMaxRet);
 
     LogPrintf("CWallet::GetMaxnodeVinAndKeys -- Could not locate specified maxnode vin\n");
     return false;
@@ -564,6 +564,35 @@ bool CWallet::GetVinAndKeysFromOutput(COutput out, CTxIn& txinRet, CPubKey& pubK
     }
 
     pubKeyRet = keyRet.GetPubKey();
+    return true;
+}
+
+bool CWallet::GetMaxVinAndKeysFromOutput(COutput maxout, CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKey& keyMaxRet)
+{
+    // wait for reindex and/or import to finish
+    if (fImporting || fReindex) return false;
+
+    CScript pubScript;
+
+    txinMaxRet = CTxIn(maxout.tx->GetHash(), maxout.i);
+    pubScript = maxout.tx->vout[maxout.i].scriptPubKey; // the inputs PubKey
+
+    CTxDestination address1;
+    ExtractDestination(pubScript, address1);
+    CBitcoinAddress address2(address1);
+
+    CKeyID keyID;
+    if (!address2.GetKeyID(keyID)) {
+        LogPrintf("CWallet::GetVinAndKeysFromOutput -- Address does not refer to a key\n");
+        return false;
+    }
+
+    if (!GetKey(keyID, keyMaxRet)) {
+        LogPrintf("CWallet::GetVinAndKeysFromOutput -- Private key for address is not known\n");
+        return false;
+    }
+
+    pubMaxKeyRet = keyMaxRet.GetPubKey();
     return true;
 }
 

@@ -393,9 +393,10 @@ public:
 
     /// Get 5000 output and keys which can be used for the Masternode
     bool GetMasternodeVinAndKeys(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& keyRet, std::string strTxHash = "", std::string strOutputIndex = "");
-    bool GetMaxnodeVinAndKeys(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& keyRet, std::string strTxHash = "", std::string strOutputIndex = "");
+    bool GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKey& keyMaxRet, std::string strMaxTxHash = "", std::string strMaxOutputIndex = "");
     /// Extract txin information and keys from output
     bool GetVinAndKeysFromOutput(COutput out, CTxIn& txinRet, CPubKey& pubKeyRet, CKey& keyRet);
+    bool GetMaxVinAndKeysFromOutput(COutput maxout, CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKey& keyMaxRet);
 
     bool IsSpent(const uint256& hash, unsigned int n) const;
 
