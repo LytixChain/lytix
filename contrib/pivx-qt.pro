@@ -93,6 +93,7 @@ HEADERS += src/activemasternode.h \
            src/limitedmap.h \
            src/main.h \
            src/masternode-budget.h \
+           src/maxnode-budget.h \
            src/masternode-payments.h \
            src/maxnode-payments.h \
            src/masternode-sync.h \
@@ -396,6 +397,7 @@ SOURCES += src/activemasternode.cpp \
            src/leveldbwrapper.cpp \
            src/main.cpp \
            src/masternode-budget.cpp \
+           src/maxnode-budget.cpp \
            src/masternode-payments.cpp \
            src/maxnode-payments.cpp \
            src/masternode-sync.cpp \
@@ -420,6 +422,7 @@ SOURCES += src/activemasternode.cpp \
            src/rpcclient.cpp \
            src/rpcdump.cpp \
            src/rpcmasternode-budget.cpp \
+           src/rpcmaxnode-budget.cpp \
            src/rpcmasternode.cpp \
            src/rpcmaxnode.cpp \
            src/rpcmining.cpp \
