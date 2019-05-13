@@ -474,7 +474,7 @@ bool CWallet::GetMasternodeVinAndKeys(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& 
 
     // Find possible candidates
     std::vector<COutput> vPossibleCoins;
-    AvailableCoins(vPossibleCoins, true, NULL, false, ONLY_10000);
+    AvailableCoins(vPossibleCoins, true, NULL, false, MASTERNODE_OUTPUT_COIN);
     if (vPossibleCoins.empty()) {
         LogPrintf("CWallet::GetMasternodeVinAndKeys -- Could not locate any valid masternode vin\n");
         return false;
@@ -502,14 +502,14 @@ bool CWallet::GetMasternodeVinAndKeys(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& 
     return false;
 }
 
-bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKey& keyMaxRet, std::string strMaxTxHash, std::string strMaxOutputIndex)
+/**bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKey& keyMaxRet, std::string strMaxTxHash, std::string strMaxOutputIndex)
 {
     // wait for reindex and/or import to finish
     if (fImporting || fReindex) return false;
 
     // Find possible candidates
     std::vector<COutput> vPossibleCoins;
-    AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER1_COINS);
+    AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER1_COIN);
     if (vPossibleCoins.empty()) {
         LogPrintf("CWallet::GetMaxnodeVinAndKeys -- Could not locate any valid maxnode vin\n");
         return false;
@@ -535,7 +535,7 @@ bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKe
 
     LogPrintf("CWallet::GetMaxnodeVinAndKeys -- Could not locate specified maxnode vin\n");
     return false;
-}
+}**/
 
 
 bool CWallet::GetVinAndKeysFromOutput(COutput out, CTxIn& txinRet, CPubKey& pubKeyRet, CKey& keyRet)
@@ -2040,9 +2040,9 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                     found = !IsDenominatedAmount(pcoin->vout[i].nValue);
                     if (found && fMasterNode) found = pcoin->vout[i].nValue != MASTERNODE_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
                     if (found && fMaxNode) found = pcoin->vout[i].nValue != MAXNODE_T1_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
-                } else if (nCoinType == ONLY_10000) {
+                } else if (nCoinType == MASTERNODE_OUTPUT_COIN) {
                     found = pcoin->vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN;
-		} else if (nCoinType == MAXNODE_TIER1_COINS) {
+		} else if (nCoinType == MAXNODE_TIER1_COIN) {
                     found = pcoin->vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN;    
                 } else {
                     found = true;
@@ -2066,10 +2066,10 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                 if (mine == ISMINE_WATCH_ONLY && nWatchonlyConfig == 1)
                     continue;
 
-                if (IsLockedCoin((*it).first, i) && nCoinType != ONLY_10000)
+                if (IsLockedCoin((*it).first, i) && nCoinType != MASTERNODE_OUTPUT_COIN)
                     continue;
 
-		if (IsLockedCoin((*it).first, i) && nCoinType != MAXNODE_TIER1_COINS)
+		if (IsLockedCoin((*it).first, i) && nCoinType != MAXNODE_TIER1_COIN)
                     continue;
 
                 if (pcoin->vout[i].nValue <= 0 && !fIncludeZeroValue)

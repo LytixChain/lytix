@@ -36,7 +36,6 @@ static const char* ppszTypeName[] =
         "mn ping",
 	"max winner",
         "max scan error",
-        "max quorum",
         "max announce",
         "max ping",
 	"dmaxstx",
