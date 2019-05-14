@@ -583,10 +583,10 @@ void CObfuscationPool::Check()
         }
     }
 
-    if (fMaxNode) LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
+    //if (fMaxNode) LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
     //printf("CObfuscationPool::Check() %d - %d - %d\n", state, anonTx.CountEntries(), GetTimeMillis()-lastTimeChanged);
 
-    if (fMaxNode) {
+    /**if (fMaxNode) {
         LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
 
         // If entries is full, then move on to the next phase
@@ -594,7 +594,7 @@ void CObfuscationPool::Check()
             LogPrint("obfuscation", "CObfuscationPool::Check() -- TRYING TRANSACTION \n");
             UpdateState(POOL_STATUS_FINALIZE_TRANSACTION);
         }
-    }
+    }**/
 
     // create the finalized transaction for distribution to the clients
     if (state == POOL_STATUS_FINALIZE_TRANSACTION) {
@@ -625,7 +625,7 @@ void CObfuscationPool::Check()
             RelayFinalTransaction(sessionID, finalTransaction);
         }
 
-	if (fMaxNode) {
+	/**if (fMaxNode) {
             CMutableTransaction txNew;
 
             // make our new transaction
@@ -647,7 +647,7 @@ void CObfuscationPool::Check()
 
             // request signatures from clients
             RelayFinalTransaction(sessionID, finalTransaction);
-        }
+        }**/
     }
 
     // If we have all of the signatures, try to compile the transaction
@@ -659,12 +659,12 @@ void CObfuscationPool::Check()
     }
 
     // If we have all of the signatures, try to compile the transaction
-    if (fMaxNode && state == POOL_STATUS_SIGNING && SignaturesComplete()) {
+    /**if (fMaxNode && state == POOL_STATUS_SIGNING && SignaturesComplete()) {
         LogPrint("obfuscation", "CObfuscationPool::Check() -- SIGNING\n");
         UpdateState(POOL_STATUS_TRANSMISSION);
 
         CheckFinalTransaction();
-    }
+    }**/
 
     // reset if we're here for 10 seconds
     if ((state == POOL_STATUS_ERROR || state == POOL_STATUS_SUCCESS) && GetTimeMillis() - lastTimeChanged >= 10000) {
@@ -672,7 +672,7 @@ void CObfuscationPool::Check()
         UnlockCoins();
         SetNull();
         if (fMasterNode) RelayStatus(sessionID, GetState(), GetEntriesCount(), MASTERNODE_RESET);
-        if (fMaxNode) RelayStatus(sessionID, GetState(), GetEntriesCount(), MAXNODE_RESET);
+        //if (fMaxNode) RelayStatus(sessionID, GetState(), GetEntriesCount(), MAXNODE_RESET);
     }
 }
 
@@ -787,7 +787,7 @@ void CObfuscationPool::CheckFinalTransaction()
 void CObfuscationPool::ChargeFees()
 {
     if (!fMasterNode) return;
-    if (!fMaxNode) return;
+    //if (!fMaxNode) return;
 
     //we don't need to charge collateral for every offence.
     int offences = 0;
@@ -920,21 +920,12 @@ void CObfuscationPool::ChargeRandomFees()
         }
     }
 
-    if (fMaxNode) {
+    /**if (fMaxNode) {
         int i = 0;
 
         BOOST_FOREACH (const CTransaction& txCollateral, vecSessionCollateral) {
             int r = rand() % 100;
 
-            /*
-                Collateral Fee Charges:
-
-                Being that Obfuscation has "no fees" we need to have some kind of cost associated
-                with using it to stop abuse. Otherwise it could serve as an attack vector and
-                allow endless transaction that would bloat PIVX and make it unusable. To
-                stop these kinds of attacks 1 in 10 successful transactions are charged. This
-                adds up to a cost of 0.001 PIV per transaction on average.
-            */
             if (r <= 10) {
                 LogPrintf("CObfuscationPool::ChargeRandomFees -- charging random fees. %u\n", i);
 
@@ -948,7 +939,7 @@ void CObfuscationPool::ChargeRandomFees()
                 wtxCollateral.RelayWalletTransaction();
             }
         }
-    }
+    }**/
 }
 
 //
@@ -956,10 +947,12 @@ void CObfuscationPool::ChargeRandomFees()
 //
 void CObfuscationPool::CheckTimeout()
 {
-    if (!fEnableZeromint && !fMasterNode && !fMaxNode) return;
+    //if (!fEnableZeromint && !fMasterNode && !fMaxNode) return;
+    if (!fEnableZeromint && !fMasterNode) return;
 
     // catching hanging sessions
-    if (!fMasterNode && !fMaxNode) {
+    //if (!fMasterNode && !fMaxNode) {
+    if (!fMasterNode) {
         switch (state) {
         case POOL_STATUS_TRANSMISSION:
             LogPrint("obfuscation", "CObfuscationPool::CheckTimeout() -- Session complete -- Running Check()\n");
@@ -989,7 +982,8 @@ void CObfuscationPool::CheckTimeout()
     }
 
     int addLagTime = 0;
-    if (!fMasterNode && !fMaxNode) addLagTime = 10000; //if we're the client, give the server a few extra seconds before resetting.
+    //if (!fMasterNode && !fMaxNode) addLagTime = 10000; //if we're the client, give the server a few extra seconds before resetting.
+    if (!fMasterNode) addLagTime = 10000; //if we're the client, give the server a few extra seconds before resetting.
 
     if (state == POOL_STATUS_ACCEPTING_ENTRIES || state == POOL_STATUS_QUEUE) {
         c = 0;
@@ -1007,9 +1001,9 @@ void CObfuscationPool::CheckTimeout()
                 if (fMasterNode) {
                     RelayStatus(sessionID, GetState(), GetEntriesCount(), MASTERNODE_RESET);
                 }
-		if (fMaxNode) {
+		/**if (fMaxNode) {
                     RelayStatus(sessionID, GetState(), GetEntriesCount(), MAXNODE_RESET);
-                }
+                }**/
             } else
                 ++it2;
             c++;
@@ -1044,7 +1038,8 @@ void CObfuscationPool::CheckTimeout()
 //
 void CObfuscationPool::CheckForCompleteQueue()
 {
-    if (!fEnableZeromint && !fMasterNode && !fMaxNode) return;
+    //if (!fEnableZeromint && !fMasterNode && !fMaxNode) return;
+    if (!fEnableZeromint && !fMasterNode) return;
 
     /* Check to see if we're ready for submissions from clients */
     //
@@ -1167,7 +1162,7 @@ bool CObfuscationPool::IsCollateralValid(const CTransaction& txCollateral)
 bool CObfuscationPool::AddEntry(const std::vector<CTxIn>& newInput, const CAmount& nAmount, const CTransaction& txCollateral, const std::vector<CTxOut>& newOutput, int& errorID)
 {
     if (!fMasterNode) return false;
-    if (!fMaxNode) return false;
+    //if (!fMaxNode) return false;
 
     BOOST_FOREACH (CTxIn in, newInput) {
         if (in.prevout.IsNull() || nAmount < 0) {
@@ -1277,10 +1272,10 @@ void CObfuscationPool::SendObfuscationDenominate(std::vector<CTxIn>& vin, std::v
         return;
     }
 
-    if (fMaxNode) {
+    /**if (fMaxNode) {
         LogPrintf("CObfuscationPool::SendObfuscationDenominate() - Obfuscation from a Masternode is not supported currently.\n");
         return;
-    }
+    }**/
 
     if (txCollateral == CMutableTransaction()) {
         LogPrintf("CObfuscationPool:SendObfuscationDenominate() - Obfuscation collateral not set");
@@ -1373,7 +1368,7 @@ void CObfuscationPool::SendObfuscationDenominate(std::vector<CTxIn>& vin, std::v
 bool CObfuscationPool::StatusUpdate(int newState, int newEntriesCount, int newAccepted, int& errorID, int newSessionID)
 {
     if (fMasterNode) return false;
-    if (fMaxNode) return false;
+    //if (fMaxNode) return false;
     if (state == POOL_STATUS_ERROR || state == POOL_STATUS_SUCCESS) return false;
 
     UpdateState(newState);
@@ -1422,7 +1417,7 @@ bool CObfuscationPool::StatusUpdate(int newState, int newEntriesCount, int newAc
 bool CObfuscationPool::SignFinalTransaction(CTransaction& finalTransactionNew, CNode* node)
 {
     if (fMasterNode) return false;
-    if (fMaxNode) return false;
+    //if (fMaxNode) return false;
 
     finalTransaction = finalTransactionNew;
     LogPrintf("CObfuscationPool::SignFinalTransaction %s", finalTransaction.ToString());
@@ -1512,7 +1507,7 @@ void CObfuscationPool::NewBlock()
 void CObfuscationPool::CompletedTransaction(bool error, int errorID)
 {
     if (fMasterNode) return;
-    if (fMaxNode) return;
+    //if (fMaxNode) return;
 
     if (error) {
         LogPrintf("CompletedTransaction -- error \n");
@@ -1550,7 +1545,7 @@ bool CObfuscationPool::DoAutomaticDenominating(bool fDryRun)
 
     if (!fEnableZeromint) return false;
     if (fMasterNode) return false;
-    if (fMaxNode) return false;
+    //if (fMaxNode) return false;
     if (state == POOL_STATUS_ERROR || state == POOL_STATUS_SUCCESS) return false;
     if (GetEntriesCount() > 0) {
         strAutoDenomResult = _("Mixing in progress...");
@@ -2269,7 +2264,6 @@ std::string CObfuscationPool::GetMessageByID(int messageID)
     }
 }
 
-///DISDIS - maxnode addition here - 5-13-2019
 
 bool CObfuScationSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey)
 {
