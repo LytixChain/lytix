@@ -751,7 +751,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 
         // make sure the vout that was signed is related to the transaction that spawned the Maxnode
         //  - this is expensive, so it's only done once per Maxnode
-        if (!obfuScationSigner.IsVinAssociatedWithPubkey(maxb.maxvin, maxb.pubKeyCollateralAddress)) {
+        if (!obfuScationSigner.IsMaxVinAssociatedWithPubkey(maxb.maxvin, maxb.pubKeyCollateralAddress)) {
             LogPrintf("CMaxnodeMan::ProcessMessage() : maxb - Got mismatched pubkey and maxvin\n");
             Misbehaving(pfrom->GetId(), 33);
             return;

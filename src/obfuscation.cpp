@@ -2269,6 +2269,8 @@ std::string CObfuscationPool::GetMessageByID(int messageID)
     }
 }
 
+///DISDIS - maxnode addition here - 5-13-2019
+
 bool CObfuScationSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey)
 {
     CScript payee2;
@@ -2280,8 +2282,6 @@ bool CObfuScationSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey)
         BOOST_FOREACH (CTxOut out, txVin.vout) {
             if (out.nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN) {
 		
-	    //} else if (out.nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
-
                 if (out.scriptPubKey == payee2) return true;
 	    }
         }
@@ -2289,6 +2289,28 @@ bool CObfuScationSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey)
 
     return false;
 }
+
+bool CObfuScationSigner::IsMaxVinAssociatedWithPubkey(CTxIn& maxvin, CPubKey& pubkey)
+{
+    CScript payee2;
+    payee2 = GetScriptForDestination(pubkey.GetID());
+
+    CTransaction txVin;
+    uint256 hash;
+    if (GetTransaction(maxvin.prevout.hash, txVin, hash, true)) {
+        BOOST_FOREACH (CTxOut out, txVin.vout) {
+            if (out.nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
+
+            //} else if (out.nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) {
+
+                if (out.scriptPubKey == payee2) return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 
 bool CObfuScationSigner::SetKey(std::string strSecret, std::string& errorMessage, CKey& key, CPubKey& pubkey)
 {
@@ -2305,6 +2327,7 @@ bool CObfuScationSigner::SetKey(std::string strSecret, std::string& errorMessage
 
     return true;
 }
+
 
 bool CObfuScationSigner::GetKeysFromSecret(std::string strSecret, CKey& keyRet, CPubKey& pubkeyRet)
 {
@@ -2353,7 +2376,7 @@ bool CObfuScationSigner::VerifyMessage(CPubKey pubkey, vector<unsigned char>& vc
 bool CObfuscationQueue::Sign()
 {
     if (!fMasterNode) return false;
-    if (!fMaxNode) return false;
+    //if (!fMaxNode) return false;
 
     std::string strMessage = vin.ToString() + boost::lexical_cast<std::string>(nDenom) + boost::lexical_cast<std::string>(time) + boost::lexical_cast<std::string>(ready);
 
