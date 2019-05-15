@@ -52,7 +52,7 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
 {
     if (fLiteMode) return; //disable all Obfuscation/Masternode related functionality
     if (!masternodeSync.IsBlockchainSynced()) return;
-    //if (!maxnodeSync.IsBlockchainSynced()) return;
+    if (!maxnodeSync.IsBlockchainSynced()) return;
 
     if (strCommand == "dsa") { //Obfuscation Accept Into Pool
 
@@ -74,13 +74,13 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
             return;
         }
 
-        /**if (!fMaxNode) {
+        if (!fMaxNode) {
             errorID = ERR_NOT_A_MAX;
             LogPrintf("dsa -- not a Maxnode! \n");
             pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
 
             return;
-        }**/
+        }
 
 
         int nDenom;
@@ -94,12 +94,12 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
             return;
         }
 
-/**	CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
+	CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
         if (pmax == NULL) {
-            errorID = ERR_MN_LIST;
+            errorID = ERR_MAX_LIST;
             pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
             return;
-        }**/
+        }
 
 
         if (sessionUsers == 0) {
@@ -111,13 +111,13 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
                 return;
             }
 
-	    /**if (pmax->nLastDsq != 0 &&
+	    if (pmax->nLastDsq != 0 &&
                 pmax->nLastDsq + maxnodeman.CountEnabled(ActiveProtocol()) / 5 > maxnodeman.nDsqCount) {
                 LogPrintf("dsa -- last dsq too recent, must wait. %s \n", pfrom->addr.ToString());
                 errorID = ERR_RECENT;
                 pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
                 return;
-            }**/
+            }
 
         }
 
@@ -152,8 +152,8 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
         CMasternode* pmn = mnodeman.Find(dsq.vin);
         if (pmn == NULL) return;
 
-	//CMaxnode* pmax = maxnodeman.Find(dsq.vin);
-        //if (pmax == NULL) return;
+	CMaxnode* pmax = maxnodeman.Find(dsq.vin);
+        if (pmax == NULL) return;
 
         // if the queue is ready, submit if we can
         if (dsq.ready) {
@@ -162,11 +162,11 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
                 LogPrintf("dsq - message doesn't match current Masternode - %s != %s\n", pSubmittedToMasternode->addr.ToString(), addr.ToString());
                 return;
             }
-	    /**if (!pSubmittedToMaxnode) return;
+	    if (!pSubmittedToMaxnode) return;
             if ((CNetAddr)pSubmittedToMaxnode->addr != (CNetAddr)addr) {
                 LogPrintf("dsq - message doesn't match current Maxnode - %s != %s\n", pSubmittedToMaxnode->addr.ToString(), addr.ToString());
                 return;
-            }**/
+            }
 
             if (state == POOL_STATUS_QUEUE) {
                 LogPrint("obfuscation", "Obfuscation queue is ready - %s\n", addr.ToString());
@@ -215,13 +215,13 @@ void CObfuscationPool::ProcessMessageObfuscation(CNode* pfrom, std::string& strC
             return;
         }
 
-	/**if (!fMaxNode) {
+	if (!fMaxNode) {
             LogPrintf("dsi -- not a Maxnode! \n");
             errorID = ERR_NOT_A_MAX;
             pfrom->PushMessage("dssu", sessionID, GetState(), GetEntriesCount(), MAXNODE_REJECTED, errorID);
 
             return;
-        }**/
+        }
 
         std::vector<CTxIn> in;
         CAmount nAmount;
@@ -583,10 +583,10 @@ void CObfuscationPool::Check()
         }
     }
 
-    //if (fMaxNode) LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
+    if (fMaxNode) LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
     //printf("CObfuscationPool::Check() %d - %d - %d\n", state, anonTx.CountEntries(), GetTimeMillis()-lastTimeChanged);
 
-    /**if (fMaxNode) {
+    if (fMaxNode) {
         LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
 
         // If entries is full, then move on to the next phase
@@ -594,7 +594,7 @@ void CObfuscationPool::Check()
             LogPrint("obfuscation", "CObfuscationPool::Check() -- TRYING TRANSACTION \n");
             UpdateState(POOL_STATUS_FINALIZE_TRANSACTION);
         }
-    }**/
+    }
 
     // create the finalized transaction for distribution to the clients
     if (state == POOL_STATUS_FINALIZE_TRANSACTION) {
@@ -625,7 +625,7 @@ void CObfuscationPool::Check()
             RelayFinalTransaction(sessionID, finalTransaction);
         }
 
-	/**if (fMaxNode) {
+	if (fMaxNode) {
             CMutableTransaction txNew;
 
             // make our new transaction
@@ -647,7 +647,7 @@ void CObfuscationPool::Check()
 
             // request signatures from clients
             RelayFinalTransaction(sessionID, finalTransaction);
-        }**/
+        }
     }
 
     // If we have all of the signatures, try to compile the transaction
@@ -659,12 +659,12 @@ void CObfuscationPool::Check()
     }
 
     // If we have all of the signatures, try to compile the transaction
-    /**if (fMaxNode && state == POOL_STATUS_SIGNING && SignaturesComplete()) {
+    if (fMaxNode && state == POOL_STATUS_SIGNING && SignaturesComplete()) {
         LogPrint("obfuscation", "CObfuscationPool::Check() -- SIGNING\n");
         UpdateState(POOL_STATUS_TRANSMISSION);
 
         CheckFinalTransaction();
-    }**/
+    }
 
     // reset if we're here for 10 seconds
     if ((state == POOL_STATUS_ERROR || state == POOL_STATUS_SUCCESS) && GetTimeMillis() - lastTimeChanged >= 10000) {
@@ -672,7 +672,7 @@ void CObfuscationPool::Check()
         UnlockCoins();
         SetNull();
         if (fMasterNode) RelayStatus(sessionID, GetState(), GetEntriesCount(), MASTERNODE_RESET);
-        //if (fMaxNode) RelayStatus(sessionID, GetState(), GetEntriesCount(), MAXNODE_RESET);
+        if (fMaxNode) RelayStatus(sessionID, GetState(), GetEntriesCount(), MAXNODE_RESET);
     }
 }
 
@@ -681,7 +681,7 @@ void CObfuscationPool::Check()
 void CObfuscationPool::CheckFinalTransaction()
 {
     if (!fMasterNode) return; // check and relay final tx only on masternode
-    //if (!fMaxNode) return; // check and relay final tx only on maxnode
+    if (!fMaxNode) return; // check and relay final tx only on maxnode
 
     CWalletTx txNew = CWalletTx(pwalletMain, finalTransaction);
 
@@ -716,10 +716,10 @@ void CObfuscationPool::CheckFinalTransaction()
             return;
         }
 
-	/**if (!obfuScationSigner.SetKey(strMaxNodePrivKey, strError, key2, pubkey2)) {
+	if (!obfuScationSigner.SetKey(strMaxNodePrivKey, strError, key2, pubkey2)) {
             LogPrintf("CObfuscationPool::Check() - ERROR: Invalid Maxnodeprivkey: '%s'\n", strError);
             return;
-        }**/
+        }
 
         if (!obfuScationSigner.SignMessage(strMessage, strError, vchSig, key2)) {
             LogPrintf("CObfuscationPool::Check() - Sign message failed\n");
@@ -744,7 +744,7 @@ void CObfuscationPool::CheckFinalTransaction()
         CInv inv(MSG_DSTX, txNew.GetHash());
         RelayInv(inv);
 
-	/**if (!mapObfuscationBroadcastTxes.count(txNew.GetHash())) {
+	if (!mapObfuscationBroadcastTxes.count(txNew.GetHash())) {
             CObfuscationBroadcastTx dmaxstx;
             dmaxstx.tx = txNew;
             dmaxstx.vin = activeMaxnode.maxvin;
@@ -752,10 +752,10 @@ void CObfuscationPool::CheckFinalTransaction()
             dmaxstx.sigTime = sigTime;
 
             mapObfuscationBroadcastTxes.insert(make_pair(txNew.GetHash(), dmaxstx));
-        }**/
+        }
 
-        //CInv maxinv(MSG_DMAXSTX, txNew.GetHash());
-        //RelayInv(maxinv);
+        CInv maxinv(MSG_DMAXSTX, txNew.GetHash());
+        RelayInv(maxinv);
 
         // Tell the clients it was successful
         RelayCompletedTransaction(sessionID, false, MSG_SUCCESS);
@@ -787,7 +787,7 @@ void CObfuscationPool::CheckFinalTransaction()
 void CObfuscationPool::ChargeFees()
 {
     if (!fMasterNode) return;
-    //if (!fMaxNode) return;
+    if (!fMaxNode) return;
 
     //we don't need to charge collateral for every offence.
     int offences = 0;
@@ -982,8 +982,8 @@ void CObfuscationPool::CheckTimeout()
     }
 
     int addLagTime = 0;
-    //if (!fMasterNode && !fMaxNode) addLagTime = 10000; //if we're the client, give the server a few extra seconds before resetting.
-    if (!fMasterNode) addLagTime = 10000; //if we're the client, give the server a few extra seconds before resetting.
+    if (!fMasterNode && !fMaxNode) addLagTime = 10000; //if we're the client, give the server a few extra seconds before resetting.
+    //if (!fMasterNode) addLagTime = 10000; //if we're the client, give the server a few extra seconds before resetting.
 
     if (state == POOL_STATUS_ACCEPTING_ENTRIES || state == POOL_STATUS_QUEUE) {
         c = 0;
@@ -1001,9 +1001,9 @@ void CObfuscationPool::CheckTimeout()
                 if (fMasterNode) {
                     RelayStatus(sessionID, GetState(), GetEntriesCount(), MASTERNODE_RESET);
                 }
-		/**if (fMaxNode) {
+		if (fMaxNode) {
                     RelayStatus(sessionID, GetState(), GetEntriesCount(), MAXNODE_RESET);
-                }**/
+                }
             } else
                 ++it2;
             c++;
@@ -2238,6 +2238,8 @@ std::string CObfuscationPool::GetMessageByID(int messageID)
         return _("Value more than Obfuscation pool maximum allows.");
     case ERR_MN_LIST:
         return _("Not in the Masternode list.");
+    case ERR_MAX_LIST:
+        return _("Not in the Maxnode list.");
     case ERR_MODE:
         return _("Incompatible mode.");
     case ERR_NON_STANDARD_PUBKEY:
