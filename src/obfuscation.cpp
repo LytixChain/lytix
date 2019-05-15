@@ -2514,6 +2514,7 @@ void ThreadCheckObfuScationPool()
 
         // try to sync from all available nodes, one step at a time
         masternodeSync.Process();
+	maxnodeSync.Process();
 
         if (masternodeSync.IsBlockchainSynced()) {
             c++;
@@ -2521,11 +2522,15 @@ void ThreadCheckObfuScationPool()
             // check if we should activate or ping every few minutes,
             // start right after sync is considered to be done
             if (c % MASTERNODE_PING_SECONDS == 1) activeMasternode.ManageStatus();
+	    if (c % MAXNODE_PING_SECONDS == 1) activeMaxnode.ManageStatus();
 
             if (c % 60 == 0) {
                 mnodeman.CheckAndRemove();
                 mnodeman.ProcessMasternodeConnections();
                 masternodePayments.CleanPaymentList();
+		maxnodeman.CheckAndRemove();
+                maxnodeman.ProcessMaxnodeConnections();
+                maxnodePayments.CleanPaymentList();
                 CleanTransactionLocksList();
             }
 
@@ -2539,7 +2544,7 @@ void ThreadCheckObfuScationPool()
             }
         }
 
-	// try to sync from all available nodes, one step at a time
+/**	// try to sync from all available nodes, one step at a time
         maxnodeSync.Process();
 
 	if (maxnodeSync.IsBlockchainSynced()) {
@@ -2564,6 +2569,6 @@ void ThreadCheckObfuScationPool()
             if (obfuScationPool.GetState() == POOL_STATUS_IDLE && c % 15 == 0) {
                 obfuScationPool.DoAutomaticDenominating();
             }
-        }
+        }**/
     }
 }
