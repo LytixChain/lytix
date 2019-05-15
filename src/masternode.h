@@ -14,7 +14,7 @@
 #include "timedata.h"
 #include "util.h"
 
-#define MASTERNODE_MIN_CONFIRMATIONS 15
+#define MASTERNODE_MIN_CONFIRMATIONS 6
 #define MASTERNODE_MIN_MNP_SECONDS (10 * 60)
 #define MASTERNODE_MIN_MNB_SECONDS (5 * 60)
 #define MASTERNODE_PING_SECONDS (5 * 60)
