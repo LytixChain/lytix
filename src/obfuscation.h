@@ -260,7 +260,7 @@ public:
     /// Is the inputs associated with this masternode public key? (and there is 5000 LYTX - checking if valid masternode)
     bool IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey);
     /// Is the inputs associated with this maxnode public key? (and there is 50000 LYTX - checking if valid maxnode)
-    bool IsMaxVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey);
+    bool IsMaxVinAssociatedWithPubkey(CTxIn& maxvin, CPubKey& pubkey);
 
     /// Set the private/public key values, returns true if successful
     bool GetKeysFromSecret(std::string strSecret, CKey& keyRet, CPubKey& pubkeyRet);
