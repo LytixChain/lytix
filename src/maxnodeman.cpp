@@ -973,7 +973,7 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         mapSeenDsee.insert(make_pair(maxvin.prevout, pubkey));
         // make sure the vout that was signed is related to the transaction that spawned the Maxnode
         //  - this is expensive, so it's only done once per Maxnode
-        if (!obfuScationSigner.IsVinAssociatedWithPubkey(maxvin, pubkey)) {
+        if (!obfuScationSigner.IsMaxVinAssociatedWithPubkey(maxvin, pubkey)) {
             LogPrintf("CMaxnodeMan::ProcessMessage() : dmaxsee - Got mismatched pubkey and maxvin\n");
             Misbehaving(pfrom->GetId(), 100);
             return;
