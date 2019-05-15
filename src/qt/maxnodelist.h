@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2016 The Dash Developers
 // Copyright (c) 2016-2017 The PIVX developers
-// Copyright (c) 2019 The Lytix developers
+// Copyright (c) 2019 The Lytix developer
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -43,8 +43,8 @@ public:
 
     void setClientModel(ClientModel* clientModel);
     void setWalletModel(WalletModel* walletModel);
-    void StartAlias(std::string strMaxAlias);
-    void StartAll(std::string strMaxCommand = "start-all-max");
+    void StartMaxAlias(std::string strMaxAlias);
+    void StartMaxAll(std::string strMaxCommand = "start-all-max");
 
 private:
     QMenu* contextMenu;
