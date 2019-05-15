@@ -15,7 +15,7 @@
 #include "timedata.h"
 #include "util.h"
 
-#define MAXNODE_MIN_CONFIRMATIONS 6
+#define MAXNODE_MIN_CONFIRMATIONS 15
 #define MAXNODE_MIN_MAXP_SECONDS (10 * 60)
 #define MAXNODE_MIN_MAXB_SECONDS (5 * 60)
 #define MAXNODE_PING_SECONDS (5 * 60)

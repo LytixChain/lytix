@@ -2498,7 +2498,8 @@ void CObfuscationPool::RelayCompletedTransaction(const int sessionID, const bool
         pnode->PushMessage("dsc", sessionID, error, errorID);
 }
 
-//TODO: Rename/move to core
+//TODO: Rename/move to core //DISDIS - need to break this out for Maxnodes better
+//
 void ThreadCheckObfuScationPool()
 {
     if (fLiteMode) return; //disable all Obfuscation/Masternode related functionality

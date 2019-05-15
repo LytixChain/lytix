@@ -22,7 +22,6 @@ void CActiveMaxnode::ManageStatus()
     if (!fMaxNode) return;
 
     if (fDebug) LogPrintf("CActiveMaxnode::ManageStatus() - Begin\n");
-    if (fDebug) LogPrintf("MAXNODE STARTING TO MANAGE ITSELF YO!\n");
 
     //need correct blocks to send ping
     if (Params().NetworkID() != CBaseChainParams::REGTEST && !maxnodeSync.IsBlockchainSynced()) {
