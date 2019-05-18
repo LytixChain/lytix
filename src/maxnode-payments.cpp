@@ -329,12 +329,13 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
 
             //subtract max payment from the stake reward
             if (!txNew.vout[1].IsZerocoinMint())
-                txNew.vout[i - 1].nValue -= maxnodePayment;
+                txNew.vout[i - 1].nValue = maxnodePayment;
         } else {
             txNew.vout.resize(2);
             txNew.vout[1].scriptPubKey = payee;
             txNew.vout[1].nValue = maxnodePayment;
-            txNew.vout[0].nValue = blockValue - maxnodePayment;
+            //txNew.vout[0].nValue = blockValue - maxnodePayment;
+            txNew.vout[0].nValue = blockValue;
         }
 
         CTxDestination address1;
@@ -588,25 +589,27 @@ bool CMaxnodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
     return false;
 }
 
+///DISDIS - replace ret with maxret
+
 std::string CMaxnodeBlockPayees::GetMaxRequiredPaymentsString()
 {
     LOCK(cs_MaxvecPayments);
 
-    std::string ret = "Unknown";
+    std::string maxret = "Unknown";
 
     BOOST_FOREACH (CMaxnodePayee& payee, vecPayments) {
         CTxDestination address1;
         ExtractDestination(payee.scriptPubKey, address1);
         CBitcoinAddress address2(address1);
 
-        if (ret != "Unknown") {
-            ret += ", " + address2.ToString() + ":" + boost::lexical_cast<std::string>(payee.nVotes);
+        if (maxret != "Unknown") {
+            maxret += ", " + address2.ToString() + ":" + boost::lexical_cast<std::string>(payee.nVotes);
         } else {
-            ret = address2.ToString() + ":" + boost::lexical_cast<std::string>(payee.nVotes);
+            maxret = address2.ToString() + ":" + boost::lexical_cast<std::string>(payee.nVotes);
         }
     }
 
-    return ret;
+    return maxret;
 }
 
 std::string CMaxnodePayments::GetMaxRequiredPaymentsString(int nBlockHeight)

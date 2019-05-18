@@ -217,12 +217,12 @@ public:
 
     std::string ToString()
     {
-        std::string ret = "";
-        ret += vinMaxnode.ToString();
-        ret += ", " + boost::lexical_cast<std::string>(nBlockHeight);
-        ret += ", " + payee.ToString();
-        ret += ", " + boost::lexical_cast<std::string>((int)vchSig.size());
-        return ret;
+        std::string maxret = "";
+        maxret += vinMaxnode.ToString();
+        maxret += ", " + boost::lexical_cast<std::string>(nBlockHeight);
+        maxret += ", " + payee.ToString();
+        maxret += ", " + boost::lexical_cast<std::string>((int)vchSig.size());
+        return maxret;
     }
 };
 

@@ -1973,6 +1973,41 @@ int64_t GetBlockValue(int nHeight)
     return CoinAmount;
 }
 
+int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bool isZPIVStake)
+{
+        int64_t maxret = 0;
+
+        if (Params().NetworkID() == CBaseChainParams::TESTNET) {
+
+        if (nHeight <= 50) {
+                maxret = 0;
+
+        } else if (nHeight > 50) {
+                maxret = blockValue * 5;
+                //maxret = 5 * COIN;
+        }
+
+        return maxret;
+        }
+
+        if (IsSporkActive(SPORK_19_MAXNODE_ACTIVATION)) {
+
+        if (nHeight <= 499) {
+                maxret = 0;
+
+        } else if (nHeight > 499) {
+                maxret = blockValue * 5.0;
+        }
+        return maxret;
+        }
+
+        else {
+
+        maxret = 0;
+
+        return maxret;
+        }
+}
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount, bool isZPIVStake)
 {
@@ -1980,10 +2015,10 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
 
-    if (nHeight <= 499) {
+    if (nHeight <= 50) {
         ret = 0;
-    } else if (nHeight > 499) {
-        ret = blockValue * 0.6;
+    } else if (nHeight > 50) {
+        ret = blockValue * 0.3;
     } else {
         ret = 15 * COIN;
     }
@@ -2020,41 +2055,6 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
 }
 
-
-int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bool isZPIVStake)
-{
-    	int64_t ret = 0;
-
-    	if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-
-    	if (nHeight <= 499) {
-        	ret = 0;
-    
-    	} else if (nHeight > 499) {
-        	ret = blockValue * 5;
-    	}
-
-    	return ret;
-    	}
-
-        if (IsSporkActive(SPORK_19_MAXNODE_ACTIVATION)) {
-
-    	if (nHeight <= 499) {
-        	ret = 0;
-
-    	} else if (nHeight > 499) {
-        	ret = blockValue * 5;
-    	}
-    	return ret;
-	}
-
-	else {
-
-        ret = 0;
-
-        return ret;
-        }
-}
 
 bool IsInitialBlockDownload()
 {
@@ -4637,17 +4637,19 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
 
     if (!ActivateBestChain(state, pblock, checked))
         return error("%s : ActivateBestChain failed", __func__);
-
+//DISDIS - make sure both payments go here
+//
     if (!fLiteMode) {
-        if (masternodeSync.RequestedMasternodeAssets > MASTERNODE_SYNC_LIST) {
-            obfuScationPool.NewBlock();
-            masternodePayments.ProcessBlock(GetHeight() + 10);
-            budget.NewBlock();
-        }
 	if (maxnodeSync.RequestedMaxnodeAssets > MAXNODE_SYNC_LIST) {
             obfuScationPool.NewBlock();
             maxnodePayments.ProcessBlock(GetHeight() + 10);
             maxbudget.NewBlock();
+        }
+
+        if (masternodeSync.RequestedMasternodeAssets > MASTERNODE_SYNC_LIST) {
+            obfuScationPool.NewBlock();
+            masternodePayments.ProcessBlock(GetHeight() + 10);
+            budget.NewBlock();
         }
     }
 
