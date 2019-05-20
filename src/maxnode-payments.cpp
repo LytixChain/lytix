@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "maxnode-payments.h"
+#include "masternode-payments.h"
 #include "addrman.h"
 #include "maxnode-budget.h"
 #include "maxnode-sync.h"
@@ -314,6 +315,7 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
     CAmount maxnodePayment = GetMaxnodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
+    CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
 
     if (hasPayment) {
         if (fProofOfStake) {
@@ -333,9 +335,9 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
         } else {
             txNew.vout.resize(2);
             txNew.vout[1].scriptPubKey = payee;
-            txNew.vout[1].nValue = maxnodePayment;
-            //txNew.vout[0].nValue = blockValue - maxnodePayment;
-            txNew.vout[0].nValue = blockValue;
+            txNew.vout[1].nValue = maxnodePayment + masternodePayment;
+            txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment;
+            //txNew.vout[0].nValue = blockValue;
         }
 
         CTxDestination address1;

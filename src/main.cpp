@@ -1983,7 +1983,7 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
                 maxret = 0;
 
         } else if (nHeight > 50) {
-                maxret = blockValue * 5;
+                maxret = blockValue * 0.5;
                 //maxret = 5 * COIN;
         }
 
@@ -1996,7 +1996,7 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
                 maxret = 0;
 
         } else if (nHeight > 499) {
-                maxret = blockValue * 5.0;
+                maxret = blockValue * 0.5;
         }
         return maxret;
         }
