@@ -43,8 +43,8 @@ public:
 
     void setClientModel(ClientModel* clientModel);
     void setWalletModel(WalletModel* walletModel);
-    void StartMaxAlias(std::string strMaxAlias);
-    void StartMaxAll(std::string strMaxCommand = "start-all-max");
+    void StartMaxAlias(std::string strAlias);
+    void StartMaxAll(std::string strCommand = "start-all-max");
 
 private:
     QMenu* contextMenu;
@@ -52,7 +52,7 @@ private:
     bool fFilterUpdated;
 
 public Q_SLOTS:
-    void updateMyMaxnodeInfo(QString strMaxAlias, QString strMaxAddr, CMaxnode* pmax);
+    void updateMyMaxnodeInfo(QString strAlias, QString strAddr, CMaxnode* pmax);
     void updateMyNodeList(bool fForce = false);
 
 Q_SIGNALS:
