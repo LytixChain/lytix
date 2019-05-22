@@ -1807,7 +1807,7 @@ Address: %4
     </message>
     <message>
         <location line="+18"/>
-        <source>My Masternodes</source>
+        <source>My Maxnodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
