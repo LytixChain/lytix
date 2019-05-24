@@ -43,8 +43,8 @@ public:
 
     void setClientModel(ClientModel* clientModel);
     void setWalletModel(WalletModel* walletModel);
-    void StartMaxAlias(std::string strAlias);
-    void StartMaxAll(std::string strCommand = "start-all-max");
+    void StartAlias(std::string strAlias);
+    void StartAll(std::string strCommand = "start-all-max");
 
 private:
     QMenu* contextMenu;

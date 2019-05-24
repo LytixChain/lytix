@@ -10,6 +10,7 @@
 #include "maxnode-budget.h"
 #include "maxnode-sync.h"
 #include "maxnodeman.h"
+#include "masternodeman.h"
 #include "obfuscation.h"
 #include "spork.h"
 #include "sync.h"
@@ -292,6 +293,8 @@ std::string GetMaxRequiredPaymentsString(int nBlockHeight)
     //}
 }
 
+
+///DISDISDIS - add masternode payments here pull from masternode-info
 void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake)
 {
     //int lastPoW = Params().LAST_POW_BLOCK();
@@ -300,6 +303,7 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
 
     bool hasPayment = true;
     CScript payee;
+    CScript payee2;
 
     //spork
     if (!maxnodePayments.GetBlockPayee(pindexPrev->nHeight + 1, payee)) {
@@ -312,6 +316,18 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
             hasPayment = false;
         }
     }
+
+    if (!masternodePayments.GetBlockPayee(pindexPrev->nHeight + 1, payee2)) {
+        //no maxnode detected
+        CMasternode* winningNode = mnodeman.GetCurrentMasterNode(1);
+        if (winningNode) {
+            payee2 = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
+        } else {
+            LogPrint("masternode","CreateNewBlock: Failed to detect masternode to pay\n");
+            hasPayment = false;
+        }
+    }
+
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
     CAmount maxnodePayment = GetMaxnodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
@@ -333,9 +349,11 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
             if (!txNew.vout[1].IsZerocoinMint())
                 txNew.vout[i - 1].nValue = maxnodePayment;
         } else {
-            txNew.vout.resize(2);
+            txNew.vout.resize(3);
+	    txNew.vout[2].scriptPubKey = payee2;
+	    txNew.vout[2].nValue = masternodePayment;
             txNew.vout[1].scriptPubKey = payee;
-            txNew.vout[1].nValue = maxnodePayment + masternodePayment;
+            txNew.vout[1].nValue = maxnodePayment;
             txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment;
             //txNew.vout[0].nValue = blockValue;
         }

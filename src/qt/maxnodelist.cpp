@@ -89,7 +89,7 @@ void MaxnodeList::showContextMenu(const QPoint& point)
 }
 
 
-void MaxnodeList::StartMaxAlias(std::string strAlias)
+void MaxnodeList::StartAlias(std::string strAlias)
 {
     std::string strStatusHtml;
     strStatusHtml += "<center>Alias: " + strAlias;
@@ -106,7 +106,8 @@ void MaxnodeList::StartMaxAlias(std::string strAlias)
                 maxnodeman.UpdateMaxnodeList(maxb);
                 maxb.Relay();
             } else {
-                strStatusHtml += "<br>Failed to start maxnode.<br>Error: " + strError;
+                //strStatusHtml += "<br>Failed to start maxnode.<br>Error: " + strError;
+                strStatusHtml += "<br>Failed to start maxnode.<br>Error: ";
             }
             break;
         }
@@ -120,7 +121,7 @@ void MaxnodeList::StartMaxAlias(std::string strAlias)
     updateMyNodeList(true);
 }
 
-void MaxnodeList::StartMaxAll(std::string strCommand)
+void MaxnodeList::StartAll(std::string strCommand)
 {
     int nCountSuccessful = 0;
     int nCountFailed = 0;
@@ -256,11 +257,11 @@ void MaxnodeList::on_startButton_clicked()
 
         if (!ctx.isValid()) return; // Unlock wallet was cancelled
 
-        StartMaxAlias(strAlias);
+        StartAlias(strAlias);
         return;
     }
 
-    StartMaxAlias(strAlias);
+    StartAlias(strAlias);
 }
 
 
@@ -281,11 +282,11 @@ void MaxnodeList::on_startAllButton_clicked()
 
         if (!ctx.isValid()) return; // Unlock wallet was cancelled
 
-        StartMaxAll();
+        StartAll();
         return;
     }
 
-    StartMaxAll();
+    StartAll();
 }
 
 void MaxnodeList::on_startMissingButton_clicked()
@@ -312,11 +313,11 @@ void MaxnodeList::on_startMissingButton_clicked()
 
         if (!ctx.isValid()) return; // Unlock wallet was cancelled
 
-        StartMaxAll("start-missing");
+        StartAll("start-missing");
         return;
     }
 
-    StartMaxAll("start-missing");
+    StartAll("start-missing");
 }
 
 void MaxnodeList::on_tableWidgetMyMaxnodes_itemSelectionChanged()

@@ -91,7 +91,7 @@ QToolBar > QToolButton {
         width: 100%;
         opacity: 0.75;
         padding: 6px 0 6px;
-        box-sizing: border-box;
+        /*box-sizing: border-box; */
         border-right: 3px solid transparent;
         margin-bottom: 18px;
         /* border-image: url(':/images/downArrow') 0 0 0 0 stretch stretch; */
