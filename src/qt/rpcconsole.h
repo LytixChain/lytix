@@ -110,6 +110,8 @@ public Q_SLOTS:
     void showConfEditor();
     /** Open external (default) editor with masternode.conf */
     void showMNConfEditor();
+    /** Open external (default) editor with maxnode.conf */
+    void showMAXConfEditor();
     /** Handle selection of peer in peers list */
     void peerSelected(const QItemSelection& selected, const QItemSelection& deselected);
     /** Handle updated peer information */

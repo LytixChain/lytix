@@ -830,6 +830,11 @@ void RPCConsole::showMNConfEditor()
     GUIUtil::openMNConfigfile();
 }
 
+void RPCConsole::showMAXConfEditor()
+{
+    GUIUtil::openMAXConfigfile();
+}
+
 void RPCConsole::peerSelected(const QItemSelection& selected, const QItemSelection& deselected)
 {
     Q_UNUSED(deselected);
