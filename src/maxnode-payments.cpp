@@ -294,7 +294,8 @@ std::string GetMaxRequiredPaymentsString(int nBlockHeight)
 }
 
 
-///DISDISDIS - add masternode payments here pull from masternode-info
+///JVD Method, Jerome approved, R.I.P., bro
+//
 void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake)
 {
     //int lastPoW = Params().LAST_POW_BLOCK();
