@@ -973,6 +973,7 @@ void BitcoinGUI::setNumBlocks(int count)
 
     tooltip = tr("Processed %n blocks of transaction history.", "", count);
 
+    /// DISDISDIS - Add maxnodes here
     // Set icon state: spinning if catching up, tick otherwise
     //    if(secs < 25*60) // 90*60 for bitcoin but we are 4x times faster
     if (masternodeSync.IsBlockchainSynced()) {
