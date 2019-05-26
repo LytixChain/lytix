@@ -51,12 +51,12 @@ MaxnodeList::MaxnodeList(QWidget* parent) : QWidget(parent),
 
     ui->tableWidgetMyMaxnodes->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    QAction* startAliasAction = new QAction(tr("Start alias"), this);
+    QAction* startMaxAliasAction = new QAction(tr("Start alias"), this);
 
     contextMenu = new QMenu();
-    contextMenu->addAction(startAliasAction);
+    contextMenu->addAction(startMaxAliasAction);
     connect(ui->tableWidgetMyMaxnodes, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
-    connect(startAliasAction, SIGNAL(triggered()), this, SLOT(on_startButton_clicked()));
+    connect(startMaxAliasAction, SIGNAL(triggered()), this, SLOT(on_startButton_clicked()));
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMyNodeList()));
