@@ -170,21 +170,16 @@ void OverviewPage::getPercentage(CAmount nUnlockedBalance, CAmount nZerocoinBala
     int nPrecision = 2;
     double dzPercentage = 0.0;
 
-    if (nZerocoinBalance <= 0){
-        dzPercentage = 0.0;
-    }
-    else{
-        if (nUnlockedBalance <= 0){
-            dzPercentage = 100.0;
-        }
-        else{
-            dzPercentage = 100.0 * (double)(nZerocoinBalance / (double)(nZerocoinBalance + nUnlockedBalance));
-        }
-    }
+   if (nUnlockedBalance <= 0){
+       dzPercentage = 0.0;
+   }
+   else{
+       dzPercentage = 100.0 * (double)(nUnlockedBalance / currentBalance);
+   }
 
     double dPercentage = 100.0 - dzPercentage;
     
-    szPIVPercentage = "(" + QLocale(QLocale::system()).toString(dzPercentage, 'f', nPrecision) + " %)";
+    //szPIVPercentage = "(" + QLocale(QLocale::system()).toString(dzPercentage, 'f', nPrecision) + " %)";
     sPIVPercentage = "(" + QLocale(QLocale::system()).toString(dPercentage, 'f', nPrecision) + " %)";
     
 }
@@ -289,8 +284,8 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     // Percent split
     // DISDISDIS - change to total available unlocked instead of zLYTX
     //bool showPercentages = ! (zerocoinBalance == 0 && nTotalBalance == 0);
-    bool showPercentages = ! (nTotalBalance == 0);
-    ui->labelPIVPercent->setVisible(showPercentages);
+    //bool showPercentages = ! (nTotalBalance == 0);
+    //ui->labelPIVPercent->setVisible(showPercentages);
 
     static int cachedTxLocks = 0;
 
