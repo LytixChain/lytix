@@ -253,6 +253,12 @@ void WalletView::setWalletModel(WalletModel* walletModel)
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setWalletModel(walletModel);
     }
+    if (settings.value("fShowMasternodesTab").toBool()) {
+        masternodeListPage->setClientModel(clientModel);
+    }
+    if (settings.value("fShowMaxnodesTab").toBool()) {
+        maxnodeListPage->setWalletModel(walletModel);
+    }
     if (settings.value("fShowMaxnodesTab").toBool()) {
         maxnodeListPage->setClientModel(clientModel);
     }

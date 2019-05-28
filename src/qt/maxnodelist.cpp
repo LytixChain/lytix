@@ -106,8 +106,8 @@ void MaxnodeList::StartAlias(std::string strAlias)
                 maxnodeman.UpdateMaxnodeList(maxb);
                 maxb.Relay();
             } else {
-                //strStatusHtml += "<br>Failed to start maxnode.<br>Error: " + strError;
-                strStatusHtml += "<br>Failed to start maxnode.<br>Error: ";
+                strStatusHtml += "<br>Failed to start maxnode.<br>Error: " + strError;
+                //strStatusHtml += "<br>Failed to start maxnode.<br>Error: ";
             }
             break;
         }
