@@ -1855,6 +1855,21 @@ void CMAXFinalizedBudget::AutoCheck()
         return;
     }
 
+    if (!fMaxNodeT1 || fAutoChecked) {
+        LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNodeT1=%d fAutoChecked=%d\n", fMaxNodeT1, fAutoChecked);
+        return;
+    }
+
+    if (!fMaxNodeT2 || fAutoChecked) {
+        LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNodeT2=%d fAutoChecked=%d\n", fMaxNodeT2, fAutoChecked);
+        return;
+    }
+
+    if (!fMaxNodeT3 || fAutoChecked) {
+        LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNodeT3=%d fAutoChecked=%d\n", fMaxNodeT3, fAutoChecked);
+        return;
+    }
+
 
     // Do this 1 in 4 blocks -- spread out the voting activity
     // -- this function is only called every fourteenth block, so this is really 1 in 56 blocks

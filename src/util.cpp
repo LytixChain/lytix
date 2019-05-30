@@ -114,6 +114,9 @@ string strMasterNodePrivKey = "";
 string strMasterNodeAddr = "";
 // Maxnode
 bool fMaxNode = false;
+bool fMaxNodeT1 = false;
+bool fMaxNodeT2 = false;
+bool fMaxNodeT3 = false;
 string strMaxNodePrivKey = "";
 string strMaxNodeAddr = "";
 

@@ -443,7 +443,7 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
     EnsureWalletIsUnlocked();
 
     if (strCommand == "local") {
-        if (!fMaxNode) throw runtime_error("you must set maxnode=1 in the configuration\n");
+        if (!fMaxNode || !fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) throw runtime_error("you must set maxnode=1 in the configuration\n");
 
         if (activeMaxnode.status != ACTIVE_MAXNODE_STARTED) {
             activeMaxnode.status = ACTIVE_MAXNODE_INITIAL; // TODO: consider better way
@@ -697,7 +697,7 @@ UniValue getmaxnodestatus (const UniValue& params, bool fHelp)
             "\nExamples:\n" +
             HelpExampleCli("getmaxnodestatus", "") + HelpExampleRpc("getmaxnodestatus", ""));
 
-    if (!fMaxNode) throw runtime_error("This is not a maxnode");
+    if (!fMaxNode || !fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) throw runtime_error("This is not a maxnode");
 
     CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
 

@@ -23,6 +23,10 @@ extern CzPIVWallet* zwalletMain;
 
 void StartShutdown();
 bool ShutdownRequested();
+extern bool fMaxNodeT1;
+extern bool fMaxNodeT2;
+extern bool fMaxNodeT3;
+
 /** Interrupt threads */
 void Interrupt(boost::thread_group& threadGroup);
 void Shutdown();

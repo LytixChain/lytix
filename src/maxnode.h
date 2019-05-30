@@ -26,6 +26,9 @@
 using namespace std;
 
 class CMaxnode;
+class CMaxnodeT1;
+class CMaxnodeT2;
+class CMaxnodeT3;
 class CMaxnodeBroadcast;
 class CMaxnodePing;
 extern map<int64_t, uint256> mapMaxCacheBlockHashes;

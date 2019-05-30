@@ -1175,6 +1175,9 @@ CAmount CWalletTx::GetAnonymizableCredit(bool fUseCache) const
         if (pwallet->IsSpent(hashTx, i) || pwallet->IsLockedCoin(hashTx, i)) continue;
         if (fMasterNode && vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN) continue; // do not count MN-like outputs
         if (fMaxNode && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
+        if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
+        if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt2-like outputs
+        if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt3-like outputs
 
         const int rounds = pwallet->GetInputObfuscationRounds(vin);
         if (rounds >= -2 && rounds < nZeromintPercentage) {
@@ -1240,6 +1243,9 @@ CAmount CWalletTx::GetUnlockedCredit() const
         if (pwallet->IsSpent(hashTx, i) || pwallet->IsLockedCoin(hashTx, i)) continue;
         if (fMasterNode && vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN) continue; // do not count MN-like outputs
 	if (fMaxNode && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
+	if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt1-like outputs
+	if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt2-like outputs
+	if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) continue; // do not count MAXt3-like outputs
 
         nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
         if (!MoneyRange(nCredit))
@@ -1280,6 +1286,18 @@ CAmount CWalletTx::GetLockedCredit() const
 	if (fMaxNode && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
             nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
         }
+
+	if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
+            nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
+	}
+
+	if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) {
+            nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
+	}
+
+	if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) {
+            nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
+	}
 
         if (!MoneyRange(nCredit))
             throw std::runtime_error("CWalletTx::GetLockedCredit() : value out of range");

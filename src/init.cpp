@@ -1859,16 +1859,17 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
 
-    //DISDIS - TODO: figure out a way to have this in the lytix.conf file as a generic but pick the correct tier
-
     fMaxNode = GetBoolArg("-maxnode", false);
+    fMaxNodeT1 = GetBoolArg("-maxnodet1", false);
+    fMaxNodeT2 = GetBoolArg("-maxnodet2", false);
+    fMaxNodeT3 = GetBoolArg("-maxnodet3", false);
 
-    if ((fMaxNode || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
+    if ((fMaxNode || fMaxNodeT1 || fMaxNodeT2 || fMaxNodeT3 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
         return InitError("Enabling Maxnode support requires turning on transaction indexing."
                          "Please add txindex=1 to your configuration and start with -reindex");
     }
 
-    if (fMaxNode) {
+    if (fMaxNode || fMaxNodeT1 || fMaxNodeT2 || fMaxNodeT3) {
         LogPrintf("IS MAX NODE\n");
         strMaxNodeAddr = GetArg("-maxnodeaddr", "");
 
