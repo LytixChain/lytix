@@ -416,7 +416,7 @@ bool CMaxnodeBroadcast::Create(std::string strService, std::string strKeyMaxnode
     }
 
     if (!pwalletMain->GetMaxnodeVinAndKeys(txin, pubKeyCollateralAddressNew, keyCollateralAddressNew, strTxHash, strOutputIndex)) {
-        strErrorRet = strprintf("Could not allocate txin %s:%s for maxnode %s and txin %s", strTxHash, strOutputIndex, strService, txin);
+        strErrorRet = strprintf("Could not allocate txin %s:%s for maxnode %s", strTxHash, strOutputIndex, strService);
         LogPrint("maxnode","CMaxnodeBroadcast::Create -- %s\n", strErrorRet);
         return false;
     }
