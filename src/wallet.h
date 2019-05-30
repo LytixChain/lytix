@@ -89,7 +89,9 @@ enum AvailableCoinsType {
     ONLY_NONDENOMINATED_NOT10000IFMN = 4, // ONLY_NONDENOMINATED and not 5000 LYTX at the same time
     MASTERNODE_OUTPUT_COIN = 5,                        // find masternode outputs including locked ones (use with caution)
     STAKABLE_COINS = 6,                          // UTXO's that are valid for staking
-    MAXNODE_TIER1_COIN = 7                          // find maxnode outputs for tier 1 50,000 LYTX
+    MAXNODE_TIER1_COIN = 7,                          // find maxnode outputs for tier 1 50,000 LYTX
+    MAXNODE_TIER2_COIN = 8,                          // find maxnode outputs for tier 2 75,000 LYTX
+    MAXNODE_TIER3_COIN = 9                          // find maxnode outputs for tier 3 100,000 LYTX
 };
 
 // Possible states for zPIV send

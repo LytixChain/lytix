@@ -2043,6 +2043,10 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                     found = pcoin->vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN;
 		} else if (nCoinType == MAXNODE_TIER1_COIN) {
                     found = pcoin->vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN;    
+		} else if (nCoinType == MAXNODE_TIER2_COIN) {
+                    found = pcoin->vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN;
+		} else if (nCoinType == MAXNODE_TIER3_COIN) {
+                    found = pcoin->vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN;
                 } else {
                     found = true;
                 }
@@ -2065,12 +2069,8 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                 if (mine == ISMINE_WATCH_ONLY && nWatchonlyConfig == 1)
                     continue;
 
-                if (IsLockedCoin((*it).first, i) && nCoinType != MASTERNODE_OUTPUT_COIN)
+                if (IsLockedCoin((*it).first, i) && nCoinType != MASTERNODE_OUTPUT_COIN && nCoinType != MAXNODE_TIER1_COIN && nCoinType != MAXNODE_TIER2_COIN && nCoinType != MAXNODE_TIER3_COIN)
                     continue;
-
-		//DISDIS - Problem be here with masternodes/maxnodes starting
-		//if (IsLockedCoin((*it).first, i) && nCoinType != MAXNODE_TIER1_COIN)
-                //    continue;
 
                 if (pcoin->vout[i].nValue <= 0 && !fIncludeZeroValue)
                     continue;
