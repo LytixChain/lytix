@@ -2023,8 +2023,8 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     if (nHeight <= 50) {
         ret = 0;
     } else if (nHeight > 50) {
-        ret = blockValue * 0.5;
-        //ret = blockValue * 0.45; // trying this for dev payout
+        ret = blockValue * 0.6;
+        //ret = blockValue * 0.55; // trying this for dev payout
     } else {
         ret = 15 * COIN;
     }
