@@ -168,9 +168,10 @@ OverviewPage::~OverviewPage()
 void OverviewPage::getPercentage(CAmount nUnlockedBalance, CAmount nZerocoinBalance, QString& sPIVPercentage, QString& szPIVPercentage)
 {
     int nPrecision = 2;
-    double dzPercentage = 0.0;
+    //double dzPercentage = 0.0;
+    double dPercentage = 100.0;
 
-   if (nUnlockedBalance <= 0){
+   /**if (nUnlockedBalance <= 0){
        dzPercentage = 0.0;
    }
    else{
@@ -178,7 +179,7 @@ void OverviewPage::getPercentage(CAmount nUnlockedBalance, CAmount nZerocoinBala
    }
 
     double dPercentage = 100.0 - dzPercentage;
-    
+    **/
     //szPIVPercentage = "(" + QLocale(QLocale::system()).toString(dzPercentage, 'f', nPrecision) + " %)";
     sPIVPercentage = "(" + QLocale(QLocale::system()).toString(dPercentage, 'f', nPrecision) + " %)";
     

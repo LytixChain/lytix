@@ -510,7 +510,7 @@ bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKe
 
     // Find possible candidates
     std::vector<COutput> vPossibleCoins;
-    AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER1_COIN);
+    AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER1_COIN, MAXNODE_TIER2_COIN, MAXNODE_TIER3_COIN);
     if (vPossibleCoins.empty()) {
         LogPrintf("CWallet::GetMaxnodeVinAndKeys -- Could not locate any valid maxnode vin\n");
         return false;
@@ -1422,6 +1422,19 @@ CAmount CWalletTx::GetLockedWatchOnlyCredit() const
             nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
         }
 
+	if (fMaxNodeT1 && vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
+            nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
+        }
+	
+	if (fMaxNodeT2 && vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) {
+            nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
+        }
+
+	if (fMaxNodeT3 && vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) {
+            nCredit += pwallet->GetCredit(txout, ISMINE_WATCH_ONLY);
+        }
+
+
         if (!MoneyRange(nCredit))
             throw std::runtime_error("CWalletTx::GetLockedCredit() : value out of range");
     }
@@ -2057,6 +2070,9 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                     found = !IsDenominatedAmount(pcoin->vout[i].nValue);
                     if (found && fMasterNode) found = pcoin->vout[i].nValue != MASTERNODE_COLLATERAL_AMOUNT * COIN; // do not use Hot MN funds
                     if (found && fMaxNode) found = pcoin->vout[i].nValue != MAXNODE_T1_COLLATERAL_AMOUNT * COIN; // do not use Hot MaxT1 funds
+                    if (found && fMaxNodeT1) found = pcoin->vout[i].nValue != MAXNODE_T1_COLLATERAL_AMOUNT * COIN; // do not use Hot MaxT1 funds
+                    if (found && fMaxNodeT2) found = pcoin->vout[i].nValue != MAXNODE_T2_COLLATERAL_AMOUNT * COIN; // do not use Hot MaxT1 funds
+                    if (found && fMaxNodeT3) found = pcoin->vout[i].nValue != MAXNODE_T3_COLLATERAL_AMOUNT * COIN; // do not use Hot MaxT1 funds
                 } else if (nCoinType == MASTERNODE_OUTPUT_COIN) {
                     found = pcoin->vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN;
 		} else if (nCoinType == MAXNODE_TIER1_COIN) {

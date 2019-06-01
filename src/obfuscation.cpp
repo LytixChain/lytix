@@ -583,10 +583,10 @@ void CObfuscationPool::Check()
         }
     }
 
-    if (fMaxNode || !fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
+    if (fMaxNode || fMaxNodeT1 || fMaxNodeT2 || fMaxNodeT3) LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
     //printf("CObfuscationPool::Check() %d - %d - %d\n", state, anonTx.CountEntries(), GetTimeMillis()-lastTimeChanged);
 
-    if (fMaxNode || !fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) {
+    if (fMaxNode || fMaxNodeT1 || fMaxNodeT2 || fMaxNodeT3) {
         LogPrint("obfuscation", "CObfuscationPool::Check() - entries count %lu\n", entries.size());
 
         // If entries is full, then move on to the next phase
@@ -625,7 +625,7 @@ void CObfuscationPool::Check()
             RelayFinalTransaction(sessionID, finalTransaction);
         }
 
-	if (fMaxNode || !fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) {
+	if (fMaxNode || fMaxNodeT1 || fMaxNodeT2 || fMaxNodeT3) {
             CMutableTransaction txNew;
 
             // make our new transaction
@@ -2295,9 +2295,7 @@ bool CObfuScationSigner::IsMaxVinAssociatedWithPubkey(CTxIn& maxvin, CPubKey& pu
     uint256 hash;
     if (GetTransaction(maxvin.prevout.hash, txVin, hash, true)) {
         BOOST_FOREACH (CTxOut out, txVin.vout) {
-            if (out.nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) {
-
-            //} else if (out.nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) {
+            if (out.nValue == (MAXNODE_T1_COLLATERAL_AMOUNT || MAXNODE_T2_COLLATERAL_AMOUNT || MAXNODE_T3_COLLATERAL_AMOUNT) * COIN) {
 
                 if (out.scriptPubKey == payee2) return true;
             }
