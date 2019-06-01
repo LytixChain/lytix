@@ -90,8 +90,8 @@ enum AvailableCoinsType {
     MASTERNODE_OUTPUT_COIN = 5,                        // find masternode outputs including locked ones (use with caution)
     STAKABLE_COINS = 6,                          // UTXO's that are valid for staking
     MAXNODE_TIER1_COIN = 7,                          // find maxnode outputs for all tiers
-    MAXNODE_TIER1_COIN = 8,                          // find maxnode outputs for all tiers
-    MAXNODE_TIER1_COIN = 9                          // find maxnode outputs for all tiers
+    MAXNODE_TIER2_COIN = 8,                          // find maxnode outputs for all tiers
+    MAXNODE_TIER3_COIN = 9                          // find maxnode outputs for all tiers
 };
 
 // Possible states for zPIV send
