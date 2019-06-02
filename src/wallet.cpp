@@ -510,15 +510,17 @@ bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKe
 
     // Find possible candidates
     std::vector<COutput> vPossibleCoins;
-    if (fMaxNodeT1) {
-    	AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER1_COIN);
-    }
-    if (fMaxNodeT2) {
+    //DISDISDIS - whatever is listed first after false will win in available coins - it ignores the last 2 and the error cannot allocate txin shows
+    //
+    //if (fMaxNodeT1) {
+    	AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER1_COIN, MAXNODE_TIER2_COIN, MAXNODE_TIER3_COIN);
+    //}
+    /**if (fMaxNodeT2) {
         AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER2_COIN);
     }
     if (fMaxNodeT3) {
         AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER3_COIN);
-    }
+    }**/
 
     if (vPossibleCoins.empty()) {
         LogPrintf("CWallet::GetMaxnodeVinAndKeys -- Could not locate any valid maxnode vin\n");

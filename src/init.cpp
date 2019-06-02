@@ -1859,9 +1859,9 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
 
-    fMaxNodeT1 = GetBoolArg("-maxnode", false);
-    fMaxNodeT2 = GetBoolArg("-maxnode", false);
-    fMaxNodeT3 = GetBoolArg("-maxnode", false);
+    fMaxNodeT1 = GetBoolArg("-maxnodet1", false);
+    fMaxNodeT2 = GetBoolArg("-maxnodet2", false);
+    fMaxNodeT3 = GetBoolArg("-maxnodet3", false);
 
     if ((fMaxNodeT1 || fMaxNodeT2 || fMaxNodeT3 || maxnodeConfig.getCount() > -1) && fTxIndex == false) {
         return InitError("Enabling Maxnode support requires turning on transaction indexing."
