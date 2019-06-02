@@ -1850,11 +1850,6 @@ void CMAXFinalizedBudget::AutoCheck()
 
     LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck - %lli - %d\n", pindexPrev->nHeight, fAutoChecked);
 
-    if (!fMaxNode || fAutoChecked) {
-        LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNode=%d fAutoChecked=%d\n", fMaxNode, fAutoChecked);
-        return;
-    }
-
     if (!fMaxNodeT1 || fAutoChecked) {
         LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNodeT1=%d fAutoChecked=%d\n", fMaxNodeT1, fAutoChecked);
         return;

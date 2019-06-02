@@ -19,7 +19,7 @@ void CActiveMaxnode::ManageStatus()
 {
     std::string errorMessage;
 
-    if (!fMaxNode || !fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return;
+    if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return;
 
     if (fDebug) LogPrintf("CActiveMaxnode::ManageStatus() - Begin\n");
 
@@ -480,7 +480,7 @@ vector<COutput> CActiveMaxnode::SelectCoinsMaxnode()
 // when starting a Maxnode, this can enable to run as a hot wallet with no funds
 bool CActiveMaxnode::EnableHotColdMaxNode(CTxIn& newVin, CService& newService)
 {
-    if (!fMaxNode || !fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return false;
+    if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return false;
 
     status = ACTIVE_MAXNODE_STARTED;
 

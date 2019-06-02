@@ -34,7 +34,6 @@
 //PIVX only features
 
 extern bool fMasterNode;
-extern bool fMaxNode;
 extern bool fMaxNodeT1;
 extern bool fMaxNodeT2;
 extern bool fMaxNodeT3;

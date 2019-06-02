@@ -2,7 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018 The Lytix developers
+// Copyright (c) 2018-2019 The Lytix developer
 
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -89,9 +89,9 @@ enum AvailableCoinsType {
     ONLY_NONDENOMINATED_NOT10000IFMN = 4, // ONLY_NONDENOMINATED and not 5000 LYTX at the same time
     MASTERNODE_OUTPUT_COIN = 5,                        // find masternode outputs including locked ones (use with caution)
     STAKABLE_COINS = 6,                          // UTXO's that are valid for staking
-    MAXNODE_TIER1_COIN = 7,                          // find maxnode outputs for all tiers
-    MAXNODE_TIER2_COIN = 8,                          // find maxnode outputs for all tiers
-    MAXNODE_TIER3_COIN = 9                          // find maxnode outputs for all tiers
+    MAXNODE_TIER1_COIN = 7,                          // find maxnode outputs for tier 1
+    MAXNODE_TIER2_COIN = 8,                          // find maxnode outputs for tier 2
+    MAXNODE_TIER3_COIN = 9                          // find maxnode outputs for tier 3
 };
 
 // Possible states for zPIV send
