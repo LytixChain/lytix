@@ -512,15 +512,8 @@ bool CWallet::GetMaxnodeVinAndKeys(CTxIn& txinMaxRet, CPubKey& pubMaxKeyRet, CKe
     std::vector<COutput> vPossibleCoins;
     //DISDISDIS - whatever is listed first after false will win in available coins - it ignores the last 2 and the error cannot allocate txin shows
     //
-    //if (fMaxNodeT1) {
-    	AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER1_COIN, MAXNODE_TIER2_COIN, MAXNODE_TIER3_COIN);
-    //}
-    /**if (fMaxNodeT2) {
-        AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER2_COIN);
-    }
-    if (fMaxNodeT3) {
-        AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER3_COIN);
-    }**/
+    AvailableCoins(vPossibleCoins, true, NULL, false, MAXNODE_TIER_COIN);
+    
 
     if (vPossibleCoins.empty()) {
         LogPrintf("CWallet::GetMaxnodeVinAndKeys -- Could not locate any valid maxnode vin\n");
@@ -2075,11 +2068,11 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                     if (found && fMaxNodeT3) found = pcoin->vout[i].nValue != MAXNODE_T3_COLLATERAL_AMOUNT * COIN; // do not use Hot MaxT1 funds
                 } else if (nCoinType == MASTERNODE_OUTPUT_COIN) {
                     found = pcoin->vout[i].nValue == MASTERNODE_COLLATERAL_AMOUNT * COIN;
-		} else if (nCoinType == MAXNODE_TIER1_COIN) {
+		} else if (fMaxNodeT1 && (nCoinType == MAXNODE_TIER_COIN)) {
                     found = pcoin->vout[i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN;    
-		} else if (nCoinType == MAXNODE_TIER2_COIN) {
+		} else if (fMaxNodeT2 && (nCoinType == MAXNODE_TIER_COIN)) {
                     found = pcoin->vout[i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN;
-		} else if (nCoinType == MAXNODE_TIER3_COIN) {
+		} else if (fMaxNodeT3 && (nCoinType == MAXNODE_TIER_COIN)) {
                     found = pcoin->vout[i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN;
                 } else {
                     found = true;
@@ -2103,7 +2096,7 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                 if (mine == ISMINE_WATCH_ONLY && nWatchonlyConfig == 1)
                     continue;
 
-                if (IsLockedCoin((*it).first, i) && nCoinType != MASTERNODE_OUTPUT_COIN && nCoinType != MAXNODE_TIER1_COIN && nCoinType != MAXNODE_TIER2_COIN && nCoinType != MAXNODE_TIER3_COIN)
+                if (IsLockedCoin((*it).first, i) && nCoinType != MASTERNODE_OUTPUT_COIN && nCoinType != MAXNODE_TIER_COIN)
                     continue;
 
                 if (pcoin->vout[i].nValue <= 0 && !fIncludeZeroValue)
