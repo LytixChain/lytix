@@ -988,7 +988,8 @@ void CMaxnodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         CValidationState state;
         CMutableTransaction tx = CMutableTransaction();
 
-	CTxOut vout = CTxOut(((MAXNODE_T1_COLLATERAL_AMOUNT - 0.01) * COIN) || ((MAXNODE_T2_COLLATERAL_AMOUNT - 0.01) * COIN) || ((MAXNODE_T3_COLLATERAL_AMOUNT - 0.01) * COIN), obfuScationPool.collateralPubKey);
+	//CTxOut vout = CTxOut(((MAXNODE_T1_COLLATERAL_AMOUNT - 0.01) * COIN) || ((MAXNODE_T2_COLLATERAL_AMOUNT - 0.01) * COIN) || ((MAXNODE_T3_COLLATERAL_AMOUNT - 0.01) * COIN), obfuScationPool.collateralPubKey);
+	CTxOut vout = CTxOut((MAXNODE_COLLATERAL_AMOUNT - 0.01) * COIN, obfuScationPool.collateralPubKey);
 
         tx.vin.push_back(maxvin);
         tx.vout.push_back(vout);

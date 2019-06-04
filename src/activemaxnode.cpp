@@ -19,7 +19,8 @@ void CActiveMaxnode::ManageStatus()
 {
     std::string errorMessage;
 
-    if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return;
+    //if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return;
+    if (!fMaxNode) return;
 
     if (fDebug) LogPrintf("CActiveMaxnode::ManageStatus() - Begin\n");
 
@@ -457,12 +458,12 @@ vector<COutput> CActiveMaxnode::SelectCoinsMaxnode()
 
     // Filter
     BOOST_FOREACH (const COutput& out, vCoins) {
-        if (out.tx->vout[out.i].nValue == MAXNODE_T1_COLLATERAL_AMOUNT * COIN) { //exactly
+        if (out.tx->vout[out.i].nValue == MAXNODE_COLLATERAL_AMOUNT * COIN) { //exactly
             filteredCoins.push_back(out);
         }
     }
 
-    BOOST_FOREACH (const COutput& out, vCoins) {
+    /**BOOST_FOREACH (const COutput& out, vCoins) {
         if (out.tx->vout[out.i].nValue == MAXNODE_T2_COLLATERAL_AMOUNT * COIN) { //exactly
             filteredCoins.push_back(out);
         }
@@ -472,7 +473,7 @@ vector<COutput> CActiveMaxnode::SelectCoinsMaxnode()
         if (out.tx->vout[out.i].nValue == MAXNODE_T3_COLLATERAL_AMOUNT * COIN) { //exactly
             filteredCoins.push_back(out);
         }
-    }
+    }**/
 
     return filteredCoins;
 }
@@ -480,7 +481,8 @@ vector<COutput> CActiveMaxnode::SelectCoinsMaxnode()
 // when starting a Maxnode, this can enable to run as a hot wallet with no funds
 bool CActiveMaxnode::EnableHotColdMaxNode(CTxIn& newVin, CService& newService)
 {
-    if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return false;
+    //if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return false;
+    if (!fMaxNode) return false;
 
     status = ACTIVE_MAXNODE_STARTED;
 

@@ -1850,12 +1850,12 @@ void CMAXFinalizedBudget::AutoCheck()
 
     LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck - %lli - %d\n", pindexPrev->nHeight, fAutoChecked);
 
-    if (!fMaxNodeT1 || fAutoChecked) {
-        LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNodeT1=%d fAutoChecked=%d\n", fMaxNodeT1, fAutoChecked);
+    if (!fMaxNode || fAutoChecked) {
+        LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNode=%d fAutoChecked=%d\n", fMaxNode, fAutoChecked);
         return;
     }
 
-    if (!fMaxNodeT2 || fAutoChecked) {
+    /**if (!fMaxNodeT2 || fAutoChecked) {
         LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNodeT2=%d fAutoChecked=%d\n", fMaxNodeT2, fAutoChecked);
         return;
     }
@@ -1863,7 +1863,7 @@ void CMAXFinalizedBudget::AutoCheck()
     if (!fMaxNodeT3 || fAutoChecked) {
         LogPrint("maxbudget","CMAXFinalizedBudget::AutoCheck fMaxNodeT3=%d fAutoChecked=%d\n", fMaxNodeT3, fAutoChecked);
         return;
-    }
+    }**/
 
 
     // Do this 1 in 4 blocks -- spread out the voting activity

@@ -719,7 +719,8 @@ bool CMaxnodePaymentWinner::IsValid(CNode* pnode, std::string& strError)
 
 bool CMaxnodePayments::ProcessBlock(int nBlockHeight)
 {
-    if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return false;
+    //if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) return false;
+    if (!fMaxNode) return false;
 
     //reference node - hybrid mode
 
