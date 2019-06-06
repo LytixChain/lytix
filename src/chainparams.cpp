@@ -328,7 +328,8 @@ public:
         nToCheckBlockUpgradeMajority = 100;
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
-        nTargetSpacing = 60;  // Lytix: 1 minute
+        //nTargetSpacing = 60;  // Lytix: 1 minute
+        nTargetSpacing = 120;  // Lytix: 1 minute
         nLastPOWBlock = 400000;
         nMaturity = 15;
         nMasternodeCountDrift = 2;
