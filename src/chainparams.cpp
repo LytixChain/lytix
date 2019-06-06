@@ -15,6 +15,7 @@
 #include "util.h"
 #include "uint256.h"
 #include "utilstrencodings.h"
+#include "spork.h"
 
 #include <assert.h>
 
@@ -328,15 +329,19 @@ public:
         nToCheckBlockUpgradeMajority = 100;
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
-        //nTargetSpacing = 60;  // Lytix: 1 minute
-        nTargetSpacing = 120;  // Lytix: 1 minute
-        nLastPOWBlock = 400000;
-        nMaturity = 15;
+        nTargetSpacing = 120;  // Lytix: 2 minute
+	/**if (IsSporkActive(SPORK_20_BLOCK_TIME_CHANGE)) {
+        	nTargetSpacing = 120;  // Lytix: 2 minutes
+	} else {
+		nTargetSpacing = 60; // Lytix: 1 minute
+	}**/
+        nLastPOWBlock = 3500;
+        nMaturity = 10;
         nMasternodeCountDrift = 2;
         nMaxnodeCountDrift = 2;
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 100000000 * COIN;
-        nZerocoinStartHeight = 10000;
+        nZerocoinStartHeight = 100000;
         nZerocoinStartTime = 1630801782;
         // nBlockEnforceSerialRange = 0; //Enforce serial range starting this block
         nBlockRecalculateAccumulators = 999999999; //Trigger a recalculation of accumulators

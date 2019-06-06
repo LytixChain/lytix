@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2016 The Dash developers
 // Copyright (c) 2016-2018 The PIVX developers
-// Copyright (c) 2018 The Lytix developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -28,7 +28,7 @@ using namespace boost;
     Sporks 11,12, and 16 to be removed with 1st zerocoin release
 */
 #define SPORK_START 10001
-#define SPORK_END 10018
+#define SPORK_END 10019
 
 #define SPORK_2_SWIFTTX 10001
 #define SPORK_3_SWIFTTX_BLOCK_FILTERING 10002
@@ -46,6 +46,7 @@ using namespace boost;
 #define SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3 10016
 #define SPORK_18_MASTERNODE_REWARDS_CHANGE 10017
 #define SPORK_19_MAXNODE_ACTIVATION 10018
+#define SPORK_20_BLOCK_TIME_CHANGE 10019
 
 #define SPORK_2_SWIFTTX_DEFAULT 978307200                         //2001-1-1
 #define SPORK_3_SWIFTTX_BLOCK_FILTERING_DEFAULT 1424217600        //2015-2-18
@@ -62,6 +63,7 @@ using namespace boost;
 #define SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3_DEFAULT 4070908800    //OFF
 #define SPORK_18_MASTERNODE_REWARDS_CHANGE_DEFAULT 4070908800    //OFF
 #define SPORK_19_MAXNODE_ACTIVATION_DEFAULT 4070908800    //OFF
+#define SPORK_20_BLOCK_TIME_CHANGE_DEFAULT 4070908800 //OFF
 
 class CSporkMessage;
 class CSporkManager;
