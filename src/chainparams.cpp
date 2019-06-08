@@ -182,8 +182,8 @@ public:
         nToCheckBlockUpgradeMajority = 1000;
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
-        nTargetSpacing = 60;  // Lytix: 1 minute
-        nMaturity = 15;
+        nTargetSpacing = 2 * 60;  // Lytix: 2 minutes
+        nMaturity = 30;
         nMasternodeCountDrift = 20;
         nMaxnodeCountDrift = 20;
         nMaxMoneyOut = 100000000 * COIN;
