@@ -305,6 +305,7 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
     bool hasPayment = true;
     CScript payee;
     CScript payee2;
+    CScript payee3;
 
     //spork
     if (!maxnodePayments.GetBlockPayee(pindexPrev->nHeight + 1, payee)) {
@@ -319,7 +320,7 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
     }
 
     if (!masternodePayments.GetBlockPayee(pindexPrev->nHeight + 1, payee2)) {
-        //no maxnode detected
+        //no masternode detected
         CMasternode* winningNode = mnodeman.GetCurrentMasterNode(1);
         if (winningNode) {
             payee2 = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
@@ -329,10 +330,15 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
         }
     }
 
+    //Dev payment - if spork enabled in main then payment is 5% oitherwise it is zero
+    CBitcoinAddress devFeeAddress(Params().DevFeeAddress());
+    payee3 = GetScriptForDestination(devFeeAddress.Get()); 
+
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
     CAmount maxnodePayment = GetMaxnodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
     CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
+    CAmount devPayment = GetDevFeePayment(pindexPrev->nHeight, blockValue);
 
     if (hasPayment) {
         if (fProofOfStake) {
@@ -342,20 +348,27 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
              * An additional output is appended as the maxnode payment
              */
             unsigned int i = txNew.vout.size();
-            txNew.vout.resize(i + 1);
+            txNew.vout.resize(i + 3);
             txNew.vout[i].scriptPubKey = payee;
             txNew.vout[i].nValue = maxnodePayment;
+	    txNew.vout[i + 1].scriptPubKey = payee2;
+            txNew.vout[i + 1].nValue = masternodePayment;
+	    txNew.vout[i + 2].scriptPubKey = payee3;
+            txNew.vout[i + 2].nValue = devPayment;
+
 
             //subtract max payment from the stake reward
             if (!txNew.vout[1].IsZerocoinMint())
                 txNew.vout[i - 1].nValue = maxnodePayment;
         } else {
-            txNew.vout.resize(3);
+            txNew.vout.resize(4);
+	    txNew.vout[3].scriptPubKey = payee3;
+            txNew.vout[3].nValue = devPayment;
 	    txNew.vout[2].scriptPubKey = payee2;
 	    txNew.vout[2].nValue = masternodePayment;
             txNew.vout[1].scriptPubKey = payee;
             txNew.vout[1].nValue = maxnodePayment;
-            txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment;
+            txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment - devPayment;
             //txNew.vout[0].nValue = blockValue;
         }
 

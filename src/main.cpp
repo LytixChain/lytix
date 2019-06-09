@@ -1913,14 +1913,14 @@ int64_t GetBlockValue(int nHeight)
     int64_t CoinAmount = 0;
     int64_t DropTime = 5000;
     //Pulls from chainparams.cpp LAST_POW_BLOCK here for reference
-    //int64_t LAST_POW_BLOCK = 3500;
+    //int64_t LAST_POW_BLOCK = 2500;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(500000 * COIN);
     } else if ( nHeight > 1 && nHeight <= 50) {
         CoinAmount = static_cast<int64_t>(2000 * COIN);
     } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
         CoinAmount = static_cast<int64_t>(2000 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 4000) {
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 3000) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
     } else if (nHeight > 4000 && nHeight <= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
@@ -1975,6 +1975,30 @@ int64_t GetBlockValue(int nHeight)
     }
     return CoinAmount;
 }
+
+int64_t GetDevFeePayment(int nHeight, int64_t blockValue)
+{
+	int64_t devret = 0;
+
+	if (IsSporkActive(SPORK_20_DEVFEE)) {
+
+	if (nHeight <= 499) {
+                devret = 0;
+
+        } else if (nHeight > 499) {
+                devret = blockValue * 0.05;
+        }
+        return devret;
+        }
+
+        else {
+
+        devret = 0;
+
+        return devret;
+        }
+}
+
 
 int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bool isZPIVStake)
 {

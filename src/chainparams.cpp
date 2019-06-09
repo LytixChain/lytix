@@ -188,6 +188,7 @@ public:
         nMasternodeCountDrift = 20;
         nMaxnodeCountDrift = 20;
         nMaxMoneyOut = 100000000 * COIN;
+	strDevFeeAddress = "8s8jUWMPFFwGSsGE9JX1z95sCbYhiyPUeg";
 
         /** Height or Time Based Activations **/
         nLastPOWBlock = 100000; //  1 per minute  - 14 days @ 1440 per day
@@ -331,18 +332,14 @@ public:
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
         nTargetSpacing = 120;  // Lytix: 2 minute
-	/**if (IsSporkActive(SPORK_20_BLOCK_TIME_CHANGE)) {
-        	nTargetSpacing = 120;  // Lytix: 2 minutes
-	} else {
-		nTargetSpacing = 60; // Lytix: 1 minute
-	}**/
-        nLastPOWBlock = 3500;
+        nLastPOWBlock = 2500;
         nMaturity = 10;
         nMasternodeCountDrift = 2;
         nMaxnodeCountDrift = 2;
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 100000000 * COIN;
-        nZerocoinStartHeight = 100000;
+	strDevFeeAddress = "DH7beVFvykse3ZHzZP3Q3uNiHUnd1z22v3";
+        nZerocoinStartHeight = 10000;
         nZerocoinStartTime = 1630801782;
         // nBlockEnforceSerialRange = 0; //Enforce serial range starting this block
         nBlockRecalculateAccumulators = 999999999; //Trigger a recalculation of accumulators

@@ -247,6 +247,7 @@ bool DisconnectBlocksAndReprocess(int blocks);
 double ConvertBitsToDouble(unsigned int nBits);
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount, bool isZPIVStake);
 int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bool isZPIVStake);
+int64_t GetDevFeePayment(int nHeight, int64_t blockValue);
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader* pblock, bool fProofOfStake);
 
 bool ActivateBestChain(CValidationState& state, CBlock* pblock = NULL, bool fAlreadyChecked = false);
