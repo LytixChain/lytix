@@ -339,7 +339,7 @@ public:
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 100000000 * COIN;
 	strDevFeeAddress = "DH7beVFvykse3ZHzZP3Q3uNiHUnd1z22v3";
-        nZerocoinStartHeight = 10000;
+        nZerocoinStartHeight = 100000;
         nZerocoinStartTime = 1630801782;
         // nBlockEnforceSerialRange = 0; //Enforce serial range starting this block
         nBlockRecalculateAccumulators = 999999999; //Trigger a recalculation of accumulators
