@@ -361,16 +361,16 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
             if (!txNew.vout[1].IsZerocoinMint())
                 txNew.vout[i - 1].nValue = maxnodePayment;
         } else {
-            //txNew.vout.resize(4);
-            txNew.vout.resize(3);
-	    //txNew.vout[3].scriptPubKey = payee3;
-            //txNew.vout[3].nValue = devPayment;
+            txNew.vout.resize(4);
+            //txNew.vout.resize(3);
+	    txNew.vout[3].scriptPubKey = payee3;
+            txNew.vout[3].nValue = devPayment;
 	    txNew.vout[2].scriptPubKey = payee2;
 	    txNew.vout[2].nValue = masternodePayment;
             txNew.vout[1].scriptPubKey = payee;
             txNew.vout[1].nValue = maxnodePayment;
-            txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment;
-            //txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment - devPayment;
+            //txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment;
+            txNew.vout[0].nValue = blockValue - maxnodePayment - masternodePayment - devPayment;
             //txNew.vout[0].nValue = blockValue;
         }
 

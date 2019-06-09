@@ -184,7 +184,7 @@ public:
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
         nTargetSpacing = 2 * 60;  // Lytix: 2 minutes
-        nMaturity = 30;
+        nMaturity = 15;
         nMasternodeCountDrift = 20;
         nMaxnodeCountDrift = 20;
         nMaxMoneyOut = 100000000 * COIN;
@@ -333,7 +333,7 @@ public:
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
         nTargetSpacing = 120;  // Lytix: 2 minute
         nLastPOWBlock = 2500;
-        nMaturity = 10;
+        nMaturity = 15;
         nMasternodeCountDrift = 2;
         nMaxnodeCountDrift = 2;
         // nModifierUpdateBlock = 0; //approx Mon, 17 Apr 2017 04:00:00 GMT
