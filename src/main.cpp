@@ -1920,19 +1920,19 @@ int64_t GetBlockValue(int nHeight)
         CoinAmount = static_cast<int64_t>(1000 * COIN);
     } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
         CoinAmount = static_cast<int64_t>(1000 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 2000) {
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 600) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
-    } else if (nHeight > 2000 && nHeight <= (1 * DropTime)) {
+    } else if (nHeight > 600 && nHeight <= (2 * DropTime)) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
+    } else if (nHeight > (1 * DropTime) && nHeight <= (3 * DropTime)) {
         CoinAmount = static_cast<int64_t>(24 * COIN);
-    } else if (nHeight > (2 * DropTime) && nHeight <= (3 * DropTime)) {
+    } else if (nHeight > (2 * DropTime) && nHeight <= (4 * DropTime)) {
         CoinAmount = static_cast<int64_t>(18 * COIN);
-    } else if (nHeight > (3 * DropTime) && nHeight <= (4 * DropTime)) {
+    } else if (nHeight > (3 * DropTime) && nHeight <= (5 * DropTime)) {
         CoinAmount = static_cast<int64_t>(12 * COIN);
-    } else if (nHeight > (4 * DropTime) && nHeight <= (5 * DropTime)) {
+    } else if (nHeight > (4 * DropTime) && nHeight <= (6 * DropTime)) {
         CoinAmount = static_cast<int64_t>(8 * COIN);
-    } else if (nHeight > (5 * DropTime) && nHeight <= (6 * DropTime)) {
+    } else if (nHeight > (5 * DropTime) && nHeight <= (7 * DropTime)) {
         CoinAmount = static_cast<int64_t>(6 * COIN);
     } else {
         CoinAmount = static_cast<int64_t>(4 * COIN);
@@ -1946,7 +1946,7 @@ int64_t GetBlockValue(int nHeight)
     // Added 100 LYTX reward after mishap with PoS transition logic
     // Changed reward payout to 15 at block 275,000
     int64_t CoinAmount = 0;
-    int64_t DropTime = 250000;
+    int64_t DropTime = 350000;
     //int64_t LAST_POW_BLOCK = 100000;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(643000 * COIN);
@@ -2060,9 +2060,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
     if (IsSporkActive(SPORK_18_MASTERNODE_REWARDS_CHANGE)) {
 
-    if (nHeight <= 499) {
+    if (nHeight <= 49) {
         ret = 0;
-    } else if (nHeight > 499) {
+    } else if (nHeight > 49) {
         ret = blockValue * 0.4;
     } else {
         ret = 15 * COIN;
