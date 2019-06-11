@@ -359,7 +359,7 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
 
             //subtract max payment from the stake reward
             if (!txNew.vout[1].IsZerocoinMint())
-                txNew.vout[i - 1].nValue = maxnodePayment - masternodePayment - devPayment;
+                txNew.vout[i - 1].nValue = maxnodePayment + masternodePayment + devPayment;
         } else {
             txNew.vout.resize(4);
             //txNew.vout.resize(3);
