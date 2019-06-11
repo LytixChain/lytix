@@ -1911,18 +1911,18 @@ int64_t GetBlockValue(int nHeight)
     // Reduced reward to start chain
     // Added 100 LYTX reward after mishap with PoS transition logic
     int64_t CoinAmount = 0;
-    int64_t DropTime = 5000;
+    int64_t DropTime = 500;
     //Pulls from chainparams.cpp LAST_POW_BLOCK here for reference
-    //int64_t LAST_POW_BLOCK = 2500;
+    //int64_t LAST_POW_BLOCK = 1200;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(500000 * COIN);
     } else if ( nHeight > 1 && nHeight <= 50) {
-        CoinAmount = static_cast<int64_t>(2000 * COIN);
+        CoinAmount = static_cast<int64_t>(1000 * COIN);
     } else if ( nHeight > 50 && nHeight <= Params().LAST_POW_BLOCK()) {
-        CoinAmount = static_cast<int64_t>(2000 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 3000) {
+        CoinAmount = static_cast<int64_t>(1000 * COIN);
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 2000) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
-    } else if (nHeight > 4000 && nHeight <= (1 * DropTime)) {
+    } else if (nHeight > 2000 && nHeight <= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
     } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
         CoinAmount = static_cast<int64_t>(24 * COIN);
@@ -1946,7 +1946,7 @@ int64_t GetBlockValue(int nHeight)
     // Added 100 LYTX reward after mishap with PoS transition logic
     // Changed reward payout to 15 at block 275,000
     int64_t CoinAmount = 0;
-    int64_t DropTime = 500000;
+    int64_t DropTime = 250000;
     //int64_t LAST_POW_BLOCK = 100000;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(643000 * COIN);
@@ -1982,10 +1982,10 @@ int64_t GetDevFeePayment(int nHeight, int64_t blockValue)
 
 	if (IsSporkActive(SPORK_20_DEVFEE)) {
 
-	if (nHeight <= 499) {
+	if (nHeight <= 49) {
                 devret = 0;
 
-        } else if (nHeight > 499) {
+        } else if (nHeight > 49) {
                 devret = blockValue * 0.05;
         }
         return devret;
@@ -2024,10 +2024,10 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
 
         if (IsSporkActive(SPORK_19_MAXNODE_ACTIVATION)) {
 
-        if (nHeight <= 499) {
+        if (nHeight <= 49) {
                 maxret = 0;
 
-        } else if (nHeight > 499) {
+        } else if (nHeight > 49) {
                 maxret = blockValue * 0.3;
         }
         return maxret;
