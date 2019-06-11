@@ -676,7 +676,8 @@ UniValue getstakingstatus(const UniValue& params, bool fHelp)
         obj.push_back(Pair("enoughcoins", nReserveBalance <= pwalletMain->GetBalance()));
     }
     obj.push_back(Pair("mnsync", masternodeSync.IsSynced()));
-    obj.push_back(Pair("maxsync", maxnodeSync.IsSynced()));
+    //DISDISDIS - commenting out for now until everyone is on v2.0.0
+    //obj.push_back(Pair("maxsync", maxnodeSync.IsSynced()));
 
     bool nStaking = false;
     if (mapHashedBlocks.count(chainActive.Tip()->nHeight))
