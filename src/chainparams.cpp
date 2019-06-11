@@ -333,7 +333,7 @@ public:
         nMinerThreads = 1;
         nTargetTimespan = 24 * 60 * 60; // Lytix: 1 day
         nTargetSpacing = 120;  // Lytix: 2 minute
-        nLastPOWBlock = 2500;
+        nLastPOWBlock = 1200;
         nMaturity = 15;
         nMasternodeCountDrift = 2;
         nMaxnodeCountDrift = 2;
