@@ -348,20 +348,19 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
              * An additional output is appended as the maxnode payment
              */
             unsigned int i = txNew.vout.size();
-            //txNew.vout.resize(i + 3);
-            txNew.vout.resize(i + 1);
+            txNew.vout.resize(i + 3);
+	    txNew.vout[i + 2].scriptPubKey = payee2;
+            txNew.vout[i + 2].nValue = masternodePayment;
+            txNew.vout[i + 1].scriptPubKey = payee3;
+            txNew.vout[i + 1].nValue = devPayment;
             txNew.vout[i].scriptPubKey = payee;
-            //txNew.vout[i].nValue = maxnodePayment;
-	    //txNew.vout[i].scriptPubKey = payee2;
-            //txNew.vout[i].nValue = masternodePayment;
-	    //txNew.vout[i].scriptPubKey = payee3;
-            //txNew.vout[i].nValue = devPayment;
+            txNew.vout[i].nValue = maxnodePayment;
 
 
             //subtract max payment from the stake reward
             if (!txNew.vout[1].IsZerocoinMint())
-                //txNew.vout[i - 1].nValue = maxnodePayment + masternodePayment + devPayment;
-                txNew.vout[i - 1].nValue = maxnodePayment;
+                txNew.vout[i - 1].nValue -= (maxnodePayment + masternodePayment + devPayment);
+                //txNew.vout[i - 1].nValue -= maxnodePayment;
         } else {
             txNew.vout.resize(4);
             //txNew.vout.resize(3);
