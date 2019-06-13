@@ -1916,7 +1916,7 @@ int64_t GetBlockValue(int nHeight)
     //int64_t LAST_POW_BLOCK = 150;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(500000 * COIN);
-    } else if ( nHeight > 1 && nHeight Params().LAST_POW_BLOCK()) {
+    } else if ( nHeight > 1 && nHeight <= Params().LAST_POW_BLOCK()) {
         CoinAmount = static_cast<int64_t>(10000 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 600) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
