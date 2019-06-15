@@ -375,11 +375,27 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
             //txNew.vout[0].nValue = blockValue;
         }
 
+	//Maxnode Payment notification
         CTxDestination address1;
         ExtractDestination(payee, address1);
         CBitcoinAddress address2(address1);
 
         LogPrint("maxnode","Maxnode payment of %s to %s\n", FormatMoney(maxnodePayment).c_str(), address2.ToString().c_str());
+
+	//Masternode Payment notification
+	CTxDestination address3;
+        ExtractDestination(mn_payee, address3);
+        CBitcoinAddress address4(address3);
+
+        LogPrint("masternode","Masternode payment of %s to %s\n", FormatMoney(masternodePayment).c_str(), address4.ToString().c_str());
+
+	//Dev Fee Payment notification
+	CTxDestination address5;
+        ExtractDestination(df_payee, address5);
+        CBitcoinAddress address6(address5);
+
+        LogPrint("devfee","Dev Fee payment of %s to %s\n", FormatMoney(devPayment).c_str(), address6.ToString().c_str());
+
     }
 }
 
