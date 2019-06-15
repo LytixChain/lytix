@@ -384,14 +384,14 @@ void CMaxnodePayments::FillMaxBlockPayee(CMutableTransaction& txNew, int64_t nFe
 
 	//Masternode Payment notification
 	CTxDestination address3;
-        ExtractDestination(mn_payee, address3);
+        ExtractDestination(payee2, address3);
         CBitcoinAddress address4(address3);
 
         LogPrint("masternode","Masternode payment of %s to %s\n", FormatMoney(masternodePayment).c_str(), address4.ToString().c_str());
 
 	//Dev Fee Payment notification
 	CTxDestination address5;
-        ExtractDestination(df_payee, address5);
+        ExtractDestination(payee3, address5);
         CBitcoinAddress address6(address5);
 
         LogPrint("devfee","Dev Fee payment of %s to %s\n", FormatMoney(devPayment).c_str(), address6.ToString().c_str());
