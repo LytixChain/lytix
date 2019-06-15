@@ -1911,26 +1911,24 @@ int64_t GetBlockValue(int nHeight)
     // Reduced reward to start chain
     // Added 100 LYTX reward after mishap with PoS transition logic
     int64_t CoinAmount = 0;
-    int64_t DropTime = 500;
+    int64_t DropTime = 250;
     //Pulls from chainparams.cpp LAST_POW_BLOCK here for reference
-    //int64_t LAST_POW_BLOCK = 150;
+    //int64_t LAST_POW_BLOCK = 250;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(500000 * COIN);
     } else if ( nHeight > 1 && nHeight <= Params().LAST_POW_BLOCK()) {
         CoinAmount = static_cast<int64_t>(10000 * COIN);
-    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 600) {
+    } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= (2 * DropTime)) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
-    } else if (nHeight > 600 && nHeight <= (2 * DropTime)) {
-        CoinAmount = static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > (1 * DropTime) && nHeight <= (3 * DropTime)) {
+    } else if (nHeight > (2 * DropTime) && nHeight <= (3 * DropTime)) {
         CoinAmount = static_cast<int64_t>(24 * COIN);
-    } else if (nHeight > (2 * DropTime) && nHeight <= (4 * DropTime)) {
+    } else if (nHeight > (3 * DropTime) && nHeight <= (4 * DropTime)) {
         CoinAmount = static_cast<int64_t>(18 * COIN);
-    } else if (nHeight > (3 * DropTime) && nHeight <= (5 * DropTime)) {
+    } else if (nHeight > (4 * DropTime) && nHeight <= (5 * DropTime)) {
         CoinAmount = static_cast<int64_t>(12 * COIN);
-    } else if (nHeight > (4 * DropTime) && nHeight <= (6 * DropTime)) {
+    } else if (nHeight > (5 * DropTime) && nHeight <= (6 * DropTime)) {
         CoinAmount = static_cast<int64_t>(8 * COIN);
-    } else if (nHeight > (5 * DropTime) && nHeight <= (7 * DropTime)) {
+    } else if (nHeight > (6 * DropTime) && nHeight <= (7 * DropTime)) {
         CoinAmount = static_cast<int64_t>(6 * COIN);
     } else {
         CoinAmount = static_cast<int64_t>(4 * COIN);
@@ -1954,9 +1952,9 @@ int64_t GetBlockValue(int nHeight)
         CoinAmount = static_cast<int64_t>(30 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 110000) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
-    } else if (nHeight > 110000 && nHeight <= 275000) {
+    } else if (nHeight > 110000 && nHeight <= 285000) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > 275000 && nHeight <= (1 * DropTime)) {
+    } else if (nHeight > 285000 && nHeight <= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(15 * COIN);
     } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
         CoinAmount = static_cast<int64_t>(10 * COIN);
