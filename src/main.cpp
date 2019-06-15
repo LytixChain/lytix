@@ -1998,7 +1998,7 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
                 maxret = 0;
 
         } else if (nHeight > 50) {
-                maxret = blockValue * 0.2;
+                maxret = blockValue * 0.3;
 
 	/**} else if (fMaxNodeT2 && nHeight > 50) {
                 maxret = blockValue * 0.1;
@@ -2038,8 +2038,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     if (nHeight <= 50) {
         ret = 0;
     } else if (nHeight > 50) {
-        ret = blockValue * 0.5;
-        //ret = blockValue * 0.55; // trying this for dev payout
+        ret = blockValue * 0.4;
     } else {
         ret = 15 * COIN;
     }

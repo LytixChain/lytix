@@ -1004,6 +1004,13 @@ void BitcoinGUI::setNumBlocks(int count)
                            MASTERNODE_SYNC_THRESHOLD;
             progress = nAttempt + (masternodeSync.RequestedMasternodeAssets - 1) * MASTERNODE_SYNC_THRESHOLD;
             progressBar->setMaximum(4 * MASTERNODE_SYNC_THRESHOLD);
+
+	    nAttempt = maxnodeSync.RequestedMaxnodeAttempt < MAXNODE_SYNC_THRESHOLD ?
+                           maxnodeSync.RequestedMaxnodeAttempt + 1 :
+                           MAXNODE_SYNC_THRESHOLD;
+            progress = nAttempt + (maxnodeSync.RequestedMaxnodeAssets - 1) * MAXNODE_SYNC_THRESHOLD;
+            progressBar->setMaximum(4 * MAXNODE_SYNC_THRESHOLD);
+
             progressBar->setFormat(tr("Synchronizing additional data: %p%"));
             progressBar->setValue(progress);
         }

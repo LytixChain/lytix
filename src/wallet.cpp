@@ -3121,6 +3121,17 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
             nReward = GetBlockValue(chainActive.Height() + 1);
             nCredit += nReward;
 
+	    // Dev fee from SPORK_20_DEVFEE
+	    /**if (IsSporkActive(SPORK_20_DEVFEE)) {
+		CAmount devFeeFund = nReward * 0.05;
+	        nReward -= devFeeFund;
+
+        	CBitcoinAddress devFeeAddress(Params().DevFeeAddress());
+        	CScript payee = GetScriptForDestination(devFeeAddress.Get());
+        	txNew.vout.emplace_back(devFeeFund, payee);
+   	    }**/	
+
+
             // Create the output transaction(s)
             vector<CTxOut> vout;
             if (!stakeInput->CreateTxOuts(this, vout, nCredit)) {
@@ -3145,7 +3156,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
                 return error("CreateCoinStake : exceeded coinstake size limit");
 
             //Masternode payment
-            FillBlockPayee(txNew, nMinFee, true, stakeInput->IsZPIV());
+            //FillBlockPayee(txNew, nMinFee, true, stakeInput->IsZPIV());
             FillMaxBlockPayee(txNew, nMinFee, true, stakeInput->IsZPIV());
 
             uint256 hashTxOut = txNew.GetHash();
