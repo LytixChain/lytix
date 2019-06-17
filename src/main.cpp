@@ -1913,7 +1913,7 @@ int64_t GetBlockValue(int nHeight)
     int64_t CoinAmount = 0;
     int64_t DropTime = 150;
     //Pulls from chainparams.cpp LAST_POW_BLOCK here for reference
-    //int64_t LAST_POW_BLOCK = 150;
+    //int64_t LAST_POW_BLOCK = 250;
     if (nHeight == 1) {
         CoinAmount = static_cast<int64_t>(500000 * COIN);
     } else if ( nHeight > 1 && nHeight <= (3 * DropTime)) {
@@ -1953,7 +1953,7 @@ int64_t GetBlockValue(int nHeight)
     } else if (nHeight > (3 * DropTime) && nHeight <= (4 * DropTime)) {
         CoinAmount = static_cast<int64_t>(5 * COIN);
     } else if (nHeight > (4 * DropTime) && nHeight <= (5 * DropTime)) {
-        CoinAmount = static_cast<int64_t>(2.5 * COIN);
+        CoinAmount = static_cast<int64_t>(3 * COIN);
     } else if (nHeight > (5 * DropTime) && nHeight <= (6 * DropTime)) {
         CoinAmount = static_cast<int64_t>(2 * COIN);
     } else {
@@ -2037,8 +2037,6 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
         ret = 0;
     } else if (nHeight > 50) {
         ret = blockValue * 0.4;
-    } else {
-        ret = 15 * COIN;
     }
     return ret;
     }
@@ -2049,8 +2047,6 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
         ret = 0;
     } else if (nHeight > 49) {
         ret = blockValue * 0.4;
-    } else {
-        ret = 15 * COIN;
     }
 
     return ret;
@@ -2064,8 +2060,6 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
         ret = 0;
     } else if (nHeight > 499) {
         ret = blockValue * 0.5;
-    } else {
-        ret = 15 * COIN;
     }
 
     return ret;
