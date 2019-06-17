@@ -3156,7 +3156,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
                 return error("CreateCoinStake : exceeded coinstake size limit");
 
             //Masternode payment
-            FillBlockPayee(txNew, nMinFee, true, stakeInput->IsZPIV());
+            //FillBlockPayee(txNew, nMinFee, true, stakeInput->IsZPIV());
             FillMaxBlockPayee(txNew, nMinFee, true, stakeInput->IsZPIV());
 
             uint256 hashTxOut = txNew.GetHash();
