@@ -4315,7 +4315,7 @@ bool CWallet::MultiSend()
     AvailableCoins(vCoins);
     bool stakeSent = false;
     bool mnSent = false;
-    bool maxSent = false;
+    //bool maxSent = false;
     for (const COutput& out : vCoins) {
 
         //need output with precise confirm count - this is how we identify which is the output to send
@@ -4391,23 +4391,29 @@ bool CWallet::MultiSend()
             return false;
         } else
             fMultiSendNotify = true;
-	// DISDISDIS add maxnode to multisend
 
         //write nLastMultiSendHeight to DB
         CWalletDB walletdb(strWalletFile);
         nLastMultiSendHeight = chainActive.Tip()->nHeight;
         if (!walletdb.WriteMSettings(fMultiSendStake, fMultiSendMasternodeReward, nLastMultiSendHeight))
             LogPrintf("Failed to write MultiSend setting to DB\n");
+	//if (!walletdb.WriteMSettings(fMultiSendStake, fMultiSendMaxnodeReward, nLastMultiSendHeight))
+        //    LogPrintf("Failed to write MultiSend setting to DB\n");
 
         LogPrintf("MultiSend successfully sent\n");
 
         //set which MultiSend triggered
         if (sendMSOnStake)
             stakeSent = true;
-        else
-            mnSent = true;
+        //else if (sendMSonMNReward)
+        //    mnSent = true;
+	//else if (sendMSonMAXReward)
+        //    maxSent = true;
+	else 
+	    mnSent = true;
 
         //stop iterating if we have sent out all the MultiSend(s)
+        //if ((stakeSent && mnSent) || (stakeSent && !fMultiSendMasternodeReward) || (mnSent && !fMultiSendStake) || (stakeSent && maxSent) || (stakeSent && !fMultiSendMaxnodeReward) || (maxSent && !fMultiSendStake))
         if ((stakeSent && mnSent) || (stakeSent && !fMultiSendMasternodeReward) || (mnSent && !fMultiSendStake))
             return true;
     }

@@ -5404,7 +5404,7 @@ bool static AlreadyHave(const CInv& inv)
             masternodeSync.AddedBudgetItem(inv.hash);
             return true;
         }
-    case MSG_MAX_BUDGET_VOTE:
+    /**case MSG_MAX_BUDGET_VOTE:
         if (maxbudget.mapSeenMaxnodeBudgetVotes.count(inv.hash)) {
             maxnodeSync.AddedBudgetItem(inv.hash);
             return true;
@@ -5427,7 +5427,7 @@ bool static AlreadyHave(const CInv& inv)
             maxnodeSync.AddedBudgetItem(inv.hash);
             return true;
         }
-        return false;
+        return false;**/
     case MSG_MASTERNODE_ANNOUNCE:
         if (mnodeman.mapSeenMasternodeBroadcast.count(inv.hash)) {
             masternodeSync.AddedMasternodeList(inv.hash);

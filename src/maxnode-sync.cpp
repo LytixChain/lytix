@@ -9,7 +9,7 @@
 #include "activemaxnode.h"
 #include "maxnode-sync.h"
 #include "maxnode-payments.h"
-#include "maxnode-budget.h"
+//#include "maxnode-budget.h"
 #include "maxnode.h"
 #include "maxnodeman.h"
 #include "spork.h"
@@ -73,12 +73,12 @@ void CMaxnodeSync::Reset()
     nCountFailures = 0;
     sumMaxnodeList = 0;
     sumMaxnodeWinner = 0;
-    sumBudgetItemProp = 0;
-    sumBudgetItemFin = 0;
+//   sumBudgetItemProp = 0;
+//    sumBudgetItemFin = 0;
     countMaxnodeList = 0;
     countMaxnodeWinner = 0;
-    countBudgetItemProp = 0;
-    countBudgetItemFin = 0;
+//    countBudgetItemProp = 0;
+//    countBudgetItemFin = 0;
     RequestedMaxnodeAssets = MAXNODE_SYNC_INITIAL;
     RequestedMaxnodeAttempt = 0;
     nAssetSyncStarted = GetTime();
@@ -110,7 +110,7 @@ void CMaxnodeSync::AddedMaxnodeWinner(uint256 hash)
     }
 }
 
-void CMaxnodeSync::AddedBudgetItem(uint256 hash)
+/**void CMaxnodeSync::AddedBudgetItem(uint256 hash)
 {
     if (maxbudget.mapSeenMaxnodeBudgetProposals.count(hash) || maxbudget.mapSeenMaxnodeBudgetVotes.count(hash) ||
         maxbudget.mapSeenFinalizedBudgets.count(hash) || maxbudget.mapSeenFinalizedBudgetVotes.count(hash)) {
@@ -132,7 +132,7 @@ bool CMaxnodeSync::IsBudgetPropEmpty()
 bool CMaxnodeSync::IsBudgetFinEmpty()
 {
     return sumBudgetItemFin == 0 && countBudgetItemFin > 0;
-}
+}**/
 
 void CMaxnodeSync::GetNextAsset()
 {
@@ -151,10 +151,10 @@ void CMaxnodeSync::GetNextAsset()
     case (MAXNODE_SYNC_MAXW):
         RequestedMaxnodeAssets = MAXNODE_SYNC_BUDGET;
         break;
-    case (MAXNODE_SYNC_BUDGET):
-        LogPrintf("CMaxnodeSync::GetNextAsset - Sync has finished\n");
-        RequestedMaxnodeAssets = MAXNODE_SYNC_FINISHED;
-        break;
+    //case (MAXNODE_SYNC_BUDGET):
+    //    LogPrintf("CMaxnodeSync::GetNextAsset - Sync has finished\n");
+    //    RequestedMaxnodeAssets = MAXNODE_SYNC_FINISHED;
+    //    break;
     }
     RequestedMaxnodeAttempt = 0;
     nAssetSyncStarted = GetTime();
@@ -171,8 +171,8 @@ std::string CMaxnodeSync::GetSyncStatus()
         return _("Synchronizing maxnodes...");
     case MAXNODE_SYNC_MAXW:
         return _("Synchronizing maxnode winners...");
-    case MAXNODE_SYNC_BUDGET:
-        return _("Synchronizing budgets...");
+    //case MAXNODE_SYNC_BUDGET:
+    //    return _("Synchronizing budgets...");
     case MAXNODE_SYNC_FAILED:
         return _("Synchronization failed");
     case MAXNODE_SYNC_FINISHED:
@@ -202,7 +202,7 @@ void CMaxnodeSync::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataSt
             sumMaxnodeWinner += nCount;
             countMaxnodeWinner++;
             break;
-        case (MAXNODE_SYNC_BUDGET_PROP):
+        /**case (MAXNODE_SYNC_BUDGET_PROP):
             if (RequestedMaxnodeAssets != MAXNODE_SYNC_BUDGET) return;
             sumBudgetItemProp += nCount;
             countBudgetItemProp++;
@@ -211,7 +211,7 @@ void CMaxnodeSync::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataSt
             if (RequestedMaxnodeAssets != MAXNODE_SYNC_BUDGET) return;
             sumBudgetItemFin += nCount;
             countBudgetItemFin++;
-            break;
+            break;**/
         }
 
         LogPrint("maxnode", "CMaxnodeSync:ProcessMessage - smaxsc - got inventory count %d %d\n", nItemID, nCount);
@@ -369,7 +369,7 @@ void CMaxnodeSync::Process()
             if (RequestedMaxnodeAssets == MAXNODE_SYNC_BUDGET) {
                 
                 // We'll start rejecting votes if we accidentally get set as synced too soon
-                if (lastBudgetItem > 0 && lastBudgetItem < GetTime() - MAXNODE_SYNC_TIMEOUT * 2 && RequestedMaxnodeAttempt >= MAXNODE_SYNC_THRESHOLD) { 
+                /**if (lastBudgetItem > 0 && lastBudgetItem < GetTime() - MAXNODE_SYNC_TIMEOUT * 2 && RequestedMaxnodeAttempt >= MAXNODE_SYNC_THRESHOLD) { 
                     
                     // Hasn't received a new item in the last five seconds, so we'll move to the
                     GetNextAsset();
@@ -387,7 +387,7 @@ void CMaxnodeSync::Process()
                     GetNextAsset();
                     activeMaxnode.ManageStatus();
                     return;
-                }
+                }**/
 
                 if (pnode->HasFulfilledRequest("busync")) continue;
                 pnode->FulfilledRequest("busync");

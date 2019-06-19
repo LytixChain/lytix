@@ -642,8 +642,6 @@ bool CMaxnodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
     return false;
 }
 
-///DISDIS - replace ret with maxret
-
 std::string CMaxnodeBlockPayees::GetMaxRequiredPaymentsString()
 {
     LOCK(cs_MaxvecPayments);

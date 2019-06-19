@@ -938,7 +938,7 @@ void CMAXBudgetManager::NewBlock()
     TRY_LOCK(cs, fBudgetNewBlock);
     if (!fBudgetNewBlock) return;
 
-    if (maxnodeSync.RequestedMaxnodeAssets <= MAXNODE_SYNC_BUDGET) return;
+    //if (maxnodeSync.RequestedMaxnodeAssets <= MAXNODE_SYNC_BUDGET) return;
 
     if (strBudgetMode == "suggest") { //suggest the maxbudget we see
         SubmitFinalBudget();
@@ -948,7 +948,7 @@ void CMAXBudgetManager::NewBlock()
     if (chainActive.Height() % 14 != 0) return;
 
     // incremental sync with our peers
-    if (maxnodeSync.IsSynced()) {
+    /**if (maxnodeSync.IsSynced()) {
         LogPrint("maxbudget","CMAXBudgetManager::NewBlock - incremental sync started\n");
         if (chainActive.Height() % 1440 == rand() % 1440) {
             ClearSeen();
@@ -961,7 +961,7 @@ void CMAXBudgetManager::NewBlock()
                 Sync(pnode, 0, true);
 
         MarkSynced();
-    }
+    }**/
 
 
     CheckAndRemove();
@@ -1049,7 +1049,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
 {
     // lite mode is not supported
     if (fLiteMode) return;
-    if (!maxnodeSync.IsBlockchainSynced()) return;
+    //if (!maxnodeSync.IsBlockchainSynced()) return;
 
     LOCK(cs_maxbudget);
 
@@ -1077,7 +1077,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         vRecv >> maxbudgetProposalBroadcast;
 
         if (mapSeenMaxnodeBudgetProposals.count(maxbudgetProposalBroadcast.GetHash())) {
-            maxnodeSync.AddedBudgetItem(maxbudgetProposalBroadcast.GetHash());
+            //maxnodeSync.AddedBudgetItem(maxbudgetProposalBroadcast.GetHash());
             return;
         }
 
@@ -1100,7 +1100,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         if (AddProposal(maxbudgetProposal)) {
             maxbudgetProposalBroadcast.Relay();
         }
-        maxnodeSync.AddedBudgetItem(maxbudgetProposalBroadcast.GetHash());
+        //maxnodeSync.AddedBudgetItem(maxbudgetProposalBroadcast.GetHash());
 
         LogPrint("maxbudget","mprop - new maxbudget - %s\n", maxbudgetProposalBroadcast.GetHash().ToString());
 
@@ -1114,7 +1114,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         vote.fValid = true;
 
         if (mapSeenMaxnodeBudgetVotes.count(vote.GetHash())) {
-            maxnodeSync.AddedBudgetItem(vote.GetHash());
+            //maxnodeSync.AddedBudgetItem(vote.GetHash());
             return;
         }
 
@@ -1126,7 +1126,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         }
 
 
-        mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
+        /**mapSeenMaxnodeBudgetVotes.insert(make_pair(vote.GetHash(), vote));
         if (!vote.SignatureValid(true)) {
             if (maxnodeSync.IsSynced()) {
                 LogPrintf("CMAXBudgetManager::ProcessMessage() : mvote - signature invalid\n");
@@ -1135,12 +1135,12 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
             // it could just be a non-synced maxnode
             maxnodeman.AskForMAX(pfrom, vote.vin);
             return;
-        }
+        }**/
 
         std::string strError = "";
         if (UpdateProposal(vote, pfrom, strError)) {
             vote.Relay();
-            maxnodeSync.AddedBudgetItem(vote.GetHash());
+            //maxnodeSync.AddedBudgetItem(vote.GetHash());
         }
 
         LogPrint("maxbudget","mvote - new maxbudget vote for maxbudget %s - %s\n", vote.nProposalHash.ToString(),  vote.GetHash().ToString());
@@ -1151,7 +1151,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         vRecv >> finalizedBudgetBroadcast;
 
         if (mapSeenFinalizedBudgets.count(finalizedBudgetBroadcast.GetHash())) {
-            maxnodeSync.AddedBudgetItem(finalizedBudgetBroadcast.GetHash());
+            //maxnodeSync.AddedBudgetItem(finalizedBudgetBroadcast.GetHash());
             return;
         }
 
@@ -1177,7 +1177,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         if (AddFinalizedBudget(finalizedBudget)) {
             finalizedBudgetBroadcast.Relay();
         }
-        maxnodeSync.AddedBudgetItem(finalizedBudgetBroadcast.GetHash());
+        //maxnodeSync.AddedBudgetItem(finalizedBudgetBroadcast.GetHash());
 
         //we might have active votes for this maxbudget that are now valid
         CheckOrphanVotes();
@@ -1189,7 +1189,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         vote.fValid = true;
 
         if (mapSeenFinalizedBudgetVotes.count(vote.GetHash())) {
-            maxnodeSync.AddedBudgetItem(vote.GetHash());
+            //maxnodeSync.AddedBudgetItem(vote.GetHash());
             return;
         }
 
@@ -1202,10 +1202,10 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
 
         mapSeenFinalizedBudgetVotes.insert(make_pair(vote.GetHash(), vote));
         if (!vote.SignatureValid(true)) {
-            if (maxnodeSync.IsSynced()) {
+            /**if (maxnodeSync.IsSynced()) {
                 LogPrintf("CMAXBudgetManager::ProcessMessage() : fbvote - signature invalid\n");
                 Misbehaving(pfrom->GetId(), 20);
-            }
+            }**/
             // it could just be a non-synced maxnode
             maxnodeman.AskForMAX(pfrom, vote.vin);
             return;
@@ -1214,7 +1214,7 @@ void CMAXBudgetManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CD
         std::string strError = "";
         if (UpdateFinalizedBudget(vote, pfrom, strError)) {
             vote.Relay();
-            maxnodeSync.AddedBudgetItem(vote.GetHash());
+            //maxnodeSync.AddedBudgetItem(vote.GetHash());
 
             LogPrint("maxbudget","fbvote - new finalized maxbudget vote - %s\n", vote.GetHash().ToString());
         } else {
@@ -1382,7 +1382,7 @@ bool CMAXBudgetManager::UpdateProposal(CMAXBudgetVote& vote, CNode* pfrom, std::
         if (pfrom) {
             // only ask for missing items after our syncing process is complete --
             //   otherwise we'll think a full sync succeeded when they return a result
-            if (!maxnodeSync.IsSynced()) return false;
+            //if (!maxnodeSync.IsSynced()) return false;
 
             LogPrint("maxbudget","CMAXBudgetManager::UpdateProposal - Unknown proposal %d, asking for source proposal\n", vote.nProposalHash.ToString());
             mapOrphanMaxnodeBudgetVotes[vote.nProposalHash] = vote;
@@ -1409,7 +1409,7 @@ bool CMAXBudgetManager::UpdateFinalizedBudget(CMAXFinalizedBudgetVote& vote, CNo
         if (pfrom) {
             // only ask for missing items after our syncing process is complete --
             //   otherwise we'll think a full sync succeeded when they return a result
-            if (!maxnodeSync.IsSynced()) return false;
+            //if (!maxnodeSync.IsSynced()) return false;
 
             LogPrint("maxbudget","CMAXBudgetManager::UpdateFinalizedBudget - Unknown Finalized Proposal %s, asking for source maxbudget\n", vote.nBudgetHash.ToString());
             mapOrphanFinalizedBudgetVotes[vote.nBudgetHash] = vote;
