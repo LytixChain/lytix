@@ -73,6 +73,17 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet* 
             sub.address = CBitcoinAddress(address).ToString();
             sub.credit = nNet;
         } else {
+
+	    CTxDestination destMAX;
+            int nIndexMAX = wtx.vout.size() - 3;
+            if (ExtractDestination(wtx.vout[nIndexMAX].scriptPubKey, destMAX) && IsMine(*wallet, destMAX)) {
+                isminetype mine = wallet->IsMine(wtx.vout[nIndexMAX]);
+                sub.involvesWatchAddress = mine & ISMINE_WATCH_ONLY;
+                sub.type = TransactionRecord::MAXReward;
+                sub.address = CBitcoinAddress(destMAX).ToString();
+                sub.credit = wtx.vout[nIndexMAX].nValue;
+            }
+
             CTxDestination destMN;
             int nIndexMN = wtx.vout.size() - 1;
             if (ExtractDestination(wtx.vout[nIndexMN].scriptPubKey, destMN) && IsMine(*wallet, destMN)) {
@@ -83,15 +94,15 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet* 
                 sub.credit = wtx.vout[nIndexMN].nValue;
             }
 
-            CTxDestination destMAX;
-            int nIndexMAX = wtx.vout.size() - 1;
+           /** CTxDestination destMAX;
+            int nIndexMAX = wtx.vout.size() - 3;
             if (ExtractDestination(wtx.vout[nIndexMAX].scriptPubKey, destMAX) && IsMine(*wallet, destMAX)) {
                 isminetype mine = wallet->IsMine(wtx.vout[nIndexMAX]);
                 sub.involvesWatchAddress = mine & ISMINE_WATCH_ONLY;
                 sub.type = TransactionRecord::MAXReward;
                 sub.address = CBitcoinAddress(destMAX).ToString();
                 sub.credit = wtx.vout[nIndexMAX].nValue;
-            }
+            }**/
 	}
 
         parts.append(sub);
