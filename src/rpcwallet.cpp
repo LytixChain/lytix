@@ -2281,6 +2281,7 @@ UniValue printMultiSend()
     UniValue act(UniValue::VOBJ);
     act.push_back(Pair("MultiSendStake Activated?", pwalletMain->fMultiSendStake));
     act.push_back(Pair("MultiSendMasternode Activated?", pwalletMain->fMultiSendMasternodeReward));
+    act.push_back(Pair("MultiSendMaxnode Activated?", pwalletMain->fMultiSendMaxnodeReward));
     ret.push_back(act);
 
     if (pwalletMain->vDisabledAddresses.size() >= 1) {

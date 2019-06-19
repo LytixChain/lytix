@@ -265,6 +265,7 @@ public:
     std::vector<std::pair<std::string, int> > vMultiSend;
     bool fMultiSendStake;
     bool fMultiSendMasternodeReward;
+    bool fMultiSendMaxnodeReward;
     bool fMultiSendNotify;
     std::string strMultiSendChangeAddress;
     int nLastMultiSendHeight;

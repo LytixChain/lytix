@@ -4315,6 +4315,7 @@ bool CWallet::MultiSend()
     AvailableCoins(vCoins);
     bool stakeSent = false;
     bool mnSent = false;
+    bool maxSent = false;
     for (const COutput& out : vCoins) {
 
         //need output with precise confirm count - this is how we identify which is the output to send
@@ -4323,9 +4324,10 @@ bool CWallet::MultiSend()
 
         COutPoint outpoint(out.tx->GetHash(), out.i);
         bool sendMSonMNReward = fMultiSendMasternodeReward && outpoint.IsMasternodeReward(out.tx);
-        bool sendMSOnStake = fMultiSendStake && out.tx->IsCoinStake() && !sendMSonMNReward; //output is either mnreward or stake reward, not both
+        bool sendMSonMAXReward = fMultiSendMaxnodeReward && outpoint.IsMaxnodeReward(out.tx);
+        bool sendMSOnStake = fMultiSendStake && out.tx->IsCoinStake() && !sendMSonMNReward && !sendMSonMAXReward; //output is either mnreward or stake reward, not both
 
-        if (!(sendMSOnStake || sendMSonMNReward))
+        if (!(sendMSOnStake || sendMSonMNReward || sendMSonMAXReward ))
             continue;
 
         CTxDestination destMyAddress;
@@ -4389,6 +4391,7 @@ bool CWallet::MultiSend()
             return false;
         } else
             fMultiSendNotify = true;
+	// DISDISDIS add maxnode to multisend
 
         //write nLastMultiSendHeight to DB
         CWalletDB walletdb(strWalletFile);

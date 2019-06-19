@@ -1,7 +1,7 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018 The Lytix developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -73,7 +73,6 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet* 
             sub.address = CBitcoinAddress(address).ToString();
             sub.credit = nNet;
         } else {
-            //Masternode reward TODO: make maxnode reward
             CTxDestination destMN;
             int nIndexMN = wtx.vout.size() - 1;
             if (ExtractDestination(wtx.vout[nIndexMN].scriptPubKey, destMN) && IsMine(*wallet, destMN)) {
@@ -83,7 +82,17 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet* 
                 sub.address = CBitcoinAddress(destMN).ToString();
                 sub.credit = wtx.vout[nIndexMN].nValue;
             }
-        }
+
+            CTxDestination destMAX;
+            int nIndexMAX = wtx.vout.size() - 1;
+            if (ExtractDestination(wtx.vout[nIndexMAX].scriptPubKey, destMAX) && IsMine(*wallet, destMAX)) {
+                isminetype mine = wallet->IsMine(wtx.vout[nIndexMAX]);
+                sub.involvesWatchAddress = mine & ISMINE_WATCH_ONLY;
+                sub.type = TransactionRecord::MAXReward;
+                sub.address = CBitcoinAddress(destMAX).ToString();
+                sub.credit = wtx.vout[nIndexMAX].nValue;
+            }
+	}
 
         parts.append(sub);
     } else if (wtx.IsZerocoinSpend()) {
