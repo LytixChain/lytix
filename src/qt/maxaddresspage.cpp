@@ -12,7 +12,7 @@
 #include "csvmodelwriter.h"
 #include "editaddressdialog.h"
 #include "guiutil.h"
-//#include "maxnode-budget.h"
+#include "maxnode-budget.h"
 #include "maxnode-payments.h"
 #include "maxnodeconfig.h"
 #include "maxnodeman.h"

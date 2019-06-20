@@ -21,7 +21,7 @@
 #include "kernel.h"
 #include "masternode-budget.h"
 #include "masternode-payments.h"
-//#include "maxnode-budget.h"
+#include "maxnode-budget.h"
 #include "maxnode-payments.h"
 #include "masternodeman.h"
 #include "maxnodeman.h"
@@ -4649,14 +4649,13 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
 
     if (!ActivateBestChain(state, pblock, checked))
         return error("%s : ActivateBestChain failed", __func__);
-//DISDIS - make sure both payments go here
-//
+
     if (!fLiteMode) {
-	/**if (maxnodeSync.RequestedMaxnodeAssets > MAXNODE_SYNC_LIST) {
+	if (maxnodeSync.RequestedMaxnodeAssets > MAXNODE_SYNC_LIST) {
             obfuScationPool.NewBlock();
             maxnodePayments.ProcessBlock(GetHeight() + 10);
             maxbudget.NewBlock();
-        }**/
+        }
 
         if (masternodeSync.RequestedMasternodeAssets > MASTERNODE_SYNC_LIST) {
             obfuScationPool.NewBlock();

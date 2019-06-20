@@ -149,6 +149,7 @@ BITCOIN_CORE_H = \
   masternode-payments.h \
   maxnode-payments.h \
   masternode-budget.h \
+  maxnode-budget.h \
   masternode-sync.h \
   maxnode-sync.h \
   masternodeman.h \
@@ -241,6 +242,7 @@ libbitcoin_server_a_SOURCES = \
   rpcmasternode.cpp \
   rpcmaxnode.cpp \
   rpcmasternode-budget.cpp \
+  rpcmaxnode-budget.cpp \
   rpcmining.cpp \
   rpcmisc.cpp \
   rpcnet.cpp \
@@ -283,6 +285,7 @@ libbitcoin_wallet_a_SOURCES = \
   maxnode.cpp \
   masternode-budget.cpp \
   masternode-payments.cpp \
+  maxnode-budget.cpp \
   maxnode-payments.cpp \
   masternode-sync.cpp \
   maxnode-sync.cpp \
