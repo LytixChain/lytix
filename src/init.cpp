@@ -26,7 +26,7 @@
 #include "key.h"
 #include "main.h"
 #include "masternode-budget.h"
-#include "maxnode-budget.h"
+//#include "maxnode-budget.h"
 #include "masternode-payments.h"
 #include "maxnode-payments.h"
 #include "masternodeconfig.h"
@@ -1766,7 +1766,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     uiInterface.InitMessage(_("Loading max budget cache..."));
 
-    CMAXBudgetDB maxbudgetdb;
+    /**CMAXBudgetDB maxbudgetdb;
     CMAXBudgetDB::ReadResult readMAXResult2 = maxbudgetdb.Read(maxbudget);
 
     if (readMAXResult2 == CMAXBudgetDB::FileError)
@@ -1777,7 +1777,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             LogPrintf("magic is ok but data has invalid format, will try to recreate\n");
         else
             LogPrintf("file format is unknown or invalid, please fix it manually\n");
-    }
+    }**/
 
     //flag our cached items so we send them to our peers
     budget.ResetSync();
@@ -1800,8 +1800,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
 
-    maxbudget.ResetSync();
-    maxbudget.ClearSeen();
+    //maxbudget.ResetSync();
+    //maxbudget.ClearSeen();
 
 
     uiInterface.InitMessage(_("Loading maxnode payment cache..."));

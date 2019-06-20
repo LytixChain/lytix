@@ -21,7 +21,7 @@
 #include "kernel.h"
 #include "masternode-budget.h"
 #include "masternode-payments.h"
-#include "maxnode-budget.h"
+//#include "maxnode-budget.h"
 #include "maxnode-payments.h"
 #include "masternodeman.h"
 #include "maxnodeman.h"
@@ -4652,11 +4652,11 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
 //DISDIS - make sure both payments go here
 //
     if (!fLiteMode) {
-	if (maxnodeSync.RequestedMaxnodeAssets > MAXNODE_SYNC_LIST) {
+	/**if (maxnodeSync.RequestedMaxnodeAssets > MAXNODE_SYNC_LIST) {
             obfuScationPool.NewBlock();
             maxnodePayments.ProcessBlock(GetHeight() + 10);
             maxbudget.NewBlock();
-        }
+        }**/
 
         if (masternodeSync.RequestedMasternodeAssets > MASTERNODE_SYNC_LIST) {
             obfuScationPool.NewBlock();
@@ -5790,7 +5790,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                 !pSporkDB->SporkExists(SPORK_16_ZEROCOIN_MAINTENANCE_MODE) &&
 		!pSporkDB->SporkExists(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3) && 
 		!pSporkDB->SporkExists(SPORK_18_MASTERNODE_REWARDS_CHANGE) &&
-		!pSporkDB->SporkExists(SPORK_19_MAXNODE_ACTIVATION);
+		!pSporkDB->SporkExists(SPORK_19_MAXNODE_ACTIVATION) &&
+		!pSporkDB->SporkExists(SPORK_20_DEVFEE);
 
         if (fMissingSporks || !fRequestedSporksIDB){
             LogPrintf("asking peer for sporks\n");

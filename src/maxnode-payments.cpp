@@ -7,7 +7,7 @@
 #include "maxnode-payments.h"
 #include "masternode-payments.h"
 #include "addrman.h"
-#include "maxnode-budget.h"
+//#include "maxnode-budget.h"
 #include "maxnode-sync.h"
 #include "maxnodeman.h"
 #include "masternodeman.h"
@@ -196,7 +196,7 @@ bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount n
 
     //LogPrintf("XX69----------> IsMaxBlockValueValid(): nMinted: %d, nExpectedValue: %d\n", FormatMoney(nMinted), FormatMoney(nExpectedValue));
 
-    if (!maxnodeSync.IsSynced()) { //there is no budget data to use to check anything
+    /**if (!maxnodeSync.IsSynced()) { //there is no budget data to use to check anything
         //super blocks will always be on these blocks, max 100 per budgeting
         if (nHeight % GetMaxBudgetPaymentCycleBlocks() < 100) {
             return true;
@@ -204,7 +204,7 @@ bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount n
             if (nMinted > nExpectedValue) {
                 return false;
             }
-        }
+        }**/
     } else { // we're synced and have data so check the budget schedule
 
         //are these blocks even enabled
@@ -212,14 +212,14 @@ bool IsMaxBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount n
             return nMinted <= nExpectedValue;
         }
 
-        if (maxbudget.IsBudgetPaymentBlock(nHeight)) {
+        /**if (maxbudget.IsBudgetPaymentBlock(nHeight)) {
             //the value of the block is evaluated in CheckBlock
             return true;
         } else {
             if (nMinted > nExpectedValue) {
                 return false;
             }
-        }
+        }**/
     }
 
     return true;
