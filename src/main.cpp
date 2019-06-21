@@ -1942,9 +1942,9 @@ int64_t GetBlockValue(int nHeight)
         CoinAmount = static_cast<int64_t>(30 * COIN);
     } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 110000) {
         CoinAmount = static_cast<int64_t>(100 * COIN);
-    } else if (nHeight > 110000 && nHeight <= 285000) {
+    } else if (nHeight > 110000 && nHeight <= 300000) {
         CoinAmount = static_cast<int64_t>(30 * COIN);
-    } else if (nHeight > 285000 && nHeight <= (1 * DropTime)) {
+    } else if (nHeight > 300000 && nHeight <= (1 * DropTime)) {
         CoinAmount = static_cast<int64_t>(15 * COIN);
     } else if (nHeight > (1 * DropTime) && nHeight <= (2 * DropTime)) {
         CoinAmount = static_cast<int64_t>(10 * COIN);
@@ -1955,7 +1955,7 @@ int64_t GetBlockValue(int nHeight)
     } else if (nHeight > (4 * DropTime) && nHeight <= (5 * DropTime)) {
         CoinAmount = static_cast<int64_t>(3 * COIN);
     } else if (nHeight > (5 * DropTime) && nHeight <= (6 * DropTime)) {
-        CoinAmount = static_cast<int64_t>(2 * COIN);
+        CoinAmount = static_cast<int64_t>(1 * COIN);
     } else {
         CoinAmount = static_cast<int64_t>(1 * COIN);
     }
