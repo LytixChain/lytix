@@ -336,6 +336,8 @@ QString TransactionTableModel::formatTxType(const TransactionRecord* wtx) const
         return tr("Masternode Reward");
     case TransactionRecord::MAXReward:
         return tr("Maxnode Reward");
+    case TransactionRecord::DEVReward:
+        return tr("Dev Fee");
     case TransactionRecord::RecvFromOther:
         return tr("Received from");
     case TransactionRecord::RecvWithObfuscation:
@@ -375,6 +377,8 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord* wtx
         return QIcon(":/icons/tx_mined");
     case TransactionRecord::MAXReward:
         return QIcon(":/icons/tx_mined");
+    case TransactionRecord::DEVReward:
+        return QIcon(":/icons/tx_mined");
     case TransactionRecord::RecvWithObfuscation:
     case TransactionRecord::RecvWithAddress:
     case TransactionRecord::RecvFromOther:
@@ -403,6 +407,7 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord* wtx, b
     case TransactionRecord::RecvWithAddress:
     case TransactionRecord::MNReward:
     case TransactionRecord::MAXReward:
+    case TransactionRecord::DEVReward:
     case TransactionRecord::RecvWithObfuscation:
     case TransactionRecord::SendToAddress:
     case TransactionRecord::Generated:
@@ -436,6 +441,11 @@ QVariant TransactionTableModel::addressColor(const TransactionRecord* wtx) const
             return COLOR_BAREADDRESS;
     }
     case TransactionRecord::MAXReward: {
+        QString label = walletModel->getAddressTableModel()->labelForAddress(QString::fromStdString(wtx->address));
+        if (label.isEmpty())
+            return COLOR_BAREADDRESS;
+    }
+    case TransactionRecord::DEVReward: {
         QString label = walletModel->getAddressTableModel()->labelForAddress(QString::fromStdString(wtx->address));
         if (label.isEmpty())
             return COLOR_BAREADDRESS;
@@ -511,7 +521,7 @@ QString TransactionTableModel::formatTooltip(const TransactionRecord* rec) const
     QString tooltip = formatTxStatus(rec) + QString("\n") + formatTxType(rec);
     if (rec->type == TransactionRecord::RecvFromOther || rec->type == TransactionRecord::SendToOther ||
         rec->type == TransactionRecord::SendToAddress || rec->type == TransactionRecord::RecvWithAddress || rec->type == TransactionRecord::MNReward ||
-        rec->type == TransactionRecord::SendToAddress || rec->type == TransactionRecord::RecvWithAddress || rec->type == TransactionRecord::MAXReward) {
+        rec->type == TransactionRecord::MAXReward || rec->type == TransactionRecord::DEVReward) {
         tooltip += QString(" ") + formatTxToAddress(rec, true);
     }
     return tooltip;
