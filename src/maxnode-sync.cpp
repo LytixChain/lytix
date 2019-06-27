@@ -65,7 +65,6 @@ void CMaxnodeSync::Reset()
 {
     lastMaxnodeList = 0;
     lastMaxnodeWinner = 0;
-    lastBudgetItem = 0;
     mapSeenSyncMAXB.clear();
     mapSeenSyncMAXW.clear();
     mapSeenSyncBudget.clear();
