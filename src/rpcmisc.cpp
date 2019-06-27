@@ -266,7 +266,6 @@ UniValue maxsync(const UniValue& params, bool fHelp)
         obj.push_back(Pair("IsBlockchainSynced", maxnodeSync.IsBlockchainSynced()));
         obj.push_back(Pair("lastMaxnodeList", maxnodeSync.lastMaxnodeList));
         obj.push_back(Pair("lastMaxnodeWinner", maxnodeSync.lastMaxnodeWinner));
-        obj.push_back(Pair("lastBudgetItem", maxnodeSync.lastBudgetItem));
         obj.push_back(Pair("lastFailure", maxnodeSync.lastFailure));
         obj.push_back(Pair("nCountFailures", maxnodeSync.nCountFailures));
         obj.push_back(Pair("sumMaxnodeList", maxnodeSync.sumMaxnodeList));
