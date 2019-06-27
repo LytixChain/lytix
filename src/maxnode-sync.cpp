@@ -73,12 +73,8 @@ void CMaxnodeSync::Reset()
     nCountFailures = 0;
     sumMaxnodeList = 0;
     sumMaxnodeWinner = 0;
-//   sumBudgetItemProp = 0;
-//    sumBudgetItemFin = 0;
     countMaxnodeList = 0;
     countMaxnodeWinner = 0;
-//    countBudgetItemProp = 0;
-//    countBudgetItemFin = 0;
     RequestedMaxnodeAssets = MAXNODE_SYNC_INITIAL;
     RequestedMaxnodeAttempt = 0;
     nAssetSyncStarted = GetTime();
@@ -110,30 +106,6 @@ void CMaxnodeSync::AddedMaxnodeWinner(uint256 hash)
     }
 }
 
-/**void CMaxnodeSync::AddedBudgetItem(uint256 hash)
-{
-    if (maxbudget.mapSeenMaxnodeBudgetProposals.count(hash) || maxbudget.mapSeenMaxnodeBudgetVotes.count(hash) ||
-        maxbudget.mapSeenFinalizedBudgets.count(hash) || maxbudget.mapSeenFinalizedBudgetVotes.count(hash)) {
-        if (mapSeenSyncBudget[hash] < MAXNODE_SYNC_THRESHOLD) {
-            lastBudgetItem = GetTime();
-            mapSeenSyncBudget[hash]++;
-        }
-    } else {
-        lastBudgetItem = GetTime();
-        mapSeenSyncBudget.insert(make_pair(hash, 1));
-    }
-}
-
-bool CMaxnodeSync::IsBudgetPropEmpty()
-{
-    return sumBudgetItemProp == 0 && countBudgetItemProp > 0;
-}
-
-bool CMaxnodeSync::IsBudgetFinEmpty()
-{
-    return sumBudgetItemFin == 0 && countBudgetItemFin > 0;
-}**/
-
 void CMaxnodeSync::GetNextAsset()
 {
     switch (RequestedMaxnodeAssets) {
@@ -151,10 +123,6 @@ void CMaxnodeSync::GetNextAsset()
     case (MAXNODE_SYNC_MAXW):
         RequestedMaxnodeAssets = MAXNODE_SYNC_BUDGET;
         break;
-    //case (MAXNODE_SYNC_BUDGET):
-    //    LogPrintf("CMaxnodeSync::GetNextAsset - Sync has finished\n");
-    //    RequestedMaxnodeAssets = MAXNODE_SYNC_FINISHED;
-    //    break;
     }
     RequestedMaxnodeAttempt = 0;
     nAssetSyncStarted = GetTime();
@@ -171,8 +139,6 @@ std::string CMaxnodeSync::GetSyncStatus()
         return _("Synchronizing maxnodes...");
     case MAXNODE_SYNC_MAXW:
         return _("Synchronizing maxnode winners...");
-    //case MAXNODE_SYNC_BUDGET:
-    //    return _("Synchronizing budgets...");
     case MAXNODE_SYNC_FAILED:
         return _("Synchronization failed");
     case MAXNODE_SYNC_FINISHED:
@@ -202,16 +168,6 @@ void CMaxnodeSync::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataSt
             sumMaxnodeWinner += nCount;
             countMaxnodeWinner++;
             break;
-        /**case (MAXNODE_SYNC_BUDGET_PROP):
-            if (RequestedMaxnodeAssets != MAXNODE_SYNC_BUDGET) return;
-            sumBudgetItemProp += nCount;
-            countBudgetItemProp++;
-            break;
-        case (MAXNODE_SYNC_BUDGET_FIN):
-            if (RequestedMaxnodeAssets != MAXNODE_SYNC_BUDGET) return;
-            sumBudgetItemFin += nCount;
-            countBudgetItemFin++;
-            break;**/
         }
 
         LogPrint("maxnode", "CMaxnodeSync:ProcessMessage - smaxsc - got inventory count %d %d\n", nItemID, nCount);

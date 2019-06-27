@@ -36,20 +36,15 @@ public:
 
     int64_t lastMaxnodeList;
     int64_t lastMaxnodeWinner;
-    int64_t lastBudgetItem;
     int64_t lastFailure;
     int nCountFailures;
 
     // sum of all counts
     int sumMaxnodeList;
     int sumMaxnodeWinner;
-    int sumBudgetItemProp;
-    int sumBudgetItemFin;
     // peers that reported counts
     int countMaxnodeList;
     int countMaxnodeWinner;
-    int countBudgetItemProp;
-    int countBudgetItemFin;
 
     // Count peers we've requested the list from
     int RequestedMaxnodeAssets;
@@ -62,12 +57,9 @@ public:
 
     void AddedMaxnodeList(uint256 hash);
     void AddedMaxnodeWinner(uint256 hash);
-    void AddedBudgetItem(uint256 hash);
     void GetNextAsset();
     std::string GetSyncStatus();
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
-    bool IsBudgetFinEmpty();
-    bool IsBudgetPropEmpty();
 
     void Reset();
     void Process();

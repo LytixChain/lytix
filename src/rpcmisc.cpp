@@ -247,12 +247,8 @@ UniValue maxsync(const UniValue& params, bool fHelp)
             "  \"nCountFailures\": n,           (numeric) Number of failed syncs (total)\n"
             "  \"sumMaxnodeList\": n,        (numeric) Number of MAX list messages (total)\n"
             "  \"sumMaxnodeWinner\": n,      (numeric) Number of MAX winner messages (total)\n"
-            "  \"sumBudgetItemProp\": n,        (numeric) Number of MAX budget messages (total)\n"
-            "  \"sumBudgetItemFin\": n,         (numeric) Number of MAX budget finalization messages (total)\n"
             "  \"countMaxnodeList\": n,      (numeric) Number of MAX list messages (local)\n"
             "  \"countMaxnodeWinner\": n,    (numeric) Number of MAX winner messages (local)\n"
-            "  \"countBudgetItemProp\": n,      (numeric) Number of MAX budget messages (local)\n"
-            "  \"countBudgetItemFin\": n,       (numeric) Number of MAX budget finalization messages (local)\n"
             "  \"RequestedMaxnodeAssets\": n, (numeric) Status code of last sync phase\n"
             "  \"RequestedMaxnodeAttempt\": n, (numeric) Status code of last sync attempt\n"
             "}\n"
@@ -275,12 +271,8 @@ UniValue maxsync(const UniValue& params, bool fHelp)
         obj.push_back(Pair("nCountFailures", maxnodeSync.nCountFailures));
         obj.push_back(Pair("sumMaxnodeList", maxnodeSync.sumMaxnodeList));
         obj.push_back(Pair("sumMaxnodeWinner", maxnodeSync.sumMaxnodeWinner));
-        obj.push_back(Pair("sumBudgetItemProp", maxnodeSync.sumBudgetItemProp));
-        obj.push_back(Pair("sumBudgetItemFin", maxnodeSync.sumBudgetItemFin));
         obj.push_back(Pair("countMaxnodeList", maxnodeSync.countMaxnodeList));
         obj.push_back(Pair("countMaxnodeWinner", maxnodeSync.countMaxnodeWinner));
-        obj.push_back(Pair("countBudgetItemProp", maxnodeSync.countBudgetItemProp));
-        obj.push_back(Pair("countBudgetItemFin", maxnodeSync.countBudgetItemFin));
         obj.push_back(Pair("RequestedMaxnodeAssets", maxnodeSync.RequestedMaxnodeAssets));
         obj.push_back(Pair("RequestedMaxnodeAttempt", maxnodeSync.RequestedMaxnodeAttempt));
 
