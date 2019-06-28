@@ -1,5 +1,5 @@
 ---
-name: "lytix-aarch64-2.0.0"
+name: "lytix-aarch64-2.0.1"
 enable_cache: true
 suites:
 - "xenial"
