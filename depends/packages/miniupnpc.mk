@@ -2,7 +2,7 @@ package=miniupnpc
 $(package)_version=2.1.20190630
 $(package)_download_path=https://www.lytixchain.org/depends
 $(package)_file_name=$(package)-$($(package)_version).tar.gz
-$(package)_sha256_hash=29f49fe6868597d041ee29f511fa7b65781b9e4e85ef2569a2381c2079e1743e
+$(package)_sha256_hash=8723f5d7fd7970de23635547700878cd29a5c2bb708b5e5475b2d1d2510317fb
 
 define $(package)_set_vars
 $(package)_build_opts=CC="$($(package)_cc)"
