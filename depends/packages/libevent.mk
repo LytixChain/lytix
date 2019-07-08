@@ -1,6 +1,6 @@
 package=libevent
 $(package)_version=2.1.10-stable
-$(package)_download_path=https://github.com/libevent/libevent/archive/
+$(package)_download_path=https://github.com/libevent/libevent/releases/
 $(package)_file_name=release-$($(package)_version).tar.gz
 $(package)_sha256_hash=e864af41a336bb11dab1a23f32993afe963c1f69618bd9292b89ecf6904845b0
 
