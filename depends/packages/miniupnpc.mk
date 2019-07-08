@@ -1,6 +1,6 @@
 package=miniupnpc
 $(package)_version=2.1.20190630
-$(package)_download_path=http://miniupnp.free.fr/files/download.php?file=
+$(package)_download_path=https://www.lytixchain.org/depends
 $(package)_file_name=$(package)-$($(package)_version).tar.gz
 $(package)_sha256_hash=29f49fe6868597d041ee29f511fa7b65781b9e4e85ef2569a2381c2079e1743e
 
