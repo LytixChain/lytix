@@ -121,7 +121,7 @@ QT_MOC_CPP = \
 BITCOIN_MM = \
   qt/macdockiconhandler.mm \
   qt/macnotificationhandler.mm \
-  qt/macros_appnap.mm
+  qt/macos_appnap.mm
 
 QT_MOC = \
   qt/bitcoin.moc \
