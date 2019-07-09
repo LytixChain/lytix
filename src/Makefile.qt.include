@@ -1,5 +1,7 @@
 # Copyright (c) 2013-2016 The Bitcoin Core developers
 # Copyright (c) 2018 The Phore developers
+# Copyright (c) 2019 The Doge Cash developers
+# Copyright (c) 2019 The Lytix developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -118,7 +120,8 @@ QT_MOC_CPP = \
 
 BITCOIN_MM = \
   qt/macdockiconhandler.mm \
-  qt/macnotificationhandler.mm
+  qt/macnotificationhandler.mm \
+  qt/macros_appnap.mm
 
 QT_MOC = \
   qt/bitcoin.moc \
@@ -138,6 +141,7 @@ PROTOBUF_PROTO = qt/paymentrequest.proto
 
 BITCOIN_QT_H = \
   qt/addressbookpage.h \
+  qt/macos_appnap.h \
   qt/addresstablemodel.h \
   qt/askpassphrasedialog.h \
   qt/bantablemodel.h \
