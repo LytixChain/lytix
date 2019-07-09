@@ -1,5 +1,8 @@
 // Copyright (c) 2012-2014 The Bitcoin developers
 // Copyright (c) 2016-2017 The PIVX developers
+// Copyright (c) 2019 The DeVault developers
+// Copyright (c) 2019 Jon Spock
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,6 +11,8 @@
 #include "tinyformat.h"
 
 #include <string>
+#include <utilstrencodings.h>
+#include <utilsplitstring.h>
 
 /**
  * Name of client reported in the 'version' message. Report the same name
@@ -109,4 +114,29 @@ std::string FormatSubVersion(const std::string& name, int nClientVersion, const 
     }
     ss << "/";
     return ss.str();
+}
+
+/**
+ * Split the Sub Version string such as /DeVault Core:1.0.1(EB32.0)/
+ * in order to get integer version number
+ */
+int UnformatSubVersion(const std::string &name) {
+
+    std::vector<std::string> split1;
+    std::vector<std::string> split2;
+    std::vector<std::string> ver_str;
+
+    // throw away /DeVault Core: part
+    Split(split1, name, ":");
+    // throw away (.../ part
+    Split(split2, split1[1], "(");
+    // Get individual numbers
+    Split(ver_str, split2[0], ".");
+
+    if (ver_str.size() == 3) {
+        int CLIENT_VER =  1000000 * std::stoi(ver_str[0]) + 10000 * std::stoi(ver_str[1]) + 100 * std::stoi(ver_str[2]);
+        return CLIENT_VER;
+    } else {
+        return 0;
+    }
 }
