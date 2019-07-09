@@ -37,7 +37,7 @@
 #include "txdb.h"
 #include "txmempool.h"
 #include "ui_interface.h"
-#include <upgrade_check.h>
+#include "upgrade_check.h"
 #include "util.h"
 #include "utilmoneystr.h"
 #include "validationinterface.h"
