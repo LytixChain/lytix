@@ -1,13 +1,14 @@
 // Copyright (c) 2019 The DeVault developers
 // Copyright (c) 2019 Jon Spock
+// Copyright (c) 2019 The Lytix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <upgrade_check.h>
-#include <clientversion.h>
-#include <logging.h>
-#include <ui_interface.h>
-#include <warnings.h>
+#include "upgrade_check.h"
+#include "clientversion.h"
+#include "ui_interface.h"
+#include "logging.h"
+#include "warnings.h"
 
 static bool fWarned = false;
 
