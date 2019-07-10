@@ -1,5 +1,8 @@
 // Copyright (c) 2012-2014 The Bitcoin developers
 // Copyright (c) 2016-2017 The PIVX developers
+// Copyright (c) 2019 The DeVault developers
+// Copyright (c) 2019 Jon Spock
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,6 +11,7 @@
 #include "tinyformat.h"
 
 #include <string>
+#include <utilstrencodings.h>
 
 /**
  * Name of client reported in the 'version' message. Report the same name
@@ -110,3 +114,4 @@ std::string FormatSubVersion(const std::string& name, int nClientVersion, const 
     ss << "/";
     return ss.str();
 }
+

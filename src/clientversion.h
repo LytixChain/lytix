@@ -1,5 +1,8 @@
 // Copyright (c) 2009-2017 The Bitcoin Core developers
 // Copyright (c) 2017-2018 The PIVX developers
+// Copyright (c) 2019 The DeVault developers
+// Copyright (c) 2019 Jon Spock
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -48,6 +51,7 @@ extern const std::string CLIENT_DATE;
 
 
 std::string FormatFullVersion();
+int UnformatSubVersion(const std::string &name);
 std::string FormatSubVersion(const std::string& name, int nClientVersion, const std::vector<std::string>& comments);
 
 #endif // WINDRES_PREPROC

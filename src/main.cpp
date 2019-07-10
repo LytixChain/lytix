@@ -3,7 +3,9 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
 // Copyright (c) 2018 The Helium developers
-// Copyright (c) 2018-2019 The Lytix developer
+// Copyright (c) 2019 The DeVault developers
+// Copyright (c) 2019 Jon Spock
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -5801,6 +5803,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         int64_t nTime;
         CAddress addrMe;
         CAddress addrFrom;
+	std::string cleanSubVer;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
         if (pfrom->DisconnectOldProtocol(ActiveProtocol(), strCommand))
