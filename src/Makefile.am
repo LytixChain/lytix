@@ -191,7 +191,6 @@ BITCOIN_CORE_H = \
   torcontrol.h \
   txdb.h \
   txmempool.h \
-  #upgrade_check.cpp \
   ui_interface.h \
   uint256.h \
   undo.h \
