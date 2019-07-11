@@ -5,7 +5,7 @@ $(package)_file_name=$(package)-$($(package)_version).tar.bz2
 $(package)_sha256_hash=c9cb278d3b28dcc36b8d09e8cad51c0eca754eb004cb0247d4703cb4472b58b4
 
 define $(package)_set_vars
-$(package)_config_opts=--disable-shared -without-tools --disable-sdltest
+$(package)_config_opts=--disable-shared -without-tools 
 $(package)_config_opts_linux=--with-pic
 endef
 
