@@ -1,6 +1,6 @@
 package=xcb_proto
 $(package)_version=1.13
-$(package)_download_path=http://xcb.freedesktop.org/dist
+$(package)_download_path=https://xcb.freedesktop.org/dist
 $(package)_file_name=xcb-proto-$($(package)_version).tar.bz2
 $(package)_sha256_hash=7b98721e669be80284e9bbfeab02d2d0d54cd11172b72271e47a2fe875e2bde1
 
