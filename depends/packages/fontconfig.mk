@@ -3,7 +3,7 @@ $(package)_version=2.13.1
 $(package)_download_path=http://www.freedesktop.org/software/fontconfig/release/
 $(package)_file_name=$(package)-$($(package)_version).tar.bz2
 $(package)_sha256_hash=f655dd2a986d7aa97e052261b36aa67b0a64989496361eca8d604e6414006741
-$(package)_dependencies=freetype expat
+$(package)_dependencies=freetype expat util-linux
 
 define $(package)_set_vars
   $(package)_config_opts=--disable-docs --disable-static
@@ -18,8 +18,6 @@ endef
 # Instead, change all uses of CHAR_WIDTH, and disable the rule that forces header re-generation.
 # This can be removed once the upstream build is fixed.
 define $(package)_build_cmds
-  sed -i 's/CHAR_WIDTH/CHARWIDTH/g' fontconfig/fontconfig.h src/fcobjshash.gperf src/fcobjs.h src/fcobjshash.h && \
-  sed -i 's/fcobjshash.h: fcobjshash.gperf/fcobjshash.h:/' src/Makefile && \
   $(MAKE)
 endef
 
