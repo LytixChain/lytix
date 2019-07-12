@@ -101,7 +101,7 @@ jobs:
         PACKAGES="python3 nsis g++-mingw-w64-i686 wine-binfmt wine32"
         RUN_FUNCTIONAL_TESTS=false
         GOAL="deploy"
-        BITCOIN_CONFIG="--enable-reduce-exports"
+        BITCOIN_CONFIG="--enable-gui --enable-reduce-exports"
 
     - stage: test
       name: 'Win64  [GOAL: deploy] [no functional tests]'
@@ -110,7 +110,7 @@ jobs:
         PACKAGES="python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64"
         RUN_FUNCTIONAL_TESTS=false
         GOAL="deploy"
-        BITCOIN_CONFIG="--enable-reduce-exports"
+        BITCOIN_CONFIG="--enable-gui --enable-reduce-exports"
 
     - stage: test
       name: 'x86_64 Linux  [GOAL: install]  [bionic]  [uses qt5 dev package instead of depends Qt to speed up build and avoid timeout]'
