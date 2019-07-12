@@ -199,12 +199,6 @@ block_test.info: test_bitcoin_filtered.info
 block_test_filtered.info: block_test.info
 	$(LCOV) -r $< "/usr/include/*" -o $@
 
-functional_test.info: test_lytix_filtered.info
-	-@TIMEOUT=15 test/functional/test_runner.py $(EXTENDED_FUNCTIONAL_TESTS)
-	$(LCOV) -c $(LCOV_OPTS) -d $(abs_builddir)/src --t functional-tests -o $@
-	$(LCOV) -z $(LCOV_OPTS) -d $(abs_builddir)/src
-
-
 test_bitcoin_coverage.info: baseline_filtered_combined.info test_bitcoin_filtered.info
 	$(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_bitcoin_filtered.info -o $@
 

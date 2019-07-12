@@ -60,8 +60,8 @@ if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
   extended="--extended --exclude feature_pruning,feature_dbcrash"
 fi
 
-if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
-  BEGIN_FOLD functional-tests
-  DOCKER_EXEC test/functional/test_runner.py --combinedlogslen=4000 --coverage --quiet --failfast ${extended}
-  END_FOLD
-fi
+#if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
+#  BEGIN_FOLD functional-tests
+#  DOCKER_EXEC test/functional/test_runner.py --combinedlogslen=4000 --coverage --quiet --failfast ${extended}
+#  END_FOLD
+#fi
