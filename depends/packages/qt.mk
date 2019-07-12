@@ -131,19 +131,11 @@ define $(package)_preprocess_cmds
   cp -f qtbase/mkspecs/macx-clang/Info.plist.lib qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f qtbase/mkspecs/macx-clang/Info.plist.app qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f qtbase/mkspecs/macx-clang/qplatformdefs.h qtbase/mkspecs/macx-clang-linux/ &&\
-  cp -f $($(package)_patch_dir)/mac-qmake.conf qtbase/mkspecs/macx-clang-linux/qmake.conf && \
   cp -r qtbase/mkspecs/linux-arm-gnueabi-g++ qtbase/mkspecs/lytix-linux-g++ && \
   sed -i.old "s/arm-linux-gnueabi-/$(host)-/g" qtbase/mkspecs/lytix-linux-g++/qmake.conf && \
-  patch -p1 -i $($(package)_patch_dir)/fix_qt_pkgconfig.patch &&\
-  patch -p1 -i $($(package)_patch_dir)/fix_configure_mac.patch &&\
-  patch -p1 -i $($(package)_patch_dir)/fix_no_printer.patch &&\
-  patch -p1 -i $($(package)_patch_dir)/fix_rcc_determinism.patch &&\
-  patch -p1 -i $($(package)_patch_dir)/xkb-default.patch &&\
   echo "!host_build: QMAKE_CFLAGS     += $($(package)_cflags) $($(package)_cppflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_CXXFLAGS   += $($(package)_cxxflags) $($(package)_cppflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_LFLAGS     += $($(package)_ldflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
-  patch -p1 -i $($(package)_patch_dir)/fix_riscv64_arch.patch &&\
-  patch -p1 -i $($(package)_patch_dir)/fix_s390x_powerpc_mips_mipsel_architectures.patch &&\
   echo "QMAKE_LINK_OBJECT_MAX = 10" >> qtbase/mkspecs/win32-g++/qmake.conf &&\
   echo "QMAKE_LINK_OBJECT_SCRIPT = object_script" >> qtbase/mkspecs/win32-g++/qmake.conf &&\
   sed -i.old "s|QMAKE_CFLAGS            = |!host_build: QMAKE_CFLAGS            = $($(package)_cflags) $($(package)_cppflags) |" qtbase/mkspecs/win32-g++/qmake.conf && \
