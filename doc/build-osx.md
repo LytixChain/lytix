@@ -56,6 +56,16 @@ Build Lytix Core
         ./configure
         make
 
+
+2a. If you get this error:
+
+	configure: error: OpenSSL ec header missing
+
+	enter the following: 
+
+	export LDFLAGS=-L/usr/local/opt/openssl/lib
+	export CPPFLAGS=-I/usr/local/opt/openssl/include
+
 3.  It is recommended to build and run the unit tests:
 
         make check

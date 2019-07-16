@@ -28,7 +28,7 @@ This will change to 40% Masternodes. 30% Maxnodes, 25% Stakers, and 5% Dev fee i
 - 3 until 1,750,000
 - 1 from then on 
 
-15 confirmations maturity for staked rewards
+15 confirmations maturity for mined or staked rewards
 ZeroCoin is removed in current source and is in maitnenance mode on Mainnet
 
 -------------------------
