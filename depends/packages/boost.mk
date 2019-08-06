@@ -1,8 +1,8 @@
 package=boost
-$(package)_version=1_66_0
-$(package)_download_path=https://dl.bintray.com/boostorg/release/1.66.0/source/
+$(package)_version=1_64_0
+$(package)_download_path=https://dl.bintray.com/boostorg/release/1.64.0/source/
 $(package)_file_name=$(package)_$($(package)_version).tar.bz2
-$(package)_sha256_hash=5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9
+$(package)_sha256_hash=7bcc5caace97baa948931d712ea5f37038dbb1c5d89b43ad4def4ed7cb683332
 
 define $(package)_set_vars
 $(package)_config_opts_release=variant=release
@@ -15,6 +15,10 @@ $(package)_config_opts_mingw32=binary-format=pe target-os=windows threadapi=win3
 $(package)_config_opts_x86_64_mingw32=address-model=64
 $(package)_config_opts_i686_mingw32=address-model=32
 $(package)_config_opts_i686_linux=address-model=32 architecture=x86
+$(package)_config_opts_s390x_linux=address-model=64
+$(package)_config_opts_sparc64_linux=address-model=64
+$(package)_config_opts_alpha_linux=address-model=64
+$(package)_config_opts_m68k_linux=address-model=32
 $(package)_toolset_$(host_os)=gcc
 $(package)_archiver_$(host_os)=$($(package)_ar)
 $(package)_toolset_darwin=darwin
