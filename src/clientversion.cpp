@@ -11,7 +11,6 @@
 #include "tinyformat.h"
 
 #include <string>
-#include <utilstrencodings.h>
 
 /**
  * Name of client reported in the 'version' message. Report the same name

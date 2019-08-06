@@ -1,7 +1,6 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2017-2018 The PIVX developers
 // Copyright (c) 2018 The Phore developers
-// Copyright (c) 2019 The Doge Cash developers
 // Copyright (c) 2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -22,10 +21,6 @@
 #include <QPoint>
 #include <QPushButton>
 #include <QSystemTrayIcon>
-
-#ifdef Q_OS_MAC
-#include "qt/macos_appnap.h"
-#endif
 
 class ClientModel;
 class NetworkStyle;
@@ -146,10 +141,6 @@ private:
     Notificator* notificator;
     RPCConsole* rpcConsole;
     BlockExplorer* explorerWindow;
-
-#ifdef Q_OS_MAC
-    CAppNapInhibitor* m_app_nap_inhibitor = nullptr;
-#endif
 
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
