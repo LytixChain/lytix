@@ -22,6 +22,7 @@ packages:
 - "faketime"
 - "bsdmainutils"
 - "ca-certificates"
+- "gperf"
 - "python"
 reference_datetime: "2015-06-01 00:00:00"
 remotes:

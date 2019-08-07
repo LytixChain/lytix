@@ -23,6 +23,7 @@ packages:
 - "zip"
 - "ca-certificates"
 - "python3"
+- "gperf"
 - "rename"
 - "libx11-xcb1"
 - "libssl-dev"
