@@ -27,6 +27,7 @@ packages:
 - "faketime"
 - "bsdmainutils"
 - "ca-certificates"
+- "gperf"
 - "python3"
 remotes:
 - "url": "https://github.com/lytixchain/lytix.git"
