@@ -1,8 +1,8 @@
 package=fontconfig
-$(package)_version=2.13.1
+$(package)_version=2.12.1
 $(package)_download_path=https://www.freedesktop.org/software/fontconfig/release/
 $(package)_file_name=$(package)-$($(package)_version).tar.bz2
-$(package)_sha256_hash=f655dd2a986d7aa97e052261b36aa67b0a64989496361eca8d604e6414006741
+$(package)_sha256_hash=b449a3e10c47e1d1c7a6ec6e2016cca73d3bd68fbbd4f0ae5cc6b573f7d6c7f3
 $(package)_dependencies=freetype expat
 
 define $(package)_set_vars
@@ -18,9 +18,15 @@ endef
 # Instead, change all uses of CHAR_WIDTH, and disable the rule that forces header re-generation.
 # This can be removed once the upstream build is fixed.
 define $(package)_build_cmds
+  sed -i 's/CHAR_WIDTH/CHARWIDTH/g' fontconfig/fontconfig.h src/fcobjshash.gperf src/fcobjs.h src/fcobjshash.h && \
+  sed -i 's/fcobjshash.h: fcobjshash.gperf/fcobjshash.h:/' src/Makefile && \
   $(MAKE)
 endef
 
 define $(package)_stage_cmds
   $(MAKE) DESTDIR=$($(package)_staging_dir) install
+endef
+
+define $(package)_postprocess_cmds
+  rm lib/*.la
 endef
