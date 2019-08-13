@@ -1,5 +1,6 @@
 /****************************************************************************************/
 /* Global color codes:                                                                  */
+/* dark blue:		#072f6a
 /* dark-purple:        #0c0c0c                                                          */
 /* transparent-purple: #e7edef (for inactive backgrounds)                               */
 /*                                                                                      */
@@ -38,7 +39,7 @@ padding:0;
 }
 
 QStatusBar {
-background-color:#ffffff;
+background-color:#fff;
     padding-left:4px;
 }
 
@@ -74,7 +75,7 @@ color:#333;
 }
 
 QToolBar {
-background-color: #000000;
+background-color: #072f6a;
 border:0px solid #333;
 padding:1;
 margin:0;
