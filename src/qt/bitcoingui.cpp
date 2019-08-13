@@ -1051,7 +1051,8 @@ void BitcoinGUI::setNumBlocks(int count)
         progressBarLabel->setText(strSyncStatus);
         tooltip = strSyncStatus + QString("<br>") + tooltip; **/
 
-    } else {
+    //} else {
+    else {
         // Represent time from last generated block in human readable text
         QString timeBehindText;
         const int HOUR_IN_SECONDS = 60 * 60;
