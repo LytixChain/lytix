@@ -1013,7 +1013,8 @@ void BitcoinGUI::setNumBlocks(int count)
         tooltip = strSyncStatus + QString("<br>") + tooltip;
     }
 
-    if (maxnodeSync.IsBlockchainSynced()) {
+    // commenting out maxnode synch progress until fixed. Not necessary to stake at this point
+    /** if (maxnodeSync.IsBlockchainSynced()) {
         QString strSyncStatus;
         tooltip = tr("Up to date") + QString(".<br>") + tooltip;
 
@@ -1048,7 +1049,7 @@ void BitcoinGUI::setNumBlocks(int count)
 
         strSyncStatus = QString(maxnodeSync.GetSyncStatus().c_str());
         progressBarLabel->setText(strSyncStatus);
-        tooltip = strSyncStatus + QString("<br>") + tooltip;
+        tooltip = strSyncStatus + QString("<br>") + tooltip; **/
 
     } else {
         // Represent time from last generated block in human readable text
