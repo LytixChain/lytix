@@ -1,8 +1,8 @@
 package=native_libdmg-hfsplus
-$(package)_version=0.1
-$(package)_download_path=https://github.com/theuni/libdmg-hfsplus/archive
-$(package)_file_name=libdmg-hfsplus-v$($(package)_version).tar.gz
-$(package)_sha256_hash=6569a02eb31c2827080d7d59001869ea14484c281efab0ae7f2b86af5c3120b3
+$(package)_version=3e5fd3fb56bc9ff03beb535979e33dcf83fe1f70
+$(package)_download_path=https://github.com/fanquake/libdmg-hfsplus/archive
+$(package)_file_name=$($(package)_version).tar.gz
+$(package)_sha256_hash=6ad6116755d1442feeda98cfed818153d1f4433627ce6576347a78432eb0b228
 $(package)_build_subdir=build
 
 define $(package)_preprocess_cmds
