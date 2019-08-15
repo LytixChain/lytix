@@ -2,7 +2,8 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018 The Lytix developer
+// Copyright (c) 2019 The Zenzo Core developers
+// Copyright (c) 2018-2019 The Lytix developers
 
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -66,6 +67,8 @@ extern std::string strMiscWarning;
 extern bool fLogTimestamps;
 extern bool fLogIPs;
 extern volatile bool fReopenDebugLog;
+extern int logSize;
+extern std::vector<std::string> logs;
 
 void SetupEnvironment();
 bool SetupNetworking();

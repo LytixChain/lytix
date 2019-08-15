@@ -2,7 +2,8 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018-2019 The Lytix developer
+// Copyright (c) 2019 The Zenzo Core developers
+// Copyright (c) 2018-2019 The Lytix developers
 
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -151,6 +152,10 @@ bool fLogTimestamps = false;
 bool fLogIPs = false;
 volatile bool fReopenDebugLog = false;
 
+/** GUI-based logging */
+int logSize = 25; // Default amount of logs kept by the GUI logger before the oldest gets erased
+vector<string> logs;
+
 /** Init OpenSSL library multithreading support */
 static CCriticalSection** ppmutexOpenSSL;
 void locking_callback(int mode, int i, const char* file, int line) NO_THREAD_SAFETY_ANALYSIS
@@ -293,6 +298,11 @@ int LogPrintStr(const std::string& str)
             if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL)
                 setbuf(fileout, NULL); // unbuffered
         }
+
+	// Save print into logsStr for GUI-based logging
+        logs.push_back(str + "<br>");
+        if (logs.size() > logSize)
+            logs.erase(logs.begin());
 
         // Debug print useful for profiling
         if (fLogTimestamps && fStartedNewLine)
