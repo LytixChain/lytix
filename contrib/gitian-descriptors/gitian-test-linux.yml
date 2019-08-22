@@ -21,18 +21,6 @@ packages:
 - "ca-certificates"
 - "python3"
 - "gperf"
-- "libx11-xcb1"
-- "libssl-dev"
-- "libfontconfig1-dev"
-- "libfreetype6-dev"
-- "libx11-dev"
-- "libxext-dev"
-- "libxfixes-dev"
-- "libxi-dev"
-- "libxrender-dev"
-- "libxcb1-dev"
-- "libx11-xcb-dev"
-- "libxcb-glx0-dev"
 
 remotes:
 - "url": "https://github.com/lytixchain/lytix.git"
