@@ -113,14 +113,10 @@ script: |
 
   cd lytix
   BASEPREFIX=`pwd`/depends
+
   # Build dependencies for each host
   for i in $HOSTS; do
-  EXTRA_INCLUDES="$EXTRA_INCLUDES_BASE/$i"
-   if [ -d "$EXTRA_INCLUDES" ]; then
-     export HOST_ID_SALT="$EXTRA_INCLUDES"
-   fi
     make ${MAKEOPTS} -C ${BASEPREFIX} HOST="${i}"
-     unset HOST_ID_SALT
   done
 
   # Faketime for binaries
@@ -139,7 +135,7 @@ script: |
   mkdir -p temp
   pushd temp
   tar -xf ../$SOURCEDIST
-  find lytix-* | sort | tar --mtime="$REFERENCE_DATE\\\ $REFERENCE_TIME" --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find lytix-* | sort | tar --mtime="$REFERENCE_DATETIME" --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   popd
 
   # Workaround for tarball not building with the bare tag version (prep)
@@ -172,7 +168,7 @@ script: |
     rm -rf ${DISTNAME}/lib/pkgconfig
     #find ${DISTNAME}/bin -type f -executable -print0 | xargs -0 -n1 -I{} ../contrib/devtools/split-debug.sh {} {} {}.dbg
     #cp ../doc/README.md ${DISTNAME}/
-    find ${DISTNAME} -not -name "*.dbg" | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${OUTDIR}/${DISTNAME}-${i}.tar.gz
+    find ${DISTNAME} -not -name "*.dbg" | sort | tar --mtime="$REFERENCE_DATETIME" --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${OUTDIR}/${DISTNAME}-${i}.tar.gz
     #find ${DISTNAME} -name "*.dbg" | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${OUTDIR}/${DISTNAME}-${i}-debug.tar.gz
     cd ../../
     rm -rf distsrc-${i}
