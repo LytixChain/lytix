@@ -255,8 +255,6 @@ public:
         vSeeds.push_back(CDNSSeedData("dns1", "dns1.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns2", "dns2.lytixchain.org"));
         vSeeds.push_back(CDNSSeedData("dns3", "dns3.lytixchain.org"));
-        vSeeds.push_back(CDNSSeedData("dns4", "66.42.73.80"));
-        vSeeds.push_back(CDNSSeedData("dnsv6", "2001:19f0:6401:dbd:5400:01ff:fe9a:0628"));
 
 
         // Lytix addresses start with '8 or 9'
