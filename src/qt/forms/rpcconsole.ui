@@ -465,7 +465,7 @@
       <attribute name="title">
        <string>&amp;Logs</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <property name="spacing">
         <number>3</number>
        </property>
