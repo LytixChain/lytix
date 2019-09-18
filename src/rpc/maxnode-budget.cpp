@@ -13,7 +13,7 @@
 #include "maxnode-payments.h"
 #include "maxnodeconfig.h"
 #include "maxnodeman.h"
-#include "rpcserver.h"
+#include "rpc/server.h"
 #include "utilmoneystr.h"
 
 #include <univalue.h>

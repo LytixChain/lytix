@@ -4,15 +4,15 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "activemaxnode.h"
+#include "activemasternode.h"
 #include "db.h"
 #include "init.h"
 #include "main.h"
-#include "maxnode-budget.h"
-#include "maxnode-payments.h"
-#include "maxnodeconfig.h"
-#include "maxnodeman.h"
-#include "rpcserver.h"
+#include "masternode-budget.h"
+#include "masternode-payments.h"
+#include "masternodeconfig.h"
+#include "masternodeman.h"
+#include "rpc/server.h"
 #include "utilmoneystr.h"
 
 #include <univalue.h>
@@ -20,26 +20,26 @@
 #include <boost/tokenizer.hpp>
 #include <fstream>
 
-UniValue getmaxpoolinfo(const UniValue& params, bool fHelp)
+UniValue getpoolinfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
         throw runtime_error(
-            "getmaxpoolinfo\n"
+            "getpoolinfo\n"
             "\nReturns anonymous pool-related information\n"
 
             "\nResult:\n"
             "{\n"
-            "  \"current\": \"addr\",    (string) Lytix address of current maxnode\n"
+            "  \"current\": \"addr\",    (string) Lytix address of current masternode\n"
             "  \"state\": xxxx,        (string) unknown\n"
             "  \"entries\": xxxx,      (numeric) Number of entries\n"
             "  \"accepted\": xxxx,     (numeric) Number of entries accepted\n"
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("getmaxpoolinfo", "") + HelpExampleRpc("getmaxpoolinfo", ""));
+            HelpExampleCli("getpoolinfo", "") + HelpExampleRpc("getpoolinfo", ""));
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("current_maxnode", maxnodeman.GetCurrentMaxNode()->addr.ToString()));
+    obj.push_back(Pair("current_masternode", mnodeman.GetCurrentMasterNode()->addr.ToString()));
     obj.push_back(Pair("state", obfuScationPool.GetState()));
     obj.push_back(Pair("entries", obfuScationPool.GetEntriesCount()));
     obj.push_back(Pair("entries_accepted", obfuScationPool.GetCountEntriesAccepted()));
@@ -48,38 +48,38 @@ UniValue getmaxpoolinfo(const UniValue& params, bool fHelp)
 
 // This command is retained for backwards compatibility, but is depreciated.
 // Future removal of this command is planned to keep things clean.
-UniValue maxnode(const UniValue& params, bool fHelp)
+UniValue masternode(const UniValue& params, bool fHelp)
 {
     string strCommand;
     if (params.size() >= 1)
         strCommand = params[0].get_str();
 
     if (fHelp ||
-        (strCommand != "start" && strCommand != "start-alias" && strCommand != "start-many" && strCommand != "start-all-max" && strCommand != "start-missing" &&
+        (strCommand != "start" && strCommand != "start-alias" && strCommand != "start-many" && strCommand != "start-all" && strCommand != "start-missing" &&
             strCommand != "start-disabled" && strCommand != "list" && strCommand != "list-conf" && strCommand != "count" && strCommand != "enforce" &&
             strCommand != "debug" && strCommand != "current" && strCommand != "winners" && strCommand != "genkey" && strCommand != "connect" &&
             strCommand != "outputs" && strCommand != "status" && strCommand != "calcscore"))
         throw runtime_error(
-            "maxnode \"command\"...\n"
-            "\nSet of commands to execute maxnode related actions\n"
+            "masternode \"command\"...\n"
+            "\nSet of commands to execute masternode related actions\n"
             "This command is depreciated, please see individual command documentation for future reference\n\n"
 
             "\nArguments:\n"
             "1. \"command\"        (string or set of strings, required) The command to execute\n"
 
             "\nAvailable commands:\n"
-            "  count        - Print count information of all known maxnodes\n"
-            "  current      - Print info on current maxnode winner\n"
-            "  debug        - Print maxnode status\n"
-            "  genkey       - Generate new maxnodeprivkey\n"
-            "  outputs      - Print maxnode compatible outputs\n"
-            "  start        - Start maxnode configured in lytix.conf\n"
-            "  start-alias  - Start single maxnode by assigned alias configured in maxnode.conf\n"
-            "  start-<mode> - Start maxnodes configured in maxnode.conf (<mode>: 'all', 'missing', 'disabled')\n"
-            "  status       - Print maxnode status information\n"
-            "  list         - Print list of all known maxnodes (see maxnodelist for more info)\n"
-            "  list-conf    - Print maxnode.conf in JSON format\n"
-            "  winners      - Print list of maxnode winners\n");
+            "  count        - Print count information of all known masternodes\n"
+            "  current      - Print info on current masternode winner\n"
+            "  debug        - Print masternode status\n"
+            "  genkey       - Generate new masternodeprivkey\n"
+            "  outputs      - Print masternode compatible outputs\n"
+            "  start        - Start masternode configured in lytix.conf\n"
+            "  start-alias  - Start single masternode by assigned alias configured in masternode.conf\n"
+            "  start-<mode> - Start masternodes configured in masternode.conf (<mode>: 'all', 'missing', 'disabled')\n"
+            "  status       - Print masternode status information\n"
+            "  list         - Print list of all known masternodes (see masternodelist for more info)\n"
+            "  list-conf    - Print masternode.conf in JSON format\n"
+            "  winners      - Print list of masternode winners\n");
 
     if (strCommand == "list") {
         UniValue newParams(UniValue::VARR);
@@ -87,7 +87,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return listmaxnodes(newParams, fHelp);
+        return listmasternodes(newParams, fHelp);
     }
 
     if (strCommand == "connect") {
@@ -96,7 +96,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return maxnodeconnect(newParams, fHelp);
+        return masternodeconnect(newParams, fHelp);
     }
 
     if (strCommand == "count") {
@@ -105,7 +105,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return getmaxnodecount(newParams, fHelp);
+        return getmasternodecount(newParams, fHelp);
     }
 
     if (strCommand == "current") {
@@ -114,7 +114,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return maxnodecurrent(newParams, fHelp);
+        return masternodecurrent(newParams, fHelp);
     }
 
     if (strCommand == "debug") {
@@ -123,11 +123,11 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return maxnodedebug(newParams, fHelp);
+        return masternodedebug(newParams, fHelp);
     }
 
-    if (strCommand == "start" || strCommand == "start-alias" || strCommand == "start-many" || strCommand == "start-all-max" || strCommand == "start-missing" || strCommand == "start-disabled") {
-        return startmaxnode(params, fHelp);
+    if (strCommand == "start" || strCommand == "start-alias" || strCommand == "start-many" || strCommand == "start-all" || strCommand == "start-missing" || strCommand == "start-disabled") {
+        return startmasternode(params, fHelp);
     }
 
     if (strCommand == "genkey") {
@@ -136,7 +136,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return createmaxnodekey(newParams, fHelp);
+        return createmasternodekey(newParams, fHelp);
     }
 
     if (strCommand == "list-conf") {
@@ -145,7 +145,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return listmaxnodeconf(newParams, fHelp);
+        return listmasternodeconf(newParams, fHelp);
     }
 
     if (strCommand == "outputs") {
@@ -154,7 +154,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return getmaxnodeoutputs(newParams, fHelp);
+        return getmasternodeoutputs(newParams, fHelp);
     }
 
     if (strCommand == "status") {
@@ -163,7 +163,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return getmaxnodestatus(newParams, fHelp);
+        return getmasternodestatus(newParams, fHelp);
     }
 
     if (strCommand == "winners") {
@@ -172,7 +172,7 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return getmaxnodewinners(newParams, fHelp);
+        return getmasternodewinners(newParams, fHelp);
     }
 
     if (strCommand == "calcscore") {
@@ -181,13 +181,13 @@ UniValue maxnode(const UniValue& params, bool fHelp)
         for (unsigned int i = 1; i < params.size(); i++) {
             newParams.push_back(params[i]);
         }
-        return getmaxnodescores(newParams, fHelp);
+        return getmasternodescores(newParams, fHelp);
     }
 
     return NullUniValue;
 }
 
-UniValue listmaxnodes(const UniValue& params, bool fHelp)
+UniValue listmasternodes(const UniValue& params, bool fHelp)
 {
     std::string strFilter = "";
 
@@ -195,8 +195,8 @@ UniValue listmaxnodes(const UniValue& params, bool fHelp)
 
     if (fHelp || (params.size() > 1))
         throw runtime_error(
-            "listmaxnodes ( \"filter\" )\n"
-            "\nGet a ranked list of maxnodes\n"
+            "listmasternodes ( \"filter\" )\n"
+            "\nGet a ranked list of masternodes\n"
 
             "\nArguments:\n"
             "1. \"filter\"    (string, optional) Filter search text. Partial match by txhash, status, or addr.\n"
@@ -204,21 +204,21 @@ UniValue listmaxnodes(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "[\n"
             "  {\n"
-            "    \"rank\": n,           (numeric) Maxnode Rank (or 0 if not enabled)\n"
+            "    \"rank\": n,           (numeric) Masternode Rank (or 0 if not enabled)\n"
             "    \"txhash\": \"hash\",    (string) Collateral transaction hash\n"
             "    \"outidx\": n,         (numeric) Collateral transaction output index\n"
             "    \"status\": s,         (string) Status (ENABLED/EXPIRED/REMOVE/etc)\n"
-            "    \"addr\": \"addr\",      (string) Maxnode Lytix address\n"
-            "    \"version\": v,        (numeric) Maxnode protocol version\n"
+            "    \"addr\": \"addr\",      (string) Masternode Lytix address\n"
+            "    \"version\": v,        (numeric) Masternode protocol version\n"
             "    \"lastseen\": ttt,     (numeric) The time in seconds since epoch (Jan 1 1970 GMT) of the last seen\n"
-            "    \"activetime\": ttt,   (numeric) The time in seconds since epoch (Jan 1 1970 GMT) maxnode has been active\n"
-            "    \"lastpaid\": ttt,     (numeric) The time in seconds since epoch (Jan 1 1970 GMT) maxnode was last paid\n"
+            "    \"activetime\": ttt,   (numeric) The time in seconds since epoch (Jan 1 1970 GMT) masternode has been active\n"
+            "    \"lastpaid\": ttt,     (numeric) The time in seconds since epoch (Jan 1 1970 GMT) masternode was last paid\n"
             "  }\n"
             "  ,...\n"
             "]\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("listmaxnodes", "") + HelpExampleRpc("listmaxnodes", ""));
+            HelpExampleCli("listmasternodes", "") + HelpExampleRpc("listmasternodes", ""));
 
     UniValue ret(UniValue::VARR);
     int nHeight;
@@ -228,24 +228,24 @@ UniValue listmaxnodes(const UniValue& params, bool fHelp)
         if(!pindex) return 0;
         nHeight = pindex->nHeight;
     }
-    std::vector<pair<int, CMaxnode> > vMaxnodeRanks = maxnodeman.GetMaxnodeRanks(nHeight);
-    BOOST_FOREACH (PAIRTYPE(int, CMaxnode) & s, vMaxnodeRanks) {
+    std::vector<pair<int, CMasternode> > vMasternodeRanks = mnodeman.GetMasternodeRanks(nHeight);
+    BOOST_FOREACH (PAIRTYPE(int, CMasternode) & s, vMasternodeRanks) {
         UniValue obj(UniValue::VOBJ);
-        std::string strVin = s.second.maxvin.prevout.ToStringShort();
-        std::string strTxHash = s.second.maxvin.prevout.hash.ToString();
-        uint32_t oIdx = s.second.maxvin.prevout.n;
+        std::string strVin = s.second.vin.prevout.ToStringShort();
+        std::string strTxHash = s.second.vin.prevout.hash.ToString();
+        uint32_t oIdx = s.second.vin.prevout.n;
 
-        CMaxnode* max = maxnodeman.Find(s.second.maxvin);
+        CMasternode* mn = mnodeman.Find(s.second.vin);
 
-        if (max != NULL) {
+        if (mn != NULL) {
             if (strFilter != "" && strTxHash.find(strFilter) == string::npos &&
-                max->Status().find(strFilter) == string::npos &&
-                CBitcoinAddress(max->pubKeyCollateralAddress.GetID()).ToString().find(strFilter) == string::npos) continue;
+                mn->Status().find(strFilter) == string::npos &&
+                CBitcoinAddress(mn->pubKeyCollateralAddress.GetID()).ToString().find(strFilter) == string::npos) continue;
 
-            std::string strStatus = max->Status();
+            std::string strStatus = mn->Status();
             std::string strHost;
             int port;
-            SplitHostPort(max->addr.ToString(), port, strHost);
+            SplitHostPort(mn->addr.ToString(), port, strHost);
             CNetAddr node = CNetAddr(strHost, false);
             std::string strNetwork = GetNetworkName(node.GetNetwork());
 
@@ -254,11 +254,11 @@ UniValue listmaxnodes(const UniValue& params, bool fHelp)
             obj.push_back(Pair("txhash", strTxHash));
             obj.push_back(Pair("outidx", (uint64_t)oIdx));
             obj.push_back(Pair("status", strStatus));
-            obj.push_back(Pair("addr", CBitcoinAddress(max->pubKeyCollateralAddress.GetID()).ToString()));
-            obj.push_back(Pair("version", max->protocolVersion));
-            obj.push_back(Pair("lastseen", (int64_t)max->lastPing.sigTime));
-            obj.push_back(Pair("activetime", (int64_t)(max->lastPing.sigTime - max->sigTime)));
-            obj.push_back(Pair("lastpaid", (int64_t)max->GetLastPaid()));
+            obj.push_back(Pair("addr", CBitcoinAddress(mn->pubKeyCollateralAddress.GetID()).ToString()));
+            obj.push_back(Pair("version", mn->protocolVersion));
+            obj.push_back(Pair("lastseen", (int64_t)mn->lastPing.sigTime));
+            obj.push_back(Pair("activetime", (int64_t)(mn->lastPing.sigTime - mn->sigTime)));
+            obj.push_back(Pair("lastpaid", (int64_t)mn->GetLastPaid()));
 
             ret.push_back(obj);
         }
@@ -267,18 +267,18 @@ UniValue listmaxnodes(const UniValue& params, bool fHelp)
     return ret;
 }
 
-UniValue maxnodeconnect(const UniValue& params, bool fHelp)
+UniValue masternodeconnect(const UniValue& params, bool fHelp)
 {
     if (fHelp || (params.size() != 1))
         throw runtime_error(
-            "maxnodeconnect \"address\"\n"
-            "\nAttempts to connect to specified maxnode address\n"
+            "masternodeconnect \"address\"\n"
+            "\nAttempts to connect to specified masternode address\n"
 
             "\nArguments:\n"
             "1. \"address\"     (string, required) IP or net address to connect to\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("maxnodeconnect", "\"192.168.0.6:9009\"") + HelpExampleRpc("maxnodeconnect", "\"192.168.0.6:9009\""));
+            HelpExampleCli("masternodeconnect", "\"192.168.0.6:9009\"") + HelpExampleRpc("masternodeconnect", "\"192.168.0.6:9009\""));
 
     std::string strAddress = params[0].get_str();
 
@@ -293,38 +293,38 @@ UniValue maxnodeconnect(const UniValue& params, bool fHelp)
     }
 }
 
-UniValue getmaxnodecount (const UniValue& params, bool fHelp)
+UniValue getmasternodecount (const UniValue& params, bool fHelp)
 {
     if (fHelp || (params.size() > 0))
         throw runtime_error(
-            "getmaxnodecount\n"
-            "\nGet maxnode count values\n"
+            "getmasternodecount\n"
+            "\nGet masternode count values\n"
 
             "\nResult:\n"
             "{\n"
-            "  \"total\": n,        (numeric) Total maxnodes\n"
+            "  \"total\": n,        (numeric) Total masternodes\n"
             "  \"stable\": n,       (numeric) Stable count\n"
             "  \"obfcompat\": n,    (numeric) Obfuscation Compatible\n"
-            "  \"enabled\": n,      (numeric) Enabled maxnodes\n"
-            "  \"inqueue\": n       (numeric) Maxnodes in queue\n"
+            "  \"enabled\": n,      (numeric) Enabled masternodes\n"
+            "  \"inqueue\": n       (numeric) Masternodes in queue\n"
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("getmaxnodecount", "") + HelpExampleRpc("getmaxnodecount", ""));
+            HelpExampleCli("getmasternodecount", "") + HelpExampleRpc("getmasternodecount", ""));
 
     UniValue obj(UniValue::VOBJ);
     int nCount = 0;
     int ipv4 = 0, ipv6 = 0, onion = 0;
 
     if (chainActive.Tip())
-        maxnodeman.GetNextMaxnodeInQueueForPayment(chainActive.Tip()->nHeight, true, nCount);
+        mnodeman.GetNextMasternodeInQueueForPayment(chainActive.Tip()->nHeight, true, nCount);
 
-    maxnodeman.CountNetworks(ActiveProtocol(), ipv4, ipv6, onion);
+    mnodeman.CountNetworks(ActiveProtocol(), ipv4, ipv6, onion);
 
-    obj.push_back(Pair("total", maxnodeman.size()));
-    obj.push_back(Pair("stable", maxnodeman.stable_size()));
-    obj.push_back(Pair("obfcompat", maxnodeman.CountEnabled(ActiveProtocol())));
-    obj.push_back(Pair("enabled", maxnodeman.CountEnabled()));
+    obj.push_back(Pair("total", mnodeman.size()));
+    obj.push_back(Pair("stable", mnodeman.stable_size()));
+    obj.push_back(Pair("obfcompat", mnodeman.CountEnabled(ActiveProtocol())));
+    obj.push_back(Pair("enabled", mnodeman.CountEnabled()));
     obj.push_back(Pair("inqueue", nCount));
     obj.push_back(Pair("ipv4", ipv4));
     obj.push_back(Pair("ipv6", ipv6));
@@ -333,75 +333,75 @@ UniValue getmaxnodecount (const UniValue& params, bool fHelp)
     return obj;
 }
 
-UniValue maxnodecurrent (const UniValue& params, bool fHelp)
+UniValue masternodecurrent (const UniValue& params, bool fHelp)
 {
     if (fHelp || (params.size() != 0))
         throw runtime_error(
-            "maxnodecurrent\n"
-            "\nGet current maxnode winner\n"
+            "masternodecurrent\n"
+            "\nGet current masternode winner\n"
 
             "\nResult:\n"
             "{\n"
             "  \"protocol\": xxxx,        (numeric) Protocol version\n"
             "  \"txhash\": \"xxxx\",      (string) Collateral transaction hash\n"
-            "  \"pubkey\": \"xxxx\",      (string) MAX Public key\n"
+            "  \"pubkey\": \"xxxx\",      (string) MN Public key\n"
             "  \"lastseen\": xxx,       (numeric) Time since epoch of last seen\n"
-            "  \"activeseconds\": xxx,  (numeric) Seconds MAX has been active\n"
+            "  \"activeseconds\": xxx,  (numeric) Seconds MN has been active\n"
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("maxnodecurrent", "") + HelpExampleRpc("maxnodecurrent", ""));
+            HelpExampleCli("masternodecurrent", "") + HelpExampleRpc("masternodecurrent", ""));
 
-    CMaxnode* winner = maxnodeman.GetCurrentMaxNode(1);
+    CMasternode* winner = mnodeman.GetCurrentMasterNode(1);
     if (winner) {
         UniValue obj(UniValue::VOBJ);
 
         obj.push_back(Pair("protocol", (int64_t)winner->protocolVersion));
-        obj.push_back(Pair("txhash", winner->maxvin.prevout.hash.ToString()));
+        obj.push_back(Pair("txhash", winner->vin.prevout.hash.ToString()));
         obj.push_back(Pair("pubkey", CBitcoinAddress(winner->pubKeyCollateralAddress.GetID()).ToString()));
-        obj.push_back(Pair("lastseen", (winner->lastPing == CMaxnodePing()) ? winner->sigTime : (int64_t)winner->lastPing.sigTime));
-        obj.push_back(Pair("activeseconds", (winner->lastPing == CMaxnodePing()) ? 0 : (int64_t)(winner->lastPing.sigTime - winner->sigTime)));
+        obj.push_back(Pair("lastseen", (winner->lastPing == CMasternodePing()) ? winner->sigTime : (int64_t)winner->lastPing.sigTime));
+        obj.push_back(Pair("activeseconds", (winner->lastPing == CMasternodePing()) ? 0 : (int64_t)(winner->lastPing.sigTime - winner->sigTime)));
         return obj;
     }
 
     throw runtime_error("unknown");
 }
 
-UniValue maxnodedebug (const UniValue& params, bool fHelp)
+UniValue masternodedebug (const UniValue& params, bool fHelp)
 {
     if (fHelp || (params.size() != 0))
         throw runtime_error(
-            "maxnodedebug\n"
-            "\nPrint maxnode status\n"
+            "masternodedebug\n"
+            "\nPrint masternode status\n"
 
             "\nResult:\n"
-            "\"status\"     (string) Maxnode status message\n"
+            "\"status\"     (string) Masternode status message\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("maxnodedebug", "") + HelpExampleRpc("maxnodedebug", ""));
+            HelpExampleCli("masternodedebug", "") + HelpExampleRpc("masternodedebug", ""));
 
-    if (activeMaxnode.status != ACTIVE_MAXNODE_INITIAL || !maxnodeSync.IsSynced())
-        return activeMaxnode.GetStatus();
+    if (activeMasternode.status != ACTIVE_MASTERNODE_INITIAL || !masternodeSync.IsSynced())
+        return activeMasternode.GetStatus();
 
-    CTxIn maxvin = CTxIn();
+    CTxIn vin = CTxIn();
     CPubKey pubkey = CScript();
     CKey key;
-    if (!activeMaxnode.GetMaxNodeVin(maxvin, pubkey, key))
-        throw runtime_error("Missing maxnode input, please look at the documentation for instructions on maxnode creation\n");
+    if (!activeMasternode.GetMasterNodeVin(vin, pubkey, key))
+        throw runtime_error("Missing masternode input, please look at the documentation for instructions on masternode creation\n");
     else
-        return activeMaxnode.GetStatus();
+        return activeMasternode.GetStatus();
 }
 
-UniValue startmaxnode (const UniValue& params, bool fHelp)
+UniValue startmasternode (const UniValue& params, bool fHelp)
 {
     std::string strCommand;
     if (params.size() >= 1) {
         strCommand = params[0].get_str();
 
-        // Backwards compatibility with legacy 'maxnode' super-command forwarder
+        // Backwards compatibility with legacy 'masternode' super-command forwarder
         if (strCommand == "start") strCommand = "local";
         if (strCommand == "start-alias") strCommand = "alias";
-        if (strCommand == "start-all-max") strCommand = "all";
+        if (strCommand == "start-all") strCommand = "all";
         if (strCommand == "start-many") strCommand = "many";
         if (strCommand == "start-missing") strCommand = "missing";
         if (strCommand == "start-disabled") strCommand = "disabled";
@@ -411,16 +411,16 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
         (params.size() == 2 && (strCommand != "local" && strCommand != "all" && strCommand != "many" && strCommand != "missing" && strCommand != "disabled")) ||
         (params.size() == 3 && strCommand != "alias"))
         throw runtime_error(
-            "startmaxnode \"local|all|many|missing|disabled|alias\" lockwallet ( \"alias\" )\n"
-            "\nAttempts to start one or more maxnode(s)\n"
+            "startmasternode \"local|all|many|missing|disabled|alias\" lockwallet ( \"alias\" )\n"
+            "\nAttempts to start one or more masternode(s)\n"
 
             "\nArguments:\n"
-            "1. set         (string, required) Specify which set of maxnode(s) to start.\n"
+            "1. set         (string, required) Specify which set of masternode(s) to start.\n"
             "2. lockwallet  (boolean, required) Lock wallet after completion.\n"
-            "3. alias       (string) Maxnode alias. Required if using 'alias' as the set.\n"
+            "3. alias       (string) Masternode alias. Required if using 'alias' as the set.\n"
 
             "\nResult: (for 'local' set):\n"
-            "\"status\"     (string) Maxnode status message\n"
+            "\"status\"     (string) Masternode status message\n"
 
             "\nResult: (for other sets):\n"
             "{\n"
@@ -436,59 +436,58 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("startmaxnode", "\"alias\" \"0\" \"my_max\"") + HelpExampleRpc("startmaxnode", "\"alias\" \"0\" \"my_max\""));
+            HelpExampleCli("startmasternode", "\"alias\" \"0\" \"my_mn\"") + HelpExampleRpc("startmasternode", "\"alias\" \"0\" \"my_mn\""));
 
     bool fLock = (params[1].get_str() == "true" ? true : false);
 
     EnsureWalletIsUnlocked();
 
     if (strCommand == "local") {
-        //if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) throw runtime_error("you must set maxnode=1 in the configuration\n");
-        if (!fMaxNode) throw runtime_error("you must set maxnode=1 in the configuration\n");
+        if (!fMasterNode) throw runtime_error("you must set masternode=1 in the configuration\n");
 
-        if (activeMaxnode.status != ACTIVE_MAXNODE_STARTED) {
-            activeMaxnode.status = ACTIVE_MAXNODE_INITIAL; // TODO: consider better way
-            activeMaxnode.ManageStatus();
+        if (activeMasternode.status != ACTIVE_MASTERNODE_STARTED) {
+            activeMasternode.status = ACTIVE_MASTERNODE_INITIAL; // TODO: consider better way
+            activeMasternode.ManageStatus();
             if (fLock)
                 pwalletMain->Lock();
         }
 
-        return activeMaxnode.GetStatus();
+        return activeMasternode.GetStatus();
     }
 
     if (strCommand == "all" || strCommand == "many" || strCommand == "missing" || strCommand == "disabled") {
         if ((strCommand == "missing" || strCommand == "disabled") &&
-            (maxnodeSync.RequestedMaxnodeAssets <= MAXNODE_SYNC_LIST ||
-                maxnodeSync.RequestedMaxnodeAssets == MAXNODE_SYNC_FAILED)) {
-            throw runtime_error("You can't use this command until maxnode list is synced\n");
+            (masternodeSync.RequestedMasternodeAssets <= MASTERNODE_SYNC_LIST ||
+                masternodeSync.RequestedMasternodeAssets == MASTERNODE_SYNC_FAILED)) {
+            throw runtime_error("You can't use this command until masternode list is synced\n");
         }
 
-        std::vector<CMaxnodeConfig::CMaxnodeEntry> maxEntries;
-        maxEntries = maxnodeConfig.getEntries();
+        std::vector<CMasternodeConfig::CMasternodeEntry> mnEntries;
+        mnEntries = masternodeConfig.getEntries();
 
         int successful = 0;
         int failed = 0;
 
         UniValue resultsObj(UniValue::VARR);
 
-        BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
+        BOOST_FOREACH (CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
             std::string errorMessage;
             int nIndex;
-            if(!maxe.castOutputIndex(nIndex))
+            if(!mne.castOutputIndex(nIndex))
                 continue;
-            CTxIn maxvin = CTxIn(uint256(maxe.getTxHash()), uint32_t(nIndex));
-            CMaxnode* pmax = maxnodeman.Find(maxvin);
-            CMaxnodeBroadcast maxb;
+            CTxIn vin = CTxIn(uint256(mne.getTxHash()), uint32_t(nIndex));
+            CMasternode* pmn = mnodeman.Find(vin);
+            CMasternodeBroadcast mnb;
 
-            if (pmax != NULL) {
+            if (pmn != NULL) {
                 if (strCommand == "missing") continue;
-                if (strCommand == "disabled" && pmax->IsEnabled()) continue;
+                if (strCommand == "disabled" && pmn->IsEnabled()) continue;
             }
 
-            bool result = activeMaxnode.CreateBroadcast(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), errorMessage, maxb);
+            bool result = activeMasternode.CreateBroadcast(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), errorMessage, mnb);
 
             UniValue statusObj(UniValue::VOBJ);
-            statusObj.push_back(Pair("alias", maxe.getAlias()));
+            statusObj.push_back(Pair("alias", mne.getAlias()));
             statusObj.push_back(Pair("result", result ? "success" : "failed"));
 
             if (result) {
@@ -505,7 +504,7 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
             pwalletMain->Lock();
 
         UniValue returnObj(UniValue::VOBJ);
-        returnObj.push_back(Pair("overall", strprintf("Successfully started %d maxnodes, failed to start %d, total %d", successful, failed, successful + failed)));
+        returnObj.push_back(Pair("overall", strprintf("Successfully started %d masternodes, failed to start %d, total %d", successful, failed, successful + failed)));
         returnObj.push_back(Pair("detail", resultsObj));
 
         return returnObj;
@@ -522,20 +521,20 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
         UniValue statusObj(UniValue::VOBJ);
         statusObj.push_back(Pair("alias", alias));
 
-        BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
-            if (maxe.getAlias() == alias) {
+        BOOST_FOREACH (CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
+            if (mne.getAlias() == alias) {
                 found = true;
                 std::string errorMessage;
-                CMaxnodeBroadcast maxb;
+                CMasternodeBroadcast mnb;
 
-                bool result = activeMaxnode.CreateBroadcast(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), errorMessage, maxb);
+                bool result = activeMasternode.CreateBroadcast(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), errorMessage, mnb);
 
                 statusObj.push_back(Pair("result", result ? "successful" : "failed"));
 
                 if (result) {
                     successful++;
-                    maxnodeman.UpdateMaxnodeList(maxb);
-                    maxb.Relay();
+                    mnodeman.UpdateMasternodeList(mnb);
+                    mnb.Relay();
                 } else {
                     failed++;
                     statusObj.push_back(Pair("errorMessage", errorMessage));
@@ -556,7 +555,7 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
             pwalletMain->Lock();
 
         UniValue returnObj(UniValue::VOBJ);
-        returnObj.push_back(Pair("overall", strprintf("Successfully started %d maxnodes, failed to start %d, total %d", successful, failed, successful + failed)));
+        returnObj.push_back(Pair("overall", strprintf("Successfully started %d masternodes, failed to start %d, total %d", successful, failed, successful + failed)));
         returnObj.push_back(Pair("detail", resultsObj));
 
         return returnObj;
@@ -564,18 +563,18 @@ UniValue startmaxnode (const UniValue& params, bool fHelp)
     return NullUniValue;
 }
 
-UniValue createmaxnodekey (const UniValue& params, bool fHelp)
+UniValue createmasternodekey (const UniValue& params, bool fHelp)
 {
     if (fHelp || (params.size() != 0))
         throw runtime_error(
-            "createmaxnodekey\n"
-            "\nCreate a new maxnode private key\n"
+            "createmasternodekey\n"
+            "\nCreate a new masternode private key\n"
 
             "\nResult:\n"
-            "\"key\"    (string) Maxnode private key\n"
+            "\"key\"    (string) Masternode private key\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("createmaxnodekey", "") + HelpExampleRpc("createmaxnodekey", ""));
+            HelpExampleCli("createmasternodekey", "") + HelpExampleRpc("createmasternodekey", ""));
 
     CKey secret;
     secret.MakeNewKey(false);
@@ -583,12 +582,12 @@ UniValue createmaxnodekey (const UniValue& params, bool fHelp)
     return CBitcoinSecret(secret).ToString();
 }
 
-UniValue getmaxnodeoutputs (const UniValue& params, bool fHelp)
+UniValue getmasternodeoutputs (const UniValue& params, bool fHelp)
 {
     if (fHelp || (params.size() != 0))
         throw runtime_error(
-            "getmaxnodeoutputs\n"
-            "\nPrint all maxnode transaction outputs\n"
+            "getmasternodeoutputs\n"
+            "\nPrint all masternode transaction outputs\n"
 
             "\nResult:\n"
             "[\n"
@@ -600,10 +599,10 @@ UniValue getmaxnodeoutputs (const UniValue& params, bool fHelp)
             "]\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("getmaxnodeoutputs", "") + HelpExampleRpc("getmaxnodeoutputs", ""));
+            HelpExampleCli("getmasternodeoutputs", "") + HelpExampleRpc("getmasternodeoutputs", ""));
 
     // Find possible candidates
-    vector<COutput> possibleCoins = activeMaxnode.SelectCoinsMaxnode();
+    vector<COutput> possibleCoins = activeMasternode.SelectCoinsMasternode();
 
     UniValue ret(UniValue::VARR);
     BOOST_FOREACH (COutput& out, possibleCoins) {
@@ -616,7 +615,7 @@ UniValue getmaxnodeoutputs (const UniValue& params, bool fHelp)
     return ret;
 }
 
-UniValue listmaxnodeconf (const UniValue& params, bool fHelp)
+UniValue listmasternodeconf (const UniValue& params, bool fHelp)
 {
     std::string strFilter = "";
 
@@ -624,8 +623,8 @@ UniValue listmaxnodeconf (const UniValue& params, bool fHelp)
 
     if (fHelp || (params.size() > 1))
         throw runtime_error(
-            "listmaxnodeconf ( \"filter\" )\n"
-            "\nPrint maxnode.conf in JSON format\n"
+            "listmasternodeconf ( \"filter\" )\n"
+            "\nPrint masternode.conf in JSON format\n"
 
             "\nArguments:\n"
             "1. \"filter\"    (string, optional) Filter search text. Partial match on alias, address, txHash, or status.\n"
@@ -633,107 +632,106 @@ UniValue listmaxnodeconf (const UniValue& params, bool fHelp)
             "\nResult:\n"
             "[\n"
             "  {\n"
-            "    \"alias\": \"xxxx\",        (string) maxnode alias\n"
-            "    \"address\": \"xxxx\",      (string) maxnode IP address\n"
-            "    \"privateKey\": \"xxxx\",   (string) maxnode private key\n"
+            "    \"alias\": \"xxxx\",        (string) masternode alias\n"
+            "    \"address\": \"xxxx\",      (string) masternode IP address\n"
+            "    \"privateKey\": \"xxxx\",   (string) masternode private key\n"
             "    \"txHash\": \"xxxx\",       (string) transaction hash\n"
             "    \"outputIndex\": n,       (numeric) transaction output index\n"
-            "    \"status\": \"xxxx\"        (string) maxnode status\n"
+            "    \"status\": \"xxxx\"        (string) masternode status\n"
             "  }\n"
             "  ,...\n"
             "]\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("listmaxnodeconf", "") + HelpExampleRpc("listmaxnodeconf", ""));
+            HelpExampleCli("listmasternodeconf", "") + HelpExampleRpc("listmasternodeconf", ""));
 
-    std::vector<CMaxnodeConfig::CMaxnodeEntry> maxEntries;
-    maxEntries = maxnodeConfig.getEntries();
+    std::vector<CMasternodeConfig::CMasternodeEntry> mnEntries;
+    mnEntries = masternodeConfig.getEntries();
 
     UniValue ret(UniValue::VARR);
 
-    BOOST_FOREACH (CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
+    BOOST_FOREACH (CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
         int nIndex;
-        if(!maxe.castOutputIndex(nIndex))
+        if(!mne.castOutputIndex(nIndex))
             continue;
-        CTxIn maxvin = CTxIn(uint256(maxe.getTxHash()), uint32_t(nIndex));
-        CMaxnode* pmax = maxnodeman.Find(maxvin);
+        CTxIn vin = CTxIn(uint256(mne.getTxHash()), uint32_t(nIndex));
+        CMasternode* pmn = mnodeman.Find(vin);
 
-        std::string strStatus = pmax ? pmax->Status() : "MISSING";
+        std::string strStatus = pmn ? pmn->Status() : "MISSING";
 
-        if (strFilter != "" && maxe.getAlias().find(strFilter) == string::npos &&
-            maxe.getIp().find(strFilter) == string::npos &&
-            maxe.getTxHash().find(strFilter) == string::npos &&
+        if (strFilter != "" && mne.getAlias().find(strFilter) == string::npos &&
+            mne.getIp().find(strFilter) == string::npos &&
+            mne.getTxHash().find(strFilter) == string::npos &&
             strStatus.find(strFilter) == string::npos) continue;
 
-        UniValue maxObj(UniValue::VOBJ);
-        maxObj.push_back(Pair("alias", maxe.getAlias()));
-        maxObj.push_back(Pair("address", maxe.getIp()));
-        maxObj.push_back(Pair("privateKey", maxe.getPrivKey()));
-        maxObj.push_back(Pair("txHash", maxe.getTxHash()));
-        maxObj.push_back(Pair("outputIndex", maxe.getOutputIndex()));
-        maxObj.push_back(Pair("status", strStatus));
-        ret.push_back(maxObj);
+        UniValue mnObj(UniValue::VOBJ);
+        mnObj.push_back(Pair("alias", mne.getAlias()));
+        mnObj.push_back(Pair("address", mne.getIp()));
+        mnObj.push_back(Pair("privateKey", mne.getPrivKey()));
+        mnObj.push_back(Pair("txHash", mne.getTxHash()));
+        mnObj.push_back(Pair("outputIndex", mne.getOutputIndex()));
+        mnObj.push_back(Pair("status", strStatus));
+        ret.push_back(mnObj);
     }
 
     return ret;
 }
 
-UniValue getmaxnodestatus (const UniValue& params, bool fHelp)
+UniValue getmasternodestatus (const UniValue& params, bool fHelp)
 {
     if (fHelp || (params.size() != 0))
         throw runtime_error(
-            "getmaxnodestatus\n"
-            "\nPrint maxnode status\n"
+            "getmasternodestatus\n"
+            "\nPrint masternode status\n"
 
             "\nResult:\n"
             "{\n"
             "  \"txhash\": \"xxxx\",      (string) Collateral transaction hash\n"
             "  \"outputidx\": n,        (numeric) Collateral transaction output index number\n"
-            "  \"netaddr\": \"xxxx\",     (string) Maxnode network address\n"
-            "  \"addr\": \"xxxx\",        (string) Lytix address for maxnode payments\n"
-            "  \"status\": \"xxxx\",      (string) Maxnode status\n"
-            "  \"message\": \"xxxx\"      (string) Maxnode status message\n"
+            "  \"netaddr\": \"xxxx\",     (string) Masternode network address\n"
+            "  \"addr\": \"xxxx\",        (string) Lytix address for masternode payments\n"
+            "  \"status\": \"xxxx\",      (string) Masternode status\n"
+            "  \"message\": \"xxxx\"      (string) Masternode status message\n"
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("getmaxnodestatus", "") + HelpExampleRpc("getmaxnodestatus", ""));
+            HelpExampleCli("getmasternodestatus", "") + HelpExampleRpc("getmasternodestatus", ""));
 
-    //if (!fMaxNodeT1 || !fMaxNodeT2 || !fMaxNodeT3) throw runtime_error("This is not a maxnode");
-    if (!fMaxNode) throw runtime_error("This is not a maxnode");
+    if (!fMasterNode) throw runtime_error("This is not a masternode");
 
-    CMaxnode* pmax = maxnodeman.Find(activeMaxnode.maxvin);
+    CMasternode* pmn = mnodeman.Find(activeMasternode.vin);
 
-    if (pmax) {
-        UniValue maxObj(UniValue::VOBJ);
-        maxObj.push_back(Pair("txhash", activeMaxnode.maxvin.prevout.hash.ToString()));
-        maxObj.push_back(Pair("outputidx", (uint64_t)activeMaxnode.maxvin.prevout.n));
-        maxObj.push_back(Pair("netaddr", activeMaxnode.service.ToString()));
-        maxObj.push_back(Pair("addr", CBitcoinAddress(pmax->pubKeyCollateralAddress.GetID()).ToString()));
-        maxObj.push_back(Pair("status", activeMaxnode.status));
-        maxObj.push_back(Pair("message", activeMaxnode.GetStatus()));
-        return maxObj;
+    if (pmn) {
+        UniValue mnObj(UniValue::VOBJ);
+        mnObj.push_back(Pair("txhash", activeMasternode.vin.prevout.hash.ToString()));
+        mnObj.push_back(Pair("outputidx", (uint64_t)activeMasternode.vin.prevout.n));
+        mnObj.push_back(Pair("netaddr", activeMasternode.service.ToString()));
+        mnObj.push_back(Pair("addr", CBitcoinAddress(pmn->pubKeyCollateralAddress.GetID()).ToString()));
+        mnObj.push_back(Pair("status", activeMasternode.status));
+        mnObj.push_back(Pair("message", activeMasternode.GetStatus()));
+        return mnObj;
     }
-    throw runtime_error("Maxnode not found in the list of available maxnodes. Current status: "
-                        + activeMaxnode.GetStatus());
+    throw runtime_error("Masternode not found in the list of available masternodes. Current status: "
+                        + activeMasternode.GetStatus());
 }
 
-UniValue getmaxnodewinners (const UniValue& params, bool fHelp)
+UniValue getmasternodewinners (const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() > 3)
         throw runtime_error(
-            "getmaxnodewinners ( blocks \"filter\" )\n"
-            "\nPrint the maxnode winners for the last n blocks\n"
+            "getmasternodewinners ( blocks \"filter\" )\n"
+            "\nPrint the masternode winners for the last n blocks\n"
 
             "\nArguments:\n"
             "1. blocks      (numeric, optional) Number of previous blocks to show (default: 10)\n"
-            "2. filter      (string, optional) Search filter matching MAX address\n"
+            "2. filter      (string, optional) Search filter matching MN address\n"
 
             "\nResult (single winner):\n"
             "[\n"
             "  {\n"
             "    \"nHeight\": n,           (numeric) block height\n"
             "    \"winner\": {\n"
-            "      \"address\": \"xxxx\",    (string) Lytix MAX Address\n"
+            "      \"address\": \"xxxx\",    (string) Lytix MN Address\n"
             "      \"nVotes\": n,          (numeric) Number of votes for winner\n"
             "    }\n"
             "  }\n"
@@ -746,7 +744,7 @@ UniValue getmaxnodewinners (const UniValue& params, bool fHelp)
             "    \"nHeight\": n,           (numeric) block height\n"
             "    \"winner\": [\n"
             "      {\n"
-            "        \"address\": \"xxxx\",  (string) Lytix MAX Address\n"
+            "        \"address\": \"xxxx\",  (string) Lytix MN Address\n"
             "        \"nVotes\": n,        (numeric) Number of votes for winner\n"
             "      }\n"
             "      ,...\n"
@@ -756,7 +754,7 @@ UniValue getmaxnodewinners (const UniValue& params, bool fHelp)
             "]\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("getmaxnodewinners", "") + HelpExampleRpc("getmaxnodewinners", ""));
+            HelpExampleCli("getmasternodewinners", "") + HelpExampleRpc("getmasternodewinners", ""));
 
     int nHeight;
     {
@@ -781,7 +779,7 @@ UniValue getmaxnodewinners (const UniValue& params, bool fHelp)
         UniValue obj(UniValue::VOBJ);
         obj.push_back(Pair("nHeight", i));
 
-        std::string strPayment = GetMaxRequiredPaymentsString(i);
+        std::string strPayment = GetRequiredPaymentsString(i);
         if (strFilter != "" && strPayment.find(strFilter) == std::string::npos) continue;
 
         if (strPayment.find(',') != std::string::npos) {
@@ -819,24 +817,24 @@ UniValue getmaxnodewinners (const UniValue& params, bool fHelp)
     return ret;
 }
 
-UniValue getmaxnodescores (const UniValue& params, bool fHelp)
+UniValue getmasternodescores (const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() > 1)
         throw runtime_error(
-            "getmaxnodescores ( blocks )\n"
-            "\nPrint list of winning maxnode by score\n"
+            "getmasternodescores ( blocks )\n"
+            "\nPrint list of winning masternode by score\n"
 
             "\nArguments:\n"
             "1. blocks      (numeric, optional) Show the last n blocks (default 10)\n"
 
             "\nResult:\n"
             "{\n"
-            "  xxxx: \"xxxx\"   (numeric : string) Block height : Maxnode hash\n"
+            "  xxxx: \"xxxx\"   (numeric : string) Block height : Masternode hash\n"
             "  ,...\n"
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("getmaxnodescores", "") + HelpExampleRpc("getmaxnodescores", ""));
+            HelpExampleCli("getmasternodescores", "") + HelpExampleRpc("getmasternodescores", ""));
 
     int nLast = 10;
 
@@ -849,33 +847,33 @@ UniValue getmaxnodescores (const UniValue& params, bool fHelp)
     }
     UniValue obj(UniValue::VOBJ);
 
-    std::vector<CMaxnode> vMaxnodes = maxnodeman.GetFullMaxnodeVector();
+    std::vector<CMasternode> vMasternodes = mnodeman.GetFullMasternodeVector();
     for (int nHeight = chainActive.Tip()->nHeight - nLast; nHeight < chainActive.Tip()->nHeight + 20; nHeight++) {
         uint256 nHigh = 0;
-        CMaxnode* pBestMaxnode = NULL;
-        BOOST_FOREACH (CMaxnode& max, vMaxnodes) {
-            uint256 n = max.CalculateScore(1, nHeight - 100);
+        CMasternode* pBestMasternode = NULL;
+        BOOST_FOREACH (CMasternode& mn, vMasternodes) {
+            uint256 n = mn.CalculateScore(1, nHeight - 100);
             if (n > nHigh) {
                 nHigh = n;
-                pBestMaxnode = &max;
+                pBestMasternode = &mn;
             }
         }
-        if (pBestMaxnode)
-            obj.push_back(Pair(strprintf("%d", nHeight), pBestMaxnode->maxvin.prevout.hash.ToString().c_str()));
+        if (pBestMasternode)
+            obj.push_back(Pair(strprintf("%d", nHeight), pBestMasternode->vin.prevout.hash.ToString().c_str()));
     }
 
     return obj;
 }
 
-bool DecodeHexMnb(CMaxnodeBroadcast& maxb, std::string strHexMnb) {
+bool DecodeHexMnb(CMasternodeBroadcast& mnb, std::string strHexMnb) {
 
     if (!IsHex(strHexMnb))
         return false;
 
-    vector<unsigned char> maxbData(ParseHex(strHexMnb));
-    CDataStream ssData(maxbData, SER_NETWORK, PROTOCOL_VERSION);
+    vector<unsigned char> mnbData(ParseHex(strHexMnb));
+    CDataStream ssData(mnbData, SER_NETWORK, PROTOCOL_VERSION);
     try {
-        ssData >> maxb;
+        ssData >> mnb;
     }
     catch (const std::exception&) {
         return false;
@@ -883,27 +881,27 @@ bool DecodeHexMnb(CMaxnodeBroadcast& maxb, std::string strHexMnb) {
 
     return true;
 }
-UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp)
+UniValue createmasternodebroadcast(const UniValue& params, bool fHelp)
 {
     string strCommand;
     if (params.size() >= 1)
         strCommand = params[0].get_str();
     if (fHelp || (strCommand != "alias" && strCommand != "all") || (strCommand == "alias" && params.size() < 2))
         throw runtime_error(
-            "createmaxnodebroadcast \"command\" ( \"alias\")\n"
-            "\nCreates a maxnode broadcast message for one or all maxnodes configured in maxnode.conf\n" +
+            "createmasternodebroadcast \"command\" ( \"alias\")\n"
+            "\nCreates a masternode broadcast message for one or all masternodes configured in masternode.conf\n" +
             HelpRequiringPassphrase() + "\n"
 
             "\nArguments:\n"
-            "1. \"command\"      (string, required) \"alias\" for single maxnode, \"all\" for all maxnodes\n"
-            "2. \"alias\"        (string, required if command is \"alias\") Alias of the maxnode\n"
+            "1. \"command\"      (string, required) \"alias\" for single masternode, \"all\" for all masternodes\n"
+            "2. \"alias\"        (string, required if command is \"alias\") Alias of the masternode\n"
 
             "\nResult (all):\n"
             "{\n"
             "  \"overall\": \"xxx\",        (string) Overall status message indicating number of successes.\n"
             "  \"detail\": [                (array) JSON array of broadcast objects.\n"
             "    {\n"
-            "      \"alias\": \"xxx\",      (string) Alias of the maxnode.\n"
+            "      \"alias\": \"xxx\",      (string) Alias of the masternode.\n"
             "      \"success\": true|false, (boolean) Success status.\n"
             "      \"hex\": \"xxx\"         (string, if success=true) Hex encoded broadcast message.\n"
             "      \"error_message\": \"xxx\"   (string, if success=false) Error message, if any.\n"
@@ -914,14 +912,14 @@ UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp)
 
             "\nResult (alias):\n"
             "{\n"
-            "  \"alias\": \"xxx\",      (string) Alias of the maxnode.\n"
+            "  \"alias\": \"xxx\",      (string) Alias of the masternode.\n"
             "  \"success\": true|false, (boolean) Success status.\n"
             "  \"hex\": \"xxx\"         (string, if success=true) Hex encoded broadcast message.\n"
             "  \"error_message\": \"xxx\"   (string, if success=false) Error message, if any.\n"
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("createmaxnodebroadcast", "alias mymax1") + HelpExampleRpc("createmaxnodebroadcast", "alias mymax1"));
+            HelpExampleCli("createmasternodebroadcast", "alias mymn1") + HelpExampleRpc("createmasternodebroadcast", "alias mymn1"));
 
     EnsureWalletIsUnlocked();
 
@@ -937,18 +935,18 @@ UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp)
         UniValue statusObj(UniValue::VOBJ);
         statusObj.push_back(Pair("alias", alias));
 
-        BOOST_FOREACH(CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
-            if(maxe.getAlias() == alias) {
+        BOOST_FOREACH(CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
+            if(mne.getAlias() == alias) {
                 found = true;
                 std::string errorMessage;
-                CMaxnodeBroadcast maxb;
+                CMasternodeBroadcast mnb;
 
-                bool success = activeMaxnode.CreateBroadcast(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), errorMessage, maxb, true);
+                bool success = activeMasternode.CreateBroadcast(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), errorMessage, mnb, true);
 
                 statusObj.push_back(Pair("success", success));
                 if(success) {
                     CDataStream ssMnb(SER_NETWORK, PROTOCOL_VERSION);
-                    ssMnb << maxb;
+                    ssMnb << mnb;
                     statusObj.push_back(Pair("hex", HexStr(ssMnb.begin(), ssMnb.end())));
                 } else {
                     statusObj.push_back(Pair("error_message", errorMessage));
@@ -972,30 +970,30 @@ UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp)
         if (fImporting || fReindex)
             throw JSONRPCError(RPC_INTERNAL_ERROR, "Wait for reindex and/or import to finish");
 
-        std::vector<CMaxnodeConfig::CMaxnodeEntry> maxEntries;
-        maxEntries = maxnodeConfig.getEntries();
+        std::vector<CMasternodeConfig::CMasternodeEntry> mnEntries;
+        mnEntries = masternodeConfig.getEntries();
 
         int successful = 0;
         int failed = 0;
 
         UniValue resultsObj(UniValue::VARR);
 
-        BOOST_FOREACH(CMaxnodeConfig::CMaxnodeEntry maxe, maxnodeConfig.getEntries()) {
+        BOOST_FOREACH(CMasternodeConfig::CMasternodeEntry mne, masternodeConfig.getEntries()) {
             std::string errorMessage;
 
-            CTxIn maxvin = CTxIn(uint256S(maxe.getTxHash()), uint32_t(atoi(maxe.getOutputIndex().c_str())));
-            CMaxnodeBroadcast maxb;
+            CTxIn vin = CTxIn(uint256S(mne.getTxHash()), uint32_t(atoi(mne.getOutputIndex().c_str())));
+            CMasternodeBroadcast mnb;
 
-            bool success = activeMaxnode.CreateBroadcast(maxe.getIp(), maxe.getPrivKey(), maxe.getTxHash(), maxe.getOutputIndex(), errorMessage, maxb, true);
+            bool success = activeMasternode.CreateBroadcast(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), errorMessage, mnb, true);
 
             UniValue statusObj(UniValue::VOBJ);
-            statusObj.push_back(Pair("alias", maxe.getAlias()));
+            statusObj.push_back(Pair("alias", mne.getAlias()));
             statusObj.push_back(Pair("success", success));
 
             if(success) {
                 successful++;
                 CDataStream ssMnb(SER_NETWORK, PROTOCOL_VERSION);
-                ssMnb << maxb;
+                ssMnb << mnb;
                 statusObj.push_back(Pair("hex", HexStr(ssMnb.begin(), ssMnb.end())));
             } else {
                 failed++;
@@ -1006,7 +1004,7 @@ UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp)
         }
 
         UniValue returnObj(UniValue::VOBJ);
-        returnObj.push_back(Pair("overall", strprintf("Successfully created broadcast messages for %d maxnodes, failed to create %d, total %d", successful, failed, successful + failed)));
+        returnObj.push_back(Pair("overall", strprintf("Successfully created broadcast messages for %d masternodes, failed to create %d, total %d", successful, failed, successful + failed)));
         returnObj.push_back(Pair("detail", resultsObj));
 
         return returnObj;
@@ -1014,91 +1012,91 @@ UniValue createmaxnodebroadcast(const UniValue& params, bool fHelp)
     return NullUniValue;
 }
 
-UniValue decodemaxnodebroadcast(const UniValue& params, bool fHelp)
+UniValue decodemasternodebroadcast(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
         throw runtime_error(
-            "decodemaxnodebroadcast \"hexstring\"\n"
-            "\nCommand to decode maxnode broadcast messages\n"
+            "decodemasternodebroadcast \"hexstring\"\n"
+            "\nCommand to decode masternode broadcast messages\n"
 
             "\nArgument:\n"
-            "1. \"hexstring\"        (string) The hex encoded maxnode broadcast message\n"
+            "1. \"hexstring\"        (string) The hex encoded masternode broadcast message\n"
 
             "\nResult:\n"
             "{\n"
-            "  \"maxvin\": \"xxxx\"                (string) The unspent output which is holding the maxnode collateral\n"
-            "  \"addr\": \"xxxx\"               (string) IP address of the maxnode\n"
+            "  \"vin\": \"xxxx\"                (string) The unspent output which is holding the masternode collateral\n"
+            "  \"addr\": \"xxxx\"               (string) IP address of the masternode\n"
             "  \"pubkeycollateral\": \"xxxx\"   (string) Collateral address's public key\n"
-            "  \"pubkeymaxnode\": \"xxxx\"   (string) Maxnode's public key\n"
+            "  \"pubkeymasternode\": \"xxxx\"   (string) Masternode's public key\n"
             "  \"vchsig\": \"xxxx\"             (string) Base64-encoded signature of this message (verifiable via pubkeycollateral)\n"
             "  \"sigtime\": \"nnn\"             (numeric) Signature timestamp\n"
-            "  \"protocolversion\": \"nnn\"     (numeric) Maxnode's protocol version\n"
-            "  \"nlastdsq\": \"nnn\"            (numeric) The last time the maxnode sent a DSQ message (for mixing) (DEPRECATED)\n"
-            "  \"lastping\" : {                 (object) JSON object with information about the maxnode's last ping\n"
-            "      \"maxvin\": \"xxxx\"            (string) The unspent output of the maxnode which is signing the message\n"
+            "  \"protocolversion\": \"nnn\"     (numeric) Masternode's protocol version\n"
+            "  \"nlastdsq\": \"nnn\"            (numeric) The last time the masternode sent a DSQ message (for mixing) (DEPRECATED)\n"
+            "  \"lastping\" : {                 (object) JSON object with information about the masternode's last ping\n"
+            "      \"vin\": \"xxxx\"            (string) The unspent output of the masternode which is signing the message\n"
             "      \"blockhash\": \"xxxx\"      (string) Current chaintip blockhash minus 12\n"
             "      \"sigtime\": \"nnn\"         (numeric) Signature time for this ping\n"
-            "      \"vchsig\": \"xxxx\"         (string) Base64-encoded signature of this ping (verifiable via pubkeymaxnode)\n"
+            "      \"vchsig\": \"xxxx\"         (string) Base64-encoded signature of this ping (verifiable via pubkeymasternode)\n"
             "}\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("decodemaxnodebroadcast", "hexstring") + HelpExampleRpc("decodemaxnodebroadcast", "hexstring"));
+            HelpExampleCli("decodemasternodebroadcast", "hexstring") + HelpExampleRpc("decodemasternodebroadcast", "hexstring"));
 
-    CMaxnodeBroadcast maxb;
+    CMasternodeBroadcast mnb;
 
-    if (!DecodeHexMnb(maxb, params[0].get_str()))
-        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Maxnode broadcast message decode failed");
+    if (!DecodeHexMnb(mnb, params[0].get_str()))
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Masternode broadcast message decode failed");
 
-    if(!maxb.VerifySignature())
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Maxnode broadcast signature verification failed");
+    if(!mnb.VerifySignature())
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Masternode broadcast signature verification failed");
 
     UniValue resultObj(UniValue::VOBJ);
 
-    resultObj.push_back(Pair("maxvin", maxb.maxvin.prevout.ToString()));
-    resultObj.push_back(Pair("addr", maxb.addr.ToString()));
-    resultObj.push_back(Pair("pubkeycollateral", CBitcoinAddress(maxb.pubKeyCollateralAddress.GetID()).ToString()));
-    resultObj.push_back(Pair("pubkeymaxnode", CBitcoinAddress(maxb.pubKeyMaxnode.GetID()).ToString()));
-    resultObj.push_back(Pair("vchsig", EncodeBase64(&maxb.sig[0], maxb.sig.size())));
-    resultObj.push_back(Pair("sigtime", maxb.sigTime));
-    resultObj.push_back(Pair("protocolversion", maxb.protocolVersion));
-    resultObj.push_back(Pair("nlastdsq", maxb.nLastDsq));
+    resultObj.push_back(Pair("vin", mnb.vin.prevout.ToString()));
+    resultObj.push_back(Pair("addr", mnb.addr.ToString()));
+    resultObj.push_back(Pair("pubkeycollateral", CBitcoinAddress(mnb.pubKeyCollateralAddress.GetID()).ToString()));
+    resultObj.push_back(Pair("pubkeymasternode", CBitcoinAddress(mnb.pubKeyMasternode.GetID()).ToString()));
+    resultObj.push_back(Pair("vchsig", EncodeBase64(&mnb.sig[0], mnb.sig.size())));
+    resultObj.push_back(Pair("sigtime", mnb.sigTime));
+    resultObj.push_back(Pair("protocolversion", mnb.protocolVersion));
+    resultObj.push_back(Pair("nlastdsq", mnb.nLastDsq));
 
     UniValue lastPingObj(UniValue::VOBJ);
-    lastPingObj.push_back(Pair("maxvin", maxb.lastPing.maxvin.prevout.ToString()));
-    lastPingObj.push_back(Pair("blockhash", maxb.lastPing.blockHash.ToString()));
-    lastPingObj.push_back(Pair("sigtime", maxb.lastPing.sigTime));
-    lastPingObj.push_back(Pair("vchsig", EncodeBase64(&maxb.lastPing.vchSig[0], maxb.lastPing.vchSig.size())));
+    lastPingObj.push_back(Pair("vin", mnb.lastPing.vin.prevout.ToString()));
+    lastPingObj.push_back(Pair("blockhash", mnb.lastPing.blockHash.ToString()));
+    lastPingObj.push_back(Pair("sigtime", mnb.lastPing.sigTime));
+    lastPingObj.push_back(Pair("vchsig", EncodeBase64(&mnb.lastPing.vchSig[0], mnb.lastPing.vchSig.size())));
 
     resultObj.push_back(Pair("lastping", lastPingObj));
 
     return resultObj;
 }
 
-UniValue relaymaxnodebroadcast(const UniValue& params, bool fHelp)
+UniValue relaymasternodebroadcast(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
         throw runtime_error(
-            "relaymaxnodebroadcast \"hexstring\"\n"
-            "\nCommand to relay maxnode broadcast messages\n"
+            "relaymasternodebroadcast \"hexstring\"\n"
+            "\nCommand to relay masternode broadcast messages\n"
 
             "\nArguments:\n"
-            "1. \"hexstring\"        (string) The hex encoded maxnode broadcast message\n"
+            "1. \"hexstring\"        (string) The hex encoded masternode broadcast message\n"
 
             "\nExamples:\n" +
-            HelpExampleCli("relaymaxnodebroadcast", "hexstring") + HelpExampleRpc("relaymaxnodebroadcast", "hexstring"));
+            HelpExampleCli("relaymasternodebroadcast", "hexstring") + HelpExampleRpc("relaymasternodebroadcast", "hexstring"));
 
 
-    CMaxnodeBroadcast maxb;
+    CMasternodeBroadcast mnb;
 
-    if (!DecodeHexMnb(maxb, params[0].get_str()))
-        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Maxnode broadcast message decode failed");
+    if (!DecodeHexMnb(mnb, params[0].get_str()))
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Masternode broadcast message decode failed");
 
-    if(!maxb.VerifySignature())
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Maxnode broadcast signature verification failed");
+    if(!mnb.VerifySignature())
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Masternode broadcast signature verification failed");
 
-    maxnodeman.UpdateMaxnodeList(maxb);
-    maxb.Relay();
+    mnodeman.UpdateMasternodeList(mnb);
+    mnb.Relay();
 
-    return strprintf("Maxnode broadcast sent (service %s, maxvin %s)", maxb.addr.ToString(), maxb.maxvin.ToString());
+    return strprintf("Masternode broadcast sent (service %s, vin %s)", mnb.addr.ToString(), mnb.vin.ToString());
 }
 

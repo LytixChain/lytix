@@ -1,5 +1,5 @@
 ---
-name: "lytix-win-2.0.3"
+name: "lytix-win-2.1.0"
 enable_cache: true
 distro: "ubuntu"
 suites:

@@ -1,5 +1,5 @@
 ---
-name: "lytix-test-linux-2.0.2"
+name: "lytix-test-linux-2.1.0"
 enable_cache: true
 distro: "ubuntu"
 suites:
