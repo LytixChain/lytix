@@ -7,11 +7,11 @@ Lytix is an open source crypto-currency focused on fast private transactions wit
 
 ------------------------
 
-Proof of Stake is the current means of procuring LYTX
+Proof of Stake is the current Lytix mechanism for obtaining coins outside of buying directly on an exchange
 
 5,000 LYTX for Masternodes
 
-100,000 LYTX for Maxnode
+100,000 LYTX for Maxnodes
 
 Reward breakdown -  40% Masternodes. 30% Maxnodes, 25% Stakers, and 5% Dev fee in the current release
 
@@ -26,9 +26,11 @@ Reward breakdown -  40% Masternodes. 30% Maxnodes, 25% Stakers, and 5% Dev fee i
 - 1 from then on 
 
 15 confirmations maturity for mined or staked rewards
-ZeroCoin is removed in current source and is in maitnenance mode on Mainnet
+ZeroCoin has been removed from the wallet and is in maitnenance mode on Mainnet
 
 -------------------------
+
+Other Information
 
 - Discord - https://discord.gg/CZfZ7Ex
 - Telegram - https://t.me/lytixchain
