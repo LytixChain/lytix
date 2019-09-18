@@ -377,6 +377,19 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
     vector<string> addrList = sendTo.getKeys();
     BOOST_FOREACH(const string& name_, addrList) {
         CBitcoinAddress address(name_);
+    	bool has_data{false};
+	UniValue outputs = params[0].get_array();
+	// op_return for data insertion
+	if (name_ == "data") {
+            if (has_data) {
+                throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, duplicate key: data");
+            }
+            has_data = true;
+            std::vector<unsigned char> data = ParseHexV(outputs[name_].getValStr(), "Data");
+
+            CTxOut out(0, CScript() << OP_RETURN << data);
+            rawTx.vout.push_back(out);
+        }
         if (!address.IsValid())
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Lytix address: ")+name_);
 
