@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2019 The Lytix developer
+// Copyright (c) 2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +10,7 @@
 #include "base58.h"
 #include "key.h"
 #include "main.h"
-#include "maxnode.h"
+#include "max/node.h"
 #include "net.h"
 #include "sync.h"
 #include "util.h"

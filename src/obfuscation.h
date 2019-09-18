@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,12 +8,12 @@
 #define OBFUSCATION_H
 
 #include "main.h"
-#include "masternode-payments.h"
-#include "masternode-sync.h"
-#include "masternodeman.h"
-#include "maxnode-payments.h"
-#include "maxnode-sync.h"
-#include "maxnodeman.h"
+#include "master/node-payments.h"
+#include "master/node-sync.h"
+#include "master/nodeman.h"
+#include "max/node-payments.h"
+#include "max/node-sync.h"
+#include "max/nodeman.h"
 #include "obfuscation-relay.h"
 #include "sync.h"
 

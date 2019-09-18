@@ -8,13 +8,13 @@
 #include "ui_maxnodelist.h"
 
 
-#include "activemaxnode.h"
+#include "max/activenode.h"
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "init.h"
-#include "maxnode-sync.h"
-#include "maxnodeconfig.h"
-#include "maxnodeman.h"
+#include "max/node-sync.h"
+#include "max/nodeconfig.h"
+#include "max/nodeman.h"
 #include "sync.h"
 #include "wallet.h"
 #include "walletmodel.h"

@@ -18,10 +18,10 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
-#include "masternode-budget.h"
-#include "masternode-payments.h"
-#include "masternodeconfig.h"
-#include "masternodeman.h"
+#include "master/node-budget.h"
+#include "master/node-payments.h"
+#include "master/nodeconfig.h"
+#include "master/nodeman.h"
 #include "rpc/server.h"
 
 #include "obfuscation.h"

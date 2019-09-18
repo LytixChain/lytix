@@ -7,7 +7,7 @@
 #ifndef BITCOIN_QT_CONFIGUREMAXNODEPAGE_H
 #define BITCOIN_QT_CONFIGUREMAXNODEPAGE_H
 
-#include "maxnodelist.h"
+#include "max/nodelist.h"
 #include "wallet.h"
 
 #include <QAbstractButton>

@@ -1,16 +1,17 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 // clang-format off
 #include "main.h"
-#include "activemasternode.h"
-#include "masternode-sync.h"
-#include "masternode-payments.h"
-#include "masternode-budget.h"
-#include "masternode.h"
-#include "masternodeman.h"
+#include "master/activenode.h"
+#include "master/node-sync.h"
+#include "master/node-payments.h"
+#include "master/node-budget.h"
+#include "master/node.h"
+#include "master/nodeman.h"
 #include "spork.h"
 #include "util.h"
 #include "addrman.h"

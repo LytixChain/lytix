@@ -6,7 +6,7 @@
 #ifndef BITCOIN_QT_CONFIGUREMASTERNODEPAGE_H
 #define BITCOIN_QT_CONFIGUREMASTERNODEPAGE_H
 
-#include "masternodelist.h"
+#include "master/nodelist.h"
 #include "wallet.h"
 
 #include <QAbstractButton>

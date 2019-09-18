@@ -5,7 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "netbase.h"
-#include "maxnodeconfig.h"
+#include "max/nodeconfig.h"
 #include "util.h"
 #include "ui_interface.h"
 #include <base58.h>

@@ -8,7 +8,7 @@
 
 #include "init.h"
 #include "key.h"
-#include "masternode.h"
+#include "master/node.h"
 #include "net.h"
 #include "obfuscation.h"
 #include "sync.h"

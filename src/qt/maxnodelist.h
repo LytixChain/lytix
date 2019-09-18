@@ -1,13 +1,13 @@
 // Copyright (c) 2014-2016 The Dash Developers
 // Copyright (c) 2016-2017 The PIVX developers
-// Copyright (c) 2019 The Lytix developer
+// Copyright (c) 2019 The Lytix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef MAXNODELIST_H
 #define MAXNODELIST_H
 
-#include "maxnode.h"
+#include "max/node.h"
 #include "platformstyle.h"
 #include "sync.h"
 #include "util.h"

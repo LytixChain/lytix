@@ -4,13 +4,13 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "maxnode-payments.h"
-#include "masternode-payments.h"
+#include "max/node-payments.h"
+#include "master/node-payments.h"
 #include "addrman.h"
-#include "maxnode-budget.h"
-#include "maxnode-sync.h"
-#include "maxnodeman.h"
-#include "masternodeman.h"
+#include "max/node-budget.h"
+#include "max/node-sync.h"
+#include "max/nodeman.h"
+#include "master/nodeman.h"
 #include "obfuscation.h"
 #include "spork.h"
 #include "sync.h"

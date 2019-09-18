@@ -4,9 +4,9 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "maxnode.h"
+#include "max/node.h"
 #include "addrman.h"
-#include "maxnodeman.h"
+#include "max/nodeman.h"
 #include "obfuscation.h"
 #include "sync.h"
 #include "util.h"

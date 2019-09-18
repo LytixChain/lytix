@@ -8,7 +8,7 @@
 #include "base58.h"
 #include "key.h"
 #include "main.h"
-#include "masternode-budget.h"
+#include "master/node-budget.h"
 #include "net.h"
 #include "protocol.h"
 #include "sync.h"

@@ -92,8 +92,8 @@ endif
 .PHONY: FORCE
 # coin core #
 BITCOIN_CORE_H = \
-  activemasternode.h \
-  activemaxnode.h \
+  master/activenode.h \
+  max/activenode.h \
   accumulators.h \
   accumulatorcheckpoints.h \
   accumulatorcheckpoints.json.h \
@@ -144,18 +144,18 @@ BITCOIN_CORE_H = \
   leveldbwrapper.h \
   limitedmap.h \
   main.h \
-  masternode.h \
-  maxnode.h \
-  masternode-payments.h \
-  maxnode-payments.h \
-  masternode-budget.h \
-  maxnode-budget.h \
-  masternode-sync.h \
-  maxnode-sync.h \
-  masternodeman.h \
-  maxnodeman.h \
-  masternodeconfig.h \
-  maxnodeconfig.h \
+  master/node.h \
+  max/node.h \
+  master/node-payments.h \
+  max/node-payments.h \
+  master/node-budget.h \
+  max/node-budget.h \
+  master/node-sync.h \
+  max/node-sync.h \
+  master/nodeman.h \
+  max/nodeman.h \
+  master/nodeconfig.h \
+  max/nodeconfig.h \
   merkleblock.h \
   miner.h \
   mintpool.h \
@@ -272,8 +272,8 @@ endif
 libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_wallet_a_SOURCES = \
-  activemasternode.cpp \
-  activemaxnode.cpp \
+  master/activenode.cpp \
+  max/activenode.cpp \
   bip38.cpp \
   denomination_functions.cpp \
   obfuscation.cpp \
@@ -281,18 +281,18 @@ libbitcoin_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
   swifttx.cpp \
-  masternode.cpp \
-  maxnode.cpp \
-  masternode-budget.cpp \
-  masternode-payments.cpp \
-  maxnode-budget.cpp \
-  maxnode-payments.cpp \
-  masternode-sync.cpp \
-  maxnode-sync.cpp \
-  masternodeconfig.cpp \
-  maxnodeconfig.cpp \
-  masternodeman.cpp \
-  maxnodeman.cpp \
+  master/node.cpp \
+  max/node.cpp \
+  master/node-budget.cpp \
+  master/node-payments.cpp \
+  max/node-budget.cpp \
+  max/node-payments.cpp \
+  master/node-sync.cpp \
+  max/node-sync.cpp \
+  master/nodeconfig.cpp \
+  max/nodeconfig.cpp \
+  master/nodeman.cpp \
+  max/nodeman.cpp \
   mintpool.cpp \
   rpc/dump.cpp \
   primitives/deterministicmint.cpp \

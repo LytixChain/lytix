@@ -8,16 +8,16 @@
 #include "configuremaxnodepage.h"
 #include "ui_configuremaxnodepage.h"
 
-#include "activemaxnode.h"
+#include "max/activenode.h"
 #include "bitcoingui.h"
 #include "csvmodelwriter.h"
 #include "editaddressdialog.h"
 #include "guiutil.h"
-#include "maxnode-budget.h"
-#include "maxnode-payments.h"
-#include "maxnodeconfig.h"
-#include "maxnodeman.h"
-#include "maxnodelist.h"
+#include "max/node-budget.h"
+#include "max/node-payments.h"
+#include "max/nodeconfig.h"
+#include "max/nodeman.h"
+#include "max/nodelist.h"
 #include "wallet.h"
 
 #include <univalue.h>

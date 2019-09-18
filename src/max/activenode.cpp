@@ -4,11 +4,11 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "activemaxnode.h"
+#include "max/activenode.h"
 #include "addrman.h"
-#include "maxnode.h"
-#include "maxnodeconfig.h"
-#include "maxnodeman.h"
+#include "max/node.h"
+#include "max/nodeconfig.h"
+#include "max/nodeman.h"
 #include "protocol.h"
 #include "spork.h"
 

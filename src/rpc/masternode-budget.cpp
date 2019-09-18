@@ -5,14 +5,14 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "activemasternode.h"
+#include "master/activenode.h"
 #include "db.h"
 #include "init.h"
 #include "main.h"
-#include "masternode-budget.h"
-#include "masternode-payments.h"
-#include "masternodeconfig.h"
-#include "masternodeman.h"
+#include "master/node-budget.h"
+#include "master/node-payments.h"
+#include "master/nodeconfig.h"
+#include "master/nodeman.h"
 #include "rpc/server.h"
 #include "utilmoneystr.h"
 

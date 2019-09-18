@@ -1,12 +1,13 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "masternodeman.h"
-#include "activemasternode.h"
+#include "master/nodeman.h"
+#include "master/activenode.h"
 #include "addrman.h"
-#include "masternode.h"
+#include "master/node.h"
 #include "obfuscation.h"
 #include "spork.h"
 #include "util.h"

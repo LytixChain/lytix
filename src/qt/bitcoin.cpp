@@ -26,8 +26,8 @@
 #include "paymentserver.h"
 #include "walletmodel.h"
 #endif
-#include "masternodeconfig.h"
-#include "maxnodeconfig.h"
+#include "master/nodeconfig.h"
+#include "max/nodeconfig.h"
 
 #include "init.h"
 #include "main.h"

@@ -6,12 +6,12 @@
 
 #include "swifttx.h"
 
-#include "activemasternode.h"
-#include "activemaxnode.h"
+#include "master/activenode.h"
+#include "max/activenode.h"
 #include "base58.h"
 #include "key.h"
-#include "masternodeman.h"
-#include "maxnodeman.h"
+#include "master/nodeman.h"
+#include "max/nodeman.h"
 #include "net.h"
 #include "obfuscation.h"
 #include "protocol.h"

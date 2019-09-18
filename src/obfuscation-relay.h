@@ -6,11 +6,11 @@
 #ifndef OBFUSCATION_RELAY_H
 #define OBFUSCATION_RELAY_H
 
-#include "activemasternode.h"
-#include "activemaxnode.h"
+#include "master/activenode.h"
+#include "max/activenode.h"
 #include "main.h"
-#include "masternodeman.h"
-#include "maxnodeman.h"
+#include "master/nodeman.h"
+#include "max/nodeman.h"
 
 
 class CObfuScationRelay

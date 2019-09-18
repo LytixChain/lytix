@@ -1,18 +1,18 @@
 // Copyright (c) 2014-2015 The Dash Developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018-2019 The Lytix developer
+// Copyright (c) 2018-2019 The Lytix developers
 
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "activemaxnode.h"
+#include "max/activenode.h"
 #include "db.h"
 #include "init.h"
 #include "main.h"
-#include "maxnode-budget.h"
-#include "maxnode-payments.h"
-#include "maxnodeconfig.h"
-#include "maxnodeman.h"
+#include "max/node-budget.h"
+#include "max/node-payments.h"
+#include "max/nodeconfig.h"
+#include "max/nodeman.h"
 #include "rpc/server.h"
 #include "utilmoneystr.h"
 

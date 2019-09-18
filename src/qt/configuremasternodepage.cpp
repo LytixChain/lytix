@@ -1,5 +1,6 @@
 // Copyright (c) 2018 The Phore developers
 // Copyright (c) 2018 The Curium developers
+// Copyright (c) 2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,16 +8,16 @@
 #include "configuremasternodepage.h"
 #include "ui_configuremasternodepage.h"
 
-#include "activemasternode.h"
+#include "master/activenode.h"
 #include "bitcoingui.h"
 #include "csvmodelwriter.h"
 #include "editaddressdialog.h"
 #include "guiutil.h"
-#include "masternode-budget.h"
-#include "masternode-payments.h"
-#include "masternodeconfig.h"
-#include "masternodeman.h"
-#include "masternodelist.h"
+#include "master/node-budget.h"
+#include "master/node-payments.h"
+#include "master/nodeconfig.h"
+#include "master/nodeman.h"
+#include "master/nodelist.h"
 #include "wallet.h"
 
 #include <univalue.h>

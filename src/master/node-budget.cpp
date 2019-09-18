@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
+// Copyright (c) 2018-2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,10 +8,10 @@
 #include "main.h"
 
 #include "addrman.h"
-#include "masternode-budget.h"
-#include "masternode-sync.h"
-#include "masternode.h"
-#include "masternodeman.h"
+#include "master/node-budget.h"
+#include "master/node-sync.h"
+#include "master/node.h"
+#include "master/nodeman.h"
 #include "obfuscation.h"
 #include "util.h"
 #include <boost/filesystem.hpp>

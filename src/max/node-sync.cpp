@@ -1,17 +1,17 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2017 The PIVX developers
-// Copyright (c) 2019 The Lytix developer
+// Copyright (c) 2019 The Lytix developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 // clang-format off
 #include "main.h"
-#include "activemaxnode.h"
-#include "maxnode-sync.h"
-#include "maxnode-payments.h"
-//#include "maxnode-budget.h"
-#include "maxnode.h"
-#include "maxnodeman.h"
+#include "max/activenode.h"
+#include "max/node-sync.h"
+#include "max/node-payments.h"
+//#include "max/node-budget.h"
+#include "max/node.h"
+#include "max/nodeman.h"
 #include "spork.h"
 #include "util.h"
 #include "addrman.h"

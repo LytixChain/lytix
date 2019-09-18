@@ -11,7 +11,7 @@
 #include "init.h"
 #include "key.h"
 #include "main.h"
-#include "maxnode.h"
+#include "max/node.h"
 #include "net.h"
 #include "sync.h"
 #include "util.h"
