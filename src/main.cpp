@@ -1998,7 +1998,7 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
                 maxret = 0;
 
         } else if (nHeight > 50) {
-                maxret = blockValue * 0.3;
+                maxret = blockValue * 0.6;
 
 	/**} else if (fMaxNodeT2 && nHeight > 50) {
                 maxret = blockValue * 0.1;
@@ -2016,7 +2016,7 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
                 maxret = 0;
 
         } else if (nHeight > 49) {
-                maxret = blockValue * 0.3;
+                maxret = blockValue * 0.6;
         }
         return maxret;
         }
@@ -2038,7 +2038,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     if (nHeight <= 50) {
         ret = 0;
     } else if (nHeight > 50) {
-        ret = blockValue * 0.4;
+        ret = blockValue * 0.2;
     }
     return ret;
     }
@@ -2048,7 +2048,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     if (nHeight <= 49) {
         ret = 0;
     } else if (nHeight > 49) {
-        ret = blockValue * 0.4;
+        ret = blockValue * 0.2;
     }
 
     return ret;
