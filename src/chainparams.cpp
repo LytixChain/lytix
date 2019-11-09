@@ -71,11 +71,24 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     (320547, uint256("0xb5746d774e01cd391b685c45b67e49bd10dd982594ca9db07753672a0eecae9e"))
     (338259, uint256("0x2d8d514a8d25b12d539be6d3f19203ba775eda6089509ffaa2d2170f4db814e1"))
     (342484, uint256("0x04256ee6229e65c0d8062dae8a25ff8e6157e036f0b5cddfce2e8998d1057ff0"))
-    (349570, uint256("0xd3ceb4f4434405b96317b3f79bbd635a1417e7c4af12785fb43068c326e6b69b"));
+    (349570, uint256("0xd3ceb4f4434405b96317b3f79bbd635a1417e7c4af12785fb43068c326e6b69b"))
+    (360000, uint256("0x904a75d6e111b00c0e94479e9d272c23aef8ec558361c1e8f8ff093513e9980a"))
+    (370000, uint256("0xc81e26ff2c0a4ff9cec7b2f667ae154d3bb9833b1ccc10ac14553e91030b064c"))
+    (380000, uint256("0x9e587de3dca3fa15dfac3af358ecb5c896a3b0fa021bc79fe29525d3367dec2c"))
+    (390000, uint256("0x88164f10e6ba197ccc8dc32bf9e2441a0cf2311c190939e323302eb9965cd5b4"))
+    (400000, uint256("0x45f68b8dbe1afab2463833c1fcc6a1b4917b285cc7fdfc488630057f6ca78382"))
+    (410000, uint256("0xf1fd391eb2878532c7958e02819a3ae5641211f1f43b836def4646a3d051f25d"))
+    (420000, uint256("0x96530e94fc0921bf6a954c3f366749f6e773b6d5be4797bf8dedc6072fcfe011"))
+    (430000, uint256("0xc2da688b535bdfa4a5f829c8b7bb7e7b5f6e19e50db5643d4e4fde9246b0da94"))
+    (440000, uint256("0xb6c52c601a9f3781f23b4700e1c5ee118e0b1f82e4fc75a0e8e65188cf38c007"))
+    (450000, uint256("0x1d5559decf22861804c5ff4572ba8bdd05a42c356ddbe590fdcf6a54ce7565b2"))
+    (460000, uint256("0xfe910c6017e8349c9fac63b967718759a9c16a4ef68987d4273dd672687be46f"))
+    (470000, uint256("0x4c369c57e17b7cd8ce33c38ab019341455116f58cae73a8aca63f11345ffe84c"));
+	
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1565880982, // * UNIX timestamp of last checkpoint block
-    653370,    // * total number of transactions between genesis and last checkpoint
+    1573158640, // * UNIX timestamp of last checkpoint block
+    905076,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     1440        // * estimated number of transactions per day after checkpoint
 };
@@ -202,7 +215,7 @@ public:
         nZerocoinStartHeight = 99999999; // (PIVX: 863787, Phore 90000)
         nZerocoinStartTime = 3999999990; //  Tuesday, November 27, 2018 3:53:30 PM
         nBlockRecalculateAccumulators = 710000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
-        nBlockLastGoodCheckpoint = 170000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
+        nBlockLastGoodCheckpoint = 470000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
         nBlockZerocoinV2 = 999999999; // (PIVX: 1153160) //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
         nEnforceNewSporkKey = 1544199012; // (PIVX: 1525158000) //!> Sporks signed after (GMT): Tuesday, May 1, 2018 7:00:00 AM GMT must use the new spork key
         nRejectOldSporkKey = 1544199012; // (PIVX: 1527811200) //!> Fully reject old spork key after (GMT): Friday, June 1, 2018 12:00:00 AM
