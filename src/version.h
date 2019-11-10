@@ -12,7 +12,7 @@
  * network protocol versioning
  */
 
-static const int PROTOCOL_VERSION = 71032;
+static const int PROTOCOL_VERSION = 71033;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
@@ -22,7 +22,7 @@ static const int GETHEADERS_VERSION = 71027;
 
 //! disconnect from peers older than this proto version
 static const int MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT = 71029;
-static const int MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT = 71032;
+static const int MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT = 71033;
 
 //! masternodes older than this proto version use old strMessage format for mnannounce
 static const int MIN_PEER_MNANNOUNCE = 71030;
