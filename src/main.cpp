@@ -2012,11 +2012,11 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
 
         if (IsSporkActive(SPORK_19_MAXNODE_ACTIVATION)) {
 
-        if (nHeight <= 49) {
-                maxret = 0;
+        if (nHeight <= 510000) {
+			maxret = blockValue * 0.3;
 
-        } else if (nHeight > 49) {
-                maxret = blockValue * 0.6;
+        } else if (nHeight > 510000) {
+			maxret = blockValue * 0.6;
         }
         return maxret;
         }
@@ -2035,9 +2035,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
 
-    if (nHeight <= 50) {
-        ret = 0;
-    } else if (nHeight > 50) {
+    if (nHeight <= 510000) {
+        ret = blockValue * 0.4;
+    } else if (nHeight > 510000) {
         ret = blockValue * 0.2;
     }
     return ret;
@@ -2045,12 +2045,11 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
     if (IsSporkActive(SPORK_18_MASTERNODE_REWARDS_CHANGE)) {
 
-    if (nHeight <= 49) {
-        ret = 0;
-    } else if (nHeight > 49) {
+    if (nHeight <= 510000) {
+        ret = blockValue * 0.4;
+    } else if (nHeight > 510000) {
         ret = blockValue * 0.2;
     }
-
     return ret;
     } 
 
@@ -2061,7 +2060,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
     if (nHeight <= 499) {
         ret = 0;
     } else if (nHeight > 499) {
-        ret = blockValue * 0.5;
+        ret = blockValue * 0.2;
     }
 
     return ret;
@@ -6689,13 +6688,13 @@ int ActiveProtocol()
     if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT))
             return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
-    // SPORK_15 was used for 70912 (v3.0.5+), commented out now.
-    //if (IsSporkActive(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2))
-    //        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
+    // SPORK_15 is used for 71033 (v2.1.0+)
+    if (IsSporkActive(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2))
+        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
     
-    // SPORK_17 is used for 71033 (v2.1.0+)
-    if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
-            return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
+    // SPORK_17 was used for 71032 (v2.0.3)
+    //    if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
+    //            return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
     return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
 }

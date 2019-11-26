@@ -57,6 +57,19 @@ class CValidationState;
 struct CBlockTemplate;
 struct CNodeStateStats;
 
+inline int64_t MASTERNODE_COLLATERAL_AMOUNT(int nHeight)
+{
+	int64_t nSubsidy = 0;
+
+	if (nHeight <= 505000)
+		nSubsidy = 5000;
+	else if (nHeight > 505000)
+		nSubsidy = 10000;
+	else
+		nSubsidy = 10000;
+
+	return nSubsidy;
+}
 /** Default for -blockmaxsize and -blockminsize, which control the range of sizes the mining code will create **/
 static const unsigned int DEFAULT_BLOCK_MAX_SIZE = 750000;
 static const unsigned int DEFAULT_BLOCK_MIN_SIZE = 0;
