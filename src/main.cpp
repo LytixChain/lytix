@@ -1999,12 +1999,7 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
 
         } else if (nHeight > 50) {
                 maxret = blockValue * 0.6;
-
-	/**} else if (fMaxNodeT2 && nHeight > 50) {
-                maxret = blockValue * 0.1;
-
-	} else if (fMaxNodeT3 && nHeight > 50) {
-                maxret = blockValue * 0.15; **/
+				
         }
 
         return maxret;
@@ -2012,10 +2007,10 @@ int64_t GetMaxnodePayment(int nHeight, int64_t blockValue, int nMaxnodeCount, bo
 
         if (IsSporkActive(SPORK_19_MAXNODE_ACTIVATION)) {
 
-        if (nHeight <= 510000) {
+        if (nHeight <= 515000) {
 			maxret = blockValue * 0.3;
 
-        } else if (nHeight > 510000) {
+        } else if (nHeight > 515000) {
 			maxret = blockValue * 0.6;
         }
         return maxret;
@@ -2035,9 +2030,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
 
-    if (nHeight <= 510000) {
+    if (nHeight <= 515000) {
         ret = blockValue * 0.4;
-    } else if (nHeight > 510000) {
+    } else if (nHeight > 515000) {
         ret = blockValue * 0.2;
     }
     return ret;
@@ -2045,9 +2040,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
     if (IsSporkActive(SPORK_18_MASTERNODE_REWARDS_CHANGE)) {
 
-    if (nHeight <= 510000) {
+    if (nHeight <= 515000) {
         ret = blockValue * 0.4;
-    } else if (nHeight > 510000) {
+    } else if (nHeight > 515000) {
         ret = blockValue * 0.2;
     }
     return ret;

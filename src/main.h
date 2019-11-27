@@ -61,9 +61,9 @@ inline int64_t MASTERNODE_COLLATERAL_AMOUNT(int nHeight)
 {
 	int64_t nSubsidy = 0;
 
-	if (nHeight <= 505000)
+	if (nHeight <= 510000)
 		nSubsidy = 5000;
-	else if (nHeight > 505000)
+	else if (nHeight > 510000)
 		nSubsidy = 10000;
 	else
 		nSubsidy = 10000;
