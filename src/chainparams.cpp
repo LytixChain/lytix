@@ -214,7 +214,7 @@ public:
         //if the lowest block height (vSortedByTimestamp[0]) is >= switch height, use new modifier calc
         nZerocoinStartHeight = 99999999; // (PIVX: 863787, Phore 90000)
         nZerocoinStartTime = 3999999990; //  Tuesday, November 27, 2018 3:53:30 PM
-        nBlockRecalculateAccumulators = 710000; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
+        nBlockRecalculateAccumulators = 999999999; // (PIVX: 895400, Phore 90005) //Trigger a recalculation of accumulators
         nBlockLastGoodCheckpoint = 470000; // (PIVX: 891730, Phore 90005) //Last valid accumulator checkpoint
         nBlockZerocoinV2 = 999999999; // (PIVX: 1153160) //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
         nEnforceNewSporkKey = 1544199012; // (PIVX: 1525158000) //!> Sporks signed after (GMT): Tuesday, May 1, 2018 7:00:00 AM GMT must use the new spork key
