@@ -280,6 +280,7 @@ public:
 		vSeeds.push_back(CDNSSeedData("dns4", "156.96.46.50"));
 		vSeeds.push_back(CDNSSeedData("dns4", "156.96.46.51"));
 		vSeeds.push_back(CDNSSeedData("dns4", "156.96.46.52"));
+		vSeeds.push_back(CDNSSeedData("dns4", "156.96.46.53"));
 		vSeeds.push_back(CDNSSeedData("dns4", "156.96.46.58"));
 
         // Lytix addresses start with '8 or 9'
